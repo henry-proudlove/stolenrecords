@@ -181,52 +181,141 @@ function async_google_analytics() { ?>
 			s.parentNode.insertBefore(g, s);
 		})(document, 'script');
 	</script>
-<?php }*/ ?>
-<?php /*
- * A default custom post type. DELETE from here to the end if you don't want any custom post types
- */
-/*add_action('init', 'create_boilertemplate_cpt');
-function create_boilertemplate_cpt() 
-{
+<?php }*/ 
+
+/*
+****************************
+POST TYPES
+****************************
+*/
+
+add_action( 'init', 'type_taxon_init' );
+
+function type_taxon_init() {
+
+//Shows
   $labels = array(
-    'name' => _x('HandcraftedWPTemplate CPT', 'post type general name'),
-    'singular_name' => _x('HandcraftedWPTemplate CPT Item', 'post type singular name'),
-    'add_new' => _x('Add New', 'handcraftedwptemplate_robot'),
-    'add_new_item' => __('Add New Item'),
-    'edit_item' => __('Edit Item'),
-    'new_item' => __('New Item'),
-    'view_item' => __('View Item'),
-    'search_items' => __('Search Items'),
-    'not_found' =>  __('No items found'),
-    'not_found_in_trash' => __('No items found in Trash'), 
-    'parent_item_colon' => ''
+    'name' => _x('Shows', 'post type general name'),
+    'singular_name' => _x('Show', 'post type singular name'),
+    'add_new' => _x('Add New', 'Show'),
+    'add_new_item' => __('Add New Show'),
+    'edit_item' => __('Edit Show'),
+    'new_item' => __('New Show'),
+    'all_items' => __('All Shows'),
+    'view_item' => __('View Show'),
+    'search_items' => __('Search Shows'),
+    'not_found' =>  __('No shows found'),
+    'not_found_in_trash' => __('No shows found in Trash'), 
+    'parent_item_colon' => '',
+    'menu_name' => 'Shows'
+
   );
   $args = array(
     'labels' => $labels,
     'public' => true,
+    'publicly_queryable' => true,
     'show_ui' => true, 
+    'show_in_menu' => true, 
     'query_var' => true,
     'rewrite' => true,
-    'capability_type' => 'page',
+    'capability_type' => 'post',
+    'has_archive' => true, 
     'hierarchical' => false,
-    'menu_position' => 20,
-    'supports' => array('title','editor')
+    'menu_position' => 6,
+    'taxonomies' => array( 'artist' ),
+    'supports' => array( 'title', 'editor', 'thumbnail' )
   ); 
-  register_post_type('handcraftedwptemplate_robot',$args);
-}*/
-/*
- * This is for a custom icon with a colored hover state for your custom post types. You can download the custom icons here 
- http://randyjensenonline.com/thoughts/wordpress-custom-post-type-fugue-icons/
- */
-/*add_action( 'admin_head', 'cpt_icons' );
-function cpt_icons() {
-    ?>
-    <style type="text/css" media="screen">
-        #menu-posts-handcraftedwptemplaterobot .wp-menu-image {
-            background: url(<?php bloginfo('template_url') ?>/images/robot.png) no-repeat 6px -17px !important;
-        }
-		#menu-posts-handcraftedwptemplaterobot:hover .wp-menu-image, #menu-posts-handcraftedwptemplaterobot.wp-has-current-submenu .wp-menu-image {
-            background-position:6px 7px!important;
-        }
-    </style>
-<?php }*/ ?>
+  register_post_type('show',$args);
+  
+// Artists
+  $labels = array(
+    'name' => _x('Artists', 'post type general name'),
+    'singular_name' => _x('Artist', 'post type singular name'),
+    'add_new' => _x('Add New', 'Artist'),
+    'add_new_item' => __('Add New Artist'),
+    'edit_item' => __('Edit Artist'),
+    'new_item' => __('New Artist'),
+    'all_items' => __('All Artists'),
+    'view_item' => __('View Artist'),
+    'search_items' => __('Search Artists'),
+    'not_found' =>  __('No artists found'),
+    'not_found_in_trash' => __('No artists found in Trash'), 
+    'parent_item_colon' => '',
+    'menu_name' => 'Artists',
+  );
+  
+  $args = array(
+    'labels' => $labels,
+    'public' => true,
+    'publicly_queryable' => true,
+    'show_ui' => true, 
+    'show_in_menu' => true, 
+    'query_var' => true,
+    'rewrite' => true,
+    'capability_type' => 'post',
+    'has_archive' => true, 
+    'hierarchical' => false,
+    'menu_position' => 7,
+    'supports' => array( 'title', 'editor', 'thumbnail')
+  ); 
+  register_post_type('artist',$args);
+  
+// Releases
+  $labels = array(
+    'name' => _x('Releases', 'post type general name'),
+    'singular_name' => _x('Release', 'post type singular name'),
+    'add_new' => _x('Add New', 'Release'),
+    'add_new_item' => __('Add New Release'),
+    'edit_item' => __('Edit Release'),
+    'new_item' => __('New Release'),
+    'all_items' => __('All Releases'),
+    'view_item' => __('View Release'),
+    'search_items' => __('Search Releases'),
+    'not_found' =>  __('No releases found'),
+    'not_found_in_trash' => __('No releases found in Trash'), 
+    'parent_item_colon' => '',
+    'menu_name' => 'Releases',
+  );
+  
+  $args = array(
+    'labels' => $labels,
+    'public' => true,
+    'publicly_queryable' => true,
+    'show_ui' => true, 
+    'show_in_menu' => true, 
+    'query_var' => true,
+    'rewrite' => true,
+    'capability_type' => 'post',
+    'has_archive' => true, 
+    'hierarchical' => false,
+    'menu_position' => 8,
+    'supports' => array( 'title', 'editor', 'thumbnail', 'excerpt', 'comments' )
+  ); 
+  register_post_type('release',$args);
+  
+// Artist Taxonomy
+  $labels = array(
+    'name' => _x( 'Artist', 'taxonomy general name' ),
+    'singular_name' => _x( 'Artist', 'taxonomy singular name' ),
+    'search_items' =>  __( 'Search Artists' ),
+    'all_items' => __( 'All Artists' ),
+    'parent_item' => __( 'Parent Artists' ),
+    'parent_item_colon' => __( 'Parent Artists:' ),
+    'edit_item' => __( 'Edit Artist' ), 
+    'update_item' => __( 'Update Artist' ),
+    'add_new_item' => __( 'Add New Artist' ),
+    'new_item_name' => __( 'New Genre Artist' ),
+    'menu_name' => __( 'Artist' ),
+  ); 	
+
+  register_taxonomy('artist',array('post', 'release' , 'show'), array(
+    'hierarchical' => true,
+    'labels' => $labels,
+    'show_ui' => true,
+    'query_var' => true,
+    'rewrite' => array( 'slug' => 'artist' ),
+    'show_in_nav_menus' => false
+  ));
+}
+
+?>
