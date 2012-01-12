@@ -7,8 +7,9 @@
 get_header(); ?>
 
 		<div id="primary">
+		<div id="test"> <?php delete_artist_term(); ?> </div>
 			<div id="content">
-
+				
 				<?php get_template_part( 'loop', 'index' ); ?>
 
 			</div><!-- #content -->

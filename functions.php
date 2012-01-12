@@ -184,9 +184,9 @@ function async_google_analytics() { ?>
 <?php }*/ 
 
 /*
-****************************
+*********************************************************
 POST TYPES
-****************************
+*********************************************************
 */
 
 add_action( 'init', 'type_taxon_init' );
@@ -317,5 +317,40 @@ function type_taxon_init() {
     'show_in_nav_menus' => false
   ));
 }
+
+/*
+*********************************************************
+AUTO ADD ARTIST TERM ON ARTIST TYPE PUBLISH
+*********************************************************
+*/
+
+//Create term on publish
+
+function create_artist_term($post_ID) {
+	$this_post = get_post($post_ID); 
+	$title = $this_post->post_title;
+	
+	wp_insert_term($title, 'artist');
+}
+
+add_action('publish_artist', 'create_artist_term');
+
+// Remove on delete Cannot get this to work
+
+/*function delete_artist_term($post_ID) {
+	
+	$this_post = get_post($post_ID); 
+	$title = $this_post->post_title;
+	
+	$term_Num = get_term_by('name' , $title , 'artist');
+	
+	echo $term_Num->term_id;
+	//echo "Title: ".$term_Num['term_id'];
+	//print_r ($term_Num);
+	
+	//wp_delete_term($term_Num->term_id, 'artist');
+}
+
+add_action('puslish_artist', 'delete_artist_term');*/
 
 ?>
