@@ -183,11 +183,11 @@ function async_google_analytics() { ?>
 	</script>
 <?php }*/ 
 
-/*
-*********************************************************
+
+/*=======================================================
 POST TYPES
-*********************************************************
-*/
+=======================================================*/
+
 
 add_action( 'init', 'type_taxon_init' );
 
@@ -223,7 +223,7 @@ function type_taxon_init() {
     'hierarchical' => false,
     'menu_position' => 6,
     'taxonomies' => array( 'artist' ),
-    'supports' => array( 'title', 'editor', 'thumbnail' )
+    'supports' => array( 'title', 'editor', 'thumbnail' , 'revisions')
   ); 
   register_post_type('show',$args);
   
@@ -256,7 +256,7 @@ function type_taxon_init() {
     'has_archive' => true, 
     'hierarchical' => false,
     'menu_position' => 7,
-    'supports' => array( 'title', 'editor', 'thumbnail')
+    'supports' => array( 'title', 'editor', 'thumbnail' , 'revisions')
   ); 
   register_post_type('artist',$args);
   
@@ -289,7 +289,7 @@ function type_taxon_init() {
     'has_archive' => true, 
     'hierarchical' => false,
     'menu_position' => 8,
-    'supports' => array( 'title', 'editor', 'thumbnail', 'excerpt', 'comments' )
+    'supports' => array( 'title', 'editor', 'thumbnail' , 'revisions')
   ); 
   register_post_type('release',$args);
   
@@ -318,11 +318,9 @@ function type_taxon_init() {
   ));
 }
 
-/*
-*********************************************************
+/*=======================================================
 AUTO ADD ARTIST TERM ON ARTIST TYPE PUBLISH
-*********************************************************
-*/
+=======================================================*/
 
 //Create term on publish
 
@@ -353,4 +351,93 @@ add_action('publish_artist', 'create_artist_term');
 
 add_action('puslish_artist', 'delete_artist_term');*/
 
+/*=======================================================
+METABOXES	
+=======================================================*/
+
+include_once WP_CONTENT_DIR . '/wpalchemy/MetaBox.php';
+ 
+// global styles for the meta boxes
+if (is_admin()) wp_enqueue_style('wpalchemy-metabox', get_stylesheet_directory_uri() . '/metaboxes/meta.css');
+
+
+$artist_mb = new WPAlchemy_MetaBox(array
+(
+	'id' => '_artist_details',
+	'title' => 'Artist Details',
+	'types' => array('artist'), // added only for pages and to custom post type "events"
+	'context' => 'normal', // same as above, defaults to "normal"
+	'priority' => 'high', // same as above, defaults to "high"
+	'template' => get_stylesheet_directory() . '/metaboxes/artists-meta.php'
+));
+
+$reivew_mb = new WPAlchemy_MetaBox(array
+(
+	'id' => '_reviews',
+	'title' => 'Reviews',
+	'types' => array('artist' , 'release'), // added only for pages and to custom post type "events"
+	'context' => 'normal', // same as above, defaults to "normal"
+	'priority' => 'high', // same as above, defaults to "high"
+	'template' => get_stylesheet_directory() . '/metaboxes/reviews-meta.php'
+));
+
+$show_mb = new WPAlchemy_MetaBox(array
+(
+	'id' => '_show_details',
+	'title' => 'Show Details',
+	'types' => array('show'), // added only for pages and to custom post type "events"
+	'context' => 'normal', // same as above, defaults to "normal"
+	'priority' => 'high', // same as above, defaults to "high"
+	'template' => get_stylesheet_directory() . '/metaboxes/shows-meta.php'
+));
+
+$video_mb = new WPAlchemy_MetaBox(array
+(
+	'id' => '_videos',
+	'title' => 'Videos',
+	'types' => array('release' , 'artist'), // added only for pages and to custom post type "events"
+	'context' => 'normal', // same as above, defaults to "normal"
+	'priority' => 'high', // same as above, defaults to "high"
+	'template' => get_stylesheet_directory() . '/metaboxes/videos-meta.php'
+));
+
+$tracks_mb = new WPAlchemy_MetaBox(array
+(
+	'id' => '_tracks',
+	'title' => 'Sample tracks',
+	'types' => array('release' , 'artist'), // added only for pages and to custom post type "events"
+	'context' => 'normal', // same as above, defaults to "normal"
+	'priority' => 'high', // same as above, defaults to "high"
+	'template' => get_stylesheet_directory() . '/metaboxes/tracks-meta.php'
+));
+
+$tracks_mb = new WPAlchemy_MetaBox(array
+(
+	'id' => '_release_details',
+	'title' => 'Release details',
+	'types' => array('release'), // added only for pages and to custom post type "events"
+	'context' => 'normal', // same as above, defaults to "normal"
+	'priority' => 'high', // same as above, defaults to "high"
+	'template' => get_stylesheet_directory() . '/metaboxes/release-meta.php'
+));
+
+
+//jquery date-time picker on admin
+
+function load_date_time_picker(){
+	wp_register_script( 'datepicker', get_template_directory_uri() . '/js/jquery-ui-1.8.17.custom.min.js');
+	wp_enqueue_script( 'datepicker' );
+	
+	wp_register_style('datepicker-css', get_template_directory_uri() . "/css/jquery-ui-1.8.17.custom.css");  
+	wp_enqueue_style( 'datepicker-css');
+	
+	wp_register_script( 'timepicker', get_template_directory_uri() . '/js/jquery-ui-timepicker-addon.js');
+	wp_enqueue_script( 'timepicker' );
+	
+	wp_register_style('timepicker-css', get_template_directory_uri() . "/css/jquery-ui-timepicker-addon.css");  
+	wp_enqueue_style( 'timepicker-css'); 
+	
+	
+}
+add_action('admin_enqueue_scripts', 'load_date_time_picker');
 ?>
