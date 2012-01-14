@@ -20,10 +20,8 @@
  
 		<input type="text" name="<?php $metabox->the_name('buy-tickets-text'); ?>" value="<?php $metabox->the_value('buy-tickets-text'); ?>"/>
 	
-	<label>Stolen Show</label>
-	
 	<?php $mb->the_field('stolen-show'); ?>
-	<input type="checkbox" name="<?php $mb->the_name(); ?>" value="stolen-show"<?php $mb->the_checkbox_state('stolen-show'); ?>/> Check this box if this is a stolen show<br/>
+	<p><input type="checkbox" name="<?php $mb->the_name(); ?>" value="stolen-show"<?php $mb->the_checkbox_state('stolen-show'); ?>/> Check this box if this is a <strong>stolen show</strong?><br/></p>
 	
 	<script> 
 		jQuery(document).ready(function() { 

@@ -15,11 +15,11 @@
 		<label>Review link</label>
 		<input type="text" name="<?php $mb->the_name(); ?>" value="<?php $mb->the_value(); ?>"/>
  
-		<a href="#" class="dodelete button">Delete review</a>
+		<a href="#" class="dodelete">Delete review</a>
         
         <?php $mb->the_group_close(); ?>
 	<?php endwhile; ?>
 		
-		<p style="margin-bottom:15px; padding-top:15px;"><a href="#" class="docopy-reviews button">Add review</a></p>
+		<a href="#" class="docopy-reviews button">Add review</a>
 </div>
 
