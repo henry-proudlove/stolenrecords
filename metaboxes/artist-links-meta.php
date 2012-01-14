@@ -1,12 +1,13 @@
 <div class="my_meta_control">
  	
-	<?php while($mb->have_fields_and_multi('art-social-lnks')): ?>
+ 	<?php $options = array('length' => 1, 'limit' => 5); ?>
+	<?php while($mb->have_fields_and_multi('art-social-lnks', $options)): ?>
 	<?php $mb->the_group_open(); ?>
 	
  		<label>Link URL </label>
 		<?php $mb->the_field('art-social-URL'); ?>
 		<input type="text" name="<?php $mb->the_name(); ?>" value="<?php $mb->the_value(); ?>"/>
- 		<span>Enter link. Must be full URL http://www.example.com</span>
+ 		<span>Must be full URL http://www.example.com</span>
  		
  		<label>Link Title </label>
  		<?php $mb->the_field('art-social-title'); ?>

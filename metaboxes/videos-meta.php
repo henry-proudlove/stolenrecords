@@ -1,5 +1,5 @@
 <div class="my_meta_control">
-
+	
 	<?php while($mb->have_fields_and_multi('videos')): ?>
 	<?php $mb->the_group_open(); ?>
  

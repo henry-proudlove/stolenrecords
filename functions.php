@@ -361,23 +361,33 @@ include_once WP_CONTENT_DIR . '/wpalchemy/MetaBox.php';
 if (is_admin()) wp_enqueue_style('wpalchemy-metabox', get_stylesheet_directory_uri() . '/metaboxes/meta.css');
 
 
+$featured_mb = new WPAlchemy_MetaBox(array
+(
+	'id' => '_featured_post',
+	'title' => 'Feature This Post',
+	'types' => array('post' , 'artist' , 'show' , 'release'),
+	'context' => 'side',
+	'priority' => 'low',
+	'template' => get_stylesheet_directory() . '/metaboxes/featured-post-meta.php'
+));
+
 $artist_lnks_mb = new WPAlchemy_MetaBox(array
 (
 	'id' => '_artist_lnks',
 	'title' => 'Social Links',
-	'types' => array('artist'), // added only for pages and to custom post type "events"
-	'context' => 'normal', // same as above, defaults to "normal"
-	'priority' => 'high', // same as above, defaults to "high"
+	'types' => array('artist'), 
+	'context' => 'normal', 
+	'priority' => 'high',
 	'template' => get_stylesheet_directory() . '/metaboxes/artist-links-meta.php'
 ));
 
 $past_artist_mb = new WPAlchemy_MetaBox(array
 (
 	'id' => '_past_artist',
-	'title' => 'Social Links',
-	'types' => array('artist'), // added only for pages and to custom post type "events"
-	'context' => 'side', // same as above, defaults to "normal"
-	'priority' => 'low', // same as above, defaults to "high"
+	'title' => 'Past Artist',
+	'types' => array('artist'),
+	'context' => 'side',
+	'priority' => 'low',
 	'template' => get_stylesheet_directory() . '/metaboxes/past-artist-meta.php'
 ));
 
@@ -385,19 +395,19 @@ $show_mb = new WPAlchemy_MetaBox(array
 (
 	'id' => '_show_details',
 	'title' => 'Show Details',
-	'types' => array('show'), // added only for pages and to custom post type "events"
-	'context' => 'normal', // same as above, defaults to "normal"
-	'priority' => 'high', // same as above, defaults to "high"
+	'types' => array('show'),
+	'context' => 'normal',
+	'priority' => 'high',
 	'template' => get_stylesheet_directory() . '/metaboxes/shows-meta.php'
 ));
 
 $release_mb = new WPAlchemy_MetaBox(array
 (
 	'id' => '_release_details',
-	'title' => 'Release details',
-	'types' => array('release'), // added only for pages and to custom post type "events"
-	'context' => 'normal', // same as above, defaults to "normal"
-	'priority' => 'high', // same as above, defaults to "high"
+	'title' => 'Release Details',
+	'types' => array('release'),
+	'context' => 'normal',
+	'priority' => 'high',
 	'template' => get_stylesheet_directory() . '/metaboxes/release-meta.php'
 ));
 
@@ -405,19 +415,19 @@ $video_mb = new WPAlchemy_MetaBox(array
 (
 	'id' => '_videos',
 	'title' => 'Videos',
-	'types' => array('release' , 'artist'), // added only for pages and to custom post type "events"
-	'context' => 'normal', // same as above, defaults to "normal"
-	'priority' => 'low', // same as above, defaults to "high"
+	'types' => array('release' , 'artist'),
+	'context' => 'side',
+	'priority' => 'low',
 	'template' => get_stylesheet_directory() . '/metaboxes/videos-meta.php'
 ));
 
 $tracks_mb = new WPAlchemy_MetaBox(array
 (
 	'id' => '_tracks',
-	'title' => 'Sample tracks',
-	'types' => array('release' , 'artist'), // added only for pages and to custom post type "events"
-	'context' => 'normal', // same as above, defaults to "normal"
-	'priority' => 'low', // same as above, defaults to "high"
+	'title' => 'Sample Tracks',
+	'types' => array('release' , 'artist'),
+	'context' => 'side',
+	'priority' => 'low',
 	'template' => get_stylesheet_directory() . '/metaboxes/tracks-meta.php'
 ));
 
@@ -425,9 +435,9 @@ $reivew_mb = new WPAlchemy_MetaBox(array
 (
 	'id' => '_reviews',
 	'title' => 'Reviews',
-	'types' => array('artist' , 'release'), // added only for pages and to custom post type "events"
-	'context' => 'normal', // same as above, defaults to "normal"
-	'priority' => 'low', // same as above, defaults to "high"
+	'types' => array('artist' , 'release'),
+	'context' => 'normal',
+	'priority' => 'low',
 	'template' => get_stylesheet_directory() . '/metaboxes/reviews-meta.php'
 ));
 

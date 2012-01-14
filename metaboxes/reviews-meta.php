@@ -1,6 +1,7 @@
 <div class="my_meta_control">
-
-	<?php while($mb->have_fields_and_multi('reviews')): ?>
+	
+	<?php $options = array('length' => 1, 'limit' => 5); ?>
+	<?php while($mb->have_fields_and_multi('reviews', $options)): ?>
 	<?php $mb->the_group_open(); ?>
  
 		<?php $mb->the_field('review-text'); ?>
