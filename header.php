@@ -65,10 +65,6 @@
 					<h2 id="site-description"><?php bloginfo( 'description' ); ?></h2>
 				</hgroup>
 				
-				<nav id="utility" role="article">
-					<?php wp_nav_menu( array( 'theme_location' => 'utility' ) ); ?>
-				</nav><!-- #utility -->
-	
 				<nav id="access" role="article">
 					<h1 class="section-heading"><?php _e( 'Main menu', 'themename' ); ?></h1>
 					<div class="skip-link visuallyhidden"><a href="#content" title="<?php esc_attr_e( 'Skip to content', 'themename' ); ?>"><?php _e( 'Skip to content', 'themename' ); ?></a></div>

@@ -183,6 +183,13 @@ function async_google_analytics() { ?>
 	</script>
 <?php }*/ 
 
+//Read more link
+
+function new_excerpt_more($more) {
+       global $post;
+	return '...<div class="read-more"><a href="'. get_permalink($post->ID) . '">Read more</a></div>';
+}
+add_filter('excerpt_more', 'new_excerpt_more');
 
 /*=======================================================
 POST TYPES
@@ -367,7 +374,7 @@ if (is_admin()) wp_enqueue_style('wpalchemy-metabox', get_stylesheet_directory_u
 $featured_mb = new WPAlchemy_MetaBox(array
 (
 	'id' => '_featured_post',
-	'title' => 'Feature This Post',
+	'title' => 'Push to top of home page',
 	'types' => array('post' , 'artist' , 'show' , 'release'),
 	'context' => 'side',
 	'priority' => 'low',
@@ -444,6 +451,15 @@ $reivew_mb = new WPAlchemy_MetaBox(array
 	'template' => get_stylesheet_directory() . '/metaboxes/reviews-meta.php'
 ));
 
+$thumb_mb = new WPAlchemy_MetaBox(array
+(
+	'id' => '_thumbs_URL',
+	'title' => 'Featured Video',
+	'types' => array('post'),
+	'context' => 'normal',
+	'priority' => 'high',
+	'template' => get_stylesheet_directory() . '/metaboxes/featured-video-meta.php'
+));	
 
 //jquery date-time picker on admin
 
