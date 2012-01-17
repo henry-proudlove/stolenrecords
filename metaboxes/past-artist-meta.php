@@ -1,7 +1,20 @@
 <div class="my_meta_control">
-	
-	<?php $mb->the_field('present-past'); ?>
-	<input type="checkbox" name="<?php $mb->the_name(); ?>" value="present-past"<?php $mb->the_checkbox_state('present-past'); ?>/> Check if this is a past artist<br/>
+
+<?php
+
+$mb->the_field('present-past');
+
+if(is_null($mb->get_the_value()))
+
+	$mb->meta[$mb->name] = 'current';
+
+?>
+
+<input type="radio" name="<?php $mb->the_name(); ?>" value="current"<?php echo $mb->is_value('current')?' checked="checked"':''; ?>/> Current Artist
+
+
+
+<input type="radio" name="<?php $mb->the_name(); ?>" value="past"<?php echo $mb->is_value('past')?' checked="checked"':''; ?>/> Past Artist
 
 </div>
 

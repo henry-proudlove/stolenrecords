@@ -5,22 +5,25 @@
  */
 ?>
 <div id="news-long">
+
 <?php /* Start the Loop */
 	$the_query = new WP_Query( 'posts_per_page=3' );
 	$dont_copy = array();
 	while ( $the_query->have_posts() ) : $the_query->the_post();
 	array_push($dont_copy, $post->ID);?>
+	
 	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">		
 		<?php 
 			global $thumb_mb;
 			$meta = $thumb_mb->the_meta();
 			if(has_post_thumbnail()|| $meta["thumb-URL"]):?>
 			<div class="post-img">
-			<?php if($meta["thumb-URL"])
+			<?php if($meta["thumb-URL"]):
 				echo $meta["thumb-URL"];
-			else
-				the_post_thumbnail();?>
-			</div><!--#post-img-->
+			else:
+				the_post_thumbnail();
+			endif;?>
+			</div><!--.post-img-->
 		<?php endif; ?>
 			
 		<header class="entry-header">
@@ -61,5 +64,3 @@
 
 	<?php endwhile; ?>
 </div><!--#news-trunc-->
-	
-<?php print_r($dont_copy);?>

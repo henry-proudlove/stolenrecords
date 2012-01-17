@@ -394,10 +394,12 @@ $artist_lnks_mb = new WPAlchemy_MetaBox(array
 $past_artist_mb = new WPAlchemy_MetaBox(array
 (
 	'id' => '_past_artist',
-	'title' => 'Past Artist',
+	'title' => 'Artist Status',
 	'types' => array('artist'),
 	'context' => 'side',
 	'priority' => 'low',
+	'mode' => WPALCHEMY_MODE_EXTRACT,
+	'prefix' => '_sr_',
 	'template' => get_stylesheet_directory() . '/metaboxes/past-artist-meta.php'
 ));
 
