@@ -14,9 +14,13 @@
 	<input type="text" name="<?php $metabox->the_name('release-buy-text'); ?>" value="<?php $metabox->the_value('release-buy-text'); ?>"/>
 	<span>Text of the buy now button. Defaults to buy now</span>
 	
-	<script> 
-		jQuery(document).ready(function() { 
-				jQuery( "#date-field" ).datepicker(); 
-		}); 
+	<script>
+		jQuery(document).ready(function($) {
+			$( "#date-field" ).datepicker({
+			dateFormat: 'yy-mm-dd',
+			changeMonth: true,
+			changeYear: true,
+			}); 
+		});
 	</script>
 </div>

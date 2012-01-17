@@ -420,6 +420,8 @@ $release_mb = new WPAlchemy_MetaBox(array
 	'types' => array('release'),
 	'context' => 'normal',
 	'priority' => 'high',
+	'mode' => WPALCHEMY_MODE_EXTRACT,
+	'prefix' => '_sr_',
 	'template' => get_stylesheet_directory() . '/metaboxes/release-meta.php'
 ));
 

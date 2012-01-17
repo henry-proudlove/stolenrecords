@@ -4,7 +4,7 @@
  * @subpackage themename
  */
 ?>
-<div id="news-long">
+<div id="artists">
 <?php /* Start the Loop */
 
 	$args = array('post_type' => 'artist' , 'posts_per_page' => '-1' , 'orderby' => 'title' , 'order' => 'ASC' , 'meta_key' => '_sr_present-past', 'meta_value' => 'current');
@@ -61,4 +61,4 @@
 	</article><!-- #post-<?php the_ID(); ?> -->
 	<?php endwhile;?>
 	
-</div><!--#news-long-->
+</div><!--#artists-->

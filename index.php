@@ -8,7 +8,8 @@ get_header(); ?>
 
 		<div id="primary">
 			<div id="content">
-				<?php get_template_part('loop' , 'artists');?> 
+				<?php get_template_part('loop' , 'releases');?> 
+				<?php //get_template_part('loop' , 'artists');?> 
 				<?php //get_template_part('loop' , 'news');?> 
 				<?php //get_template_part( 'loop', 'index' ); ?>
 
