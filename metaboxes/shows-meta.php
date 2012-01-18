@@ -25,7 +25,10 @@
 	
 	<script> 
 		jQuery(document).ready(function() { 
-				jQuery( "#date-field" ).datetimepicker(); 
-		}); 
+				jQuery( "#date-field" ).datetimepicker({
+					dateFormat: 'yy-mm-dd',
+					stepMinute: 10,
+				});
+		});
 	</script>
 </div>

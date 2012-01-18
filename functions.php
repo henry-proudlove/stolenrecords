@@ -378,6 +378,8 @@ $featured_mb = new WPAlchemy_MetaBox(array
 	'types' => array('post' , 'artist' , 'show' , 'release'),
 	'context' => 'side',
 	'priority' => 'low',
+	'mode' => WPALCHEMY_MODE_EXTRACT,
+	'prefix' => '_sr_',
 	'template' => get_stylesheet_directory() . '/metaboxes/featured-post-meta.php'
 ));
 
@@ -462,6 +464,8 @@ $thumb_mb = new WPAlchemy_MetaBox(array
 	'types' => array('post'),
 	'context' => 'normal',
 	'priority' => 'high',
+	'mode' => WPALCHEMY_MODE_EXTRACT,
+	'prefix' => '_sr_',
 	'template' => get_stylesheet_directory() . '/metaboxes/featured-video-meta.php'
 ));	
 
@@ -483,4 +487,71 @@ function load_date_time_picker(){
 	
 }
 add_action('admin_enqueue_scripts', 'load_date_time_picker');
+
+/*=======================================================
+Markup	
+=======================================================*/
+
+// Markup for posts on the releases and artists landing page
+function _sr_relart_loop_markup(){
+
+	global $post;
+	
+	if('artist' == get_post_type()){
+		$_sr_post_class = get_post_meta(get_the_ID(),'_sr_present-past',TRUE);
+	}else{
+		$_sr_post_class = null;
+	}
+	
+	?>
+	<article id="post-<?php the_ID(); ?>" <?php post_class($_sr_post_class); ?> role="article">		
+		
+		<?php sr_post_thumbnail(); ?>
+		
+		<header class="entry-header">
+			
+			<?php _sr_post_header(); ?>
+		
+		</header><!-- .entry-header -->
+		
+		<div class="entry-summary">
+			<?php the_excerpt(); ?>
+		</div><!-- .entry-summary -->
+
+	</article><!-- #post-<?php the_ID(); ?> -->
+
+<?php }
+
+// Older newer posts nav
+function sr_posts_navigation(){
+	global $wp_query;
+	if (  $wp_query->max_num_pages > 1 ) : ?>
+		<nav id="nav-below" role="article">
+			<h1 class="section-heading"><?php _e( 'Post navigation', 'themename' ); ?></h1>
+			<div class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Older posts', 'themename' ) ); ?></div>
+			<div class="nav-next"><?php previous_posts_link( __( 'Newer posts <span class="meta-nav">&rarr;</span>', 'themename' ) ); ?></div>
+		</nav><!-- #nav-below -->
+	<?php endif; ?>
+<?php }
+
+// Featured image/video thumbnail thing
+function sr_post_thumbnail(){ ?>
+	<?php global $post;
+	if ('post' == get_post_type()):
+		array_push($dont_copy, $post->ID);
+		if(get_post_meta(get_the_ID(),'_sr_thumb-URL',TRUE)):
+			echo get_post_meta(get_the_ID(),'_sr_thumb-URL',TRUE);
+		elseif (has_post_thumbnail()):
+			the_post_thumbnail('thumbnail');
+		endif;
+	elseif(has_post_thumbnail()):
+		the_post_thumbnail('thumbnail');
+	endif;?>
+<?php }
+
+// Post Header
+function _sr_post_header(){
+	global $post;?>
+	<h1 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h1><?php
+}
 ?>
