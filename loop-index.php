@@ -6,7 +6,7 @@
 ?>
 <section id="latest">
 
-<?php /* Start the Loop */
+<?php /* 'Lastet' section of index */
 
 $args = array( 'posts_per_page' => '5' , 'meta_key' => '_sr_featured-post' , 'post_type' => array( 'post', 'show', 'artist', 'release' ) );
 
@@ -26,7 +26,6 @@ while ( $the_query->have_posts() ) : $the_query->the_post();?>
 		<header class="entry-header">
 		
 			<time class="entry-date"><?php echo get_the_date(); ?></time>
-			<?php echo get_post_type(); ?>
 			<?php _sr_post_header(); ?>
 		
 		</header><!-- .entry-header -->
@@ -40,54 +39,55 @@ while ( $the_query->have_posts() ) : $the_query->the_post();?>
 <?php endwhile;?>
 
 </section><!--#latest-->
-</br>
-<div id="news-long">
-
-<?php /* Start the Loop */
-	$args = array('posts_per_page' => '3' , 'post__not_in' => $dont_copy);
-	$the_query = new WP_Query($args);
-	while ( $the_query->have_posts() ) : $the_query->the_post();?>
+<section id="news-feed">
+	<div id="news-long">
 	
-	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">		
-		
-		<?php sr_post_thumbnail(); 
-		array_push($dont_copy, $post->ID); ?>
-			
-		<header class="entry-header">
-		
-			<time class="entry-date"><?php echo get_the_date(); ?></time>
-			
-			<?php _sr_post_header(); ?>
-		
-		</header><!-- .entry-header -->
-		
-		<div class="entry-summary">
-			<?php the_excerpt(); ?>
-		</div><!-- .entry-summary -->
-
-	</article><!-- #post-<?php the_ID(); ?> -->
-<?php endwhile;?>
-
-</div><!--#news-long-->
-</br>
-
-<div id="news-trunc">
-
-<?php $args = array('posts_per_page' => '3' , 'post__not_in' => $dont_copy);
-	$the_query = new WP_Query( $args );
-	while ( $the_query->have_posts() ) : $the_query->the_post();?>
+	<?php /* Index 'News' section 3 posts with image */
 	
-	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
-		<header class="entry-header">
+		$args = array('posts_per_page' => '3' , 'post__not_in' => $dont_copy);
+		$the_query = new WP_Query($args);
+		while ( $the_query->have_posts() ) : $the_query->the_post();?>
+		
+		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">		
 			
-			<time class="entry-date"><?php echo get_the_date(); ?></time>
+			<?php sr_post_thumbnail(); 
+			array_push($dont_copy, $post->ID); ?>
+				
+			<header class="entry-header">
 			
-			<?php _sr_post_header(); ?>
+				<time class="entry-date"><?php echo get_the_date(); ?></time>
+				
+				<?php _sr_post_header(); ?>
 			
-		</header><!-- .entry-header -->
-
-	</article><!-- #post-<?php the_ID(); ?> -->
-
-	<?php endwhile; ?>
-</div><!--#news-trunc-->
-
+			</header><!-- .entry-header -->
+			
+			<div class="entry-summary">
+				<?php the_excerpt(); ?>
+			</div><!-- .entry-summary -->
+	
+		</article><!-- #post-<?php the_ID(); ?> -->
+		<?php endwhile;?>
+	
+	</div><!--#news-long-->
+	<div id="news-trunc">
+	
+	<?php /* 3 posts without image */
+	
+		$args = array('posts_per_page' => '3' , 'post__not_in' => $dont_copy);
+		$the_query = new WP_Query( $args );
+		while ( $the_query->have_posts() ) : $the_query->the_post();?>
+		
+		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
+			<header class="entry-header">
+				
+				<time class="entry-date"><?php echo get_the_date(); ?></time>
+				
+				<?php _sr_post_header(); ?>
+				
+			</header><!-- .entry-header -->
+		
+		</article><!-- #post-<?php the_ID(); ?> -->
+		
+		<?php endwhile; ?>
+	</div><!--#news-trunc-->
+</section><!--#news-feed-->

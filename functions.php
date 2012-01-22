@@ -191,9 +191,34 @@ function new_excerpt_more($more) {
 }
 add_filter('excerpt_more', 'new_excerpt_more');
 
-/*=======================================================
+
+//Truncation
+
+function _sr_truncate($string, $limit, $break=0, $pad="...")
+{	
+	$string = strip_tags($string);
+	// return with no change if string is shorter than $limit
+	if(strlen($string) <= $limit) return $string;
+	
+	if($break=0){
+		$string = substr($string, $limit) . $pad;
+		return $string;
+	}
+	// is $break present between $limit and the end of the string?
+	if(false !== ($breakpoint = strpos($string, $break, $limit))) {
+	if($breakpoint < strlen($string) - 1) {
+	  $string = substr($string, 0, $breakpoint) . $pad;
+	}
+	}
+	
+  return $string;
+}
+
+/*
+=======================================================
 POST TYPES
-=======================================================*/
+=======================================================
+*/
 
 
 add_action( 'init', 'type_taxon_init' );
@@ -328,9 +353,11 @@ function type_taxon_init() {
   ));
 }
 
-/*=======================================================
+/*
+=======================================================
 AUTO ADD ARTIST TERM ON ARTIST TYPE PUBLISH
-=======================================================*/
+=======================================================
+*/
 
 //Create term on publish
 
@@ -361,9 +388,11 @@ add_action('publish_artist', 'create_artist_term');
 
 add_action('puslish_artist', 'delete_artist_term');*/
 
-/*=======================================================
+/*
+=======================================================
 METABOXES	
-=======================================================*/
+=======================================================
+*/
 
 include_once WP_CONTENT_DIR . '/wpalchemy/MetaBox.php';
  
@@ -412,6 +441,8 @@ $show_mb = new WPAlchemy_MetaBox(array
 	'types' => array('show'),
 	'context' => 'normal',
 	'priority' => 'high',
+	'mode' => WPALCHEMY_MODE_EXTRACT,
+	'prefix' => '_sr_',
 	'template' => get_stylesheet_directory() . '/metaboxes/shows-meta.php'
 ));
 
@@ -488,9 +519,11 @@ function load_date_time_picker(){
 }
 add_action('admin_enqueue_scripts', 'load_date_time_picker');
 
-/*=======================================================
+/*
+=======================================================
 Markup	
-=======================================================*/
+=======================================================
+*/
 
 // Markup for posts on the releases and artists landing page
 function _sr_relart_loop_markup(){
@@ -553,5 +586,149 @@ function sr_post_thumbnail(){ ?>
 function _sr_post_header(){
 	global $post;?>
 	<h1 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h1><?php
+}
+
+// Shows Markup
+
+function _sr_shows_markup(){
+	global $post;?>
+	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
+		<header class="entry-header">
+			<time class="entry-date"><?php echo get_post_meta(get_the_ID(),'_sr_show-date',TRUE); ?></time>
+			<?php echo get_post_meta(get_the_ID(),'_sr_stolen-show',TRUE); ?>
+			<? _sr_post_header(); ?>
+		</header><!-- .entry-header -->
+		<?php sr_post_thumbnail() ?>
+		<div class="entry-summary">
+			<?php the_excerpt(); ?>
+		</div><!-- .entry-summary -->
+	</article><!-- #post-<?php the_ID(); ?> -->
+<?php }
+
+// No shows message markup(){
+
+function _sr_noshows_markup(){
+	global $post;?>
+	<article id="no-posts" <?php post_class(); ?> role="article">
+		<header class="entry-header">
+			<h1 class="entry-title">Sorry, no posts!</h1>
+		</header><!-- .entry-header -->
+		
+		<div class="entry-summary">
+			<p>Try the <a title="Home Page Link" rel="bookmark" href="<?php get_home_url(); ?>">home page</a></p>
+		</div><!-- .entry-summary -->
+
+	</article><!-- #post-<?php the_ID(); ?> -->
+<?php }
+
+
+/*
+=======================================================
+API gubbins	
+=======================================================
+*/
+
+
+//Pulling latest videos from vimeo
+function _sr_latest_videos(){
+
+	// The Simple API URL
+	$api_endpoint = 'http://vimeo.com/api/v2/';
+	
+	// Curl helper function
+	function curl_get($url) {
+		$curl = curl_init($url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
+		$return = curl_exec($curl);
+		curl_close($curl);
+		return $return;
+	}
+	
+	// Change this to your username to load in your videos
+	$vimeo_user_name = ($_GET['user']) ? $_GET['user'] : '3362379';
+	
+	// Load the user's videos
+	$videos = simplexml_load_string(curl_get($api_endpoint.$vimeo_user_name . '/videos.xml'));
+	
+	
+	?>
+	<script>
+
+		// Tell Vimeo what function to call
+		var oEmbedCallback = 'embedVideo';
+
+		// Set up the URL
+		var oEmbedUrl = 'http://vimeo.com/api/oembed.json';
+
+		// Load the first one in automatically?
+		var loadFirst = false;
+
+		// This function puts the video on the page
+		function embedVideo(video) {
+			var videoEmbedCode = video.html;
+			document.getElementById('embed').innerHTML = unescape(videoEmbedCode);
+		}
+
+		// This function runs when the page loads and adds click events to the links
+		function init() {
+			var links = document.getElementById('thumbs').getElementsByTagName('a');
+
+			for (var i = 0; i < $videos.length; i++) {
+				// Load a video using oEmbed when you click on a thumb
+				if (document.addEventListener) {
+					links[i].addEventListener('click', function(e) {
+						var link = this;
+						loadScript(oEmbedUrl + '?url=' + link.href + '&callback=' + oEmbedCallback);
+						e.preventDefault();
+					}, false);
+				}
+				// IE (sucks)
+				else {
+					links[i].attachEvent('onclick', function(e) {
+						var link = e.srcElement.parentNode;
+						loadScript(oEmbedUrl + '?url=' + link.href + '&callback=' + oEmbedCallback);
+						return false;
+					});
+				}
+			}
+
+			// Load in the first video
+			if (loadFirst) {
+				loadScript(oEmbedUrl + '?url=' + links[0].href + '&height=280&width=504&callback=' + oEmbedCallback);
+			}
+		}
+
+		// This function loads the data from Vimeo
+		function loadScript(url) {
+			var js = document.createElement('script');
+			js.setAttribute('src', url);
+			document.getElementsByTagName('head').item(0).appendChild(js);
+		}
+
+		// Call our init function when the page loads
+		window.onload = init;
+	</script>
+
+	<div id="wrapper">
+		<div id="embed"></div>
+		<div id="thumbs">
+			<ul>
+			<?php foreach ($videos->video as $video):
+				$shortdesc = _sr_truncate($video->description, 20);?>
+				<li>
+					<a href="<?php echo $video->url ?>">
+						<img src="<?php echo $video->thumbnail_small ?>" class="thumb" />
+						<p class="video-title"><?=$video->title?></p>
+						<p class="video-description"><?=$shortdesc?></p>
+					</a>
+				</li>
+			<?php endforeach ?>
+			</ul>
+		</div>
+	</div>
+<?php 
+//echo trunc_vid_description($video->description);
 }
 ?>
