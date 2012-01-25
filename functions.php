@@ -524,7 +524,7 @@ add_action('admin_enqueue_scripts', 'load_date_time_picker');
 //Adding video api reposnses to meta
 
 function video_save_action($meta , $post_id){
-	
+/*
 	$video_arr = array();
 	
 	//Creating array of api endpoints from URLS
@@ -576,6 +576,7 @@ function video_save_action($meta , $post_id){
 	//Adding meta fail
 	print_r($vid_data);
 	add_post_meta($post_id, '_sr_vid_data', $vid_data, true); 
+*/
 }
 
 /*
