@@ -6,7 +6,7 @@
 		<?php $mb->the_field('video-link'); ?>
 		<label>Video link</label>
 			<input type="text" name="<?php $mb->the_name(); ?>" value="<?php $mb->the_value(); ?>"/>
- 		<span>Youtube or vimeo only</span>
+ 		<span>Youtube or vimeo only.</span>
 		<a href="#" class="dodelete">Delete Video</a>
         
         <?php $mb->the_group_close(); ?>

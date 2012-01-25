@@ -12,7 +12,7 @@
  		<label>Link Title </label>
  		<?php $mb->the_field('art-social-title'); ?>
 		<input type="text" name="<?php $mb->the_name(); ?>" value="<?php $mb->the_value(); ?>"/>
- 		<span>Title of the link will appear on rollover</span>
+ 		<span>Title of the link will appear on rollover (optional)</span>
  		
  		<a href="#" class="dodelete">Remove Link</a>
 	<?php $mb->the_group_close(); ?>

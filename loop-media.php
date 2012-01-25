@@ -10,8 +10,6 @@
 <?php
 $art_args = array('post_type' => 'artist');
 $vid_arr = array();
-//global $wp_embed;
-//print_r($wp_embed);
 
 //$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 $art_query = new WP_Query($art_args);
@@ -68,7 +66,7 @@ foreach ($vid_arr as $video)
 		array_push($endpoint_arr, $api_endpoint);
 	}
 }
-print_r($endpoint_arr);
+
 //Fetching the data
 
 $nodes = $endpoint_arr;

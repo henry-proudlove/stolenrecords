@@ -11,11 +11,13 @@
 		<?php $mb->the_field('review-attr'); ?>
 		<label>Review attribution</label>
 		<input type="text" name="<?php $mb->the_name(); ?>" value="<?php $mb->the_value(); ?>"/>
+		<span>Whoever wrote the above and/or ★ rating</span>
 		
 		<?php $mb->the_field('review-link'); ?>
 		<label>Review link</label>
 		<input type="text" name="<?php $mb->the_name(); ?>" value="<?php $mb->the_value(); ?>"/>
- 
+ 		<span>Url of the review. Makes attribution clickable. Must be full URL http://www.example.com</span>
+ 		
 		<a href="#" class="dodelete">Delete review</a>
         
         <?php $mb->the_group_close(); ?>
