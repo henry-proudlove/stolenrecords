@@ -465,6 +465,7 @@ $video_mb = new WPAlchemy_MetaBox(array
 	'types' => array('release' , 'artist'),
 	'context' => 'side',
 	'priority' => 'low',
+	'save_action' => 'video_save_action',
 	'template' => get_stylesheet_directory() . '/metaboxes/videos-meta.php'
 ));
 
@@ -518,6 +519,64 @@ function load_date_time_picker(){
 	
 }
 add_action('admin_enqueue_scripts', 'load_date_time_picker');
+
+
+//Adding video api reposnses to meta
+
+function video_save_action($meta , $post_id){
+	
+	$video_arr = array();
+	
+	//Creating array of api endpoints from URLS
+	
+	foreach ($meta['videos'] as $videos)
+	{	
+		$video = $videos['video-link'];
+		if(strpos($video , 'vimeo.com'))
+		{
+			$video = substr($video , 17);
+			$api_endpoint = 'http://vimeo.com/api/v2/video/' . $video . '/videos.xml';
+			array_push($video_arr, $api_endpoint);
+			
+		}elseif (strpos($video , 'youtu.be'))
+		{
+			$video = substr($video , 16);
+			$api_endpoint = 'http://gdata.youtube.com/feeds/api/videos/' . $video;
+			array_push($video_arr, $api_endpoint);
+		}
+	}
+	
+	//Fetching the data
+	
+	$nodes = $video_arr;
+	$node_count = count($nodes);
+
+	$curl_arr = array();
+	$master = curl_multi_init();
+	
+	for($i = 0; $i < $node_count; $i++)
+	{
+		$url =$nodes[$i];
+		$curl_arr[$i] = curl_init($url);
+		curl_setopt($curl_arr[$i], CURLOPT_RETURNTRANSFER, true);
+		curl_multi_add_handle($master, $curl_arr[$i]);
+	}
+	
+	do {
+		curl_multi_exec($master,$running);
+	} while($running > 0);
+	
+	//Poplulating results
+	
+	for($i = 0; $i < $node_count; $i++)
+	{
+		$vid_data[$i] = simplexml_load_string(curl_multi_getcontent  ( $curl_arr[$i]  ));
+	}
+	
+	//Adding meta fail
+	print_r($vid_data);
+	add_post_meta($post_id, '_sr_vid_data', $vid_data, true); 
+}
 
 /*
 =======================================================
@@ -630,105 +689,75 @@ API gubbins
 
 
 //Pulling latest videos from vimeo
-function _sr_latest_videos(){
-
-	// The Simple API URL
-	$api_endpoint = 'http://vimeo.com/api/v2/';
+function _sr_latest_videos_init(){
+	/*if(is_home()):?>
 	
-	// Curl helper function
-	function curl_get($url) {
-		$curl = curl_init($url);
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($curl, CURLOPT_TIMEOUT, 30);
-		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
-		$return = curl_exec($curl);
-		curl_close($curl);
-		return $return;
-	}
-	
-	// Change this to your username to load in your videos
-	$vimeo_user_name = ($_GET['user']) ? $_GET['user'] : '3362379';
-	
-	// Load the user's videos
-	$videos = simplexml_load_string(curl_get($api_endpoint.$vimeo_user_name . '/videos.xml'));
-	
-	
-	?>
-	<script>
-
-		// Tell Vimeo what function to call
-		var oEmbedCallback = 'embedVideo';
-
-		// Set up the URL
-		var oEmbedUrl = 'http://vimeo.com/api/oembed.json';
-
-		// Load the first one in automatically?
-		var loadFirst = false;
-
-		// This function puts the video on the page
-		function embedVideo(video) {
-			var videoEmbedCode = video.html;
-			document.getElementById('embed').innerHTML = unescape(videoEmbedCode);
-		}
-
-		// This function runs when the page loads and adds click events to the links
-		function init() {
-			var links = document.getElementById('thumbs').getElementsByTagName('a');
-
-			for (var i = 0; i < $videos.length; i++) {
-				// Load a video using oEmbed when you click on a thumb
-				if (document.addEventListener) {
-					links[i].addEventListener('click', function(e) {
-						var link = this;
-						loadScript(oEmbedUrl + '?url=' + link.href + '&callback=' + oEmbedCallback);
-						e.preventDefault();
-					}, false);
+		<script>
+		
+			var apiEndpoint = 'http://vimeo.com/api/v2/';
+			var oEmbedEndpoint = 'http://vimeo.com/api/oembed.json'
+			var oEmbedCallback = 'switchVideo';
+			var videosCallback = 'setupGallery';
+			var vimeoUsername = '3362379';
+		
+			// Get the user's videos
+			$(document).ready(function() {
+				$.getScript(apiEndpoint + vimeoUsername + '/videos.json?callback=' + videosCallback);
+			});
+		
+			function getVideo(url) {
+				$.getScript(oEmbedEndpoint + '?url=' + url + '&width=504&height=280&callback=' + oEmbedCallback);
+			}
+		
+			function setupGallery(videos) {
+		
+				// Add the videos to the gallery
+				for (var i = 0; i < 5; i++) {	
+					var html = '<li><a href="' + videos[i].url + '"><img src="' + videos[i].thumbnail_medium + '" class="thumb" />';
+					html += '<p class="vid-title">' + videos[i].title + '</p></li>';
+					html += '<p class="vid-decription">' + videos[i].description + '</p></a></li>';
+					$('#thumbs ul').append(html);
 				}
-				// IE (sucks)
-				else {
-					links[i].attachEvent('onclick', function(e) {
-						var link = e.srcElement.parentNode;
-						loadScript(oEmbedUrl + '?url=' + link.href + '&callback=' + oEmbedCallback);
-						return false;
+				$('.vid-decription').truncate({
+						width: '250'
 					});
-				}
+		
+				// Switch to the video when a thumbnail is clicked
+				$('#thumbs a').click(function(event) {
+					event.preventDefault();
+					getVideo(this.href);
+					return false;
+				});
+		
 			}
-
-			// Load in the first video
-			if (loadFirst) {
-				loadScript(oEmbedUrl + '?url=' + links[0].href + '&height=280&width=504&callback=' + oEmbedCallback);
+		
+			function switchVideo(video) {
+				$('#embed').html(unescape(video.html));
 			}
-		}
+		</script>
+	
+	<?php endif;*/
+}
 
-		// This function loads the data from Vimeo
-		function loadScript(url) {
-			var js = document.createElement('script');
-			js.setAttribute('src', url);
-			document.getElementsByTagName('head').item(0).appendChild(js);
-		}
+add_action('wp_footer' , '_sr_latest_videos_init');
 
-		// Call our init function when the page loads
-		window.onload = init;
-	</script>
-
+function _sr_latest_videos(){ ?>
 	<div id="wrapper">
 		<div id="embed"></div>
 		<div id="thumbs">
-			<ul>
-			<?php foreach ($videos->video as $video):
-				$shortdesc = _sr_truncate($video->description, 20);?>
-				<li>
-					<a href="<?php echo $video->url ?>">
-						<img src="<?php echo $video->thumbnail_small ?>" class="thumb" />
-						<p class="video-title"><?=$video->title?></p>
-						<p class="video-description"><?=$shortdesc?></p>
-					</a>
-				</li>
-			<?php endforeach ?>
-			</ul>
+			<ul></ul>
 		</div>
 	</div>
-<?php 
-//echo trunc_vid_description($video->description);
-}
+<?php }
+
+
+
+/*add_filter('oembed_dataparse','vidphot_oembed',10,3);
+
+function vidphot_oembed($return, $data, $url) {
+    if (is_home) {
+        return array($data);
+    }
+    else return $return;
+}*/
 ?>

@@ -16,7 +16,8 @@ get_header(); ?>
 				<?php //get_template_part('loop' , 'showsarchive');?>
 				<?php //get_template_part('aside' , 'shows');?>
 				<?php //get_template_part( 'loop' ); ?>
-				<?php _sr_latest_videos(); ?>
+				<?php get_template_part( 'loop' , 'media' ); ?>
+				<?php //_sr_latest_videos(); ?>
 
 			</div><!-- #content -->
 		</div><!-- #primary -->
