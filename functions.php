@@ -691,7 +691,7 @@ API gubbins
 
 //Pulling latest videos from vimeo
 function _sr_latest_videos_init(){
-	/*if(is_home()):?>
+	if(is_home()):?>
 	
 		<script>
 		
@@ -737,7 +737,7 @@ function _sr_latest_videos_init(){
 			}
 		</script>
 	
-	<?php endif;*/
+	<?php endif;
 }
 
 add_action('wp_footer' , '_sr_latest_videos_init');
@@ -752,13 +752,121 @@ function _sr_latest_videos(){ ?>
 <?php }
 
 
+//main video fetcher. $videos = array() of urls, $post_id = string 
 
-/*add_filter('oembed_dataparse','vidphot_oembed',10,3);
+function sr_get_videos($videos , $post_id){
+	
+	$i=0;
+	$videos_count = count($videos);
+	
+	for($i = 0; $i < $videos_count; $i++)
+	{
+		$videos[$i] = array('video_link' => $videos[$i] , 'post_id' => $post_id);
+	}
+	
+		
+	for($i = 0; $i < $videos_count; $i++)
+	{	
+		
+		$video_link = $videos[$i]['video_link'];
+		
+		if(strpos($video_link , 'vimeo.com'))
+		{
+			$video_id = substr($video_link , 17);
+			$videos[$i]['id'] = $video_id;
+			$videos[$i]['endpoint'] = 'http://vimeo.com/api/v2/video/' . $video_id  . '/videos.xml';
+			$videos[$i]['vendor'] = 'vimeo';
+			$videos[$i]['is_valid'] = 'true';
+			
+		}elseif (strpos($video_link , 'youtu.be'))
+		{	
+			$video_id = substr($video_link , 16);
+			$videos[$i]['id'] = $video_id;
+			$videos[$i]['endpoint'] = 'http://gdata.youtube.com/feeds/api/videos/' . $video_id ;
+			$videos[$i]['vendor'] = 'youtube';
+			$videos[$i]['is_valid'] = 'true';
+		}else
+		{
+			$videos[$i]['is_valid'] = 'false';
+		}
+	}
+	
+	//Fetching the data
+	
+	$curl_arr = array();
+	$master = curl_multi_init();
+	
+	for($i = 0; $i < $videos_count; $i++)
+	{
+		$url = $videos[$i]['endpoint'];
+		$curl_arr[$i] = curl_init($url);
+		curl_setopt($curl_arr[$i], CURLOPT_RETURNTRANSFER, true);
+		curl_multi_add_handle($master, $curl_arr[$i]);
+	}
+	
+	do {
+		curl_multi_exec($master,$running);
+	} while($running > 0);
+	
+	//Poplulating results
+	
+	for($i = 0; $i < $videos_count; $i++)
+	{	
+		$vid_data = simplexml_load_string(curl_multi_getcontent  ( $curl_arr[$i]  ));
+		
+		if($videos[$i]['vendor'] == 'vimeo')
+		{
+			$vid_data = $vid_data->video;
+			$videos[$i]['title'] = (string) $vid_data->title;
+			$videos[$i]['thumbnail'] = (string) $vid_data->thumbnail_large;
+			$videos[$i]['description'] = (string) strip_tags($vid_data->description);
+		}elseif($videos[$i]['vendor'] == 'youtube')
+		{
+			$videos[$i]['title'] = (string) $vid_data->title;
+			$videos[$i]['thumbnail'] = (string) 'http://img.youtube.com/vi/'. $videos[$i]['id'] .'/0.jpg';
+			$videos[$i]['description'] = (string) strip_tags($vid_data->content);
+		}
+	}
+	
+	return $videos;
+}
 
-function vidphot_oembed($return, $data, $url) {
-    if (is_home) {
-        return array($data);
-    }
-    else return $return;
-}*/
+//media page videos
+
+function sr_media_videos(&$dont_copy)
+{
+	global $post;
+	global $video_mb;
+
+	$meta = $video_mb->the_meta();
+	$post_id = $post->ID;
+	if($meta['videos'])
+	{	
+		$videos = array();
+		foreach ($meta['videos'] as $video_meta)
+		{	
+			$video_link = $video_meta['video-link'];
+			if(!in_array($video_link , $dont_copy))
+			{
+				array_push($videos , $video_link);
+				array_push($dont_copy , $video_link);
+			}
+		}
+		$videos = sr_get_videos($videos , $post_id);
+		foreach($videos as $video)
+		{
+			if($video['is_valid'] == 'true')
+			{?>
+				<article class="media-thumb video <?php echo $video['vendor'] ?>">
+					<a href="<?php echo $video['video_link'] ?>" class="video-link">
+					<img src="<?php echo $video['thumbnail']?>" class="media-img <?php echo $video['vendor'] ?>" />
+					<div class="info">
+						<h1><?php echo $video['title'] ?></h1>
+						<p><?php echo $video['description'] ?></p>
+					</a>
+				</article>
+			<?php }
+		}
+	}
+}
 ?>
