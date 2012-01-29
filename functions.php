@@ -520,65 +520,6 @@ function load_date_time_picker(){
 }
 add_action('admin_enqueue_scripts', 'load_date_time_picker');
 
-
-//Adding video api reposnses to meta
-
-function video_save_action($meta , $post_id){
-/*
-	$video_arr = array();
-	
-	//Creating array of api endpoints from URLS
-	
-	foreach ($meta['videos'] as $videos)
-	{	
-		$video = $videos['video-link'];
-		if(strpos($video , 'vimeo.com'))
-		{
-			$video = substr($video , 17);
-			$api_endpoint = 'http://vimeo.com/api/v2/video/' . $video . '/videos.xml';
-			array_push($video_arr, $api_endpoint);
-			
-		}elseif (strpos($video , 'youtu.be'))
-		{
-			$video = substr($video , 16);
-			$api_endpoint = 'http://gdata.youtube.com/feeds/api/videos/' . $video;
-			array_push($video_arr, $api_endpoint);
-		}
-	}
-	
-	//Fetching the data
-	
-	$nodes = $video_arr;
-	$node_count = count($nodes);
-
-	$curl_arr = array();
-	$master = curl_multi_init();
-	
-	for($i = 0; $i < $node_count; $i++)
-	{
-		$url =$nodes[$i];
-		$curl_arr[$i] = curl_init($url);
-		curl_setopt($curl_arr[$i], CURLOPT_RETURNTRANSFER, true);
-		curl_multi_add_handle($master, $curl_arr[$i]);
-	}
-	
-	do {
-		curl_multi_exec($master,$running);
-	} while($running > 0);
-	
-	//Poplulating results
-	
-	for($i = 0; $i < $node_count; $i++)
-	{
-		$vid_data[$i] = simplexml_load_string(curl_multi_getcontent  ( $curl_arr[$i]  ));
-	}
-	
-	//Adding meta fail
-	print_r($vid_data);
-	add_post_meta($post_id, '_sr_vid_data', $vid_data, true); 
-*/
-}
-
 /*
 =======================================================
 Markup	
@@ -591,13 +532,13 @@ function _sr_relart_loop_markup(){
 	global $post;
 	
 	if('artist' == get_post_type()){
-		$_sr_post_class = get_post_meta(get_the_ID(),'_sr_present-past',TRUE);
+		$sr_post_class = get_post_meta(get_the_ID(),'_sr_present-past',TRUE);
 	}else{
-		$_sr_post_class = null;
+		$sr_post_class = null;
 	}
 	
 	?>
-	<article id="post-<?php the_ID(); ?>" <?php post_class($_sr_post_class); ?> role="article">		
+	<article id="post-<?php the_ID(); ?>" <?php post_class($sr_post_class); ?> role="article">		
 		
 		<?php sr_post_thumbnail(); ?>
 		
@@ -769,7 +710,6 @@ function sr_get_videos($videos , $post_id){
 	{	
 		
 		$video_link = $videos[$i]['video_link'];
-		
 		if(strpos($video_link , 'vimeo.com'))
 		{
 			$video_id = substr($video_link , 17);
@@ -781,6 +721,13 @@ function sr_get_videos($videos , $post_id){
 		}elseif (strpos($video_link , 'youtu.be'))
 		{	
 			$video_id = substr($video_link , 16);
+			$videos[$i]['id'] = $video_id;
+			$videos[$i]['endpoint'] = 'http://gdata.youtube.com/feeds/api/videos/' . $video_id ;
+			$videos[$i]['vendor'] = 'youtube';
+			$videos[$i]['is_valid'] = 'true';
+		}elseif (strpos($video_link , 'youtube.com'))
+		{
+			$video_id = substr($video_link , 31 , 11);
 			$videos[$i]['id'] = $video_id;
 			$videos[$i]['endpoint'] = 'http://gdata.youtube.com/feeds/api/videos/' . $video_id ;
 			$videos[$i]['vendor'] = 'youtube';
@@ -827,7 +774,6 @@ function sr_get_videos($videos , $post_id){
 			$videos[$i]['description'] = (string) strip_tags($vid_data->content);
 		}
 	}
-	
 	return $videos;
 }
 
@@ -869,4 +815,91 @@ function sr_media_videos(&$dont_copy)
 		}
 	}
 }
+
+
+
+/*
+=======================================================
+Custom Gallery
+=======================================================
+*/
+
+function wpo_get_images($size = 'thumbnail', $limit = '0', $offset = '0', $big = 'large', $post_id = '$post->ID', $link = '1', $img_class = 'attachment-image', $wrapper = 'div', $wrapper_class = 'attachment-image-wrapper') {
+	global $post;
+
+	$images = get_children( array('post_parent' => $post_id, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => 'ASC', 'orderby' => 'menu_order ID') );
+
+	if ($images) {
+
+		$num_of_images = count($images);
+
+		if ($offset > 0) : $start = $offset--; else : $start = 0; endif;
+		if ($limit > 0) : $stop = $limit+$start; else : $stop = $num_of_images; endif;
+
+		$i = 0;
+		foreach ($images as $attachment_id => $image) {
+			if ($start <= $i and $i < $stop) {
+			$img_title = $image->post_title;   // title.
+			$img_description = $image->post_content; // description.
+			$img_caption = $image->post_excerpt; // caption.
+			//$img_page = get_permalink($image->ID); // The link to the attachment page.
+			$img_alt = get_post_meta($attachment_id, '_wp_attachment_image_alt', true);
+			if ($img_alt == '') {
+			$img_alt = $img_title;
+			}
+				if ($big == 'large') {
+				$big_array = image_downsize( $image->ID, $big );
+ 				$img_url = $big_array[0]; // large.
+				} else {
+				$img_url = wp_get_attachment_url($image->ID); // url of the full size image.
+				}
+
+			// FIXED to account for non-existant thumb sizes.
+			$preview_array = image_downsize( $image->ID, $size );
+			if ($preview_array[3] != 'true') {
+			$preview_array = image_downsize( $image->ID, 'thumbnail' );
+ 			$img_preview = $preview_array[0]; // thumbnail or medium image to use for preview.
+ 			$img_width = $preview_array[1];
+ 			$img_height = $preview_array[2];
+			} else {
+ 			$img_preview = $preview_array[0]; // thumbnail or medium image to use for preview.
+ 			$img_width = $preview_array[1];
+ 			$img_height = $preview_array[2];
+ 			}
+ 			// End FIXED to account for non-existant thumb sizes.
+
+ 			///////////////////////////////////////////////////////////
+			// This is where you'd create your custom image/link/whatever tag using the variables above.
+			// This is an example of a basic image tag using this method.
+			?>
+			<?php if ($wrapper != '0') : ?>
+			<<?php echo $wrapper; ?> class="<?php echo $wrapper_class; ?>">
+			<?php endif; ?>
+			<?php if ($link == '1') : ?>
+			<a href="<?php echo $img_url; ?>" title="<?php echo $img_title; ?>">
+			<?php endif; ?>
+			<img class="<?php echo $img_class; ?>" src="<?php echo $img_preview; ?>" alt="<?php echo $img_alt; ?>" title="<?php echo $img_title; ?>" />
+			<?php if ($link == '1') : ?>
+			</a>
+			<?php endif; ?>
+			<?php if ($img_caption != '') : ?>
+			<div class="attachment-caption"><?php echo $img_caption; ?></div>
+			<?php endif; ?>
+			<?php if ($img_description != '') : ?>
+			<div class="attachment-description"><?php echo $img_description; ?></div>
+			<?php endif; ?>
+			<?php if ($wrapper != '0') : ?>
+			</<?php echo $wrapper; ?>>
+			<?php endif; ?>
+			<?
+			// End custom image tag. Do not edit below here.
+			///////////////////////////////////////////////////////////
+
+			}
+			$i++;
+		}
+
+	}
+} 
+
 ?>
