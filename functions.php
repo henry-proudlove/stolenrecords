@@ -540,7 +540,7 @@ function _sr_relart_loop_markup(){
 	?>
 	<article id="post-<?php the_ID(); ?>" <?php post_class($sr_post_class); ?> role="article">		
 		
-		<?php sr_post_thumbnail(); ?>
+		<?php sr_post_thumbnail('medium' , false); ?>
 		
 		<header class="entry-header">
 			
@@ -556,7 +556,11 @@ function _sr_relart_loop_markup(){
 
 <?php }
 
-// Older newer posts nav
+/*---------------------------------------------------
+Pagination
+----------------------------------------------------*/
+
+// loop page pagination
 function sr_posts_navigation(){
 	global $wp_query;
 	if (  $wp_query->max_num_pages > 1 ) : ?>
@@ -568,26 +572,20 @@ function sr_posts_navigation(){
 	<?php endif; ?>
 <?php }
 
-// Featured image/video thumbnail thing
-function sr_post_thumbnail(){ ?>
-	<?php global $post;
-	if ('post' == get_post_type()):
-		array_push($dont_copy, $post->ID);
-		if(get_post_meta(get_the_ID(),'_sr_thumb-URL',TRUE)):
-			echo get_post_meta(get_the_ID(),'_sr_thumb-URL',TRUE);
-		elseif (has_post_thumbnail()):
-			the_post_thumbnail('thumbnail');
-		endif;
-	elseif(has_post_thumbnail()):
-		the_post_thumbnail('thumbnail');
-	endif;?>
+// Single posts nav
+function sr_single_post_navigation(){?>
+	<nav id="nav-below" role="article">
+		<h1 class="section-heading"><?php _e( 'Post navigation', 'themename' ); ?></h1>
+		<div class="nav-previous"><?php previous_post_link( '%link', '<span class="meta-nav">' . _x( '&larr;', 'Previous post link', 'themename' ) . '</span> %title' ); ?></div>
+		<div class="nav-next"><?php next_post_link( '%link', '%title <span class="meta-nav">' . _x( '&rarr;', 'Next post link', 'themename' ) . '</span>' ); ?></div>
+	</nav><!-- #nav-below -->
 <?php }
 
 // Post Header
 function _sr_post_header(){
 	global $post;?>
-	<h1 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h1><?php
-}
+	<h1 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h1>
+<?php }
 
 // Shows Markup
 
@@ -599,7 +597,7 @@ function _sr_shows_markup(){
 			<?php echo get_post_meta(get_the_ID(),'_sr_stolen-show',TRUE); ?>
 			<? _sr_post_header(); ?>
 		</header><!-- .entry-header -->
-		<?php sr_post_thumbnail() ?>
+		<?php sr_post_thumbnail('medium' , false); ?>
 		<div class="entry-summary">
 			<?php the_excerpt(); ?>
 		</div><!-- .entry-summary -->
@@ -621,7 +619,6 @@ function _sr_noshows_markup(){
 
 	</article><!-- #post-<?php the_ID(); ?> -->
 <?php }
-
 
 /*
 =======================================================
@@ -823,16 +820,56 @@ function sr_media_videos(&$dont_copy)
 Custom Gallery
 =======================================================
 */
-
-function wpo_get_images($size = 'thumbnail', $limit = '0', $offset = '0', $big = 'large', $post_id = '$post->ID', $link = '1', $img_class = 'attachment-image', $wrapper = 'div', $wrapper_class = 'attachment-image-wrapper') {
+function sr_get_images( $args = array() ) {
+	
 	global $post;
-
-	$images = get_children( array('post_parent' => $post_id, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => 'ASC', 'orderby' => 'menu_order ID') );
+	
+	$defaults = array(
+		'size' => 'thumbnail', 
+		'limit' => '0',
+		'offset' => '0',
+		'big' => 'large',
+		'post_id' => $post->ID,
+		'link' => 'self',
+		'img_class' => 'attachment-image',
+		'wrapper' => true,
+		'wrapper_class' => 'attachment-image-wrapper',
+		'include' => '',
+		'exclude' => ''
+	);
+	
+	$options = array_merge( $defaults, $args );
+	
+	$size = $options['size'];
+	$limit = $options['limit'];
+	$offset = $options['offset'];
+	$big = $options['big'];
+	$link = $options['link'];
+	$img_class = $options['img_class'];
+	$wrapper = $options['wrapper'];
+	$wrapper_class = $options['wrapper_class'];
+	
+	$images = get_children( array(
+		'post_parent' => $options['post_id'],
+		'post_status' => 'inherit',
+		'post_type' => 'attachment',
+		'post_mime_type' => 'image',
+		'order' => 'ASC',
+		'orderby' => 'menu_order ID' ,
+		'include' => $options['include'],
+		'exclude' => $options['exclude']
+	));
+	
+	//Adding parent title as class
+	$parent_title = strtolower(get_the_title($options['post_id']));
+	$parent_title_class = str_replace(' ', '-' , $parent_title);
+	$img_class .= ' ' . $parent_title_class;
+	$wrapper_class .= ' ' . $parent_title_class; 
 
 	if ($images) {
 
 		$num_of_images = count($images);
-
+		
 		if ($offset > 0) : $start = $offset--; else : $start = 0; endif;
 		if ($limit > 0) : $stop = $limit+$start; else : $stop = $num_of_images; endif;
 
@@ -868,38 +905,159 @@ function wpo_get_images($size = 'thumbnail', $limit = '0', $offset = '0', $big =
  			}
  			// End FIXED to account for non-existant thumb sizes.
 
- 			///////////////////////////////////////////////////////////
-			// This is where you'd create your custom image/link/whatever tag using the variables above.
-			// This is an example of a basic image tag using this method.
-			?>
-			<?php if ($wrapper != '0') : ?>
-			<<?php echo $wrapper; ?> class="<?php echo $wrapper_class; ?>">
+			if($wrapper == true):?>
+			<article class="<?php echo $wrapper_class ?>">
 			<?php endif; ?>
-			<?php if ($link == '1') : ?>
+			<?php if($link == 'self'):?>
 			<a href="<?php echo $img_url; ?>" title="<?php echo $img_title; ?>">
+			<?php elseif($link == 'parent'):?>
+			<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark">
 			<?php endif; ?>
-			<img class="<?php echo $img_class; ?>" src="<?php echo $img_preview; ?>" alt="<?php echo $img_alt; ?>" title="<?php echo $img_title; ?>" />
-			<?php if ($link == '1') : ?>
+			<img class="<?php echo $img_class;?>" src="<?php echo $img_preview; ?>" alt="<?php echo $img_alt; ?>" title="<?php echo $img_title; ?>" />
+			<?php if($link == 'self'):?>
+				<div class="info">
+				<?php if ($img_caption != '') : ?>
+					<div class="attachment-caption"><?php echo $img_caption; ?></div>
+				<?php endif; ?>
+				<?php if ($img_description != '') : ?>
+					<div class="attachment-description"><?php echo $img_description; ?></div>
+				<?php endif; ?>
+					<span>Click to zoom</span>
+					</div>
+			<?php endif; ?>
 			</a>
-			<?php endif; ?>
-			<?php if ($img_caption != '') : ?>
-			<div class="attachment-caption"><?php echo $img_caption; ?></div>
-			<?php endif; ?>
-			<?php if ($img_description != '') : ?>
-			<div class="attachment-description"><?php echo $img_description; ?></div>
-			<?php endif; ?>
-			<?php if ($wrapper != '0') : ?>
-			</<?php echo $wrapper; ?>>
-			<?php endif; ?>
-			<?
+			<?php if($wrapper == true):?>
+			</article>
+			<?php endif; 
 			// End custom image tag. Do not edit below here.
 			///////////////////////////////////////////////////////////
-
+			
 			}
 			$i++;
 		}
 
 	}
-} 
+}
 
+/*---------------------------------------------------
+Image display
+*/
+
+// Default post thumbnail. Check for video, thumbnail, if not show first attachment
+function sr_post_thumbnail($size , $show_video)
+{ 	
+	global $post;
+	if ($show_video == true && 'post' == get_post_type() && get_post_meta(get_the_ID(),'_sr_thumb-URL',TRUE)):
+		$vid_link = get_post_meta(get_the_ID(),'_sr_thumb-URL',TRUE);
+		$embed_code = wp_oembed_get($vid_link);
+		echo $embed_code;
+	elseif (has_post_thumbnail()):
+		$post_thumb = get_post_thumbnail_id();
+		$options = array(
+			'size' => $size,
+			'big' => 'full' ,
+			'img_class' => 'post',
+			'wrapper' => false ,
+			'include' => $post_thumb,
+			'link' => 'parent'
+		);
+		sr_get_images($options);
+	else:
+		$options = array(
+			'size' => $size,
+			'big' => 'full' ,
+			'img_class' => 'post',
+			'wrapper' => false ,
+			'limit' => '1',
+			'link' => 'parent'
+		);
+		sr_get_images($options);
+	endif;
+}
+
+//Artist Page gallery. Thumbnail leads, if not set all images in menu order
+
+function sr_artist_gallery(){
+	global $post;
+	if(has_post_thumbnail())
+	{	
+		$post_thumb = get_post_thumbnail_id();
+		$options = array(
+			'size' => 'thumbnail',
+			'big' => 'full' ,
+			'img_class' => 'artist-header attachment-image',
+			'wrapper' => false ,
+			'include' => $post_thumb
+		);
+		sr_get_images($options);
+	}else
+	{
+		$post_thumb = '';
+	}
+	$options['include'] = '';
+	$options['exclude'] = $post_thumb;
+	sr_get_images($options);
+}
+/*
+End Image display
+---------------------------------------------------*/
+
+//Social links on artist page and about
+function sr_social_links()
+{
+	global $artist_lnks_mb;
+	$meta = $artist_lnks_mb->the_meta();
+	if($meta['artist_soc_links']){
+	echo '<nav id="social-links">';
+		foreach ($meta['artist_soc_links'] as $art_links_meta)
+		{	
+			$artist_link = $art_links_meta['art_social_a'];
+			$artist_name = get_the_title();
+			
+			if(strpos($artist_link , 'facebook.com'))
+			{
+				$art_link_source = 'Facebook';
+				
+			}elseif (strpos($artist_link , 'twitter.com'))
+			{	
+				$art_link_source = 'Twitter';
+				
+			}elseif (strpos($artist_link , 'soundcloud.com'))
+			{	
+				$art_link_source = 'Soundcloud';
+				
+			}elseif (strpos($artist_link , 'bandcamp.com'))
+			{	
+				$art_link_source = 'Bandcamp';
+				
+			}elseif (strpos($artist_link , 'vimeo.com'))
+			{	
+				$art_link_source = 'Vimeo';
+				
+			}elseif (strpos($artist_link , 'youtu.be') || strpos($video_link , 'youtube.com'))
+			{	
+				$art_link_source = 'Youtube';
+				
+			}elseif (strpos($artist_link , 'myspace.com'))
+			{	
+				$art_link_source = 'Myspace';
+				
+			}else
+			{
+				$art_link_source = 'generic'; 
+			}
+			
+			$art_link_class = strtolower($art_link_source);
+			if($art_link_source != 'generic')
+			{
+				$art_link_title = $artist_name . ' on ' . $art_link_source;
+			}else
+			{
+				$art_link_title = str_replace(array('http://' , 'www.' , '/') , '' , $artist_link);
+			}
+			echo '<a href="'. $artist_link .'" class"' . $art_link_class . '" title="' . $art_link_title . '" rel="bookmark">' . $art_link_title . '</a> ';  
+		}
+	echo '</nav><!--#social-links-->';
+	}
+}
 ?>

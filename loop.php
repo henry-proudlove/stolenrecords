@@ -16,7 +16,7 @@
 			
 		</header><!-- .entry-header -->
 			
-		<?php sr_post_thumbnail() ?>
+		<?php sr_post_thumbnail('medium' , true); ?>
 		
 		<div class="entry-summary">
 			<?php the_excerpt(); ?>

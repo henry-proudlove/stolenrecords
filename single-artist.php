@@ -6,46 +6,72 @@
 
 get_header(); ?>
 
-		<div id="primary">
-			<div id="content">
+<div id="primary">
+	<div id="content">
 
-			<?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
-
-				<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
-					<header class="entry-header">
-						<time class="entry-date"><?php echo get_the_date(); ?></time>
-						<h1 class="entry-title"><?php the_title(); ?></h1>
-					</header><!-- .entry-header -->
-
-					<div class="entry-content">
-						<?php the_content(); ?>
-						<?php wp_link_pages( array( 'before' => '<div class="page-link">' . __( 'Pages:', 'themename' ), 'after' => '</div>' ) ); ?>
-					</div><!-- .entry-content -->
-
-					<footer class="entry-meta">
-						<?php
-							$tag_list = get_the_tag_list( '', ', ' );
-							if ( '' != $tag_list ) {
-								echo 'TAGS: '.$tag_list;
+		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
+			<section id="intro">
+				<header class="entry-header">
+					<h1 class="entry-title"><?php the_title(); ?></h1>
+				</header><!-- .entry-header -->
+				
+				<div class="entry-gallery">
+					<?php sr_artist_gallery(); ?>
+				</div><!-- .entry-gallery -->
+				<div id="entry-content">
+					<?php the_content(); ?>
+				</div><!-- .entry-content -->
+				
+				<?php sr_social_links(); ?>
+			</section><!--#intro-->
+			
+			<?php //Getting max 6 releases by artist
+			$artist_tax = get_the_title();
+			$args = array(
+				'post_type' => 'release' ,
+				'posts_per_page' => '6' ,
+				'artist' => $artist_tax
+			);
+			$rel_query = new WP_query($args);
+			if($rel_query->have_posts() ):?>
+				<section id="releases artist"><?php
+				while ($rel_query->have_posts() ): $rel_query->the_post();?>
+					<article class="release">
+						<?php $post_id = get_the_ID(); ?>
+						<?php sr_post_thumbnail('thumbnail' , false);?>
+						<?php _sr_post_header();
+						$release_date = get_post_meta( $post_id , '_sr_release-date', true);
+						
+						if ($release_date)
+						{	
+							$release_date = date_create($release_date);
+ 							$release_date = date_format($release_date, 'Y');
+							echo '<time class="release-date">' . $release_date . '</time>';
+						}
+						
+						$buy_now_link = get_post_meta ( $post_id , '_sr_release-buy-link' , true);
+						
+						if ($buy_now_link)
+						{
+							$curr_date = date('U');
+							$release_date = strtotime($release_date);
+							echo '</br>' . $curr_date . ' : ' . $release_date . '</br>';
+							if ($curr_date <= $release_date)
+							{
+								echo 'Preorder now';
+							}else
+							{
+								echo 'Buy Now';
 							}
-						?>
-
-						<?php edit_post_link( __( 'Edit', 'themename' ), '<div class="edit-link">', '</div>' ); ?>
-					</footer><!-- .entry-meta -->
-				</article><!-- #post-<?php the_ID(); ?> -->
-
-				<nav id="nav-below" role="article">
-					<h1 class="section-heading"><?php _e( 'Post navigation', 'themename' ); ?></h1>
-					<div class="nav-previous"><?php previous_post_link( '%link', '<span class="meta-nav">' . _x( '&larr;', 'Previous post link', 'themename' ) . '</span> %title' ); ?></div>
-					<div class="nav-next"><?php next_post_link( '%link', '%title <span class="meta-nav">' . _x( '&rarr;', 'Next post link', 'themename' ) . '</span>' ); ?></div>
-				</nav><!-- #nav-below -->
-
-				<?php comments_template( '', true ); ?>
-
-			<?php endwhile; // end of the loop. ?>
-
-			</div><!-- #content -->
-		</div><!-- #primary -->
-
-<?php get_sidebar(); ?>
+						}
+						
+						?> 
+					</article>
+			<?php endwhile; endif;?>
+				
+				
+		</article><!-- #post-<?php the_ID(); ?> -->
+		<?php sr_single_post_navigation();?>
+	</div><!-- #content -->
+</div><!-- #primary -->
 <?php get_footer(); ?>

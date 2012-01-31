@@ -20,7 +20,7 @@ while ( $the_query->have_posts() ) : $the_query->the_post();?>
 		if('post' == get_post_type()){
 			array_push($dont_copy, $post->ID);
 		}
-		sr_post_thumbnail(); 
+		sr_post_thumbnail('medium' , true);
 		?>
 			
 		<header class="entry-header">
@@ -50,7 +50,7 @@ while ( $the_query->have_posts() ) : $the_query->the_post();?>
 		
 		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">		
 			
-			<?php sr_post_thumbnail(); 
+			<?php sr_post_thumbnail('thumbnail' , false);
 			array_push($dont_copy, $post->ID); ?>
 				
 			<header class="entry-header">
