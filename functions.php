@@ -479,7 +479,7 @@ $tracks_mb = new WPAlchemy_MetaBox(array
 	'template' => get_stylesheet_directory() . '/metaboxes/tracks-meta.php'
 ));
 
-$reivew_mb = new WPAlchemy_MetaBox(array
+$review_mb = new WPAlchemy_MetaBox(array
 (
 	'id' => '_reviews',
 	'title' => 'Reviews',
@@ -565,7 +565,6 @@ function sr_posts_navigation(){
 	global $wp_query;
 	if (  $wp_query->max_num_pages > 1 ) : ?>
 		<nav id="nav-below" role="article">
-			<h1 class="section-heading"><?php _e( 'Post navigation', 'themename' ); ?></h1>
 			<div class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Older posts', 'themename' ) ); ?></div>
 			<div class="nav-next"><?php previous_posts_link( __( 'Newer posts <span class="meta-nav">&rarr;</span>', 'themename' ) ); ?></div>
 		</nav><!-- #nav-below -->
@@ -575,7 +574,6 @@ function sr_posts_navigation(){
 // Single posts nav
 function sr_single_post_navigation(){?>
 	<nav id="nav-below" role="article">
-		<h1 class="section-heading"><?php _e( 'Post navigation', 'themename' ); ?></h1>
 		<div class="nav-previous"><?php previous_post_link( '%link', '<span class="meta-nav">' . _x( '&larr;', 'Previous post link', 'themename' ) . '</span> %title' ); ?></div>
 		<div class="nav-next"><?php next_post_link( '%link', '%title <span class="meta-nav">' . _x( '&rarr;', 'Next post link', 'themename' ) . '</span>' ); ?></div>
 	</nav><!-- #nav-below -->
@@ -776,7 +774,7 @@ function sr_get_videos($videos , $post_id){
 
 //media page videos
 
-function sr_media_videos(&$dont_copy)
+function sr_media_videos(&$dont_copy, $limit)
 {
 	global $post;
 	global $video_mb;
@@ -785,10 +783,24 @@ function sr_media_videos(&$dont_copy)
 	$post_id = $post->ID;
 	if($meta['videos'])
 	{	
+		$videos_meta = $meta['videos'];
+		if($limit == false)
+		{
+			$limit = count($videos_meta);
+			
+		}elseif($limit <= 0)
+		{
+			return 0;
+	
+		}elseif($limit > count($videos_meta))
+		{
+			$limit = count($videos_meta);
+		}
 		$videos = array();
-		foreach ($meta['videos'] as $video_meta)
+		$i = 0;
+		for ($i = 0; $i < $limit; $i++)
 		{	
-			$video_link = $video_meta['video-link'];
+			$video_link = $videos_meta[$i]['video-link'];
 			if(!in_array($video_link , $dont_copy))
 			{
 				array_push($videos , $video_link);
@@ -810,6 +822,11 @@ function sr_media_videos(&$dont_copy)
 				</article>
 			<?php }
 		}
+		
+		$video_count = count($videos);
+		return $video_count;
+	}else{
+		return 0;
 	}
 }
 
@@ -1059,5 +1076,121 @@ function sr_social_links()
 		}
 	echo '</nav><!--#social-links-->';
 	}
+}
+
+/*---------------------------------------------------
+Widgets
+*/
+
+//get artist releases
+
+function sr_rels_by_artist($args = array())
+{	
+	//global $post;
+	$temp_post = $post;
+	
+	$defaults = array(
+		'artist' => '',
+		'thumb_size' => 'thumbnail',
+		'limit' => '6',
+		'buy_now' => true,
+	);
+	
+	$options = array_merge($defaults , $args);
+	$query_args = array(
+		'post_type' => 'release' ,
+		'posts_per_page' => $options['limit'] ,
+		'artist' => $options['artist']
+	);
+	$rel_sub_query = new WP_query($query_args);
+	if( have_posts() ):?>
+	<section id="releases artist">
+	<?php while ($rel_sub_query->have_posts() ): $rel_sub_query->the_post();?>
+		<article class="release">
+			<?php $rel_id = get_the_ID(); ?>
+			<?php sr_post_thumbnail($options['thumb_size'] , false);?>
+			<?php _sr_post_header();
+			$release_date = get_post_meta( $rel_id , '_sr_release-date', true);
+			
+			if ($release_date)
+			{	
+				$release_date = date_create($release_date);
+				$release_date = date_format($release_date, 'Y');
+				echo '<time class="release-date">' . $release_date . '</time>';
+			}
+			
+			$buy_now_link = get_post_meta ( $rel_id , '_sr_release-buy-link' , true);
+			
+			if ($buy_now_link)
+			{
+				$curr_date = date('U');
+				$release_date = strtotime($release_date);
+				//echo '</br>' . $curr_date . ' : ' . $release_date . '</br>';
+				if ($curr_date <= $release_date)
+				{
+					echo '<a class="buy-link preorder">Preorder now</a>';
+				}else
+				{
+					echo '<a class="buy-link buy-now">Buy Now</a>';
+				}
+			}?>
+		</article>
+	<?php endwhile; endif; wp_reset_query();
+}
+
+//Reviews
+
+function sr_get_reivews()
+{	
+	global $post;
+	global $review_mb;
+	$meta = $review_mb->the_meta();
+	if($meta['reviews'])
+	{	
+		$reviews = $meta['reviews'];
+		//print_r($reviews);
+		foreach($reviews as $review)
+		{
+			if($review['review-link']){
+				$reviewlnk_o = '<a href="' . $review['review-link'] . '" rel="bookmark">';
+				$reviewlnk_c = '</a>';
+			}?>
+			<article class="review">
+			<p><?php echo $review['review-text']; ?></p>
+			<cite> <?php echo $reviewlnk_o ?>
+			<?php echo $review['review-attr']; ?>
+			<?php echo $reviewlnk_c; ?></cite>
+		<?php }
+	}
+}
+
+function sr_artist_videos()
+{	
+	global $post;
+	$artist_tax = get_the_title();
+	$dont_copy_vid = array();
+	$limit = 4;
+	$vid_count = sr_media_videos($dont_copy_vid , $limit);
+	if($vid_count < 4)
+	{
+		$limit = 4 - $vid_count;
+		
+		$args = $rel_args = array('post_type' => 'release' , 'artist' => $artist_tax , 'posts_per_page' => '-1');
+		$rel_query = new WP_query($rel_args);
+		
+		if(have_posts()): while ( $rel_query->have_posts() ) : $rel_query->the_post();
+		
+		//get the videos		
+		$vid_count = sr_media_videos($dont_copy_vid , $limit);
+		
+		if($vid_count < $limit){
+			$limit = $limit - $vid_count;
+		}else
+			break;
+		}
+		
+		endwhile; endif; wp_reset_query();
+	}
+	
 }
 ?>
