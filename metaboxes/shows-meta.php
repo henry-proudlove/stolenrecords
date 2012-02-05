@@ -18,10 +18,6 @@
 
 		<input type="text" name="<?php $metabox->the_name('buy-tickets-link'); ?>" value="<?php $metabox->the_value('buy-tickets-link'); ?>"/>
 		<span>Link to buy tickets. Must be full URL http://www.example.com</span>
-	<label>Buy Tickets Text</label>
- 
-		<input type="text" name="<?php $metabox->the_name('buy-tickets-text'); ?>" value="<?php $metabox->the_value('buy-tickets-text'); ?>"/>
-		<span>Text of the buy tickets link. Defaults to buy tickets</span>
 		
 	<?php $mb->the_field('stolen-show'); ?>
 	<p><input type="checkbox" name="<?php $mb->the_name(); ?>" value="stolen-show"<?php $mb->the_checkbox_state('stolen-show'); ?>/> Check this box if this is a <strong>stolen show</strong?><br/></p>

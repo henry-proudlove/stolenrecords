@@ -12,11 +12,11 @@ get_header(); ?>
 				<?php //get_template_part('loop' , 'artists');?>
 				<?php //get_template_part('loop' , 'index');?>
 				<?php // get_template_part('loop' , 'news');?>
-				<?php //get_template_part('loop' , 'shows');?>
+				<?php get_template_part('loop' , 'shows');?>
 				<?php //get_template_part('loop' , 'showsarchive');?>
 				<?php //get_template_part('aside' , 'shows');?>
 				<?php //get_template_part( 'loop' ); ?>
-				<?php get_template_part( 'loop' , 'media' ); ?>
+				<?php //get_template_part( 'loop' , 'media' ); ?>
 				<?php //get_template_part( 'media' , 'alias' ); ?>
 				<?php //_sr_latest_videos(); ?>
 

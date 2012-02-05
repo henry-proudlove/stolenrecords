@@ -256,7 +256,7 @@ function type_taxon_init() {
     'hierarchical' => false,
     'menu_position' => 6,
     'taxonomies' => array( 'artist' ),
-    'supports' => array( 'title', 'editor', 'thumbnail' , 'revisions')
+    'supports' => array( 'title', 'editor', 'thumbnail')
   ); 
   register_post_type('show',$args);
   
@@ -290,7 +290,7 @@ function type_taxon_init() {
     'has_archive' => true, 
     'hierarchical' => false,
     'menu_position' => 7,
-    'supports' => array( 'title', 'editor', 'thumbnail' , 'revisions')
+    'supports' => array( 'title', 'editor', 'thumbnail' )
   ); 
   register_post_type('artist',$args);
   
@@ -324,7 +324,7 @@ function type_taxon_init() {
     'has_archive' => true, 
     'hierarchical' => false,
     'menu_position' => 8,
-    'supports' => array( 'title', 'editor', 'thumbnail' , 'revisions')
+    'supports' => array( 'title', 'editor', 'thumbnail')
   ); 
   register_post_type('release',$args);
   
@@ -587,36 +587,124 @@ function _sr_post_header(){
 
 // Shows Markup
 
-function _sr_shows_markup(){
-	global $post;?>
-	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
-		<header class="entry-header">
-			<time class="entry-date"><?php echo get_post_meta(get_the_ID(),'_sr_show-date',TRUE); ?></time>
-			<?php echo get_post_meta(get_the_ID(),'_sr_stolen-show',TRUE); ?>
-			<? _sr_post_header(); ?>
-		</header><!-- .entry-header -->
-		<?php sr_post_thumbnail('medium' , false); ?>
-		<div class="entry-summary">
-			<?php the_excerpt(); ?>
-		</div><!-- .entry-summary -->
-	</article><!-- #post-<?php the_ID(); ?> -->
-<?php }
+function sr_shows_markup($aside){
+	global $post;
+	
+	$datetime = get_post_meta(get_the_ID(),'_sr_show-date',TRUE);
+	$datetime = new DateTime($datetime);
+	$date = $datetime->format('l, jS F Y');
+	$time = $datetime->format('g:iA'); 
+	$venue = get_post_meta(get_the_ID(),'_sr_show-venue',TRUE);
+	$venue_link = get_post_meta(get_the_ID(),'_sr_show-venue-link',TRUE);
+	$buy_tix = get_post_meta(get_the_ID(),'_sr_buy-tickets-link',TRUE);
+	
+	
+	if($aside == false):
+		$h_tag = 'h1';
+		$artist_terms = get_the_terms( $post->ID, 'artist' );
+		$artists = array();
+		foreach ($artist_terms as $artist_term)
+		{
+			$artist = get_page_by_title($artist_term->name , OBJECT, 'artist');
+			$artist = array('ID' => $artist->ID , 'title' => $artist->post_title, 'guid' => $artist->guid);
+			array_push($artists, $artist);
+		}
+		//print_r($artists);
+		$artists_count = count($artists);?>
+	
+		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
+			<?php if($buy_tix): ?>
+				<a href="<?php echo $buy_tix; ?>" title="Buy Tickets" rel="bookmark">
+				<div class="show-img-gallery">
+				<?php sr_shows_images($artists); ?>
+				</div><!--.show-img-gallery-->
+				</a>
+			<?php else: ?>
+				<div class="show-img-gallery">
+				<?php sr_shows_images($artists); ?>
+				</div><!--.show-img-gallery-->
+			<?php endif; ?>
+		<div class="info">
+	<?php else: 
+		$h_tag = 'h3'; ?>
+		<li id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
+	<?php endif; ?>
+			<header class="entry-header">
+				<time class="show-date"><?php echo $date; ?></time>
+				<?php echo '<' . $h_tag . ' class="entry-title">'; ?>
+				<?php if($buy_tix): ?>
+					<a href="<?php echo $buy_tix; ?>" title="Buy Tickets" rel="bookmark">
+					<?php the_title(); ?></a>
+				<?php else: ?>
+					<?php the_title(); ?>
+				<?php endif; ?>
+				<?php echo '</' . $h_tag . '>'; ?>
+			</header><!-- .entry-header -->
+			
+			<div class="entry-meta">
+				<?php if($aside == false && $artists_count > 0):?>
+					<ul class="artists">
+					<?php foreach($artists as $artist):?>
+						<li>
+							<a href="<?php echo $artist['guid']; ?>" title="More about <?php echo $artist['title'];?>" rel="bookmark">
+							<?php echo $artist['title'];?>
+							</a>
+						</li>
+					<?php endforeach; ?>
+					</ul>
+				<?php endif; ?>
+				<time class="show-time"><?php echo $time; ?></time>
+				<?php if($venue_link && $venue):?>
+					<span class="venue"><a href="<?php echo $venue_link; ?>" title="More info" rel="bookmark"><?php echo $venue; ?></a></span>
+				<?php elseif($venue): ?>
+					<span class="venue"><?php echo $venue; ?></span>
+				<?php elseif($venue_link):?>
+					<span class="venue"><a href="<?php echo $venue_link; ?>" title="More info" rel="bookmark"></span>
+					<?php echo $venue_link; ?></a>
+				<?php endif; ?>
+			</div>
+	
+	<?php if($aside == false): ?>
+			<div class="entry-content">
+				<?php the_excerpt(); ?>
+			</div><!-- .entry-content -->
+			
+			<?php if($buy_tix): ?>
+				<a class="button buy-tickets" href="<?php echo $buy_tix; ?>" title="Buy Tickets" rel="bookmark">Buy Tickets</a>
+			<?php endif; ?>
+		</article><!-- #post-<?php the_ID(); ?> -->
+	<?php else: ?>
+		</li><!-- #post-<?php the_ID(); ?> -->
+	<?php endif;
+}
 
-// No shows message markup(){
-
-function _sr_noshows_markup(){
-	global $post;?>
-	<article id="no-posts" <?php post_class(); ?> role="article">
-		<header class="entry-header">
-			<h1 class="entry-title">Sorry, no posts!</h1>
-		</header><!-- .entry-header -->
-		
-		<div class="entry-summary">
-			<p>Try the <a title="Home Page Link" rel="bookmark" href="<?php get_home_url(); ?>">home page</a></p>
-		</div><!-- .entry-summary -->
-
-	</article><!-- #post-<?php the_ID(); ?> -->
-<?php }
+//Shows image
+function sr_shows_images($artists )
+{
+	global $post;
+	if (has_post_thumbnail()){
+		the_post_thumbnail('medium');
+	}else{
+		$args = array('size' => 'medium');
+		$artist_count = count($artists);
+		foreach($artists as $artist)
+		{	
+			$artist_id = $artist['ID'];
+			if(has_post_thumbnail($artist_id)){
+				echo get_the_post_thumbnail( $artist_id, 'medium' );
+			}else{
+				$options = array(
+					'size' => 'medium',
+					'wrapper' => false ,
+					'limit' => '1',
+					'link' => 'none',
+					'post_id' => $artist_id
+				);
+				sr_get_images($options);
+			}
+		}
+	}
+}
 
 /*
 =======================================================
@@ -760,12 +848,14 @@ function sr_get_videos($videos , $post_id){
 		{
 			$vid_data = $vid_data->video;
 			$videos[$i]['title'] = (string) $vid_data->title;
-			$videos[$i]['thumbnail'] = (string) $vid_data->thumbnail_large;
+			$videos[$i]['thumbnail_large'] = (string) $vid_data->thumbnail_large;
+			$videos[$i]['thumbnail_small'] = (string) $vid_data->thumbnail_small;
 			$videos[$i]['description'] = (string) strip_tags($vid_data->description);
 		}elseif($videos[$i]['vendor'] == 'youtube')
 		{
 			$videos[$i]['title'] = (string) $vid_data->title;
-			$videos[$i]['thumbnail'] = (string) 'http://img.youtube.com/vi/'. $videos[$i]['id'] .'/0.jpg';
+			$videos[$i]['thumbnail_large'] = (string) 'http://img.youtube.com/vi/'. $videos[$i]['id'] .'/0.jpg';
+			$videos[$i]['thumbnail_small'] = (string) 'http://img.youtube.com/vi/'. $videos[$i]['id'] .'/1.jpg';
 			$videos[$i]['description'] = (string) strip_tags($vid_data->content);
 		}
 	}
@@ -774,7 +864,7 @@ function sr_get_videos($videos , $post_id){
 
 //media page videos
 
-function sr_media_videos(&$dont_copy, $limit)
+function sr_media_videos(&$dont_copy, $limit , $aside)
 {
 	global $post;
 	global $video_mb;
@@ -794,7 +884,7 @@ function sr_media_videos(&$dont_copy, $limit)
 	
 		}elseif($limit > count($videos_meta))
 		{
-			$limit = count($videos_meta);
+			$limit = count($videos_meta);	
 		}
 		$videos = array();
 		$i = 0;
@@ -808,21 +898,39 @@ function sr_media_videos(&$dont_copy, $limit)
 			}
 		}
 		$videos = sr_get_videos($videos , $post_id);
-		foreach($videos as $video)
+		if($aside == false)
 		{
-			if($video['is_valid'] == 'true')
-			{?>
-				<article class="media-thumb video <?php echo $video['vendor'] ?>">
-					<a href="<?php echo $video['video_link'] ?>" class="video-link">
-					<img src="<?php echo $video['thumbnail']?>" class="media-img <?php echo $video['vendor'] ?>" />
-					<div class="info">
-						<h1><?php echo $video['title'] ?></h1>
-						<p><?php echo $video['description'] ?></p>
-					</a>
-				</article>
-			<?php }
+			foreach($videos as $video)
+			{
+				if($video['is_valid'] == 'true')
+				{?>
+					<article class="media-thumb video <?php echo $video['vendor'] ?>">
+						<a href="<?php echo $video['video_link'] ?>" class="video-link">
+						<img src="<?php echo $video['thumbnail_large']?>" class="media-img <?php echo $video['vendor'] ?>" />
+						<div class="info">
+							<h1><?php echo $video['title'] ?></h1>
+							<p><?php echo $video['description'] ?></p>
+						</a>
+					</article>
+				<?php }
+			}
+		}else
+		{
+			foreach($videos as $video)
+			{
+				if($video['is_valid'] == 'true')
+				{?>
+					<li class="video <?php echo $video['vendor'] ?>">
+						<a href="<?php echo $video['video_link'] ?>" class="video-link">
+						<img src="<?php echo $video['thumbnail_small']?>" class="media-img <?php echo $video['vendor'] ?>" />
+						<div class="info">
+							<h2><?php echo $video['title'] ?></h2>
+							<p><?php echo $video['description'] ?></p>
+						</a>
+					</li>
+				<?php }
+			}
 		}
-		
 		$video_count = count($videos);
 		return $video_count;
 	}else{
@@ -942,7 +1050,9 @@ function sr_get_images( $args = array() ) {
 					<span>Click to zoom</span>
 					</div>
 			<?php endif; ?>
+			<?php if($link == 'self' || $link == 'parent'):?>
 			</a>
+			<?php endif; ?>
 			<?php if($wrapper == true):?>
 			</article>
 			<?php endif; 
@@ -967,7 +1077,7 @@ function sr_post_thumbnail($size , $show_video)
 	if ($show_video == true && 'post' == get_post_type() && get_post_meta(get_the_ID(),'_sr_thumb-URL',TRUE)):
 		$vid_link = get_post_meta(get_the_ID(),'_sr_thumb-URL',TRUE);
 		$embed_code = wp_oembed_get($vid_link);
-		echo $embed_code;
+		echo $embed_code;	
 	elseif (has_post_thumbnail()):
 		$post_thumb = get_post_thumbnail_id();
 		$options = array(
@@ -976,7 +1086,7 @@ function sr_post_thumbnail($size , $show_video)
 			'img_class' => 'post',
 			'wrapper' => false ,
 			'include' => $post_thumb,
-			'link' => 'parent'
+			'link' => $link
 		);
 		sr_get_images($options);
 	else:
@@ -986,7 +1096,7 @@ function sr_post_thumbnail($size , $show_video)
 			'img_class' => 'post',
 			'wrapper' => false ,
 			'limit' => '1',
-			'link' => 'parent'
+			'link' => $link
 		);
 		sr_get_images($options);
 	endif;
@@ -1014,6 +1124,7 @@ function sr_artist_gallery(){
 	$options['include'] = '';
 	$options['exclude'] = $post_thumb;
 	sr_get_images($options);
+	wp_reset_query();
 }
 /*
 End Image display
@@ -1086,9 +1197,6 @@ Widgets
 
 function sr_rels_by_artist($args = array())
 {	
-	//global $post;
-	$temp_post = $post;
-	
 	$defaults = array(
 		'artist' => '',
 		'thumb_size' => 'thumbnail',
@@ -1104,7 +1212,7 @@ function sr_rels_by_artist($args = array())
 	);
 	$rel_sub_query = new WP_query($query_args);
 	if( have_posts() ):?>
-	<section id="releases artist">
+	<section id="releases">
 	<?php while ($rel_sub_query->have_posts() ): $rel_sub_query->the_post();?>
 		<article class="release">
 			<?php $rel_id = get_the_ID(); ?>
@@ -1135,7 +1243,8 @@ function sr_rels_by_artist($args = array())
 				}
 			}?>
 		</article>
-	<?php endwhile; endif; wp_reset_query();
+	<?php endwhile; ?>
+	</section><!--#releases--> <?php endif; wp_reset_query();
 }
 
 //Reviews
@@ -1147,8 +1256,8 @@ function sr_get_reivews()
 	$meta = $review_mb->the_meta();
 	if($meta['reviews'])
 	{	
+		echo '<section id="reivews">';
 		$reviews = $meta['reviews'];
-		//print_r($reviews);
 		foreach($reviews as $review)
 		{
 			if($review['review-link']){
@@ -1161,36 +1270,198 @@ function sr_get_reivews()
 			<?php echo $review['review-attr']; ?>
 			<?php echo $reviewlnk_c; ?></cite>
 		<?php }
+		echo '</section><!-- #reviews -->';
 	}
 }
 
-function sr_artist_videos()
-{	
-	global $post;
-	$artist_tax = get_the_title();
+//Videos for artist page. Get 4 max artist pref, release filler
+
+function sr_artist_videos($artist)
+{
+	echo '<aside id="videos"><h1 class="aside-header">Videos</h1><ul>'; 
 	$dont_copy_vid = array();
 	$limit = 4;
-	$vid_count = sr_media_videos($dont_copy_vid , $limit);
+	$vid_count = sr_media_videos($dont_copy_vid , $limit, true);
 	if($vid_count < 4)
 	{
-		$limit = 4 - $vid_count;
+		$limit = $limit - $vid_count;
 		
-		$args = $rel_args = array('post_type' => 'release' , 'artist' => $artist_tax , 'posts_per_page' => '-1');
+		$args = $rel_args = array('post_type' => 'release' , 'artist' => $artist , 'posts_per_page' => '-1');
 		$rel_query = new WP_query($rel_args);
 		
 		if(have_posts()): while ( $rel_query->have_posts() ) : $rel_query->the_post();
-		
-		//get the videos		
-		$vid_count = sr_media_videos($dont_copy_vid , $limit);
+				
+		$vid_count = sr_media_videos($dont_copy_vid , $limit, true);
 		
 		if($vid_count < $limit){
 			$limit = $limit - $vid_count;
-		}else
+		}else{
 			break;
 		}
 		
 		endwhile; endif; wp_reset_query();
 	}
-	
+	echo '</ul></aside><!--#videos-->';
 }
+
+//Get 4 Shows by given artist
+function sr_artist_shows($artist, $aside)
+{
+	$current_datetime = date('Y-m-d H:i');
+	$meta_query_str = array(
+		array(
+			'key' => '_sr_show-date', 
+			'compare' => '>=' ,
+			'value' => $current_datetime
+		)
+	);
+	
+	$args = array(
+		'posts_per_page' => '4' ,
+		'post_type' => 'show' ,
+		'artist' => $artist,
+		'orderby' => 'meta_value',
+		'meta_key' => '_sr_show-date' ,
+		'order' => 'ASC' , 
+		'meta_query' => $meta_query_str
+	);
+	
+	$the_query = new WP_query($args); ?>
+	
+	<aside id="shows">
+		<h2 class="aside-header">Shows</h1>
+		<ul class="artist-shows">
+	<?php if ( $the_query->have_posts() ) :
+	while ( $the_query->have_posts() ) : $the_query->the_post();?>
+		<?php sr_shows_markup($aside); ?>
+		
+	<?php endwhile; else: ?>
+			
+		<li id="no-shows" role="article">
+			<header class="entry-header"><h3 class="entry-title">Sorry, no gigs coming up</h3></header>
+			<span class="no-shows-msg">Check back soon or <?php get_twitter_link(); ?> for incessant updates </span>
+		</li>
+		
+	<?php endif; ?>
+		</ul>
+	</aside><!--#shows-->
+	<?php wp_reset_query();
+}
+
+//Get sample tracks
+
+/*function sr_artist_tracks($artist)
+{	
+	//global $post;
+	global $tracks_mb;
+	$limit = 7;
+	$dont_copy_track = array();
+	$meta = $tracks_mb->the_meta();
+	$tracks = $meta['tracks'];
+
+	echo '<aside id="tracks"><h2 class="aside-header">Listen</h2>';
+	echo '$limit: ' . $limit . '</br>';	
+	if($tracks){
+		echo '<ul class="artist-tracks">';
+		$track_count = count($tracks);
+		if($track_count > $limit){
+			$track_count = $limit;
+		}
+		$counter=0;
+		for ($i=0; $i < $track_count; $i++){
+			$track = $tracks[$i]['track-link'];
+			if (!in_array($track , $dont_copy_track)){
+				echo '<li><a href="' . $track . '" class="sample-track">' . $track . '</a></li>';
+				array_push($dont_copy_track, $track);
+				$counter++;
+			}
+		}
+		$track_count = $counter;
+		echo '$track_count: ' . $track_count;
+		echo '</br> $i: ' . $i . '</br>';
+	} 
+	if($track_count < $limit)
+	{	
+		$limit = $limit - $track_count;
+		echo '$limit: ' . $limit . '</br>';
+		$args = $rel_args = array('post_type' => 'release' , 'artist' => $artist , 'posts_per_page' => '-1');
+		$rel_query = new WP_query($rel_args);
+		
+		if(have_posts()): while ( $rel_query->have_posts() ) : $rel_query->the_post();
+			the_title();
+			$meta = $tracks_mb->the_meta();
+			$tracks = $meta['tracks'];
+			$track_count = count($tracks);
+			if ($track_count > $limit){
+				$track_count = $limit;
+			}
+			$counter=0;
+			for ($i=0; $i < $track_count; $i++){
+				$track = $tracks[$i]['track-link'];
+				if (!in_array($track , $dont_copy_track)){
+					echo '<li><a href="' . $track . '" class="sample-track">' . $track . '</a></li>';
+					array_push($dont_copy_track, $track);
+					$counter++;
+				}
+			}
+			echo '$track_count: ' . $counter . '</br>';
+			echo '$i: ' . $i . '</br>'; 
+			$limit = $limit - $counter;
+			echo '$limit: ' . $limit . '</br>';
+			if($limit <= 0){
+				echo 'broke';
+				//break;
+			}
+		
+		endwhile; endif; wp_reset_query();
+	}
+	echo '</ul></aside><!--#tracks-->';
+}*/
+
+function sr_artist_tracks($artist)
+{	
+	$tracks = array();
+	global $tracks_mb;
+	$meta = $tracks_mb->the_meta();
+	$trackmeta = $meta['tracks'];
+	if($trackmeta){
+		foreach ($trackmeta as $track){
+			$track = $track['track-link'];
+			if (!in_array($track , $tracks)){
+				array_push($tracks, $track);
+			}
+		}
+	} 
+	$args = $rel_args = array('post_type' => 'release' , 'artist' => $artist , 'posts_per_page' => '-1');
+	$rel_query = new WP_query($rel_args);
+		
+	if(have_posts()): while ( $rel_query->have_posts() ) : $rel_query->the_post();
+		//global $tracks_mb;
+		$meta = $tracks_mb->the_meta();
+		$trackmeta = $meta['tracks'];
+	
+		
+		if($trackmeta){
+			foreach ($trackmeta as $track){
+				$track = $track['track-link'];
+				if (!in_array($track , $tracks)){
+					array_push($tracks, $track);
+				}
+			}
+		} 
+		
+	endwhile; endif; wp_reset_query();
+	
+	echo '<aside id="tracks"><h2 class="aside-header">Listen</h2><ul>';
+	for ($i=0; $i < 7; $i++)
+	{	
+		echo '<li><a href="' . $tracks[$i] . '" class="sample-track">' . $tracks[$i] . '</a></li>';
+	}
+	echo '</ul></aside><!--#tracks-->';
+}
+
+
+function get_twitter_link(){?>
+	<a href="http://www.twitter.com/mysadcaptains" title="Follow stolen on Twitter">Follow us on twitter</a>
+<?php }
 ?>
