@@ -9,7 +9,6 @@ get_header(); ?>
 <div id="primary">
 	<div id="content">
 		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
-			<section id="intro">
 				<?php $artist = get_the_title(); ?>
 				<header class="entry-header">
 					<h1 class="entry-title"><?php the_title(); ?></h1>
@@ -21,14 +20,22 @@ get_header(); ?>
 					<?php the_content(); ?>
 				</div><!-- .entry-content -->
 				<?php sr_social_links(); ?>
-			</section><!--#intro-->
 			
 			<?php 
-			$args = array();
-			$args['artist'] = $artist;
+			
+			$artist_term = get_term_by( 'name', $artist, 'artist');
+			$args = array( 'artist' => $artist_term->term_id );
 			sr_rels_by_artist($args);
 			?>
-			<?php sr_get_reivews(); ?>
+			<?php 
+			global $review_mb;
+			$meta = $review_mb->the_meta();
+			$reviews = $meta['reviews'];
+			if($reviews): ?>
+				<section id="reviews">
+					<?php sr_get_reivews($reviews); ?>
+				</section><!--#reviews-->
+			<?php endif; ?>
 			<?php sr_artist_videos($artist); ?>
 			<?php sr_artist_shows($artist, true);?>	
 			<?php sr_artist_tracks($artist); ?>

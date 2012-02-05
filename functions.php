@@ -583,7 +583,6 @@ function sr_shows_markup($aside){
 			$artist = array('ID' => $artist->ID , 'title' => $artist->post_title, 'guid' => $artist->guid);
 			array_push($artists, $artist);
 		}
-		//print_r($artists);
 		$artists_count = count($artists);?>
 	
 		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
@@ -778,76 +777,87 @@ function sr_rels_by_artist($args = array())
 		'thumb_size' => 'thumbnail',
 		'limit' => '6',
 		'buy_now' => true,
+		'exclude' => '',
+		'aside' => false
 	);
 	
 	$options = array_merge($defaults , $args);
 	$query_args = array(
 		'post_type' => 'release' ,
 		'posts_per_page' => $options['limit'] ,
-		'artist' => $options['artist']
+		'post__not_in' => array($options['exclude']),
+		'tax_query' => array(
+			array(
+				'taxonomy' => 'artist',
+				'field' => 'id',
+				'terms' => $options['artist']
+			)
+		)
 	);
+	$aside = $options['aside'];
+	if(!$aside)
+	{
+		$wrapper_o = '<section id="releases">';
+		$wrapper_c = '</section><!--#releases-->';
+		$article_tag = 'article';
+	}else{
+		$wrapper_o = '<aside id="releases"><h2 class="aside-header">Releases</h2><ul class="artist-releases">';
+		$wrapper_c = '</ul></aside><!--#releases-->';
+		$article_tag = 'li';
+	}
 	$rel_sub_query = new WP_query($query_args);
-	if( have_posts() ):?>
-	<section id="releases">
-	<?php while ($rel_sub_query->have_posts() ): $rel_sub_query->the_post();?>
-		<article class="release">
-			<?php $rel_id = get_the_ID(); ?>
-			<?php sr_post_thumbnail($options['thumb_size'] , false);?>
-			<?php _sr_post_header();
-			$release_date = get_post_meta( $rel_id , '_sr_release-date', true);
-			
-			if ($release_date)
-			{	
-				$release_date = date_create($release_date);
-				$release_date = date_format($release_date, 'Y');
-				echo '<time class="release-date">' . $release_date . '</time>';
-			}
-			
-			$buy_now_link = get_post_meta ( $rel_id , '_sr_release-buy-link' , true);
-			
-			if ($buy_now_link)
-			{
-				$curr_date = date('U');
-				$release_date = strtotime($release_date);
-				//echo '</br>' . $curr_date . ' : ' . $release_date . '</br>';
-				if ($curr_date <= $release_date)
-				{
-					echo '<a class="buy-link preorder">Preorder now</a>';
-				}else
-				{
-					echo '<a class="buy-link buy-now">Buy Now</a>';
+	if( have_posts() ):
+		echo $wrapper_o;	
+		while ($rel_sub_query->have_posts() ): $rel_sub_query->the_post();?>
+				<<?php echo $article_tag;?>  class="release">
+				<?php $rel_id = get_the_ID(); ?>
+				<?php sr_post_thumbnail($options['thumb_size'] , false);?>
+				<?php _sr_post_header();
+				$release_date = get_post_meta( $rel_id , '_sr_release-date', true);
+				
+				if ($release_date)
+				{	
+					$release_date = date_create($release_date);
+					$release_date = date_format($release_date, 'Y');
+					echo '<time class="release-date">' . $release_date . '</time>';
 				}
-			}?>
-		</article>
-	<?php endwhile; ?>
-	</section><!--#releases--> <?php endif; wp_reset_query();
+				
+				$buy_now_link = get_post_meta ( $rel_id , '_sr_release-buy-link' , true);
+				
+				if ($buy_now_link && $options['buy_now'])
+				{
+					$curr_date = date('U');
+					$release_date = strtotime($release_date);
+					if ($curr_date <= $release_date)
+					{
+						echo '<a class="buy-link preorder">Preorder now</a>';
+					}else
+					{
+						echo '<a class="buy-link buy-now">Buy Now</a>';
+					}
+				}?>
+			</<?php echo $article_tag; ?>>
+		<?php endwhile; 
+		echo $wrapper_c;
+		endif; wp_reset_query();
 }
 
 //Reviews
 
-function sr_get_reivews()
+function sr_get_reivews($reviews)
 {	
-	global $post;
-	global $review_mb;
-	$meta = $review_mb->the_meta();
-	if($meta['reviews'])
-	{	
-		echo '<section id="reivews">';
-		$reviews = $meta['reviews'];
-		foreach($reviews as $review)
-		{
-			if($review['review-link']){
-				$reviewlnk_o = '<a href="' . $review['review-link'] . '" rel="bookmark">';
-				$reviewlnk_c = '</a>';
-			}?>
-			<article class="review">
-			<p><?php echo $review['review-text']; ?></p>
-			<cite> <?php echo $reviewlnk_o ?>
-			<?php echo $review['review-attr']; ?>
-			<?php echo $reviewlnk_c; ?></cite>
-		<?php }
-		echo '</section><!-- #reviews -->';
-	}
+	foreach($reviews as $review)
+	{
+		if($review['review-link']){
+			$reviewlnk_o = '<a href="' . $review['review-link'] . '" rel="bookmark">';
+			$reviewlnk_c = '</a>';
+		}?>
+		<div class="review">
+		<p><?php echo $review['review-text']; ?></p>
+		<cite> <?php echo $reviewlnk_o ?>
+		<?php echo $review['review-attr']; ?>
+		<?php echo $reviewlnk_c; ?></cite></div>
+	<?php }
 }
 
 //Get 4 Shows by artist
@@ -875,7 +885,7 @@ function sr_artist_shows($artist, $aside)
 	$the_query = new WP_query($args); ?>
 	
 	<aside id="shows">
-		<h2 class="aside-header">Shows</h1>
+		<h2 class="aside-header">Shows</h2>
 		<ul class="artist-shows">
 	<?php if ( $the_query->have_posts() ) :
 	while ( $the_query->have_posts() ) : $the_query->the_post();?>
@@ -929,6 +939,36 @@ function sr_artist_tracks($artist)
 	
 	endwhile; endif; wp_reset_query();
 	
+	$tracks_count = count($tracks);
+	if($tracks_count > 7){
+		$tracks = array_slice($tracks, 0, 7);
+	}
+	if(!empty($tracks)){
+		echo '<aside id="tracks"><h2 class="aside-header">Listen</h2><ul>';
+		foreach ($tracks as $track)
+		{	
+			echo '<li><a href="' . $track . '" class="sample-track">' . $track . '</a></li>';
+		}
+		echo '</ul></aside><!--#tracks-->';
+	}
+}
+
+//Release page sample tracks
+function sr_release_tracks()
+{	
+	$tracks = array();
+	global $tracks_mb;
+	$meta = $tracks_mb->the_meta();
+	$trackmeta = $meta['tracks'];
+	
+	if($trackmeta){
+		foreach ($trackmeta as $track){
+			$track = $track['track-link'];
+			if (!in_array($track , $tracks)){
+				array_push($tracks, $track);
+			}
+		}
+	} 
 	$tracks_count = count($tracks);
 	if($tracks_count > 7){
 		$tracks = array_slice($tracks, 0, 7);
@@ -1210,6 +1250,41 @@ function sr_artist_videos($artist)
 			}
 		}
 	endwhile; endif; wp_reset_query();
+	
+	$videos_count = count($videos);
+	if($videos_count > 4){
+		$videos = array_slice($videos, 0, 4);
+	}
+	if(!empty($videos)){
+		echo '<aside id="videos"><h2 class="aside-header">Videos</h2><ul>';
+		$videos = sr_get_videos($videos);
+		video_aside_markup($videos);
+		echo '</ul></aside><!--#videos-->';
+	}
+	
+}
+
+function sr_release_videos()
+{
+	global $post;
+	global $video_mb;
+	
+	$videos = array();
+
+	$meta = $video_mb->the_meta();
+	$post_id = $post->ID;
+	if($meta['videos'])
+	{	
+		$videos_meta = $meta['videos'];
+		foreach ($videos_meta as $video)
+		{	
+			$video_link = $video['video-link'];
+			if(!in_array($video_link , $videos))
+			{
+				array_push($videos , $video_link);
+			}
+		}
+	}
 	
 	$videos_count = count($videos);
 	if($videos_count > 4){
