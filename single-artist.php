@@ -6,12 +6,16 @@
 
 get_header(); ?>
 
-<div id="primary">
 	<div id="content">
+		<a href="<?php echo get_post_type_archive_link( 'artist' ); ?>">All Artists</a>
 		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
-				<?php $artist = get_the_title(); ?>
 				<header class="entry-header">
 					<h1 class="entry-title"><?php the_title(); ?></h1>
+					<?php 
+					$artist_status = get_post_meta(get_the_ID(),'_sr_present-past',TRUE);
+					if ($artist_status == 'past'){
+						echo '<span class="artist-status">' . $artist_status . '</span>'; 
+					}?>
 				</header><!-- .entry-header -->
 				<div class="entry-gallery">
 					<?php sr_artist_gallery(); ?>
@@ -42,5 +46,4 @@ get_header(); ?>
 		</article><!-- #post-<?php the_ID(); ?> -->
 		<?php sr_single_post_navigation(); ?>
 	</div><!-- #content -->
-</div><!-- #primary -->
 <?php get_footer(); ?>

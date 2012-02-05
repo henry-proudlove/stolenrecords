@@ -1,5 +1,8 @@
 <?php
 /**
+ * Template Name: About Page
+ * Description: Shows Artist page style layout, with contact form below
+ *
  * @package WordPress
  * @subpackage themename
  */

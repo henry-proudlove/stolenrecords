@@ -1,5 +1,8 @@
 <?php
 /**
+ * Template Name: Publishing Page
+ * Description: Shows publishing page content + thumbs of pubslihed artists below
+ *
  * @package WordPress
  * @subpackage themename
  */
@@ -21,10 +24,21 @@ get_header(); ?>
 				<?php edit_post_link( __( 'Edit', 'themename' ), '<span class="edit-link">', '</span>' ); ?>
 			</div><!-- .entry-content -->
 		</article><!-- #post-<?php the_ID(); ?> -->
-
-		<?php comments_template( '', true ); ?>
+		
+		<section id=artists">
+		
+		<?php /* Start the Loop */
+	
+			$args = array('post_type' => 'artist' , 'posts_per_page' => '-1' , 'orderby' => 'title' , 'order' => 'ASC' , 'meta_key' => '_sr_publishing', 'meta_value' => 'publishing');
+			
+			$the_query = new WP_Query($args);
+			
+			while ( $the_query->have_posts() ) : $the_query->the_post();
+			
+				sr_relart_loop_markup(); 
+			
+			endwhile;?>
 
 	</div><!-- #content -->
 
-<?php get_sidebar(); ?>
 <?php get_footer(); ?>

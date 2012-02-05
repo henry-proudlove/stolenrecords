@@ -21,8 +21,8 @@ get_header(); ?>
 		array_push($artists_titles, $artist_title);
 	}
 ?>
-<div id="primary">
 	<div id="content">
+		<a href="<?php echo get_post_type_archive_link( 'release' ); ?>">All Releases</a>
 		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
 			<div class="entry-gallery">
 				<?php sr_post_thumbnail('medium' , false) ?>
@@ -69,5 +69,4 @@ get_header(); ?>
 		</article><!-- #post-<?php the_ID(); ?> -->
 		<?php sr_single_post_navigation(); ?>
 	</div><!-- #content -->
-</div><!-- #primary -->
 <?php get_footer(); ?>

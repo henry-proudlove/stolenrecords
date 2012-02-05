@@ -66,9 +66,10 @@
 				</hgroup>
 				
 				<nav id="access" role="article">
-					<h1 class="section-heading"><?php _e( 'Main menu', 'themename' ); ?></h1>
-					<div class="skip-link visuallyhidden"><a href="#content" title="<?php esc_attr_e( 'Skip to content', 'themename' ); ?>"><?php _e( 'Skip to content', 'themename' ); ?></a></div>
-					<?php wp_nav_menu( array( 'theme_location' => 'primary' ) ); ?>
+					<a href="<?php echo get_post_type_archive_link( 'artist' ); ?>">Artists</a>
+					<a href="<?php echo get_post_type_archive_link( 'release' ); ?>">Releases</a>
+					<a href="<?php echo get_post_type_archive_link( 'posts' ); ?>">News</a>
+					<a href="<?php echo get_post_type_archive_link( 'show' ); ?>">Shows</a>
 				</nav><!-- #access -->
 		</header><!-- #branding -->
 	

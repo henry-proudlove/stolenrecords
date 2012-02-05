@@ -416,9 +416,10 @@ $artist_lnks_mb = new WPAlchemy_MetaBox(array
 (
 	'id' => '_artist_lnks',
 	'title' => 'Social Links',
-	'types' => array('artist'), 
+	'types' => array('artist' , 'page'), 
 	'context' => 'normal', 
 	'priority' => 'high',
+	'exclude_template' => array('publishing.php', 'page.php'),
 	'template' => get_stylesheet_directory() . '/metaboxes/artist-links-meta.php'
 ));
 
@@ -533,22 +534,31 @@ MARKUP
 Releases + artists landing page
 */
 
-function _sr_relart_loop_markup(){
+function sr_relart_loop_markup(){
 	global $post;
 	if('artist' == get_post_type()){
 		$sr_post_class = get_post_meta(get_the_ID(),'_sr_present-past',TRUE);
+		if ($sr_post_class == 'past'){
+			$artist_status = '<span class="artist-status">' . $sr_post_class . '</span>'; 
+		}else{
+			$artist_status = null;
+		}
 	}else{
 		$sr_post_class = null;
+		$artist_status = null;
 	}
 	?>
-	<article id="post-<?php the_ID(); ?>" <?php post_class($sr_post_class); ?> role="article">		
+	<article id="post-<?php the_ID(); ?>" <?php post_class($sr_post_class); ?> role="article">
+	<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark">
 		<?php sr_post_thumbnail('medium' , false); ?>
 		<header class="entry-header">
 			<?php _sr_post_header(); ?>
+			<?php echo $artist_status ?>
 		</header><!-- .entry-header -->
 		<div class="entry-summary">
 			<?php the_excerpt(); ?>
 		</div><!-- .entry-summary -->
+	</a>
 	</article><!-- #post-<?php the_ID(); ?> -->
 
 <?php }
@@ -853,7 +863,7 @@ function sr_get_reivews($reviews)
 			$reviewlnk_c = '</a>';
 		}?>
 		<div class="review">
-		<p><?php echo $review['review-text']; ?></p>
+		<q><?php echo $review['review-text']; ?></q>
 		<cite> <?php echo $reviewlnk_o ?>
 		<?php echo $review['review-attr']; ?>
 		<?php echo $reviewlnk_c; ?></cite></div>
