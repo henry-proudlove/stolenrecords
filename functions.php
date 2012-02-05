@@ -520,72 +520,46 @@ function load_date_time_picker(){
 }
 add_action('admin_enqueue_scripts', 'load_date_time_picker');
 
+//END metaboxes
+
 /*
 =======================================================
-Markup	
+MARKUP	
 =======================================================
 */
 
-// Markup for posts on the releases and artists landing page
-function _sr_relart_loop_markup(){
 
+/*---------------------------------------------------
+Releases + artists landing page
+*/
+
+function _sr_relart_loop_markup(){
 	global $post;
-	
 	if('artist' == get_post_type()){
 		$sr_post_class = get_post_meta(get_the_ID(),'_sr_present-past',TRUE);
 	}else{
 		$sr_post_class = null;
 	}
-	
 	?>
 	<article id="post-<?php the_ID(); ?>" <?php post_class($sr_post_class); ?> role="article">		
-		
 		<?php sr_post_thumbnail('medium' , false); ?>
-		
 		<header class="entry-header">
-			
 			<?php _sr_post_header(); ?>
-		
 		</header><!-- .entry-header -->
-		
 		<div class="entry-summary">
 			<?php the_excerpt(); ?>
 		</div><!-- .entry-summary -->
-
 	</article><!-- #post-<?php the_ID(); ?> -->
 
 <?php }
 
+/* END Releases + artists landing page
+---------------------------------------------------*/
+
+
 /*---------------------------------------------------
-Pagination
-----------------------------------------------------*/
-
-// loop page pagination
-function sr_posts_navigation(){
-	global $wp_query;
-	if (  $wp_query->max_num_pages > 1 ) : ?>
-		<nav id="nav-below" role="article">
-			<div class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Older posts', 'themename' ) ); ?></div>
-			<div class="nav-next"><?php previous_posts_link( __( 'Newer posts <span class="meta-nav">&rarr;</span>', 'themename' ) ); ?></div>
-		</nav><!-- #nav-below -->
-	<?php endif; ?>
-<?php }
-
-// Single posts nav
-function sr_single_post_navigation(){?>
-	<nav id="nav-below" role="article">
-		<div class="nav-previous"><?php previous_post_link( '%link', '<span class="meta-nav">' . _x( '&larr;', 'Previous post link', 'themename' ) . '</span> %title' ); ?></div>
-		<div class="nav-next"><?php next_post_link( '%link', '%title <span class="meta-nav">' . _x( '&rarr;', 'Next post link', 'themename' ) . '</span>' ); ?></div>
-	</nav><!-- #nav-below -->
-<?php }
-
-// Post Header
-function _sr_post_header(){
-	global $post;?>
-	<h1 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h1>
-<?php }
-
-// Shows Markup
+Shows
+*/
 
 function sr_shows_markup($aside){
 	global $post;
@@ -678,42 +652,313 @@ function sr_shows_markup($aside){
 	<?php endif;
 }
 
-//Shows image
-function sr_shows_images($artists )
+/* END Shows
+---------------------------------------------------*/
+
+
+/*---------------------------------------------------
+Social links on artist page and about
+*/
+
+function sr_social_links()
 {
-	global $post;
-	if (has_post_thumbnail()){
-		the_post_thumbnail('medium');
-	}else{
-		$args = array('size' => 'medium');
-		$artist_count = count($artists);
-		foreach($artists as $artist)
+	global $artist_lnks_mb;
+	$meta = $artist_lnks_mb->the_meta();
+	if($meta['artist_soc_links']){
+	echo '<nav id="social-links">';
+		foreach ($meta['artist_soc_links'] as $art_links_meta)
 		{	
-			$artist_id = $artist['ID'];
-			if(has_post_thumbnail($artist_id)){
-				echo get_the_post_thumbnail( $artist_id, 'medium' );
-			}else{
-				$options = array(
-					'size' => 'medium',
-					'wrapper' => false ,
-					'limit' => '1',
-					'link' => 'none',
-					'post_id' => $artist_id
-				);
-				sr_get_images($options);
+			$artist_link = $art_links_meta['art_social_a'];
+			$artist_name = get_the_title();
+			
+			if(strpos($artist_link , 'facebook.com'))
+			{
+				$art_link_source = 'Facebook';
+				
+			}elseif (strpos($artist_link , 'twitter.com'))
+			{	
+				$art_link_source = 'Twitter';
+				
+			}elseif (strpos($artist_link , 'soundcloud.com'))
+			{	
+				$art_link_source = 'Soundcloud';
+				
+			}elseif (strpos($artist_link , 'bandcamp.com'))
+			{	
+				$art_link_source = 'Bandcamp';
+				
+			}elseif (strpos($artist_link , 'vimeo.com'))
+			{	
+				$art_link_source = 'Vimeo';
+				
+			}elseif (strpos($artist_link , 'youtu.be') || strpos($video_link , 'youtube.com'))
+			{	
+				$art_link_source = 'Youtube';
+				
+			}elseif (strpos($artist_link , 'myspace.com'))
+			{	
+				$art_link_source = 'Myspace';
+				
+			}else
+			{
+				$art_link_source = 'generic'; 
 			}
+			
+			$art_link_class = strtolower($art_link_source);
+			if($art_link_source != 'generic')
+			{
+				$art_link_title = $artist_name . ' on ' . $art_link_source;
+			}else
+			{
+				$art_link_title = str_replace(array('http://' , 'www.' , '/') , '' , $artist_link);
+			}
+			echo '<a href="'. $artist_link .'" class"' . $art_link_class . '" title="' . $art_link_title . '" rel="bookmark">' . $art_link_title . '</a> ';  
 		}
+	echo '</nav><!--#social-links-->';
 	}
 }
 
+/* END Social links
+---------------------------------------------------*/
+
+
+/*---------------------------------------------------
+Pagination
+*/
+
+
+// loop page pagination
+function sr_posts_navigation(){
+	global $wp_query;
+	if (  $wp_query->max_num_pages > 1 ) : ?>
+		<nav id="nav-below" role="article">
+			<div class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Older posts', 'themename' ) ); ?></div>
+			<div class="nav-next"><?php previous_posts_link( __( 'Newer posts <span class="meta-nav">&rarr;</span>', 'themename' ) ); ?></div>
+		</nav><!-- #nav-below -->
+	<?php endif; ?>
+<?php }
+
+// Single posts nav
+function sr_single_post_navigation(){?>
+	<nav id="nav-below" role="article">
+		<div class="nav-previous"><?php previous_post_link( '%link', '<span class="meta-nav">' . _x( '&larr;', 'Previous post link', 'themename' ) . '</span> %title' ); ?></div>
+		<div class="nav-next"><?php next_post_link( '%link', '%title <span class="meta-nav">' . _x( '&rarr;', 'Next post link', 'themename' ) . '</span>' ); ?></div>
+	</nav><!-- #nav-below -->
+<?php }
+
+
+/* END Pagination
+---------------------------------------------------*/
+
+
+/*---------------------------------------------------
+Post Header
+*/
+
+function _sr_post_header(){
+	global $post;?>
+	<h1 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h1>
+<?php }
+
+/* END Post Header
+---------------------------------------------------*/
+
+
+
+/*---------------------------------------------------
+Asides
+*/
+
+//get artist releases
+
+function sr_rels_by_artist($args = array())
+{	
+	$defaults = array(
+		'artist' => '',
+		'thumb_size' => 'thumbnail',
+		'limit' => '6',
+		'buy_now' => true,
+	);
+	
+	$options = array_merge($defaults , $args);
+	$query_args = array(
+		'post_type' => 'release' ,
+		'posts_per_page' => $options['limit'] ,
+		'artist' => $options['artist']
+	);
+	$rel_sub_query = new WP_query($query_args);
+	if( have_posts() ):?>
+	<section id="releases">
+	<?php while ($rel_sub_query->have_posts() ): $rel_sub_query->the_post();?>
+		<article class="release">
+			<?php $rel_id = get_the_ID(); ?>
+			<?php sr_post_thumbnail($options['thumb_size'] , false);?>
+			<?php _sr_post_header();
+			$release_date = get_post_meta( $rel_id , '_sr_release-date', true);
+			
+			if ($release_date)
+			{	
+				$release_date = date_create($release_date);
+				$release_date = date_format($release_date, 'Y');
+				echo '<time class="release-date">' . $release_date . '</time>';
+			}
+			
+			$buy_now_link = get_post_meta ( $rel_id , '_sr_release-buy-link' , true);
+			
+			if ($buy_now_link)
+			{
+				$curr_date = date('U');
+				$release_date = strtotime($release_date);
+				//echo '</br>' . $curr_date . ' : ' . $release_date . '</br>';
+				if ($curr_date <= $release_date)
+				{
+					echo '<a class="buy-link preorder">Preorder now</a>';
+				}else
+				{
+					echo '<a class="buy-link buy-now">Buy Now</a>';
+				}
+			}?>
+		</article>
+	<?php endwhile; ?>
+	</section><!--#releases--> <?php endif; wp_reset_query();
+}
+
+//Reviews
+
+function sr_get_reivews()
+{	
+	global $post;
+	global $review_mb;
+	$meta = $review_mb->the_meta();
+	if($meta['reviews'])
+	{	
+		echo '<section id="reivews">';
+		$reviews = $meta['reviews'];
+		foreach($reviews as $review)
+		{
+			if($review['review-link']){
+				$reviewlnk_o = '<a href="' . $review['review-link'] . '" rel="bookmark">';
+				$reviewlnk_c = '</a>';
+			}?>
+			<article class="review">
+			<p><?php echo $review['review-text']; ?></p>
+			<cite> <?php echo $reviewlnk_o ?>
+			<?php echo $review['review-attr']; ?>
+			<?php echo $reviewlnk_c; ?></cite>
+		<?php }
+		echo '</section><!-- #reviews -->';
+	}
+}
+
+//Get 4 Shows by artist
+function sr_artist_shows($artist, $aside)
+{
+	$current_datetime = date('Y-m-d H:i');
+	$meta_query_str = array(
+		array(
+			'key' => '_sr_show-date', 
+			'compare' => '>=' ,
+			'value' => $current_datetime
+		)
+	);
+	
+	$args = array(
+		'posts_per_page' => '4' ,
+		'post_type' => 'show' ,
+		'artist' => $artist,
+		'orderby' => 'meta_value',
+		'meta_key' => '_sr_show-date' ,
+		'order' => 'ASC' , 
+		'meta_query' => $meta_query_str
+	);
+	
+	$the_query = new WP_query($args); ?>
+	
+	<aside id="shows">
+		<h2 class="aside-header">Shows</h1>
+		<ul class="artist-shows">
+	<?php if ( $the_query->have_posts() ) :
+	while ( $the_query->have_posts() ) : $the_query->the_post();?>
+		<?php sr_shows_markup($aside); ?>
+		
+	<?php endwhile; else: ?>
+			
+		<li id="no-shows" role="article">
+			<header class="entry-header"><h3 class="entry-title">Sorry, no gigs coming up</h3></header>
+			<span class="no-shows-msg">Check back soon or <?php get_twitter_link(); ?> for incessant updates </span>
+		</li>
+		
+	<?php endif; ?>
+		</ul>
+	</aside><!--#shows-->
+	<?php wp_reset_query();
+}
+
+//Artist page sample tracks
+function sr_artist_tracks($artist)
+{	
+	$tracks = array();
+	global $tracks_mb;
+	$meta = $tracks_mb->the_meta();
+	$trackmeta = $meta['tracks'];
+	
+	if($trackmeta){
+		foreach ($trackmeta as $track){
+			$track = $track['track-link'];
+			if (!in_array($track , $tracks)){
+				array_push($tracks, $track);
+			}
+		}
+	} 
+	$args = $rel_args = array('post_type' => 'release' , 'artist' => $artist , 'posts_per_page' => '-1');
+	$rel_query = new WP_query($rel_args);
+		
+	if(have_posts()): while ( $rel_query->have_posts() ) : $rel_query->the_post();
+	
+		$meta = $tracks_mb->the_meta();
+		$trackmeta = $meta['tracks'];
+	
+		if($trackmeta){
+			foreach ($trackmeta as $track){
+				$track = $track['track-link'];
+				if (!in_array($track , $tracks)){
+					array_push($tracks, $track);
+				}
+			}
+		} 
+	
+	endwhile; endif; wp_reset_query();
+	
+	$tracks_count = count($tracks);
+	if($tracks_count > 7){
+		$tracks = array_slice($tracks, 0, 7);
+	}
+	if(!empty($tracks)){
+		echo '<aside id="tracks"><h2 class="aside-header">Listen</h2><ul>';
+		foreach ($tracks as $track)
+		{	
+			echo '<li><a href="' . $track . '" class="sample-track">' . $track . '</a></li>';
+		}
+		echo '</ul></aside><!--#tracks-->';
+	}
+}
+
+/* END Asides
+---------------------------------------------------*/
+//END MARKUP
+
+
 /*
 =======================================================
-API gubbins	
+VIDEO
 =======================================================
 */
 
 
-//Pulling latest videos from vimeo
+/*---------------------------------------------------
+Home page latest videos
+*/
+
 function _sr_latest_videos_init(){
 	if(is_home()):?>
 	
@@ -775,17 +1020,22 @@ function _sr_latest_videos(){ ?>
 	</div>
 <?php }
 
+/* END Home page latest videos
+---------------------------------------------------*/
 
-//main video fetcher. $videos = array() of urls, $post_id = string 
 
-function sr_get_videos($videos , $post_id){
+/*---------------------------------------------------
+Main video fetcher
+*/
+
+function sr_get_videos($videos){
 	
 	$i=0;
 	$videos_count = count($videos);
 	
 	for($i = 0; $i < $videos_count; $i++)
 	{
-		$videos[$i] = array('video_link' => $videos[$i] , 'post_id' => $post_id);
+		$videos[$i] = array('video_link' => $videos[$i]);
 	}
 	
 		
@@ -862,74 +1112,49 @@ function sr_get_videos($videos , $post_id){
 	return $videos;
 }
 
-//media page videos
+/* END Main video fetcher
+---------------------------------------------------*/
 
-function sr_media_videos(&$dont_copy, $limit , $aside)
+
+/*---------------------------------------------------
+Media Page videos
+*/
+
+function sr_media_videos(&$dont_copy)
 {
 	global $post;
 	global $video_mb;
 
 	$meta = $video_mb->the_meta();
-	$post_id = $post->ID;
 	if($meta['videos'])
 	{	
 		$videos_meta = $meta['videos'];
-		if($limit == false)
-		{
-			$limit = count($videos_meta);
-			
-		}elseif($limit <= 0)
-		{
-			return 0;
-	
-		}elseif($limit > count($videos_meta))
-		{
-			$limit = count($videos_meta);	
-		}
 		$videos = array();
 		$i = 0;
-		for ($i = 0; $i < $limit; $i++)
+		foreach ($videos_meta as $video)
 		{	
-			$video_link = $videos_meta[$i]['video-link'];
+			$video_link = $video['video-link'];
 			if(!in_array($video_link , $dont_copy))
 			{
 				array_push($videos , $video_link);
 				array_push($dont_copy , $video_link);
 			}
 		}
-		$videos = sr_get_videos($videos , $post_id);
-		if($aside == false)
+		$videos = sr_get_videos($videos);
+		foreach($videos as $video)
 		{
-			foreach($videos as $video)
-			{
-				if($video['is_valid'] == 'true')
-				{?>
-					<article class="media-thumb video <?php echo $video['vendor'] ?>">
-						<a href="<?php echo $video['video_link'] ?>" class="video-link">
+			if($video['is_valid'] == 'true')
+			{?>
+				<article class="media-thumb video <?php echo $video['vendor'] ?>">
+					<a href="<?php echo $video['video_link'] ?>" class="video-link">
 						<img src="<?php echo $video['thumbnail_large']?>" class="media-img <?php echo $video['vendor'] ?>" />
 						<div class="info">
 							<h1><?php echo $video['title'] ?></h1>
 							<p><?php echo $video['description'] ?></p>
-						</a>
-					</article>
-				<?php }
-			}
-		}else
-		{
-			foreach($videos as $video)
-			{
-				if($video['is_valid'] == 'true')
-				{?>
-					<li class="video <?php echo $video['vendor'] ?>">
-						<a href="<?php echo $video['video_link'] ?>" class="video-link">
-						<img src="<?php echo $video['thumbnail_small']?>" class="media-img <?php echo $video['vendor'] ?>" />
-						<div class="info">
-							<h2><?php echo $video['title'] ?></h2>
-							<p><?php echo $video['description'] ?></p>
-						</a>
-					</li>
-				<?php }
-			}
+						</div>
+					</a>
+				</article>
+			<?php }
 		}
 		$video_count = count($videos);
 		return $video_count;
@@ -938,13 +1163,107 @@ function sr_media_videos(&$dont_copy, $limit , $aside)
 	}
 }
 
+/* END Media Page videos
+---------------------------------------------------*/
+
+
+/*---------------------------------------------------
+Artist Page videos
+*/
+
+function sr_artist_videos($artist)
+{
+	global $post;
+	global $video_mb;
+	
+	$videos = array();
+
+	$meta = $video_mb->the_meta();
+	$post_id = $post->ID;
+	if($meta['videos'])
+	{	
+		$videos_meta = $meta['videos'];
+		foreach ($videos_meta as $video)
+		{	
+			$video_link = $video['video-link'];
+			if(!in_array($video_link , $videos))
+			{
+				array_push($videos , $video_link);
+			}
+		}
+	}
+	$args = $rel_args = array('post_type' => 'release' , 'artist' => $artist , 'posts_per_page' => '-1');
+	$rel_query = new WP_query($rel_args);
+		
+	if(have_posts()): while ( $rel_query->have_posts() ) : $rel_query->the_post();
+		$meta = $video_mb->the_meta();
+		if($meta['videos'])
+		{	
+		$videos_meta = $meta['videos'];
+			foreach ($videos_meta as $video)
+			{	
+				$video_link = $video['video-link'];
+				if(!in_array($video_link , $videos))
+				{
+					array_push($videos , $video_link);
+				}
+			}
+		}
+	endwhile; endif; wp_reset_query();
+	
+	$videos_count = count($videos);
+	if($videos_count > 4){
+		$videos = array_slice($videos, 0, 4);
+	}
+	if(!empty($videos)){
+		echo '<aside id="videos"><h2 class="aside-header">Videos</h2><ul>';
+		$videos = sr_get_videos($videos);
+		video_aside_markup($videos);
+		echo '</ul></aside><!--#videos-->';
+	}
+	
+}
+
+/* END Artist Page videos
+---------------------------------------------------*/
+
+
+/*---------------------------------------------------
+Video Aside markup
+*/
+function video_aside_markup($videos)
+{
+	foreach($videos as $video)
+	{
+		if($video['is_valid'] == 'true')
+		{?>
+			<li class="video <?php echo $video['vendor'] ?>">
+				<a href="<?php echo $video['video_link'] ?>" class="video-link">
+					<img src="<?php echo $video['thumbnail_small']?>" class="media-img <?php echo $video['vendor'] ?>" />
+					<div class="info">
+						<h1><?php echo $video['title'] ?></h1>
+						<p><?php echo $video['description'] ?></p>
+					</div>
+				</a>
+			</li>
+		<?php }
+	}
+}
+/* END Video Aside markup
+---------------------------------------------------*/
+//END VIDEOS
 
 
 /*
 =======================================================
-Custom Gallery
+IMAGES
 =======================================================
 */
+
+/*---------------------------------------------------
+Main attachtment fetcher
+*/
+
 function sr_get_images( $args = array() ) {
 	
 	global $post;
@@ -1066,6 +1385,9 @@ function sr_get_images( $args = array() ) {
 	}
 }
 
+/* END Main attachtment fetcher
+---------------------------------------------------*/
+
 /*---------------------------------------------------
 Image display
 */
@@ -1126,342 +1448,48 @@ function sr_artist_gallery(){
 	sr_get_images($options);
 	wp_reset_query();
 }
+
+//Shows image. Post thumb/flyer if not all artists
+function sr_shows_images($artists )
+{
+	global $post;
+	if (has_post_thumbnail()){
+		the_post_thumbnail('medium');
+	}else{
+		$args = array('size' => 'medium');
+		$artist_count = count($artists);
+		foreach($artists as $artist)
+		{	
+			$artist_id = $artist['ID'];
+			if(has_post_thumbnail($artist_id)){
+				echo get_the_post_thumbnail( $artist_id, 'medium' );
+			}else{
+				$options = array(
+					'size' => 'medium',
+					'wrapper' => false ,
+					'limit' => '1',
+					'link' => 'none',
+					'post_id' => $artist_id
+				);
+				sr_get_images($options);
+			}
+		}
+	}
+}
 /*
 End Image display
 ---------------------------------------------------*/
 
-//Social links on artist page and about
-function sr_social_links()
-{
-	global $artist_lnks_mb;
-	$meta = $artist_lnks_mb->the_meta();
-	if($meta['artist_soc_links']){
-	echo '<nav id="social-links">';
-		foreach ($meta['artist_soc_links'] as $art_links_meta)
-		{	
-			$artist_link = $art_links_meta['art_social_a'];
-			$artist_name = get_the_title();
-			
-			if(strpos($artist_link , 'facebook.com'))
-			{
-				$art_link_source = 'Facebook';
-				
-			}elseif (strpos($artist_link , 'twitter.com'))
-			{	
-				$art_link_source = 'Twitter';
-				
-			}elseif (strpos($artist_link , 'soundcloud.com'))
-			{	
-				$art_link_source = 'Soundcloud';
-				
-			}elseif (strpos($artist_link , 'bandcamp.com'))
-			{	
-				$art_link_source = 'Bandcamp';
-				
-			}elseif (strpos($artist_link , 'vimeo.com'))
-			{	
-				$art_link_source = 'Vimeo';
-				
-			}elseif (strpos($artist_link , 'youtu.be') || strpos($video_link , 'youtube.com'))
-			{	
-				$art_link_source = 'Youtube';
-				
-			}elseif (strpos($artist_link , 'myspace.com'))
-			{	
-				$art_link_source = 'Myspace';
-				
-			}else
-			{
-				$art_link_source = 'generic'; 
-			}
-			
-			$art_link_class = strtolower($art_link_source);
-			if($art_link_source != 'generic')
-			{
-				$art_link_title = $artist_name . ' on ' . $art_link_source;
-			}else
-			{
-				$art_link_title = str_replace(array('http://' , 'www.' , '/') , '' , $artist_link);
-			}
-			echo '<a href="'. $artist_link .'" class"' . $art_link_class . '" title="' . $art_link_title . '" rel="bookmark">' . $art_link_title . '</a> ';  
-		}
-	echo '</nav><!--#social-links-->';
-	}
-}
-
-/*---------------------------------------------------
-Widgets
+/*
+=======================================================
+MISC
+=======================================================
 */
 
-//get artist releases
-
-function sr_rels_by_artist($args = array())
-{	
-	$defaults = array(
-		'artist' => '',
-		'thumb_size' => 'thumbnail',
-		'limit' => '6',
-		'buy_now' => true,
-	);
-	
-	$options = array_merge($defaults , $args);
-	$query_args = array(
-		'post_type' => 'release' ,
-		'posts_per_page' => $options['limit'] ,
-		'artist' => $options['artist']
-	);
-	$rel_sub_query = new WP_query($query_args);
-	if( have_posts() ):?>
-	<section id="releases">
-	<?php while ($rel_sub_query->have_posts() ): $rel_sub_query->the_post();?>
-		<article class="release">
-			<?php $rel_id = get_the_ID(); ?>
-			<?php sr_post_thumbnail($options['thumb_size'] , false);?>
-			<?php _sr_post_header();
-			$release_date = get_post_meta( $rel_id , '_sr_release-date', true);
-			
-			if ($release_date)
-			{	
-				$release_date = date_create($release_date);
-				$release_date = date_format($release_date, 'Y');
-				echo '<time class="release-date">' . $release_date . '</time>';
-			}
-			
-			$buy_now_link = get_post_meta ( $rel_id , '_sr_release-buy-link' , true);
-			
-			if ($buy_now_link)
-			{
-				$curr_date = date('U');
-				$release_date = strtotime($release_date);
-				//echo '</br>' . $curr_date . ' : ' . $release_date . '</br>';
-				if ($curr_date <= $release_date)
-				{
-					echo '<a class="buy-link preorder">Preorder now</a>';
-				}else
-				{
-					echo '<a class="buy-link buy-now">Buy Now</a>';
-				}
-			}?>
-		</article>
-	<?php endwhile; ?>
-	</section><!--#releases--> <?php endif; wp_reset_query();
-}
-
-//Reviews
-
-function sr_get_reivews()
-{	
-	global $post;
-	global $review_mb;
-	$meta = $review_mb->the_meta();
-	if($meta['reviews'])
-	{	
-		echo '<section id="reivews">';
-		$reviews = $meta['reviews'];
-		foreach($reviews as $review)
-		{
-			if($review['review-link']){
-				$reviewlnk_o = '<a href="' . $review['review-link'] . '" rel="bookmark">';
-				$reviewlnk_c = '</a>';
-			}?>
-			<article class="review">
-			<p><?php echo $review['review-text']; ?></p>
-			<cite> <?php echo $reviewlnk_o ?>
-			<?php echo $review['review-attr']; ?>
-			<?php echo $reviewlnk_c; ?></cite>
-		<?php }
-		echo '</section><!-- #reviews -->';
-	}
-}
-
-//Videos for artist page. Get 4 max artist pref, release filler
-
-function sr_artist_videos($artist)
-{
-	echo '<aside id="videos"><h1 class="aside-header">Videos</h1><ul>'; 
-	$dont_copy_vid = array();
-	$limit = 4;
-	$vid_count = sr_media_videos($dont_copy_vid , $limit, true);
-	if($vid_count < 4)
-	{
-		$limit = $limit - $vid_count;
-		
-		$args = $rel_args = array('post_type' => 'release' , 'artist' => $artist , 'posts_per_page' => '-1');
-		$rel_query = new WP_query($rel_args);
-		
-		if(have_posts()): while ( $rel_query->have_posts() ) : $rel_query->the_post();
-				
-		$vid_count = sr_media_videos($dont_copy_vid , $limit, true);
-		
-		if($vid_count < $limit){
-			$limit = $limit - $vid_count;
-		}else{
-			break;
-		}
-		
-		endwhile; endif; wp_reset_query();
-	}
-	echo '</ul></aside><!--#videos-->';
-}
-
-//Get 4 Shows by given artist
-function sr_artist_shows($artist, $aside)
-{
-	$current_datetime = date('Y-m-d H:i');
-	$meta_query_str = array(
-		array(
-			'key' => '_sr_show-date', 
-			'compare' => '>=' ,
-			'value' => $current_datetime
-		)
-	);
-	
-	$args = array(
-		'posts_per_page' => '4' ,
-		'post_type' => 'show' ,
-		'artist' => $artist,
-		'orderby' => 'meta_value',
-		'meta_key' => '_sr_show-date' ,
-		'order' => 'ASC' , 
-		'meta_query' => $meta_query_str
-	);
-	
-	$the_query = new WP_query($args); ?>
-	
-	<aside id="shows">
-		<h2 class="aside-header">Shows</h1>
-		<ul class="artist-shows">
-	<?php if ( $the_query->have_posts() ) :
-	while ( $the_query->have_posts() ) : $the_query->the_post();?>
-		<?php sr_shows_markup($aside); ?>
-		
-	<?php endwhile; else: ?>
-			
-		<li id="no-shows" role="article">
-			<header class="entry-header"><h3 class="entry-title">Sorry, no gigs coming up</h3></header>
-			<span class="no-shows-msg">Check back soon or <?php get_twitter_link(); ?> for incessant updates </span>
-		</li>
-		
-	<?php endif; ?>
-		</ul>
-	</aside><!--#shows-->
-	<?php wp_reset_query();
-}
-
-//Get sample tracks
-
-/*function sr_artist_tracks($artist)
-{	
-	//global $post;
-	global $tracks_mb;
-	$limit = 7;
-	$dont_copy_track = array();
-	$meta = $tracks_mb->the_meta();
-	$tracks = $meta['tracks'];
-
-	echo '<aside id="tracks"><h2 class="aside-header">Listen</h2>';
-	echo '$limit: ' . $limit . '</br>';	
-	if($tracks){
-		echo '<ul class="artist-tracks">';
-		$track_count = count($tracks);
-		if($track_count > $limit){
-			$track_count = $limit;
-		}
-		$counter=0;
-		for ($i=0; $i < $track_count; $i++){
-			$track = $tracks[$i]['track-link'];
-			if (!in_array($track , $dont_copy_track)){
-				echo '<li><a href="' . $track . '" class="sample-track">' . $track . '</a></li>';
-				array_push($dont_copy_track, $track);
-				$counter++;
-			}
-		}
-		$track_count = $counter;
-		echo '$track_count: ' . $track_count;
-		echo '</br> $i: ' . $i . '</br>';
-	} 
-	if($track_count < $limit)
-	{	
-		$limit = $limit - $track_count;
-		echo '$limit: ' . $limit . '</br>';
-		$args = $rel_args = array('post_type' => 'release' , 'artist' => $artist , 'posts_per_page' => '-1');
-		$rel_query = new WP_query($rel_args);
-		
-		if(have_posts()): while ( $rel_query->have_posts() ) : $rel_query->the_post();
-			the_title();
-			$meta = $tracks_mb->the_meta();
-			$tracks = $meta['tracks'];
-			$track_count = count($tracks);
-			if ($track_count > $limit){
-				$track_count = $limit;
-			}
-			$counter=0;
-			for ($i=0; $i < $track_count; $i++){
-				$track = $tracks[$i]['track-link'];
-				if (!in_array($track , $dont_copy_track)){
-					echo '<li><a href="' . $track . '" class="sample-track">' . $track . '</a></li>';
-					array_push($dont_copy_track, $track);
-					$counter++;
-				}
-			}
-			echo '$track_count: ' . $counter . '</br>';
-			echo '$i: ' . $i . '</br>'; 
-			$limit = $limit - $counter;
-			echo '$limit: ' . $limit . '</br>';
-			if($limit <= 0){
-				echo 'broke';
-				//break;
-			}
-		
-		endwhile; endif; wp_reset_query();
-	}
-	echo '</ul></aside><!--#tracks-->';
-}*/
-
-function sr_artist_tracks($artist)
-{	
-	$tracks = array();
-	global $tracks_mb;
-	$meta = $tracks_mb->the_meta();
-	$trackmeta = $meta['tracks'];
-	if($trackmeta){
-		foreach ($trackmeta as $track){
-			$track = $track['track-link'];
-			if (!in_array($track , $tracks)){
-				array_push($tracks, $track);
-			}
-		}
-	} 
-	$args = $rel_args = array('post_type' => 'release' , 'artist' => $artist , 'posts_per_page' => '-1');
-	$rel_query = new WP_query($rel_args);
-		
-	if(have_posts()): while ( $rel_query->have_posts() ) : $rel_query->the_post();
-		//global $tracks_mb;
-		$meta = $tracks_mb->the_meta();
-		$trackmeta = $meta['tracks'];
-	
-		
-		if($trackmeta){
-			foreach ($trackmeta as $track){
-				$track = $track['track-link'];
-				if (!in_array($track , $tracks)){
-					array_push($tracks, $track);
-				}
-			}
-		} 
-		
-	endwhile; endif; wp_reset_query();
-	
-	echo '<aside id="tracks"><h2 class="aside-header">Listen</h2><ul>';
-	for ($i=0; $i < 7; $i++)
-	{	
-		echo '<li><a href="' . $tracks[$i] . '" class="sample-track">' . $tracks[$i] . '</a></li>';
-	}
-	echo '</ul></aside><!--#tracks-->';
-}
-
-
+//Get twitter link
 function get_twitter_link(){?>
 	<a href="http://www.twitter.com/mysadcaptains" title="Follow stolen on Twitter">Follow us on twitter</a>
 <?php }
+
+//END MISC
 ?>

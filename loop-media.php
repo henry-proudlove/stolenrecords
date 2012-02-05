@@ -28,7 +28,7 @@ while ( $art_query->have_posts() ) : $art_query->the_post();
 	$post_nums[$i] = $this_post;
 	
 	//get the videos
-	sr_media_videos($dont_copy_vid , false, false);
+	sr_media_videos($dont_copy_vid);
 	
 	//increment post index
 	$i++;
@@ -45,7 +45,7 @@ while ( $art_query->have_posts() ) : $art_query->the_post();
 		$post_nums[$i] = $this_post;
 		
 		//get the videos		
-		sr_media_videos($dont_copy_vid , false, false);
+		sr_media_videos($dont_copy_vid);
 		
 		//increment post index
 		$i++;
