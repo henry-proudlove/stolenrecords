@@ -1,7 +1,7 @@
 <?php
 /**
- * Template Name: Videos and Photo Page
- * Description: Holder for media loop
+ * Template Name: News Page
+ * Description: Holder for news loop
  *
  * @package WordPress
  * @subpackage themename

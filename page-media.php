@@ -1,7 +1,7 @@
 <?php
 /**
- * Template Name: New Page
- * Description: Holder for new loop
+ * Template Name: Videos and Photo Page
+ * Description: Holder for media loop
  *
  * @package WordPress
  * @subpackage themename
@@ -66,7 +66,7 @@ get_header(); ?>
 			}
 		endwhile;?>
 
-
+	<div id="flickr-images"><a href="http://www.flickr.com/photos/stolenrecordings" title="Stolen Records on Flickr" rel="bookmark"><h2 class="section-header">Stolen Flickr</h3></a></div>
 	</div><!-- #content -->
 
 <?php get_footer(); ?>

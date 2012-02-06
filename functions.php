@@ -1603,10 +1603,10 @@ endif;
     // Loop through each feed item and display each item as a hyperlink.
     foreach ( $rss_items as $item ) : ?>
     <li class="tweet">
+    	<time class="date tweet"><?php echo $item->get_date('j F g:ia'); ?></time>
         <a href='<?php echo esc_url( $item->get_permalink() ); ?>'
         title='<?php echo $item->get_date('j F g:i a'); ?>'>
         <?php echo esc_html( $item->get_title() ); ?></a>
-        <time class="date tweet"><?php echo $item->get_date('j F g:i a'); ?></time>
     </li>
     <?php endforeach; ?>
 </ul>

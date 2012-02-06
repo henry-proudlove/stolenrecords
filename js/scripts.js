@@ -49,3 +49,10 @@ $(document).ready(function() {
 
 });
 */
+
+$.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?id=8546357@N03&lang=en-us&format=json&jsoncallback=?", function(data){
+  $.each(data.items, function(i,item){
+    $("<img/>").attr("src", item.media.m).appendTo("#flickr-images")
+      .wrap("<a href='" + item.link + "'></a>");
+  });
+});
