@@ -811,7 +811,7 @@ function sr_rels_by_artist($args = array())
 		$wrapper_c = '</section><!--#releases-->';
 		$article_tag = 'article';
 	}else{
-		$wrapper_o = '<aside id="releases"><h2 class="aside-header">Releases</h2><ul class="artist-releases">';
+		$wrapper_o = '<aside id="releases"><h2 class="aside-header">More Releases</h2><ul class="artist-releases">';
 		$wrapper_c = '</ul></aside><!--#releases-->';
 		$article_tag = 'li';
 	}
@@ -871,7 +871,7 @@ function sr_get_reivews($reviews)
 }
 
 //Get 4 Shows by artist
-function sr_artist_shows($artist, $aside)
+function sr_aside_shows($artist, $aside)
 {
 	$current_datetime = date('Y-m-d H:i');
 	$meta_query_str = array(
@@ -993,6 +993,14 @@ function sr_release_tracks()
 	}
 }
 
+//Like button and facepile on home page
+function sr_index_fb(){ ?>
+	<aside id="facebook"><h2 class="aside-header">Facebook</h2>
+		<iframe src="//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FSTOLEN-RECORDINGS%2F66626039279&amp;width=292&amp;height=395&amp;colorscheme=light&amp;show_faces=false&amp;border_color&amp;stream=true&amp;header=false" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:292px; height:395px;" allowTransparency="true"></iframe>
+	</aside><!--#facebook-->
+	<?php
+}
+
 /* END Asides
 ---------------------------------------------------*/
 //END MARKUP
@@ -1032,10 +1040,10 @@ function _sr_latest_videos_init(){
 			function setupGallery(videos) {
 		
 				// Add the videos to the gallery
-				for (var i = 0; i < 5; i++) {	
-					var html = '<li><a href="' + videos[i].url + '"><img src="' + videos[i].thumbnail_medium + '" class="thumb" />';
-					html += '<p class="vid-title">' + videos[i].title + '</p></li>';
-					html += '<p class="vid-decription">' + videos[i].description + '</p></a></li>';
+				for (var i = 0; i < 4; i++) {	
+					var html = '<li><a href="' + videos[i].url + '"><img src="' + videos[i].thumbnail_small + '" class="thumb" />';
+					html += '<h3 class="vid-title">' + videos[i].title + '</h3></li>';
+					html += '<span class="vid-decription">' + videos[i].description + '</span></a></li>';
 					$('#thumbs ul').append(html);
 				}
 				$('.vid-decription').truncate({
@@ -1062,12 +1070,13 @@ function _sr_latest_videos_init(){
 add_action('wp_footer' , '_sr_latest_videos_init');
 
 function _sr_latest_videos(){ ?>
-	<div id="wrapper">
-		<div id="embed"></div>
-		<div id="thumbs">
-			<ul></ul>
-		</div>
-	</div>
+	<aside id="videos">
+		<h2 class="aside=header">Videos</h2>
+			<div id="embed"></div>
+			<div id="thumbs">
+				<ul></ul>
+			</div>
+	</aside>
 <?php }
 
 /* END Home page latest videos
@@ -1574,6 +1583,34 @@ MISC
 //Get twitter link
 function get_twitter_link(){?>
 	<a href="http://www.twitter.com/mysadcaptains" title="Follow stolen on Twitter">Follow us on twitter</a>
+<?php }
+
+// RSS shotcode
+function sr_latest_tweets(){ ?>
+	<aside id="twitter"><h3 class="aside-header">Twitter</h3><?php
+include_once(ABSPATH . WPINC . '/feed.php');
+
+$rss = fetch_feed('http://twitter.com/statuses/user_timeline/20986653.rss');
+if (!is_wp_error( $rss ) ) :
+    $maxitems = $rss->get_item_quantity(4); 
+    $rss_items = $rss->get_items(0, $maxitems); 
+endif;
+?>
+
+<ul>
+    <?php if ($maxitems == 0) echo '<li>No items.</li>';
+    else
+    // Loop through each feed item and display each item as a hyperlink.
+    foreach ( $rss_items as $item ) : ?>
+    <li class="tweet">
+        <a href='<?php echo esc_url( $item->get_permalink() ); ?>'
+        title='<?php echo $item->get_date('j F g:i a'); ?>'>
+        <?php echo esc_html( $item->get_title() ); ?></a>
+        <time class="date tweet"><?php echo $item->get_date('j F g:i a'); ?></time>
+    </li>
+    <?php endforeach; ?>
+</ul>
+	</aside>
 <?php }
 
 //END MISC

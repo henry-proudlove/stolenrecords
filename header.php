@@ -66,10 +66,15 @@
 				</hgroup>
 				
 				<nav id="access" role="article">
-					<a href="<?php echo get_post_type_archive_link( 'artist' ); ?>">Artists</a>
-					<a href="<?php echo get_post_type_archive_link( 'release' ); ?>">Releases</a>
-					<a href="<?php echo get_post_type_archive_link( 'posts' ); ?>">News</a>
-					<a href="<?php echo get_post_type_archive_link( 'show' ); ?>">Shows</a>
+					<ul>
+						<li><a href="<?php echo get_post_type_archive_link( 'artist' ); ?>">Artists</a></li>
+						<li><a href="<?php echo get_post_type_archive_link( 'release' ); ?>">Releases</a></li>
+						<li><a href="<?php echo get_post_type_archive_link( 'show' ); ?>">Shows</a></li>
+						<?php
+							$args = array('title_li' => '');
+							wp_list_pages( $args ); 
+						?>
+					</ul>
 				</nav><!-- #access -->
 		</header><!-- #branding -->
 	

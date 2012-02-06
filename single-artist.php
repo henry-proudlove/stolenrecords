@@ -41,7 +41,7 @@ get_header(); ?>
 				</section><!--#reviews-->
 			<?php endif; ?>
 			<?php sr_artist_videos($artist); ?>
-			<?php sr_artist_shows($artist, true);?>	
+			<?php sr_aside_shows($artist, true);?>	
 			<?php sr_artist_tracks($artist); ?>
 		</article><!-- #post-<?php the_ID(); ?> -->
 		<?php sr_single_post_navigation(); ?>

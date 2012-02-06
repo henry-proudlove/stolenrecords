@@ -27,22 +27,32 @@ get_header(); ?>
 			<div class="entry-gallery">
 				<?php sr_post_thumbnail('medium' , false) ?>
 			</div><!-- .entry-gallery -->
+			
 			<div id="release-info">
 				<header class="entry-header">
+				
+					<?php // Release title ?>
 					<h1 class="entry-title"><?php the_title(); ?></h1>
-					<?php
+					
+					<?php // Artists name
 					$artists_titles_count = count($artists_titles);
-					if($artists_titles_count < 2)
-					{
-					foreach($artists_titles as $artist_title)
-					{?>
-						<cite class"entry-artist">
-							<a href="<?php echo $artist_title['guid'];?>" title= "More about <?php echo $artist_title['title']; ?>"><?php echo $artist_title['title']; ?></a>
-						</cite>
-					<?php } 
-					} else { ?>
-						<cite class"entry-artist">Various Artists</cite>
-					<?php } wp_reset_query();	
+					if($artists_titles_count < 2):
+						foreach($artists_titles as $artist_title): ?>
+							<span class"entry-artist">
+								<a href="<?php echo $artist_title['guid'];?>" title= "More about <?php echo $artist_title['title']; ?>"><?php echo $artist_title['title']; ?></a>
+							</span> <?php
+						endforeach;
+					else: ?>
+						<span class"entry-artist">Various Artists</span>
+					<?php endif; wp_reset_query();
+					
+					//Release date
+					$release_date = get_post_meta( $post->ID , '_sr_release-date', true);
+					if ($release_date):
+						$release_date = date_create($release_date);
+						$release_date = date_format($release_date, 'Y');
+						echo '<time class="entry-date">' . $release_date . '</time>';
+					endif;
 					?>
 				</header><!-- .entry-header -->
 				<div id="content-reviews">
@@ -53,17 +63,22 @@ get_header(); ?>
 					global $review_mb;
 					$meta = $review_mb->the_meta();
 					$reviews = $meta['reviews'];
-					if($reviews){
+					if($reviews):
 						sr_get_reivews($reviews);
-					}
+					endif;
 					?>
 				</div><!--#entry-content-->
+				<?php
+					$buy_link = get_post_meta( $post->ID , '_sr_release-buy-link', true);
+					if ($buy_link):
+						echo '<a class="button buy-now" href="' . $buy_link . '" title="Buy ' . get_the_title() . '" rel="bookmark">Buy Now</a>';
+					endif;
+				?>
 			</div><!--#release-info-->
 			<?php sr_release_tracks(); ?>
 			<?php sr_release_videos(); ?>
 			<?php
-			$this_rel = get_the_ID();
-			$args = array('artist' => $artists, 'exclude' => $this_rel, 'limit' => '4', 'buy_now' => false , 'aside' => 'true' );
+			$args = array('artist' => $artists, 'exclude' => $post->ID, 'limit' => '4', 'buy_now' => false , 'aside' => 'true' );
 			sr_rels_by_artist($args);
 			?>
 		</article><!-- #post-<?php the_ID(); ?> -->
