@@ -484,7 +484,7 @@ $review_mb = new WPAlchemy_MetaBox(array
 (
 	'id' => '_reviews',
 	'title' => 'Reviews',
-	'types' => array('artist' , 'release'),
+	'types' => array('artist' , 'release' , 'page'),
 	'context' => 'normal',
 	'priority' => 'low',
 	'template' => get_stylesheet_directory() . '/metaboxes/reviews-meta.php'
@@ -669,16 +669,23 @@ function sr_shows_markup($aside){
 Social links on artist page and about
 */
 
-function sr_social_links()
+function sr_social_links($stolen , $nav)
 {
 	global $artist_lnks_mb;
 	$meta = $artist_lnks_mb->the_meta();
 	if($meta['artist_soc_links']){
-	echo '<nav id="social-links">';
+		echo '<nav id="social-links">';
+		if($nav == false){
+			echo '<ul>';
+		}
+		if ($stolen == false){
+			$artist_name = get_the_title();
+		}else{
+			$artist_name = 'Stolen';
+		}
 		foreach ($meta['artist_soc_links'] as $art_links_meta)
 		{	
 			$artist_link = $art_links_meta['art_social_a'];
-			$artist_name = get_the_title();
 			
 			if(strpos($artist_link , 'facebook.com'))
 			{
@@ -721,7 +728,10 @@ function sr_social_links()
 			{
 				$art_link_title = str_replace(array('http://' , 'www.' , '/') , '' , $artist_link);
 			}
-			echo '<a href="'. $artist_link .'" class"' . $art_link_class . '" title="' . $art_link_title . '" rel="bookmark">' . $art_link_title . '</a> ';  
+			echo '<li><a href="'. $artist_link .'" class"' . $art_link_class . '" title="' . $art_link_title . '" rel="bookmark">' . $art_link_title . '</a></li> ';  
+		}
+	if($nav == false){
+			echo '</ul>';
 		}
 	echo '</nav><!--#social-links-->';
 	}

@@ -54,5 +54,6 @@ $.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?id=8546357@N03
   $.each(data.items, function(i,item){
     $("<img/>").attr("src", item.media.m).appendTo("#flickr-images")
       .wrap("<a href='" + item.link + "'></a>");
+      if ( i == 10 ) return false;
   });
 });

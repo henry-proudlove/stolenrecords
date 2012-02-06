@@ -71,8 +71,11 @@
 						<li><a href="<?php echo get_post_type_archive_link( 'release' ); ?>">Releases</a></li>
 						<li><a href="<?php echo get_post_type_archive_link( 'show' ); ?>">Shows</a></li>
 						<?php
-							$args = array('title_li' => '');
-							wp_list_pages( $args ); 
+							$showsarchive = get_page_by_title( 'Stolen Shows Archive' );
+							$indexpage = get_page_by_title( 'Index' );
+							$exclude = $showsarchive->ID . ','. $indexpage->ID;
+							$args = array('title_li' => '' , 'exclude' => $exclude);
+							wp_list_pages( $args );
 						?>
 					</ul>
 				</nav><!-- #access -->

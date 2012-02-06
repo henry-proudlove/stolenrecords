@@ -39,7 +39,7 @@ get_header(); ?>
 		<p>Stolen Shows Archive</p>
 		<?php while ( $the_query->have_posts() ) : $the_query->the_post();
 		
-			sr_relart_loop_markup()
+			sr_relart_loop_markup();
 		
 		endwhile;
 			

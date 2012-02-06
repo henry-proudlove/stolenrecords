@@ -11,7 +11,7 @@ get_header(); ?>
 
 <div id="content">
 	<?php get_template_part('loop' , 'index');?>
-	<div id="sidedbar">
+	<div id="sidebar">
 		<?php sr_aside_shows('', true) ?>
 		<?php  sr_index_fb(); ?>
 		<?php _sr_latest_videos(); ?>

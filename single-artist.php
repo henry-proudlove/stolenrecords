@@ -23,7 +23,7 @@ get_header(); ?>
 				<div id="entry-content">
 					<?php the_content(); ?>
 				</div><!-- .entry-content -->
-				<?php sr_social_links(); ?>
+				<?php sr_social_links(false, false); ?>
 			
 			<?php 
 			

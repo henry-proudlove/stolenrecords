@@ -36,6 +36,8 @@ get_header(); ?>
 	<section id="stolen-shows">
 	<?php if ( $the_query->have_posts() ) : ?>
 	<h1 class="section-header">Stolen Shows</h1>
+	<?php $showsarchive = get_page_by_title( 'Stolen Shows Archive' ); ?>
+	<a href="<?php echo get_page_link($showsarchive->ID); ?>" title="See Stolen Shows from days gone by" rel="bookmark">Stolen Shows Archive</a>
 	<?php while ( $the_query->have_posts() ) : $the_query->the_post();
 	array_push($dont_copy, $post->ID);
 		sr_shows_markup(false);
@@ -45,8 +47,6 @@ get_header(); ?>
 		</section><!--#stolen-shows-->
 		
 	<?php endif; ?>
-	
-	
 	<?php
 	$meta_query_str = array(
 		array(

@@ -20,8 +20,7 @@ get_header(); ?>
 
 			<div class="entry-content">
 				<?php the_content(); ?>
-				<?php wp_link_pages( array( 'before' => '<div class="page-link">' . __( 'Pages:', 'themename' ), 'after' => '</div>' ) ); ?>
-				<?php edit_post_link( __( 'Edit', 'themename' ), '<span class="edit-link">', '</span>' ); ?>
+				<?php sr_post_thumbnail('medium' , false); ?>
 			</div><!-- .entry-content -->
 		</article><!-- #post-<?php the_ID(); ?> -->
 		
@@ -30,14 +29,10 @@ get_header(); ?>
 		<?php /* Start the Loop */
 	
 			$args = array('post_type' => 'artist' , 'posts_per_page' => '-1' , 'orderby' => 'title' , 'order' => 'ASC' , 'meta_key' => '_sr_publishing', 'meta_value' => 'publishing');
-			
 			$the_query = new WP_Query($args);
-			
 			while ( $the_query->have_posts() ) : $the_query->the_post();
-			
 				sr_relart_loop_markup(); 
-			
-			endwhile;?>
+			endwhile; wp_reset_query();?>
 
 	</div><!-- #content -->
 
