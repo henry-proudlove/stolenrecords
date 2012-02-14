@@ -60,25 +60,44 @@
 	<body <?php body_class(); ?>>
 	<div id="page" class="hfeed">
 		<header id="branding" role="banner">
-				<hgroup>
-					<h1 id="site-title"><span><a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></span></h1>
-					<h2 id="site-description"><?php bloginfo( 'description' ); ?></h2>
-				</hgroup>
-				
-				<nav id="access" role="article">
-					<ul>
-						<li><a href="<?php echo get_post_type_archive_link( 'artist' ); ?>">Artists</a></li>
-						<li><a href="<?php echo get_post_type_archive_link( 'release' ); ?>">Releases</a></li>
-						<li><a href="<?php echo get_post_type_archive_link( 'show' ); ?>">Shows</a></li>
-						<?php
-							$showsarchive = get_page_by_title( 'Stolen Shows Archive' );
-							$indexpage = get_page_by_title( 'Index' );
-							$exclude = $showsarchive->ID . ','. $indexpage->ID;
-							$args = array('title_li' => '' , 'exclude' => $exclude);
-							wp_list_pages( $args );
-						?>
-					</ul>
-				</nav><!-- #access -->
+			<hgroup>
+				<h1 id="site-title"><span><a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></span></h1>
+				<h2 id="site-description"><?php bloginfo( 'description' ); ?></h2>
+			</hgroup>
+			
+			<nav id="access" role="article">
+				<ul>
+					<li><a href="<?php echo get_post_type_archive_link( 'artist' ); ?>">Artists</a>
+						<ul class="artists-menu">
+							<?php 
+							$args = array('post_type' => 'artist' , 'posts_per_page' => '-1' , 'orderby' => 'title' , 'order' => 'ASC' , 'meta_key' => '_sr_present-past', 'meta_value' => 'current');
+					
+							$art_nav_query = new WP_Query($args);
+							
+							while ( $art_nav_query->have_posts() ) : $art_nav_query->the_post(); ?>
+								<li><a href="<?php the_permalink(); ?>" class="art-nav-link" title="<?php echo get_the_title() . ' profile'; ?>" rel="bookmark"><?php the_title(); ?></a></li>
+							<?php 
+							endwhile;
+							
+							$args['meta_value'] = 'past';
+							
+							$art_nav_query = new WP_Query($args);
+						
+							while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
+							
+								<li><a href="<?php the_permalink(); ?>" class="art-nav-link" title="<?php echo get_the_title() . ' profile'; ?>" rel="bookmark"><?php the_title(); ?></a></li> 
+							<?php endwhile; ?>
+						</ul>
+					</li>
+					<li><a href="<?php echo get_post_type_archive_link( 'release' ); ?>">Releases</a></li>
+					<li><a href="<?php echo get_post_type_archive_link( 'show' ); ?>">Shows</a></li>
+					<?php
+						$showsarchive = get_page_by_title( 'Stolen Shows Archives' );
+						$args = array('title_li' => '' , 'exclude' => '1249,1254');
+						wp_list_pages( $args );
+					?>
+				</ul>
+			</nav><!-- #access -->
 		</header><!-- #branding -->
 	
 	

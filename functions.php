@@ -1027,7 +1027,7 @@ VIDEO
 Home page latest videos
 */
 
-function _sr_latest_videos_init(){
+/*function _sr_latest_videos_init(){
 	if(is_home()):?>
 	
 		<script>
@@ -1054,7 +1054,7 @@ function _sr_latest_videos_init(){
 					var html = '<li><a href="' + videos[i].url + '"><img src="' + videos[i].thumbnail_small + '" class="thumb" />';
 					html += '<h3 class="vid-title">' + videos[i].title + '</h3></li>';
 					html += '<span class="vid-decription">' + videos[i].description + '</span></a></li>';
-					$('#thumbs ul').append(html);
+					$('#latest-videos ul').append(html);
 				}
 				$('.vid-decription').truncate({
 						width: '250'
@@ -1077,16 +1077,16 @@ function _sr_latest_videos_init(){
 	<?php endif;
 }
 
-add_action('wp_footer' , '_sr_latest_videos_init');
+add_action('wp_footer' , '_sr_latest_videos_init');*/
 
 function _sr_latest_videos(){ ?>
-	<aside id="videos">
+	<aside id="latest-videos">
 		<h2 class="aside=header">Videos</h2>
-			<div id="embed"></div>
+			<!--<div id="embed"></div>-->
 			<div id="thumbs">
 				<ul></ul>
 			</div>
-	</aside>
+	</aside><!--#latest-videos-->
 <?php }
 
 /* END Home page latest videos
