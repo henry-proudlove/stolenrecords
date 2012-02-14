@@ -83,7 +83,7 @@
 							
 							$art_nav_query = new WP_Query($args);
 						
-							while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
+							while ( $art_nav_query->have_posts() ) : $art_nav_query->the_post(); ?>
 							
 								<li><a href="<?php the_permalink(); ?>" class="art-nav-link" title="<?php echo get_the_title() . ' profile'; ?>" rel="bookmark"><?php the_title(); ?></a></li> 
 							<?php endwhile; ?>
@@ -92,7 +92,7 @@
 					<li><a href="<?php echo get_post_type_archive_link( 'release' ); ?>">Releases</a></li>
 					<li><a href="<?php echo get_post_type_archive_link( 'show' ); ?>">Shows</a></li>
 					<?php
-						$showsarchive = get_page_by_title( 'Stolen Shows Archives' );
+						//$showsarchive = get_page_by_title( 'Stolen Shows Archives' );
 						$args = array('title_li' => '' , 'exclude' => '1249,1254');
 						wp_list_pages( $args );
 					?>
