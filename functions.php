@@ -419,7 +419,7 @@ $artist_lnks_mb = new WPAlchemy_MetaBox(array
 	'types' => array('artist' , 'page'), 
 	'context' => 'normal', 
 	'priority' => 'high',
-	'exclude_template' => array('publishing.php', 'page.php'),
+	'exclude_template' => array('page-publishing.php', 'page.php', 'page-front.php' , 'page-news.php', 'page-showsarchive.php' , 'page-media.php'),
 	'template' => get_stylesheet_directory() . '/metaboxes/artist-links-meta.php'
 ));
 
@@ -487,6 +487,7 @@ $review_mb = new WPAlchemy_MetaBox(array
 	'types' => array('artist' , 'release' , 'page'),
 	'context' => 'normal',
 	'priority' => 'low',
+	'exclude_template' => array('page-publishing.php', 'page.php', 'page-front.php' , 'page-news.php', 'page-showsarchive.php' , 'page-media.php'),
 	'template' => get_stylesheet_directory() . '/metaboxes/reviews-meta.php'
 ));
 
@@ -666,18 +667,21 @@ function sr_shows_markup($aside){
 
 
 /*---------------------------------------------------
-Social links on artist page and about
+Social links on artist page, about, nav
 */
 
 function sr_social_links($stolen , $nav)
-{
-	global $artist_lnks_mb;
-	$meta = $artist_lnks_mb->the_meta();
+{	
+	if($nav == false){
+		global $artist_lnks_mb;
+		$meta = $artist_lnks_mb->the_meta();
+	}else{
+		$meta = get_post_meta( 1229, _artist_lnks);
+		$meta = $meta[0];
+	}
 	if($meta['artist_soc_links']){
 		echo '<nav id="social-links">';
-		if($nav == false){
-			echo '<ul>';
-		}
+		echo '<ul>';
 		if ($stolen == false){
 			$artist_name = get_the_title();
 		}else{
@@ -730,9 +734,7 @@ function sr_social_links($stolen , $nav)
 			}
 			echo '<li><a href="'. $artist_link .'" class"' . $art_link_class . '" title="' . $art_link_title . '" rel="bookmark">' . $art_link_title . '</a></li> ';  
 		}
-	if($nav == false){
-			echo '</ul>';
-		}
+		echo '</ul>';
 	echo '</nav><!--#social-links-->';
 	}
 }
@@ -1621,6 +1623,43 @@ endif;
     <?php endforeach; ?>
 </ul>
 	</aside>
+<?php }
+
+function sr_global_nav()
+{ ?>
+	<nav id="access" role="article">
+		<ul>
+			<li><a href="<?php echo get_post_type_archive_link( 'artist' ); ?>">Artists</a>
+				<ul class="artists-menu">
+					<?php 
+					$args = array('post_type' => 'artist' , 'posts_per_page' => '-1' , 'orderby' => 'title' , 'order' => 'ASC' , 'meta_key' => '_sr_present-past', 'meta_value' => 'current');
+			
+					$art_nav_query = new WP_Query($args);
+					
+					while ( $art_nav_query->have_posts() ) : $art_nav_query->the_post(); ?>
+						<li><a href="<?php the_permalink(); ?>" class="art-nav-link" title="<?php echo get_the_title() . ' profile'; ?>" rel="bookmark"><?php the_title(); ?></a></li>
+					<?php 
+					endwhile;
+					
+					$args['meta_value'] = 'past';
+					
+					$art_nav_query = new WP_Query($args);
+				
+					while ( $art_nav_query->have_posts() ) : $art_nav_query->the_post(); ?>
+					
+						<li><a href="<?php the_permalink(); ?>" class="art-nav-link" title="<?php echo get_the_title() . ' profile'; ?>" rel="bookmark"><?php the_title(); ?></a></li> 
+					<?php endwhile; wp_reset_query(); ?>
+				</ul>
+			</li>
+			<li><a href="<?php echo get_post_type_archive_link( 'release' ); ?>">Releases</a></li>
+			<li><a href="<?php echo get_post_type_archive_link( 'show' ); ?>">Shows</a></li>
+			<?php
+				//$showsarchive = get_page_by_title( 'Stolen Shows Archives' );
+				$args = array('title_li' => '' , 'exclude' => '1249,1254');
+				wp_list_pages( $args );
+			?>
+		</ul>
+	</nav><!-- #access -->
 <?php }
 
 //END MISC

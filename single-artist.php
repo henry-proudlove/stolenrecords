@@ -14,7 +14,7 @@ get_header(); ?>
 					<?php 
 					$artist_status = get_post_meta(get_the_ID(),'_sr_present-past',TRUE);
 					if ($artist_status == 'past'){
-						echo '<span class="artist-status">' . $artist_status . '</span>'; 
+						echo '<span class="artist-status">Past Artist</span>'; 
 					}?>
 				</header><!-- .entry-header -->
 				<div class="entry-gallery">
