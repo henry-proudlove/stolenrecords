@@ -195,6 +195,152 @@ button {width: auto; overflow: visible;}
  * Structure
  *
  */
+
+html, body
+{
+height: auto;
+}
+
+#page, #branding, #main
+{
+height:100%;
+/*background: darkturquoise;*/
+}
+
+#branding
+{
+position:fixed;
+max-width: 225px;
+width: 22.66%;
+min-width: 155px;
+background:darkturquoise;
+}
+
+#main
+{
+margin-left: 225px;
+background: whitesmoke;
+height:100%;
+max-width: 1300px;
+min-width: 535px;
+}
+
+#content
+{
+padding: 18px 0 0 18px;
+}
+
+.twelvecol, .eightcol, .sixcol, .fourcol , .twocol , .onecol
+{
+margin: 1.4%;
+background: white;
+float: left;
+}
+
+/* Main Layout */
+
+.twelvecol
+{
+width:95%;
+clear:both;
+}
+
+.eightcol
+{
+width: 62.5%;
+}
+
+.sixcol
+{
+width: 46.25%;
+}
+
+.fourcol
+{
+width: 30%;
+}
+
+.twocol
+{
+width: 13.59%;
+}
+
+.onecol
+{
+width: 5.5%;
+}
+
+.thumb
+{
+width: 9.3%;
+}
+
+/* Offset Layout */
+
+.offset .twelvecol
+{
+width:95%;
+}
+
+.offset .sixcol
+{
+width: 45.2%;
+}
+
+.offset .shim-right
+{
+margin-right: 2.45%;
+}
+
+.offset .shim-left
+{
+margin-left: 2.45%;
+}
+
+.offset .eightcol
+{
+width: 61%;
+}
+
+.offset .fourcol
+{
+width: 29.4%;
+}
+
+.offset .twocol
+{
+width: 13.25%;
+}
+
+
+/* Making nav fluid below 1000px */
+
+@media handheld, only screen and (max-width: 993px)
+{
+
+	#main
+	{
+	margin-left: 22.66%
+	}
+
+}
+
+@media handheld, only screen and (max-width: 693px)
+{
+
+	#main
+	{
+	margin-left: 155px;
+	}
+	
+	.col
+	{
+	margin: 7px;
+	}
+
+}
+
+/*
 #page {
 	display: block;
 }
@@ -239,6 +385,7 @@ button {width: auto; overflow: visible;}
 	margin-left: auto;
 	margin-right: auto;
 }
+*/
 
 
 /*
@@ -276,7 +423,6 @@ button {width: auto; overflow: visible;}
 	padding-left: 0;
 }
 #access li {
-	float: left;
 	position: relative;
 }
 #access a {
@@ -346,12 +492,13 @@ button {width: auto; overflow: visible;}
 .single #content #nav-above {
 	display: block;
 }
-#nav-below {
+/*#nav-below {
 	margin: 1em 0 0;
-}
+}*/
+/*
 .page-link {
 	margin: 0 0 1em;
-}
+}*/
 
 
 /*
@@ -388,6 +535,11 @@ img.alignright {
 }
 .wp-caption .wp-caption-text {
 	margin: .5em;
+}
+
+img
+{
+max-width: 100%;
 }
 
 /* Forms - Class for labelling required form items */

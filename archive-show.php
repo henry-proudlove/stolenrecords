@@ -33,7 +33,7 @@ get_header(); ?>
 	$the_query = new WP_query($args);
 ?>
 
-	<section id="stolen-shows">
+	<section id="stolen-shows" class="twelvecol">
 	<?php if ( $the_query->have_posts() ) : ?>
 	<h1 class="section-header">Stolen Shows</h1>
 	<?php $showsarchive = get_page_by_title( 'Stolen Shows Archive' ); ?>
@@ -60,7 +60,7 @@ get_header(); ?>
 	$args['post__not_in'] = $dont_copy;
 	$the_query = new WP_query($args);
 	?>
-	<section id="artist-shows">
+	<section id="artist-shows" class="twelvecol">
 	<?php if ( $the_query->have_posts() ) : ?>
 	<h1 class="section-header">Artist Shows</h1>
 	<?php while ( $the_query->have_posts() ) : $the_query->the_post();

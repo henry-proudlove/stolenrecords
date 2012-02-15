@@ -56,17 +56,19 @@ get_header(); ?>
 					?>
 				</header><!-- .entry-header -->
 				<div id="content-reviews">
-					<div id="entry-content">
-						<?php the_content(); ?> 
-					</div>
-					<?php
-					global $review_mb;
-					$meta = $review_mb->the_meta();
-					$reviews = $meta['reviews'];
-					if($reviews):
-						sr_get_reivews($reviews);
-					endif;
-					?>
+					<div id="slider">
+						<div id="entry-content">
+							<?php the_content(); ?> 
+						</div>
+						<?php
+						global $review_mb;
+						$meta = $review_mb->the_meta();
+						$reviews = $meta['reviews'];
+						if($reviews):
+							sr_get_reivews($reviews);
+						endif;
+						?>
+					</div><!--#slider-->
 				</div><!--#entry-content-->
 				<?php
 					$buy_link = get_post_meta( $post->ID , '_sr_release-buy-link', true);

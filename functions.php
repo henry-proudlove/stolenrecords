@@ -548,6 +548,7 @@ function sr_relart_loop_markup(){
 		$sr_post_class = null;
 		$artist_status = null;
 	}
+	$sr_post_class .= ' fourcol';
 	?>
 	<article id="post-<?php the_ID(); ?>" <?php post_class($sr_post_class); ?> role="article">
 	<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark">
@@ -752,7 +753,7 @@ Pagination
 function sr_posts_navigation(){
 	global $wp_query;
 	if (  $wp_query->max_num_pages > 1 ) : ?>
-		<nav id="nav-below" role="article">
+		<nav id="nav-below" class="twelvecol" role="article">
 			<div class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Older posts', 'themename' ) ); ?></div>
 			<div class="nav-next"><?php previous_posts_link( __( 'Newer posts <span class="meta-nav">&rarr;</span>', 'themename' ) ); ?></div>
 		</nav><!-- #nav-below -->
@@ -761,7 +762,7 @@ function sr_posts_navigation(){
 
 // Single posts nav
 function sr_single_post_navigation(){?>
-	<nav id="nav-below" role="article">
+	<nav id="nav-below" class="twelvecol" role="article">
 		<div class="nav-previous"><?php previous_post_link( '%link', '<span class="meta-nav">' . _x( '&larr;', 'Previous post link', 'themename' ) . '</span> %title' ); ?></div>
 		<div class="nav-next"><?php next_post_link( '%link', '%title <span class="meta-nav">' . _x( '&rarr;', 'Next post link', 'themename' ) . '</span>' ); ?></div>
 	</nav><!-- #nav-below -->
@@ -817,21 +818,25 @@ function sr_rels_by_artist($args = array())
 		)
 	);
 	$aside = $options['aside'];
-	if(!$aside)
+	echo $aside;
+	if($aside == false)
 	{
 		$wrapper_o = '<section id="releases">';
 		$wrapper_c = '</section><!--#releases-->';
-		$article_tag = 'article';
+		$article_tag_o = '<article class="release twocol">';
+		$article_tag_c = '</article>';
 	}else{
 		$wrapper_o = '<aside id="releases"><h2 class="aside-header">More Releases</h2><ul class="artist-releases">';
 		$wrapper_c = '</ul></aside><!--#releases-->';
-		$article_tag = 'li';
+		$article_tag_o = '<li class="release">';
+		$article_tag_c = '</li>';
+		
 	}
-	$rel_sub_query = new WP_query($query_args);
+	$rel_query = new WP_query($query_args);
 	if( have_posts() ):
 		echo $wrapper_o;	
-		while ($rel_sub_query->have_posts() ): $rel_sub_query->the_post();?>
-				<<?php echo $article_tag;?>  class="release">
+		while ($rel_query->have_posts() ): $rel_query->the_post();?>
+				<?php echo $article_tag_o;?>
 				<?php $rel_id = get_the_ID(); ?>
 				<?php sr_post_thumbnail($options['thumb_size'] , false);?>
 				<?php _sr_post_header();
@@ -858,7 +863,7 @@ function sr_rels_by_artist($args = array())
 						echo '<a class="buy-link buy-now">Buy Now</a>';
 					}
 				}?>
-			</<?php echo $article_tag; ?>>
+			<?php echo $article_tag_c; ?>
 		<?php endwhile; 
 		echo $wrapper_c;
 		endif; wp_reset_query();
@@ -883,7 +888,7 @@ function sr_get_reivews($reviews)
 }
 
 //Get 4 Shows by artist
-function sr_aside_shows($artist, $aside)
+function sr_aside_shows($artist, $home)
 {
 	$current_datetime = date('Y-m-d H:i');
 	$meta_query_str = array(
@@ -904,14 +909,18 @@ function sr_aside_shows($artist, $aside)
 		'meta_query' => $meta_query_str
 	);
 	
-	$the_query = new WP_query($args); ?>
-	
-	<aside id="shows">
+	$the_query = new WP_query($args);
+	if($home == true){
+		echo  '<aside id="shows">';
+	}else{
+		echo '<aside id="shows" class="fourcol">';
+	}
+	?>
 		<h2 class="aside-header">Shows</h2>
 		<ul class="artist-shows">
 	<?php if ( $the_query->have_posts() ) :
 	while ( $the_query->have_posts() ) : $the_query->the_post();?>
-		<?php sr_shows_markup($aside); ?>
+		<?php sr_shows_markup(true); ?>
 		
 	<?php endwhile; else: ?>
 			
@@ -966,7 +975,7 @@ function sr_artist_tracks($artist)
 		$tracks = array_slice($tracks, 0, 7);
 	}
 	if(!empty($tracks)){
-		echo '<aside id="tracks"><h2 class="aside-header">Listen</h2><ul>';
+		echo '<aside id="tracks" class="fourcol"><h2 class="aside-header">Listen</h2><ul>';
 		foreach ($tracks as $track)
 		{	
 			echo '<li><a href="' . $track . '" class="sample-track">' . $track . '</a></li>';
@@ -1007,7 +1016,7 @@ function sr_release_tracks()
 
 //Like button and facepile on home page
 function sr_index_fb(){ ?>
-	<aside id="facebook"><h2 class="aside-header">Facebook</h2>
+	<aside id="facebook">
 		<iframe src="//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FSTOLEN-RECORDINGS%2F66626039279&amp;width=292&amp;height=395&amp;colorscheme=light&amp;show_faces=false&amp;border_color&amp;stream=true&amp;header=false" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:292px; height:395px;" allowTransparency="true"></iframe>
 	</aside><!--#facebook-->
 	<?php
@@ -1029,61 +1038,8 @@ VIDEO
 Home page latest videos
 */
 
-/*function _sr_latest_videos_init(){
-	if(is_home()):?>
-	
-		<script>
-		
-			var apiEndpoint = 'http://vimeo.com/api/v2/';
-			var oEmbedEndpoint = 'http://vimeo.com/api/oembed.json'
-			var oEmbedCallback = 'switchVideo';
-			var videosCallback = 'setupGallery';
-			var vimeoUsername = '3362379';
-		
-			// Get the user's videos
-			$(document).ready(function() {
-				$.getScript(apiEndpoint + vimeoUsername + '/videos.json?callback=' + videosCallback);
-			});
-		
-			function getVideo(url) {
-				$.getScript(oEmbedEndpoint + '?url=' + url + '&width=504&height=280&callback=' + oEmbedCallback);
-			}
-		
-			function setupGallery(videos) {
-		
-				// Add the videos to the gallery
-				for (var i = 0; i < 4; i++) {	
-					var html = '<li><a href="' + videos[i].url + '"><img src="' + videos[i].thumbnail_small + '" class="thumb" />';
-					html += '<h3 class="vid-title">' + videos[i].title + '</h3></li>';
-					html += '<span class="vid-decription">' + videos[i].description + '</span></a></li>';
-					$('#latest-videos ul').append(html);
-				}
-				$('.vid-decription').truncate({
-						width: '250'
-					});
-		
-				// Switch to the video when a thumbnail is clicked
-				$('#thumbs a').click(function(event) {
-					event.preventDefault();
-					getVideo(this.href);
-					return false;
-				});
-		
-			}
-		
-			function switchVideo(video) {
-				$('#embed').html(unescape(video.html));
-			}
-		</script>
-	
-	<?php endif;
-}
-
-add_action('wp_footer' , '_sr_latest_videos_init');*/
-
-function _sr_latest_videos(){ ?>
+function sr_latest_videos(){ ?>
 	<aside id="latest-videos">
-		<h2 class="aside=header">Videos</h2>
 			<!--<div id="embed"></div>-->
 			<div id="thumbs">
 				<ul></ul>
@@ -1216,7 +1172,7 @@ function sr_media_videos(&$dont_copy)
 		{
 			if($video['is_valid'] == 'true')
 			{?>
-				<article class="media-thumb video <?php echo $video['vendor'] ?>">
+				<article class="media-thumb video <?php echo $video['vendor'] ?> fourcol">
 					<a href="<?php echo $video['video_link'] ?>" class="video-link">
 						<img src="<?php echo $video['thumbnail_large']?>" class="media-img <?php echo $video['vendor'] ?>" />
 						<div class="info">
@@ -1287,7 +1243,7 @@ function sr_artist_videos($artist)
 		$videos = array_slice($videos, 0, 4);
 	}
 	if(!empty($videos)){
-		echo '<aside id="videos"><h2 class="aside-header">Videos</h2><ul>';
+		echo '<aside id="videos" class="fourcol"><h2 class="aside-header">Videos</h2><ul>';
 		$videos = sr_get_videos($videos);
 		video_aside_markup($videos);
 		echo '</ul></aside><!--#videos-->';
@@ -1599,7 +1555,7 @@ function get_twitter_link(){?>
 
 // RSS shotcode
 function sr_latest_tweets(){ ?>
-	<aside id="twitter"><h3 class="aside-header">Twitter</h3><?php
+	<aside id="twitter"><?php
 include_once(ABSPATH . WPINC . '/feed.php');
 
 $rss = fetch_feed('http://twitter.com/statuses/user_timeline/20986653.rss');

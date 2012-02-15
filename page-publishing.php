@@ -13,7 +13,7 @@ get_header(); ?>
 
 		<?php the_post(); ?>
 
-		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
+		<article id="post-<?php the_ID(); ?>" <?php post_class('twelvecol'); ?> role="article">
 			<header class="entry-header">
 				<h1 class="entry-title"><?php the_title(); ?></h1>
 			</header><!-- .entry-header -->
@@ -25,7 +25,7 @@ get_header(); ?>
 		</article><!-- #post-<?php the_ID(); ?> -->
 		
 		<section id=artists">
-		
+		<h2 class="section-header twelvecol">Published by stolen</h2>
 		<?php /* Start the Loop */
 	
 			$args = array('post_type' => 'artist' , 'posts_per_page' => '-1' , 'orderby' => 'title' , 'order' => 'ASC' , 'meta_key' => '_sr_publishing', 'meta_value' => 'publishing');

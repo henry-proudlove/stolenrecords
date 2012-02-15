@@ -57,7 +57,51 @@ GET FLICKR FOR MEDIA PAGE
 $.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?id=8546357@N03&lang=en-us&format=json&jsoncallback=?", function(data){
   $.each(data.items, function(i,item){
     $("<img/>").attr("src", item.media.m).appendTo("#flickr-images")
-      .wrap("<a href='" + item.link + "'></a>");
+      .wrap("<a href='" + item.link + "' class='fourcol'></a>");
       if ( i == 10 ) return false;
   });
+});
+
+/*
+ISOTOPE
+*/
+
+/*var $container = $('.isotope-content')
+// initialize Isotope
+$container.isotope({
+  // options...
+  resizable: false, // disable normal resizing
+  // set columnWidth to a percentage of container width
+  masonry: { columnWidth: $container.innerWidth() / 3 }
+});
+
+// update columnWidth on window resize
+$(window).smartresize(function(){
+  $container.isotope({
+    // update columnWidth to a percentage of container width
+    masonry: { columnWidth: $container.innerWidth() / 3 }
+  });
+});*/
+
+/*$(function(){
+ $('#slider').anythingSlider({
+ 	expand : true,
+ 	resizeContents: true
+ });
+});*/
+$(document).ready(function() {
+	$('#slider') 
+	.before('<nav><a id="previous">Previous</a><div id="pager"></nav><a id="next">Next</a></nav>') 
+	.cycle({ 
+		fx:     'fade', 
+		speed:  'fast', 
+		timeout: 0, 
+		pager:  '#pager',
+		next:   '#next', 
+    	prev:   '#previous' 
+	});
+});
+
+$(function() {
+	$( "#social-tabs" ).tabs();
 });

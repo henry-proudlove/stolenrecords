@@ -4,7 +4,7 @@
  * @subpackage themename
  */
 ?>
-		<div id="secondary" class="widget-area">
+		<div id="secondary" class="widget-area fourcol shim-left">
 			<?php if ( ! dynamic_sidebar( 'sidebar' ) ) : ?>
 
 				<aside id="search" class="widget widget_search" role="complementary">

@@ -7,23 +7,25 @@
 get_header(); ?>
 
 	<div id="content">
-		<a href="<?php echo get_post_type_archive_link( 'artist' ); ?>">All Artists</a>
-		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
+		<article id="post-<?php the_ID(); ?>" <?php post_class('twelvecol'); ?> role="article">
+			<a href="<?php echo get_post_type_archive_link( 'artist' ); ?>">All Artists</a>
 				<header class="entry-header">
 					<h1 class="entry-title"><?php the_title(); ?></h1>
 					<?php 
+					$artist = get_the_title();
 					$artist_status = get_post_meta(get_the_ID(),'_sr_present-past',TRUE);
 					if ($artist_status == 'past'){
-						echo '<span class="artist-status">Past Artist</span>'; 
+						echo '<h2 class="artist-status">Past Artist</h2>'; 
 					}?>
 				</header><!-- .entry-header -->
-				<div class="entry-gallery">
+				<div id="gallery-slider" class="entry-gallery">
 					<?php sr_artist_gallery(); ?>
 				</div><!-- .entry-gallery -->
 				<div id="entry-content">
 					<?php the_content(); ?>
 				</div><!-- .entry-content -->
 				<?php sr_social_links(false, false); ?>
+		</article><!-- #post-<?php the_ID(); ?> -->
 			
 			<?php 
 			
@@ -36,14 +38,19 @@ get_header(); ?>
 			$meta = $review_mb->the_meta();
 			$reviews = $meta['reviews'];
 			if($reviews): ?>
-				<section id="reviews">
+				<section id="reviews" class="twelvecol">
+					<div id="review-slider">
 					<?php sr_get_reivews($reviews); ?>
+					</div>
 				</section><!--#reviews-->
 			<?php endif; ?>
+		<footer id="artist-asides">
 			<?php sr_artist_videos($artist); ?>
-			<?php sr_aside_shows($artist, true);?>	
+			<?php sr_aside_shows($artist, false);?>	
 			<?php sr_artist_tracks($artist); ?>
-		</article><!-- #post-<?php the_ID(); ?> -->
+		</footer><!--#artist-asides-->
+		
 		<?php sr_single_post_navigation(); ?>
+		
 	</div><!-- #content -->
 <?php get_footer(); ?>

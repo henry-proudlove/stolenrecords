@@ -9,7 +9,7 @@
 
 get_header(); ?>
 
-	<div id="content">
+	<div id="content" class="isotope-content">
 
 		<?php /* Start the Loop */?>
 
@@ -24,7 +24,6 @@ get_header(); ?>
 		
 		while ( $art_query->have_posts() ) : $art_query->the_post();
 			
-			_sr_post_header();
 			//Reset index of postIDs
 			$i=0;
 			$post_ids = array();
@@ -61,12 +60,13 @@ get_header(); ?>
 			foreach($post_nums as $post_num)
 			{
 				/*wpo_get_images('medium', '0', '0', 'large', $post_num, '1', 'media-thumb photo attachment-image', '0', '0');*/
-				$options = array('size' => 'medium', 'post_id' => $post_num, 'wrapper' => true, 'wrapper_class' => 'media-thumb photo attachment-image' );
+				$options = array('size' => 'medium', 'post_id' => $post_num, 'wrapper' => true, 'wrapper_class' => 'media-thumb photo attachment-image fourcol' );
 				sr_get_images($options);
 			}
 		endwhile;?>
 
-	<div id="flickr-images"><a href="http://www.flickr.com/photos/stolenrecordings" title="Stolen Records on Flickr" rel="bookmark"><h2 class="section-header">Stolen Flickr</h3></a></div>
+		<!--<div id="flickr-images"><a href="http://www.flickr.com/photos/stolenrecordings" title="Stolen Records on Flickr" rel="bookmark"><h2 class="section-header twelvecol hidden">Stolen Flickr</h3></a></div>-->
+	
 	</div><!-- #content -->
 
 <?php get_footer(); ?>

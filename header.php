@@ -46,6 +46,9 @@
 	
 	<link rel="profile" href="http://gmpg.org/xfn/11" />
     <link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); echo '?' . filemtime( get_stylesheet_directory() . '/style.css'); ?>" type="text/css" media="screen, projection" />
+    
+    <link rel="stylesheet" href="<?php echo get_template_directory_uri() . '/css/jquery-ui-1.8.17.custom.css'; ?>" type="text/css" media="screen" />
+<link rel="stylesheet" href="css/print.css" type="text/css" media="print" />
 
 	<?php if ( is_singular() && get_option( 'thread_comments' ) ) wp_enqueue_script( 'comment-reply' ); ?>
 	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
@@ -58,48 +61,16 @@
 	</head>
 	
 	<body <?php body_class(); ?>>
-	<div id="page" class="hfeed">
+	<div id="page" class="hfeed clearfix">
 		<header id="branding" role="banner">
 			<hgroup>
 				<h1 id="site-title"><span><a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></span></h1>
 				<h2 id="site-description"><?php bloginfo( 'description' ); ?></h2>
 			</hgroup>
 			
-			<nav id="access" role="article">
-				<ul>
-					<li><a href="<?php echo get_post_type_archive_link( 'artist' ); ?>">Artists</a>
-						<ul class="artists-menu">
-							<?php 
-							$args = array('post_type' => 'artist' , 'posts_per_page' => '-1' , 'orderby' => 'title' , 'order' => 'ASC' , 'meta_key' => '_sr_present-past', 'meta_value' => 'current');
-					
-							$art_nav_query = new WP_Query($args);
-							
-							while ( $art_nav_query->have_posts() ) : $art_nav_query->the_post(); ?>
-								<li><a href="<?php the_permalink(); ?>" class="art-nav-link" title="<?php echo get_the_title() . ' profile'; ?>" rel="bookmark"><?php the_title(); ?></a></li>
-							<?php 
-							endwhile;
-							
-							$args['meta_value'] = 'past';
-							
-							$art_nav_query = new WP_Query($args);
-						
-							while ( $art_nav_query->have_posts() ) : $art_nav_query->the_post(); ?>
-							
-								<li><a href="<?php the_permalink(); ?>" class="art-nav-link" title="<?php echo get_the_title() . ' profile'; ?>" rel="bookmark"><?php the_title(); ?></a></li> 
-							<?php endwhile; wp_reset_query(); ?>
-						</ul>
-					</li>
-					<li><a href="<?php echo get_post_type_archive_link( 'release' ); ?>">Releases</a></li>
-					<li><a href="<?php echo get_post_type_archive_link( 'show' ); ?>">Shows</a></li>
-					<?php
-						//$showsarchive = get_page_by_title( 'Stolen Shows Archives' );
-						$args = array('title_li' => '' , 'exclude' => '1249,1254');
-						wp_list_pages( $args );
-					?>
-				</ul>
-			</nav><!-- #access -->
+			<?php sr_global_nav(); ?>
 			<?php sr_social_links(true, true); ?>
 		</header><!-- #branding -->
 	
 	
-		<div id="main">
+		<div id="main" class="clearfix">
