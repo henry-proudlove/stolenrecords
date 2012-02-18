@@ -390,6 +390,28 @@ add_action('puslish_artist', 'delete_artist_term');*/
 
 /*
 =======================================================
+IMAGE SIZES
+=======================================================
+*/
+if ( function_exists( 'add_image_size' ) ) { 
+	add_image_size( 'sr-twelvecol', 1217, 500, true );
+	add_image_size( 'sr-eightcol', 801, 801, false );
+	add_image_size( 'sr-sixcol', 592, 592, false );
+	add_image_size( 'sr-fourcol', 384, 384, false );
+	add_image_size( 'sr-twocol', 174, 174, true );
+}
+
+if ( function_exists( 'add_theme_support' ) ) {
+	add_theme_support( 'post-thumbnails' );
+    set_post_thumbnail_size( 100, 100, true );  
+}
+
+
+
+//END image sizes
+
+/*
+=======================================================
 METABOXES	
 =======================================================
 */

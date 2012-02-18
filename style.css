@@ -196,12 +196,7 @@ button {width: auto; overflow: visible;}
  *
  */
 
-html, body
-{
-height: auto;
-}
-
-#page, #branding, #main
+#page, #branding, body, html
 {
 height:100%;
 /*background: darkturquoise;*/
@@ -585,4 +580,69 @@ article.comment {
  */
 #colophon {
 	padding: 1em 0 0;
+}
+
+/*
+ *
+ * Slider
+ *
+ */
+ 
+#slider article
+{
+width: 100% !important;
+}
+
+
+/*
+ *
+ * Loader
+ *
+ */
+
+@-webkit-keyframes spin {
+  from { -webkit-transform: rotate(0deg); }
+  to { -webkit-transform: rotate(360deg); }
+}
+
+@-moz-keyframes spin {
+  from { -moz-transform: rotate(0deg); }
+  to { -moz-transform: rotate(360deg); }
+}
+
+@-ms-keyframes spin {
+  from { -ms-transform: rotate(0deg); }
+  to { -ms-transform: rotate(360deg); }
+}
+
+#loader-holder
+{
+position: fixed;
+top: 50%;
+margin-left:66px;
+margin-top: -35px;
+width: 100%;
+max-width: 1235px;
+z-index: 6;
+}
+
+#loader {
+background: url(images/loader.png) 0 0 no-repeat;
+/*position: absolute;*/
+margin: 0 auto;
+height: 69px;
+width:69px;
+-webkit-animation-name: spin;
+-webkit-animation-duration: 700ms;
+-webkit-animation-iteration-count: infinite;
+-webkit-animation-timing-function: linear;
+-moz-animation-name: spin;
+-moz-animation-duration: 700ms;
+-moz-animation-iteration-count: infinite;
+-moz-animation-timing-function: linear;
+-ms-animation-name: spin;
+-ms-animation-duration: 700ms;
+-ms-animation-iteration-count: infinite;
+-ms-animation-timing-function: linear;
+-o-transition: rotate(3600deg);
 }

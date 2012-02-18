@@ -15,9 +15,9 @@ get_header(); ?>
 		<?php sr_aside_shows('', true) ?>
 		<div id="social-tabs">
 			<ul>
-				<li><a href="#facebook">Facebook</a></li>
-				<li><a href="#latest-videos">Videos</a></li>
 				<li><a href="#twitter">Twitter</a></li>
+				<li><a href="#latest-videos">Videos</a></li>
+				<li><a href="#facebook">Facebook</a></li>
 			</ul>
 			<?php sr_index_fb(); ?>
 			<?php sr_latest_videos(); ?>
@@ -25,5 +25,4 @@ get_header(); ?>
 		</div><!--#social-tabs-->
 	</div><!--#sidebar-->
 </div><!-- #content -->
-		
 <?php get_footer(); ?>

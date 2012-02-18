@@ -1,8 +1,64 @@
+/*
+STRIP TAGS
+*/
+
 (function( $ ) {
   jQuery.fn.stripTags = function() {
   	return this.replaceWith( this.html().replace(/<\/?[^>]+>/gi, '') );
   };
 })( jQuery );
+
+/*
+DEBOUNCED RESIZE
+*/
+
+(function($,sr){
+ 
+  // debouncing function from John Hann
+  // http://unscriptable.com/index.php/2009/03/20/debouncing-javascript-methods/
+  var debounce = function (func, threshold, execAsap) {
+      var timeout;
+ 
+      return function debounced () {
+          var obj = this, args = arguments;
+          function delayed () {
+              if (!execAsap)
+                  func.apply(obj, args);
+              timeout = null; 
+          };
+ 
+          if (timeout)
+              clearTimeout(timeout);
+          else if (execAsap)
+              func.apply(obj, args);
+ 
+          timeout = setTimeout(delayed, threshold || 100); 
+      };
+  }
+	// smartresize 
+	jQuery.fn[sr] = function(fn){  return fn ? this.bind('resize', debounce(fn)) : this.trigger(sr); };
+ 
+})(jQuery,'smartresize');
+
+/*
+SLIDER HEIGHT
+*/
+
+jQuery.fn.sliderheight = function() {
+    var o = $(this[0]) // It's your element
+    var maxHeight = 0;
+    //alert("fuckface" + o);
+    el = o.children();
+    //el.css('background-color' , 'red');
+	el.each(function(){
+		$(this).css('background-color' , 'red');
+		//alert($(this).height());
+		if($(this).height() > maxHeight) {
+            maxHeight = $(this).height();
+        }
+	});
+	o.height(maxHeight);
+};
 
 
 /*
@@ -89,19 +145,50 @@ $(window).smartresize(function(){
  	resizeContents: true
  });
 });*/
+
 $(document).ready(function() {
 	$('#slider') 
-	.before('<nav><a id="previous">Previous</a><div id="pager"></nav><a id="next">Next</a></nav>') 
+	.before('<nav id="slider-nav"><a id="previous">Previous</a><div id="pager"></div><a id="next">Next</a></nav><!--#slider-nav-->') 
 	.cycle({ 
 		fx:     'fade', 
 		speed:  'fast', 
 		timeout: 0, 
 		pager:  '#pager',
 		next:   '#next', 
-    	prev:   '#previous' 
+    	prev:   '#previous',
+    	containerResize: false,
+  		slideResize: false,
+  		fit: 1
 	});
+	
+	$(function() {
+		$( "#social-tabs" ).tabs();
+	});
+	
+	$(window).smartresize(function(){  
+		$("#slider").sliderheight();
+	});
+	
+	$("#slider").sliderheight();
+	
+     //navigation
+    $("#access a").unbind("click").click(function(){
+     	var srPage = $(this).attr("href");
+        $("#main").fadeOut(200 , function(){ 
+			$("#page").append('<div id="loader-holder"><div id="loader"></div></div>').fadeIn(100);
+			$("#main").load(srPage+" #main > *", function() {
+				$("#main").fadeIn(200, function(){
+					$("#loader-holder").fadeOut(500 , function(){
+						$(this).remove();
+					});
+				});
+				var srBase = $.address.baseURL();
+				var srAddress = srPage.replace(srBase , '');
+				//alert(srBase + 'fuck');
+				$.address.value(srPage); 
+			});
+		});
+		return false;
+     });
 });
 
-$(function() {
-	$( "#social-tabs" ).tabs();
-});
