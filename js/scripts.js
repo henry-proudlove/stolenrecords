@@ -171,7 +171,7 @@ $(document).ready(function() {
 	
 	$("#slider").sliderheight();
 	
-	/*function loadURL(url){
+	function loadURL(url){
 		$("#main").fadeOut(200 , function(){ 
 			$("#page").append('<div id="loader-holder"><div id="loader"></div></div>').fadeIn(100);
 			console.log("loadURL: " + url);
@@ -200,103 +200,6 @@ $(document).ready(function() {
     $("#access a").click(function(){
      	$.address.value($(this).attr('href'));
      	loadURL($(this).attr('href'));
-     });*/
-     
+     });
 });
-
-
-(function() {
-
-'use strict';
-
-var nav = $('#access a'),
-    content = $('#content'),
-    init = true,
-    state = window.history.pushState !== undefined,
-    handler = function (data) {
-        // Response
-        document.title = data.title + ' - Stolen Records';
-        content.fadeTo(20, 1).removeAttr('style').html(data.content);
-        $("#loader-holder").fadeOut(500 , function(){
-						$(this).remove();
-					});
-        if ($.browser.msie) {
-            content.removeAttr('filter');
-        }
-    };
-
-$.address.crawlable(1).state().init(function () {
-    // Initialize jQuery Address
-    nav.address();
-    
-}).change(function (e) {
-    // Select nav link
-    nav.each(function () {
-        var link = $(this);
-        if (link.attr('href') === (($.address.state() + decodeURI(e.path)).replace(/\/\//, '/'))) {
-            link.addClass('selected').focus();
-        } else {
-            link.removeAttr('class');
-        }
-    });
-
-    if (state && init) {
-        init = false;
-
-    } else {
-        // Implement timeout
-        var timer = window.setTimeout(function () {
-            content.html('Loading seems to be taking a while...');
-        }, 3800);
-
-        // Load API content
-        $.ajax({
-            type: 'GET',
-            url: // '//lab.alaukstein.com/ajax-seo/'+
-            'api' + (e.path.length !== 1 ? '/' + encodeURIComponent(e.path.toLowerCase().substr(1)) : ''),
-            // You maight switch it to 'jsonp'
-            dataType: 'json',
-            // Uncomment the next line in case you use 'jsonp'
-            //jsonpCallback: 'i',
-            cache: false,
-            beforeSend: function () {
-                document.title = 'Loading...';
-                content.fadeTo(200, 0.33);
-                $("#page").append('<div id="loader-holder"><div id="loader"></div></div>').fadeIn(100);
-            },
-            success: function (data, textStatus, jqXHR) {
-                window.clearTimeout(timer);
-                handler(data);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                window.clearTimeout(timer);
-                nav.removeAttr('class');
-                document.title = '404 Page not found';
-                content.fadeTo(20, 1).removeAttr('style').html('<h1>404 Page not found</h1>\r<p>Sorry, this page cannot be found.</p>\r');
-                $("#loader-holder").fadeOut(500 , function(){
-						$(this).remove();
-					});
-                if ($.browser.msie) {
-                    content.removeAttr('filter');
-                }
-            }
-        });
-    }
-});
-
-//Optimized Google Analytics snippet by http://mathiasbynens.be/notes/async-analytics-snippet
-var _gaq = [
-    ['_setAccount', 'UA-11883501-1'],
-    ['_setDomainName','.laukstein.com'],
-    ['_addIgnoredRef','.laukstein.com']
-];
-(function (d, t) {
-    var g = d.createElement(t),
-        s = d.getElementsByTagName(t)[0];
-    g.src = '//www.google-analytics.com/ga.js';
-    s.parentNode.insertBefore(g, s);
-}(document, 'script'));
-
-})();
-
 
