@@ -172,11 +172,10 @@ $(document).ready(function() {
 	$("#slider").sliderheight();
 	
 	function loadURL(url){
-		$("#main").fadeOut(200 , function(){ 
+		$("#main").fadeTo(200 , 0.2, function(){ 
 			$("#page").append('<div id="loader-holder"><div id="loader"></div></div>').fadeIn(100);
-			console.log("loadURL: " + url);
 			$("#main").load(url+" #main > *", function() {
-				$("#main").fadeIn(200, function(){
+				$("#main").fadeTo(200 , 1, function(){
 					$("#loader-holder").fadeOut(500 , function(){
 						$(this).remove();
 					});
@@ -185,21 +184,13 @@ $(document).ready(function() {
 		});
 	}
 	
-	$.address.init(function(event) {
-	        console.log("init: " + $('[rel=address:' + event.value + ']').attr('href'));
-	}).change(function(event) {
-				$("#main").load($('[rel=address:' + event.value + ']').attr('href'));
-				console.log("change");
-	})
-	
-	$.address.change(function(event) {  
-    	console.log($.address.path());
-	});  
-	
-     //navigation
+    //navigation
     $("#access a").click(function(){
-     	$.address.value($(this).attr('href'));
-     	loadURL($(this).attr('href'));
+    	url = $(this).attr('href');
+     	loadURL(url);
+     	hash = url.replace($.address.baseURL(), '');
+		$.address.value(hash);
+		console.log(hash);
      });
 });
 
