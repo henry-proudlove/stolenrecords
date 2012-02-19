@@ -15,7 +15,7 @@
 <script src="<?php echo get_template_directory_uri(); ?>/js/jquery.isotope.min.js"></script>
 <script src="<?php echo get_template_directory_uri(); ?>/js/jquery.cycle.all.js"></script>
 <script src="<?php echo get_template_directory_uri(); ?>/js/jquery-ui-1.8.17.custom.min.js"></script>
-<script src="<?php echo get_template_directory_uri(); ?>/js/jquery.address-1.5.min.js" state="<?php echo site_url(); ?>"></script>
+<script src="<?php echo get_template_directory_uri(); ?>/js/jquery.address-1.5.min.js"></script>
 <script src="<?php echo get_template_directory_uri(); ?>/js/scripts.js"></script>
 
 <?php wp_footer(); ?>

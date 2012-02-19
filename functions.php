@@ -1578,7 +1578,7 @@ function sr_global_nav()
 { ?>
 	<nav id="access" role="article">
 		<ul>
-			<li><a href="<?php echo get_post_type_archive_link( 'artist' ); ?>" rel="address:<?php echo get_post_type_archive_link( 'artist' ); ?>">Artists</a>
+			<li><a href="<?php echo get_post_type_archive_link( 'artist' ); ?>" address="true">Artists</a>
 				<ul class="artists-menu">
 					<?php 
 					$args = array('post_type' => 'artist' , 'posts_per_page' => '-1' , 'orderby' => 'title' , 'order' => 'ASC' , 'meta_key' => '_sr_present-past', 'meta_value' => 'current');
@@ -1586,7 +1586,7 @@ function sr_global_nav()
 					$art_nav_query = new WP_Query($args);
 					
 					while ( $art_nav_query->have_posts() ) : $art_nav_query->the_post(); ?>
-						<li><a href="<?php the_permalink(); ?>" class="art-nav-link" title="<?php echo get_the_title() . ' profile'; ?>" rel="address:<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
+						<li><a href="<?php the_permalink(); ?>" class="art-nav-link" title="<?php echo get_the_title() . ' profile'; ?>" address="true"><?php the_title(); ?></a></li>
 					<?php 
 					endwhile;
 					
@@ -1596,12 +1596,12 @@ function sr_global_nav()
 				
 					while ( $art_nav_query->have_posts() ) : $art_nav_query->the_post(); ?>
 					
-						<li><a href="<?php the_permalink(); ?>" class="art-nav-link" title="<?php echo get_the_title() . ' profile'; ?>" rel="address:<?php the_permalink(); ?>"><?php the_title(); ?></a></li> 
+						<li><a href="<?php the_permalink(); ?>" class="art-nav-link" title="<?php echo get_the_title() . ' profile'; ?>" address="true"><?php the_title(); ?></a></li> 
 					<?php endwhile; wp_reset_query(); ?>
 				</ul>
 			</li>
-			<li><a href="<?php echo get_post_type_archive_link( 'release' ); ?>" rel="address:/<?php echo get_post_type_archive_link( 'release' ); ?>">Releases</a></li>
-			<li><a href="<?php echo get_post_type_archive_link( 'show' ); ?>" rel="address:<?php echo get_post_type_archive_link( 'show' ); ?>">Shows</a></li>
+			<li><a href="<?php echo get_post_type_archive_link( 'release' ); ?>" rel="address="true">Releases</a></li>
+			<li><a href="<?php echo get_post_type_archive_link( 'show' ); ?>" rel="address="true">Shows</a></li>
 			<?php
 				$args = array('meta_key' => '_sr_page', 'meta_value' => 'exclude');
 				$exclude_pages = get_pages($args);
@@ -1613,7 +1613,7 @@ function sr_global_nav()
 				$page_menu = get_pages($args);
 				foreach ($page_menu as $page)
 				{?> 
-					<li><a href="<?php echo $page->guid; ?>" title="Go to the <?php echo $page->post_title ?> Page" rel="address:<?php echo $page->guid; ?>"> 
+					<li><a href="<?php echo $page->guid; ?>" title="Go to the <?php echo $page->post_title ?> Page" address="true"> 
 					<?php echo $page->post_title; ?></a></li>
 				<?php }
 			?>
