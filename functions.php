@@ -1566,6 +1566,145 @@ End Image display
 
 /*
 =======================================================
+Pages
+=======================================================
+*/
+
+/*---------------------------------------------------
+Global Nav
+*/
+
+function sr_global_nav()
+{ ?>
+	<nav id="access" role="article">
+		<ul>
+			<li><a href="<?php echo get_post_type_archive_link( 'artist' ); ?>" rel="address:<?php echo get_post_type_archive_link( 'artist' ); ?>">Artists</a>
+				<ul class="artists-menu">
+					<?php 
+					$args = array('post_type' => 'artist' , 'posts_per_page' => '-1' , 'orderby' => 'title' , 'order' => 'ASC' , 'meta_key' => '_sr_present-past', 'meta_value' => 'current');
+			
+					$art_nav_query = new WP_Query($args);
+					
+					while ( $art_nav_query->have_posts() ) : $art_nav_query->the_post(); ?>
+						<li><a href="<?php the_permalink(); ?>" class="art-nav-link" title="<?php echo get_the_title() . ' profile'; ?>" rel="address:<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
+					<?php 
+					endwhile;
+					
+					$args['meta_value'] = 'past';
+					
+					$art_nav_query = new WP_Query($args);
+				
+					while ( $art_nav_query->have_posts() ) : $art_nav_query->the_post(); ?>
+					
+						<li><a href="<?php the_permalink(); ?>" class="art-nav-link" title="<?php echo get_the_title() . ' profile'; ?>" rel="address:<?php the_permalink(); ?>"><?php the_title(); ?></a></li> 
+					<?php endwhile; wp_reset_query(); ?>
+				</ul>
+			</li>
+			<li><a href="<?php echo get_post_type_archive_link( 'release' ); ?>" rel="address:/<?php echo get_post_type_archive_link( 'release' ); ?>">Releases</a></li>
+			<li><a href="<?php echo get_post_type_archive_link( 'show' ); ?>" rel="address:<?php echo get_post_type_archive_link( 'show' ); ?>">Shows</a></li>
+			<?php
+				$args = array('meta_key' => '_sr_page', 'meta_value' => 'exclude');
+				$exclude_pages = get_pages($args);
+				foreach($exclude_pages as $page)
+				{	
+					$exclude_from_nav .= $page->ID . ',';
+				}
+				$args = array('exclude' => $exclude_from_nav, 'title_li' => '' , 'sort_column' => 'menu_order , post_title', 'echo' => false);
+				$page_menu = get_pages($args);
+				foreach ($page_menu as $page)
+				{?> 
+					<li><a href="<?php echo $page->guid; ?>" title="Go to the <?php echo $page->post_title ?> Page" rel="address:<?php echo $page->guid; ?>"> 
+					<?php echo $page->post_title; ?></a></li>
+				<?php }
+			?>
+		</ul>
+	</nav><!-- #access -->
+<?php }
+
+/* END Global Nav
+---------------------------------------------------*/
+
+/*---------------------------------------------------
+Add pages on theme activation
+*/
+
+if (isset($_GET['activated']) && is_admin()){
+	
+	$sr_pages = array(
+				array(
+					'page_title' => 'Index',
+					'page_template' => 'page-front.php',
+					'menu_order' => 0,
+					'exclude' => true),
+				array(
+					'page_title' => 'Stolen Shows Archive',
+					'page_template' => 'page-showsarchive.php',
+					'menu_order' => 0,
+					'exclude' => true),
+				array(
+					'page_title' => 'News',
+					'page_template' => 'page-news.php',
+					'menu_order' => 2,
+					'exclude' => false),
+				array(
+					'page_title' => 'Videos/Photos',
+					'page_template' => 'page-media.php',
+					'menu_order' => 4,
+					'exclude' => false),
+				array(
+					'page_title' => 'Publishing',
+					'page_template' => 'page-publishing.php',
+					'menu_order' => 6,
+					'exclude' => false),
+				array(
+					'page_title' => 'About',
+					'page_template' => 'page-about.php',
+					'menu_order' => 8,
+					'exclude' => false),
+		);
+	$page_count = count($sr_pages);
+	
+	for($i=0; $i < $page_count; $i++)
+	{
+		$new_page = array(
+			'post_type' => 'page',
+			'post_title' => $sr_pages[$i]['page_title'],
+			'post_content' => '',
+			'post_status' => 'publish',
+			'post_author' => 1,
+			'menu_order' => $sr_pages[$i]['menu_order']
+		);
+		
+		$new_page_id = wp_insert_post($new_page);
+		update_post_meta($new_page_id, '_wp_page_template', $sr_pages[$i]['page_template']);
+		
+		if($sr_pages[$i]['exclude'] == true)
+		{
+			add_post_meta($new_page_id, '_sr_page', 'exclude', true);
+		}else{
+			add_post_meta($new_page_id, '_sr_page', 'include', true);
+		}
+		
+		if($sr_pages[$i]['page_template'] == 'page-front.php')
+		{
+			update_option( 'page_on_front', $new_page_id );
+			update_option( 'show_on_front', 'page' );
+		}
+		
+		if($sr_pages[$i]['page_template'] == 'page-news.php')
+		{
+			update_option( 'page_for_posts', $new_page_id );
+		}
+	}
+}
+
+/* END Add pages on theme activation
+---------------------------------------------------*/
+
+//END PAGES
+
+/*
+=======================================================
 MISC
 =======================================================
 */
@@ -1601,43 +1740,6 @@ endif;
     <?php endforeach; ?>
 </ul>
 	</aside>
-<?php }
-
-function sr_global_nav()
-{ ?>
-	<nav id="access" role="article">
-		<ul>
-			<li><a href="<?php echo get_post_type_archive_link( 'artist' ); ?>">Artists</a>
-				<ul class="artists-menu">
-					<?php 
-					$args = array('post_type' => 'artist' , 'posts_per_page' => '-1' , 'orderby' => 'title' , 'order' => 'ASC' , 'meta_key' => '_sr_present-past', 'meta_value' => 'current');
-			
-					$art_nav_query = new WP_Query($args);
-					
-					while ( $art_nav_query->have_posts() ) : $art_nav_query->the_post(); ?>
-						<li><a href="<?php the_permalink(); ?>" class="art-nav-link" title="<?php echo get_the_title() . ' profile'; ?>" rel="bookmark"><?php the_title(); ?></a></li>
-					<?php 
-					endwhile;
-					
-					$args['meta_value'] = 'past';
-					
-					$art_nav_query = new WP_Query($args);
-				
-					while ( $art_nav_query->have_posts() ) : $art_nav_query->the_post(); ?>
-					
-						<li><a href="<?php the_permalink(); ?>" class="art-nav-link" title="<?php echo get_the_title() . ' profile'; ?>" rel="bookmark"><?php the_title(); ?></a></li> 
-					<?php endwhile; wp_reset_query(); ?>
-				</ul>
-			</li>
-			<li><a href="<?php echo get_post_type_archive_link( 'release' ); ?>">Releases</a></li>
-			<li><a href="<?php echo get_post_type_archive_link( 'show' ); ?>">Shows</a></li>
-			<?php
-				//$showsarchive = get_page_by_title( 'Stolen Shows Archives' );
-				$args = array('title_li' => '' , 'exclude' => '1249,1254');
-				wp_list_pages( $args );
-			?>
-		</ul>
-	</nav><!-- #access -->
 <?php }
 
 //END MISC

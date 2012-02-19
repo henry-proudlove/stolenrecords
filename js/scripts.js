@@ -171,24 +171,35 @@ $(document).ready(function() {
 	
 	$("#slider").sliderheight();
 	
-     //navigation
-    $("#access a").unbind("click").click(function(){
-     	var srPage = $(this).attr("href");
-        $("#main").fadeOut(200 , function(){ 
+	function loadURL(url){
+		$("#main").fadeOut(200 , function(){ 
 			$("#page").append('<div id="loader-holder"><div id="loader"></div></div>').fadeIn(100);
-			$("#main").load(srPage+" #main > *", function() {
+			console.log("loadURL: " + url);
+			$("#main").load(url+" #main > *", function() {
 				$("#main").fadeIn(200, function(){
 					$("#loader-holder").fadeOut(500 , function(){
 						$(this).remove();
 					});
-				});
-				var srBase = $.address.baseURL();
-				var srAddress = srPage.replace(srBase , '');
-				//alert(srBase + 'fuck');
-				$.address.value(srPage); 
+				}); 
 			});
 		});
-		return false;
+	}
+	
+	$.address.init(function(event) {
+	        console.log("init: " + $('[rel=address:' + event.value + ']').attr('href'));
+	}).change(function(event) {
+				$("#main").load($('[rel=address:' + event.value + ']').attr('href'));
+				console.log("change");
+	})
+	
+	$.address.change(function(event) {  
+    	console.log($.address.path());
+	});  
+	
+     //navigation
+    $("#access a").click(function(){
+     	$.address.value($(this).attr('href'));
+     	loadURL($(this).attr('href'));
      });
 });
 
