@@ -6,7 +6,7 @@
 ?>
 <section id="latest" class="twelvecol">
 <h2 class="section-header">Latest</h2>
-<div id="slider">
+<div class="slider">
 <?php /* 'Lastet' section of index */
 
 $args = array( 'posts_per_page' => '5' , 'meta_key' => '_sr_featured-post' , 'post_type' => array( 'post', 'show', 'artist', 'release' ) );
@@ -39,7 +39,7 @@ while ( $the_query->have_posts() ) : $the_query->the_post();?>
 
 <?php endwhile;?>
 </div>
-</section><!--#latest-->
+</section><!--#slider-->
 
 <section id="news-feed" class="eightcol shim-right">
 	<h2 class="section-header">News</h2>

@@ -40,25 +40,74 @@ DEBOUNCED RESIZE
  
 })(jQuery,'smartresize');
 
+
 /*
-SLIDER HEIGHT
+INITIALISING CYCLE PLUGIN
+*/
+
+jQuery.fn.sliderinit = function(){
+	slidernav = '<nav class="slider-nav"><a class="prev">Previous</a><div class="pager"></div><a class="next">Next</a></nav><!--#slider-nav-->';
+	$(this).each(function(){
+		var c = $(this).children().length;
+		var p = $(this).parent();
+		if(c > 1){
+			if(p.attr('id') == 'latest'){
+				$(this).before(slidernav);
+			}else{
+				$(this).after(slidernav);	
+			}
+			$(this).cycle({ 
+				fx:     'fade', 
+				speed:  'fast', 
+				timeout: 0, 
+				pager:  $('.pager', p),
+				next:   $('.next', p),
+				prev:   $('.prev', p),
+				containerResize: false,
+				slideResize: false,
+				fit: 1
+			}).sliderheight();
+		}
+	});
+};
+
+/*
+MAKING SLIDES FLUID
 */
 
 jQuery.fn.sliderheight = function() {
-    var o = $(this[0]) // It's your element
-    var maxHeight = 0;
-    //alert("fuckface" + o);
-    el = o.children();
-    //el.css('background-color' , 'red');
-	el.each(function(){
-		$(this).css('background-color' , 'red');
-		//alert($(this).height());
-		if($(this).height() > maxHeight) {
-            maxHeight = $(this).height();
-        }
+    $(this).each(function(){
+    	o = $(this);
+		var maxHeight = 0;
+		el = o.children();
+		el.each(function(){
+			if($(this).height() > maxHeight) {
+				maxHeight = $(this).height();
+			}
+		});
+		o.height(maxHeight);
 	});
-	o.height(maxHeight);
 };
+
+jQuery.fn.loadURL = function(){
+	o = $(this[0]);
+	target = o.attr('href');
+	$("#main").fadeTo(200 , 0.2, function(){ 
+		$("#page").append('<div id="loader-holder"><div id="loader"></div></div>').fadeIn(100);
+		$("#main").load(target+" #main > *", function() {
+			$(".slider").sliderinit();
+			$("#main").fadeTo(200 , 1, function(){
+				$("#loader-holder").fadeOut(500 , function(){
+					$(this).remove();
+					//hash = target.replace($.address.baseURL(), '');
+					//$.address.value(hash);
+					//console.log(hash);
+				});
+			}); 
+		});
+	});
+};
+	
 
 
 /*
@@ -147,50 +196,71 @@ $(window).smartresize(function(){
 });*/
 
 $(document).ready(function() {
-	$('#slider') 
-	.before('<nav id="slider-nav"><a id="previous">Previous</a><div id="pager"></div><a id="next">Next</a></nav><!--#slider-nav-->') 
-	.cycle({ 
-		fx:     'fade', 
-		speed:  'fast', 
-		timeout: 0, 
-		pager:  '#pager',
-		next:   '#next', 
-    	prev:   '#previous',
-    	containerResize: false,
-  		slideResize: false,
-  		fit: 1
-	});
 	
-	$(function() {
-		$( "#social-tabs" ).tabs();
-	});
+	
+	$( "#social-tabs" ).tabs();
 	
 	$(window).smartresize(function(){  
-		$("#slider").sliderheight();
+		$(".slider").sliderheight();
 	});
 	
-	$("#slider").sliderheight();
+	$(".slider").sliderinit();
 	
-	function loadURL(url){
-		$("#main").fadeTo(200 , 0.2, function(){ 
-			$("#page").append('<div id="loader-holder"><div id="loader"></div></div>').fadeIn(100);
-			$("#main").load(url+" #main > *", function() {
-				$("#main").fadeTo(200 , 1, function(){
-					$("#loader-holder").fadeOut(500 , function(){
-						$(this).remove();
-					});
-				}); 
-			});
-		});
-	}
+	//Tooltips
+	$("a").tooltip({
+		showURL: false
+	});
 	
     //navigation
-    $("#access a").click(function(){
-    	url = $(this).attr('href');
-     	loadURL(url);
-     	hash = url.replace($.address.baseURL(), '');
-		$.address.value(hash);
-		console.log(hash);
-     });
+    $("#access a").click(function(event){
+    	$(this).loadURL();
+    	event.preventDefault();
+	});
+	
+	$('.media-thumb').fancybox({
+		fitToView	: false,
+		width 		: '80%',
+		height		: '60%',
+		autoSize	: false,
+		arrows		: true
+	});
+	
+	
+    	
+	/*$.address.init(function(event) {
+
+		// Initializes the plugin
+		$('#access a').address();
+		
+	}).change(function(event) {
+
+		var value = $.address.state().replace(/^\/$/, '') + event.value;
+		
+		// Selects the proper navigation link
+		$('.nav a').each(function() {
+			if ($(this).attr('href') == value) {
+				$(this).addClass('selected').focus();
+			} else {
+				$(this).removeClass('selected');
+			}
+		});
+
+		// Loads and populates the page data
+		$.ajax({
+			cache: false,
+			complete: function(XMLHttpRequest, textStatus) {
+				var data = XMLHttpRequest.responseText;
+				$.address.title(data.title);
+				$('#content').html(data.content);
+				$('#main').show();
+			},
+			url: value
+		});
+	});*/
+
+	// Hides the page during initialization
+	//document.write('<style type="text/css"> #main { display: none; } </style>');
+            
+        
 });
 

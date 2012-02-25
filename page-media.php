@@ -59,8 +59,7 @@ get_header(); ?>
 			
 			foreach($post_nums as $post_num)
 			{
-				/*wpo_get_images('medium', '0', '0', 'large', $post_num, '1', 'media-thumb photo attachment-image', '0', '0');*/
-				$options = array('size' => 'medium', 'post_id' => $post_num, 'wrapper' => true, 'wrapper_class' => 'media-thumb photo attachment-image fourcol' );
+				$options = array('size' => 'sr-fourcol', 'post_id' => $post_num, 'wrapper' => false, 'a_class' => 'media-thumb fancybox.image fourcol', 'a_rel' => 'gallery-media' );
 				sr_get_images($options);
 			}
 		endwhile;?>

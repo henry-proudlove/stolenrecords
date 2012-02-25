@@ -396,8 +396,10 @@ IMAGE SIZES
 if ( function_exists( 'add_image_size' ) ) { 
 	add_image_size( 'sr-twelvecol', 1217, 500, true );
 	add_image_size( 'sr-eightcol', 801, 801, false );
-	add_image_size( 'sr-sixcol', 592, 592, false );
-	add_image_size( 'sr-fourcol', 384, 384, false );
+	add_image_size( 'sr-sixcol', 592, 592, true );
+	add_image_size( 'sr-fivecol', 487, 650, false );
+	add_image_size( 'sr-art-fivecol', 487, 487, true );
+	add_image_size( 'sr-fourcol', 384, 512, false );
 	add_image_size( 'sr-twocol', 174, 174, true );
 }
 
@@ -574,7 +576,7 @@ function sr_relart_loop_markup(){
 	?>
 	<article id="post-<?php the_ID(); ?>" <?php post_class($sr_post_class); ?> role="article">
 	<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark">
-		<?php sr_post_thumbnail('medium' , false); ?>
+		<?php sr_post_thumbnail('sr-fourcol' , false); ?>
 		<header class="entry-header">
 			<?php _sr_post_header(); ?>
 			<?php echo $artist_status ?>
@@ -622,16 +624,16 @@ function sr_shows_markup($aside){
 		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
 			<?php if($buy_tix): ?>
 				<a href="<?php echo $buy_tix; ?>" title="Buy Tickets" rel="bookmark">
-				<div class="show-img-gallery">
+				<div class="show-img-gallery fivecol">
 				<?php sr_shows_images($artists); ?>
 				</div><!--.show-img-gallery-->
 				</a>
 			<?php else: ?>
-				<div class="show-img-gallery">
+				<div class="show-img-gallery fivecol">
 				<?php sr_shows_images($artists); ?>
 				</div><!--.show-img-gallery-->
 			<?php endif; ?>
-		<div class="info">
+		<div class="info sevencol">
 	<?php else: 
 		$h_tag = 'h3'; ?>
 		<li id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
@@ -1098,14 +1100,16 @@ function sr_get_videos($videos){
 			$videos[$i]['id'] = $video_id;
 			$videos[$i]['endpoint'] = 'http://vimeo.com/api/v2/video/' . $video_id  . '/videos.xml';
 			$videos[$i]['vendor'] = 'vimeo';
+			$videos[$i]['embed'] = 'http://player.vimeo.com/video/' . $video_id . '?autoplay=1';
 			$videos[$i]['is_valid'] = 'true';
 			
 		}elseif (strpos($video_link , 'youtu.be'))
 		{	
 			$video_id = substr($video_link , 16);
 			$videos[$i]['id'] = $video_id;
-			$videos[$i]['endpoint'] = 'http://gdata.youtube.com/feeds/api/videos/' . $video_id ;
+			$videos[$i]['endpoint'] = 'http://gdata.youtube.com/feeds/api/videos/' . $video_id;
 			$videos[$i]['vendor'] = 'youtube';
+			$videos[$i]['embed'] = 'http://www.youtube.com/embed/' . $video_id . '?autoplay=1&amp;wmode=transparent';
 			$videos[$i]['is_valid'] = 'true';
 		}elseif (strpos($video_link , 'youtube.com'))
 		{
@@ -1113,6 +1117,7 @@ function sr_get_videos($videos){
 			$videos[$i]['id'] = $video_id;
 			$videos[$i]['endpoint'] = 'http://gdata.youtube.com/feeds/api/videos/' . $video_id ;
 			$videos[$i]['vendor'] = 'youtube';
+			$videos[$i]['embed'] = 'http://www.youtube.com/embed/' . $video_id . '?autoplay=1';
 			$videos[$i]['is_valid'] = 'true';
 		}else
 		{
@@ -1194,15 +1199,13 @@ function sr_media_videos(&$dont_copy)
 		{
 			if($video['is_valid'] == 'true')
 			{?>
-				<article class="media-thumb video <?php echo $video['vendor'] ?> fourcol">
-					<a href="<?php echo $video['video_link'] ?>" class="video-link">
+					<a href="<?php echo $video['embed'] ?>" class="media-thumb fancybox.iframe <?php echo $video['vendor'] ?> fourcol" rel="gallery-media">
 						<img src="<?php echo $video['thumbnail_large']?>" class="media-img <?php echo $video['vendor'] ?>" />
 						<div class="info">
 							<h1><?php echo $video['title'] ?></h1>
 							<p><?php echo $video['description'] ?></p>
 						</div>
 					</a>
-				</article>
 			<?php }
 		}
 		$video_count = count($videos);
@@ -1273,6 +1276,14 @@ function sr_artist_videos($artist)
 	
 }
 
+/* END Artist Page videos
+---------------------------------------------------*/
+
+
+/*---------------------------------------------------
+Release videos
+*/
+
 function sr_release_videos()
 {
 	global $post;
@@ -1308,7 +1319,7 @@ function sr_release_videos()
 	
 }
 
-/* END Artist Page videos
+/* END Release videos
 ---------------------------------------------------*/
 
 
@@ -1322,7 +1333,7 @@ function video_aside_markup($videos)
 		if($video['is_valid'] == 'true')
 		{?>
 			<li class="video <?php echo $video['vendor'] ?>">
-				<a href="<?php echo $video['video_link'] ?>" class="video-link">
+				<a href="<?php echo $video['embed'] ?>" class="video-link" rel="gallery-vid-aside">
 					<img src="<?php echo $video['thumbnail_small']?>" class="media-img <?php echo $video['vendor'] ?>" />
 					<div class="info">
 						<h1><?php echo $video['title'] ?></h1>
@@ -1360,6 +1371,8 @@ function sr_get_images( $args = array() ) {
 		'post_id' => $post->ID,
 		'link' => 'self',
 		'img_class' => 'attachment-image',
+		'a_class' => 'media-thumb fancybox.image',
+		'a_rel' => '',
 		'wrapper' => true,
 		'wrapper_class' => 'attachment-image-wrapper',
 		'include' => '',
@@ -1373,6 +1386,8 @@ function sr_get_images( $args = array() ) {
 	$offset = $options['offset'];
 	$big = $options['big'];
 	$link = $options['link'];
+	$a_class = $options['a_class'];
+	$a_rel = $options['a_rel'];
 	$img_class = $options['img_class'];
 	$wrapper = $options['wrapper'];
 	$wrapper_class = $options['wrapper_class'];
@@ -1419,29 +1434,17 @@ function sr_get_images( $args = array() ) {
 				$img_url = wp_get_attachment_url($image->ID); // url of the full size image.
 				}
 
-			// FIXED to account for non-existant thumb sizes.
-			$preview_array = image_downsize( $image->ID, $size );
-			if ($preview_array[3] != 'true') {
-			$preview_array = image_downsize( $image->ID, 'thumbnail' );
- 			$img_preview = $preview_array[0]; // thumbnail or medium image to use for preview.
- 			$img_width = $preview_array[1];
- 			$img_height = $preview_array[2];
-			} else {
- 			$img_preview = $preview_array[0]; // thumbnail or medium image to use for preview.
- 			$img_width = $preview_array[1];
- 			$img_height = $preview_array[2];
- 			}
- 			// End FIXED to account for non-existant thumb sizes.
+			$img_src = wp_get_attachment_image_src($image->ID, $size);
 
 			if($wrapper == true):?>
 			<article class="<?php echo $wrapper_class ?>">
 			<?php endif; ?>
 			<?php if($link == 'self'):?>
-			<a href="<?php echo $img_url; ?>" title="<?php echo $img_title; ?>">
+			<a href="<?php echo $img_url; ?>" title="<?php echo $img_title; ?>" class="<?php echo $a_class; ?>" <?php if(!$a_rel == ''){echo 'rel="'. $a_rel .'"';}?>>
 			<?php elseif($link == 'parent'):?>
 			<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark">
 			<?php endif; ?>
-			<img class="<?php echo $img_class;?>" src="<?php echo $img_preview; ?>" alt="<?php echo $img_alt; ?>" title="<?php echo $img_title; ?>" />
+			<img class="<?php echo $img_class;?>" src="<?php echo $img_src[0]; ?>" alt="<?php echo $img_alt; ?>" title="<?php echo $img_title; ?>" />
 			<?php if($link == 'self'):?>
 				<div class="info">
 				<?php if ($img_caption != '') : ?>
@@ -1512,16 +1515,17 @@ function sr_post_thumbnail($size , $show_video)
 
 function sr_artist_gallery(){
 	global $post;
-	if(has_post_thumbnail())
-	{	
-		$post_thumb = get_post_thumbnail_id();
-		$options = array(
-			'size' => 'thumbnail',
-			'big' => 'full' ,
+	$options = array(
+			'size' => 'sr-twelvecol',
+			'a_class' => 'media-thumb fancybox.image',
 			'img_class' => 'artist-header attachment-image',
 			'wrapper' => false ,
-			'include' => $post_thumb
-		);
+			'a_rel' => 'gallery-artist'
+	);
+	if(has_post_thumbnail())
+	{	
+		$options['include'] = $post_thumb;
+		$post_thumb = get_post_thumbnail_id();
 		sr_get_images($options);
 	}else
 	{
@@ -1538,9 +1542,9 @@ function sr_shows_images($artists )
 {
 	global $post;
 	if (has_post_thumbnail()){
-		the_post_thumbnail('medium');
+		the_post_thumbnail('sr-fivecol');
 	}else{
-		$args = array('size' => 'medium');
+		$args = array('size' => 'sr-art-fivecol');
 		$artist_count = count($artists);
 		foreach($artists as $artist)
 		{	
@@ -1549,7 +1553,7 @@ function sr_shows_images($artists )
 				echo get_the_post_thumbnail( $artist_id, 'medium' );
 			}else{
 				$options = array(
-					'size' => 'medium',
+					'size' => 'sr-art-fivecol',
 					'wrapper' => false ,
 					'limit' => '1',
 					'link' => 'none',

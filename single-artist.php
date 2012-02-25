@@ -18,7 +18,7 @@ get_header(); ?>
 						echo '<h2 class="artist-status">Past Artist</h2>'; 
 					}?>
 				</header><!-- .entry-header -->
-				<div id="gallery-slider" class="entry-gallery">
+				<div class="entry-gallery slider">
 					<?php sr_artist_gallery(); ?>
 				</div><!-- .entry-gallery -->
 				<div id="entry-content">
@@ -39,7 +39,7 @@ get_header(); ?>
 			$reviews = $meta['reviews'];
 			if($reviews): ?>
 				<section id="reviews" class="twelvecol">
-					<div id="review-slider">
+					<div class="slider">
 					<?php sr_get_reivews($reviews); ?>
 					</div>
 				</section><!--#reviews-->
