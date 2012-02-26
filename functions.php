@@ -421,7 +421,7 @@ METABOXES
 include_once WP_CONTENT_DIR . '/wpalchemy/MetaBox.php';
  
 // global styles for the meta boxes
-if (is_admin()) wp_enqueue_style('wpalchemy-metabox', get_stylesheet_directory_uri() . '/metaboxes/meta.css');
+if (is_admin()) wp_enqueue_style('wpalchemy-metabox', get_stylesheet_directory_uri() . '/library/metaboxes/meta.css');
 
 
 $featured_mb = new WPAlchemy_MetaBox(array
@@ -444,7 +444,7 @@ $artist_lnks_mb = new WPAlchemy_MetaBox(array
 	'context' => 'normal', 
 	'priority' => 'high',
 	'exclude_template' => array('page-publishing.php', 'page.php', 'page-front.php' , 'page-news.php', 'page-showsarchive.php' , 'page-media.php'),
-	'template' => get_stylesheet_directory() . '/metaboxes/artist-links-meta.php'
+	'template' => get_stylesheet_directory() . '/library/metaboxes/artist-links-meta.php'
 ));
 
 $past_artist_mb = new WPAlchemy_MetaBox(array
@@ -468,7 +468,7 @@ $show_mb = new WPAlchemy_MetaBox(array
 	'priority' => 'high',
 	'mode' => WPALCHEMY_MODE_EXTRACT,
 	'prefix' => '_sr_',
-	'template' => get_stylesheet_directory() . '/metaboxes/shows-meta.php'
+	'template' => get_stylesheet_directory() . '/library/metaboxes/shows-meta.php'
 ));
 
 $release_mb = new WPAlchemy_MetaBox(array
@@ -491,7 +491,7 @@ $video_mb = new WPAlchemy_MetaBox(array
 	'context' => 'side',
 	'priority' => 'low',
 	'save_action' => 'video_save_action',
-	'template' => get_stylesheet_directory() . '/metaboxes/videos-meta.php'
+	'template' => get_stylesheet_directory() . '/library/metaboxes/videos-meta.php'
 ));
 
 $tracks_mb = new WPAlchemy_MetaBox(array
@@ -512,7 +512,7 @@ $review_mb = new WPAlchemy_MetaBox(array
 	'context' => 'normal',
 	'priority' => 'low',
 	'exclude_template' => array('page-publishing.php', 'page.php', 'page-front.php' , 'page-news.php', 'page-showsarchive.php' , 'page-media.php'),
-	'template' => get_stylesheet_directory() . '/metaboxes/reviews-meta.php'
+	'template' => get_stylesheet_directory() . '/library/metaboxes/reviews-meta.php'
 ));
 
 $thumb_mb = new WPAlchemy_MetaBox(array
@@ -524,7 +524,7 @@ $thumb_mb = new WPAlchemy_MetaBox(array
 	'priority' => 'high',
 	'mode' => WPALCHEMY_MODE_EXTRACT,
 	'prefix' => '_sr_',
-	'template' => get_stylesheet_directory() . '/metaboxes/featured-video-meta.php'
+	'template' => get_stylesheet_directory() . '/library/metaboxes/featured-video-meta.php'
 ));	
 
 //jquery date-time picker on admin
@@ -999,12 +999,13 @@ function sr_artist_tracks($artist)
 		$tracks = array_slice($tracks, 0, 7);
 	}
 	if(!empty($tracks)){
-		echo '<aside id="tracks" class="fourcol"><h2 class="aside-header">Listen</h2><ul>';
+		echo '<aside id="tracks" class="fourcol"><h2 class="aside-header">Listen</h2>';
+		echo '<div class="sc-player">';
 		foreach ($tracks as $track)
 		{	
-			echo '<li><a href="' . $track . '" class="sample-track">' . $track . '</a></li>';
+			echo '<a href="' . $track . '" class="sample-track">' . $track . '</a>';
 		}
-		echo '</ul></aside><!--#tracks-->';
+		echo '</div></aside><!--#tracks-->';
 	}
 }
 
@@ -1333,8 +1334,8 @@ function video_aside_markup($videos)
 		if($video['is_valid'] == 'true')
 		{?>
 			<li class="video <?php echo $video['vendor'] ?>">
-				<a href="<?php echo $video['embed'] ?>" class="video-link" rel="gallery-vid-aside">
-					<img src="<?php echo $video['thumbnail_small']?>" class="media-img <?php echo $video['vendor'] ?>" />
+				<a href="<?php echo $video['embed'] ?>" class="media-thumb fancybox.iframe <?php echo $video['vendor'] ?>" rel="gallery-vid-aside">
+					<img src="<?php echo $video['thumbnail_small']?>" class="media-img" />
 					<div class="info">
 						<h1><?php echo $video['title'] ?></h1>
 						<p><?php echo $video['description'] ?></p>

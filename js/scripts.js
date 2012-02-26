@@ -66,7 +66,7 @@ jQuery.fn.sliderinit = function(){
 				containerResize: false,
 				slideResize: false,
 				fit: 1
-			}).sliderheight();
+			})
 		}
 	});
 };
@@ -89,13 +89,15 @@ jQuery.fn.sliderheight = function() {
 	});
 };
 
-jQuery.fn.loadURL = function(){
+/*jQuery.fn.loadURL = function(){
 	o = $(this[0]);
 	target = o.attr('href');
 	$("#main").fadeTo(200 , 0.2, function(){ 
 		$("#page").append('<div id="loader-holder"><div id="loader"></div></div>').fadeIn(100);
 		$("#main").load(target+" #main > *", function() {
 			$(".slider").sliderinit();
+			$(".slider").sliderheight();
+			$('a.sc-player, div.sc-player').scPlayer();
 			$("#main").fadeTo(200 , 1, function(){
 				$("#loader-holder").fadeOut(500 , function(){
 					$(this).remove();
@@ -106,7 +108,7 @@ jQuery.fn.loadURL = function(){
 			}); 
 		});
 	});
-};
+};*/
 	
 
 
@@ -115,8 +117,6 @@ GET LATEST FROM STOLENRECS VIMEO
 */
 
 var apiEndpoint = 'http://vimeo.com/api/v2/';
-var oEmbedEndpoint = 'http://vimeo.com/api/oembed.json'
-var oEmbedCallback = 'switchVideo';
 var videosCallback = 'setupGallery';
 var vimeoUsername = '3362379';
 
@@ -125,34 +125,19 @@ $(document).ready(function() {
 	$.getScript(apiEndpoint + vimeoUsername + '/videos.json?callback=' + videosCallback);
 });
 
-function getVideo(url) {
-	$.getScript(oEmbedEndpoint + '?url=' + url + '&width=504&height=280&callback=' + oEmbedCallback);
-}
-
 function setupGallery(videos) {
 
 	// Add the videos to the gallery
 	for (var i = 0; i < 4; i++) {	
-		var html = '<li><a href="' + videos[i].url + '"><img src="' + videos[i].thumbnail_small + '" class="thumb" />';
-		html += '<h3 class="vid-title">' + videos[i].title + '</h3></li>';
-		html += '<span class="vid-decription">' + videos[i].description + '</span></a></li>';
+		var html = '<li class="video vimeo"><a href="http://player.vimeo.com/video/' + videos[i].id + '?autoplay=1" class="media-thumb fancybox.iframe vimeo" rel="gallery-vid-aside"><img src="' + videos[i].thumbnail_small + '" class="media-img" />';
+		html += '<div class="info"><h1 class="vid-title">' + videos[i].title + '</h1>';
+		html += '<p class="vid-decription">' + videos[i].description + '</p></li></div></a>';
+		
 		$('#latest-videos ul').append(html);
 	}
 	$('.vid-decription').truncate({
 			width: '250'
 		});
-
-	// Switch to the video when a thumbnail is clicked
-	$('#thumbs a').click(function(event) {
-		event.preventDefault();
-		getVideo(this.href);
-		return false;
-	});
-
-}
-
-function switchVideo(video) {
-	$('#embed').html(unescape(video.html));
 }
 
 /*
@@ -196,27 +181,22 @@ $(window).smartresize(function(){
 });*/
 
 $(document).ready(function() {
-	
-	
+
 	$( "#social-tabs" ).tabs();
-	
-	$(window).smartresize(function(){  
-		$(".slider").sliderheight();
-	});
-	
-	$(".slider").sliderinit();
-	
+	$(".slider").sliderinit()
+	$(".slider").sliderheight();;
 	//Tooltips
 	$("a").tooltip({
 		showURL: false
 	});
-	
+	$(window).smartresize(function(){  
+		$(".slider").sliderheight();
+	});	
     //navigation
-    $("#access a").click(function(event){
+    /*$("#access a").click(function(event){
     	$(this).loadURL();
     	event.preventDefault();
-	});
-	
+	});*/
 	$('.media-thumb').fancybox({
 		fitToView	: false,
 		width 		: '80%',
@@ -225,8 +205,27 @@ $(document).ready(function() {
 		arrows		: true
 	});
 	
+	$('#general-form').contactable({
+		url: 'http://localhost/stolen/wp-content/themes/stolenrecords/library/mail.php',
+		name: 'Name',
+		email: 'Email',
+		message : 'Message',
+		subject : 'MESSAGE: stolenrecordings.co.uk',
+		recievedMsg : 'Thankyou for your message',
+		notRecievedMsg : 'Sorry, your message could not be sent, try again later',
+		disclaimer: ''
+	});
+	$('#press-form').contactable({
+		url: 'http://localhost/stolen/wp-content/themes/stolenrecords/library/mail.php',
+		name: 'Name',
+		email: 'Email',
+		message : 'Message',
+		subject : 'PRESS LOGIN REQUEST: stolenrecordings.co.uk',
+		recievedMsg : 'Thanks for your message!',
+		notRecievedMsg : 'Sorry, your message could not be sent, try again later',
+		disclaimer: ''
+	});
 	
-    	
 	/*$.address.init(function(event) {
 
 		// Initializes the plugin

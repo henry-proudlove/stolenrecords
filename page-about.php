@@ -38,10 +38,14 @@ get_header(); ?>
 			
 		<section id="contact">
 				<div id="general-contact" class="fourcol">
-					<?php echo do_shortcode('[contact-form-7 id="1263" title="Contact"]'); ?>
+					<h2 class="aside-header">Contact</h2>
+					<p>Send us a message using the form below</p>
+					<div id="general-form"></div>
 				</div>
 				<div id="press-request" class="fourcol">
-					<?php echo do_shortcode('[contact-form-7 id="1264" title="Press request"]'); ?>
+					<h2 class="aside-header">Press Login</h2>
+					<p>Please enter your name and email below to get access to press assets</p>
+					<div id="press-form"></div>
 				</div>
 				<div id="demo-submissions" class="fourcol">
 					<h2 class="aside-header">Demo Submissions</h2>

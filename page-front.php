@@ -12,6 +12,12 @@ get_header(); ?>
 <div id="content" class="clearfix offset">
 	<?php get_template_part('loop' , 'index');?>
 	<div id="sidebar" class="fourcol shim-left">
+		<aside id="stolen-listen" class="listen">
+			<h2 class="aside-header">Listen</h2>
+			<div class="sc-player">
+				<a href="http://soundcloud.com/cityshantyband">Stolen on Soundcloud</a>
+		</aside><!--#stolen-listen-->
+			
 		<?php sr_aside_shows('', true) ?>
 		<div id="social-tabs">
 			<ul>
