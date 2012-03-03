@@ -744,6 +744,17 @@ function sr_social_links($stolen , $nav)
 			{	
 				$art_link_source = 'Myspace';
 				
+			}elseif (strpos($artist_link , 'blogspot.com'))
+			{	
+				$art_link_source = 'Blogspot';
+				
+			}elseif (strpos($artist_link , 'tumblr.com'))
+			{	
+				$art_link_source = 'Tumblr';
+				
+			}elseif (strpos($artist_link , 'wordpress.com'))
+			{	
+				$art_link_source = 'Wordpress';
 			}else
 			{
 				$art_link_source = 'generic'; 
@@ -1716,7 +1727,7 @@ MISC
 
 //Get twitter link
 function get_twitter_link(){?>
-	<a href="http://www.twitter.com/mysadcaptains" title="Follow stolen on Twitter">Follow us on twitter</a>
+	<a href="http://www.twitter.com/mysadcaptains" title="Follow stolen on 	">Follow us on twitter</a>
 <?php }
 
 // RSS shotcode
@@ -1738,9 +1749,9 @@ endif;
     foreach ( $rss_items as $item ) : ?>
     <li class="tweet">
     	<time class="date tweet"><?php echo $item->get_date('j F g:ia'); ?></time>
-        <a href='<?php echo esc_url( $item->get_permalink() ); ?>'
-        title='<?php echo $item->get_date('j F g:i a'); ?>'>
-        <?php echo esc_html( $item->get_title() ); ?></a>
+        <!--<a href='<?php echo esc_url( $item->get_permalink() ); ?>'
+        title='<?php echo $item->get_date('j F g:i a'); ?>'>-->
+        <?php echo esc_html( $item->get_title() ); ?><!--</a>-->
     </li>
     <?php endforeach; ?>
 </ul>

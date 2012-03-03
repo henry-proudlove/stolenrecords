@@ -64,8 +64,10 @@
 	<div id="page" class="hfeed clearfix">
 		<header id="branding" role="banner">
 			<hgroup>
-				<h1 id="site-title"><span><a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></span></h1>
-				<h2 id="site-description"><?php bloginfo( 'description' ); ?></h2>
+				<a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home">
+					<h1 id="site-title"><span><?php bloginfo( 'name' ); ?></span></h1>
+					<h2 id="site-description"><?php bloginfo( 'description' ); ?></h2>
+				</a>
 			</hgroup>
 			
 			<?php sr_global_nav(); ?>

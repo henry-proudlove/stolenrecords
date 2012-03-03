@@ -49,9 +49,88 @@ input, select { vertical-align:middle; }
  * Base Typography 
  *
  */
-body { font:13px/1.231 sans-serif; *font-size:small; }
-select, input, textarea, button { font:99% sans-serif; }
-pre, code, kbd, samp { font-family: monospace, sans-serif; }
+
+@font-face {
+    font-family: 'StolenBody';
+    src: url('fonts/stolen-body-roman.eot');
+    src: url('fonts/stolen-body-roman.eot?#iefix') format('embedded-opentype'),
+         url('fonts/stolen-body-roman.woff') format('woff'),
+         url('fonts/stolen-body-roman.ttf') format('truetype'),
+         url('fonts/stolen-body-roman.svg#stolen-body-roman') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'StolenBody';
+    src: url('fonts/stolen-body-bold.eot');
+    src: url('fonts/stolen-body-bold.eot?#iefix') format('embedded-opentype'),
+         url('fonts/stolen-body-bold.woff') format('woff'),
+         url('fonts/stolen-body-bold.ttf') format('truetype'),
+         url('fonts/stolen-body-bold.svg#stolen-body-bold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'StolenBody';
+    src: url('fonts/stolen-body-italic.eot');
+    src: url('fonts/stolen-body-italic.eot?#iefix') format('embedded-opentype'),
+         url('fonts/stolen-body-italic.woff') format('woff'),
+         url('fonts/stolen-body-italic.ttf') format('truetype'),
+         url('fonts/stolen-body-italic.svg#stolen-body-italic') format('svg');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'StolenHeadline';
+    src: url('fonts/stolen-headline-italic.eot');
+    src: url('fonts/stolen-headline-italic.eot?#iefix') format('embedded-opentype'),
+         url('fonts/stolen-headline-italic.woff') format('woff'),
+         url('fonts/stolen-headline-italic.ttf') format('truetype'),
+         url('fonts/stolen-headline-italic.svg#stolen-headline-italic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'StolenHeadline';
+    src: url('fonts/stolen-headline-bolditalic.eot');
+    src: url('fonts/stolen-headline-bolditalic.eot?#iefix') format('embedded-opentype'),
+         url('fonts/stolen-headline-bolditalic.woff') format('woff'),
+         url('fonts/stolen-headline-bolditalic.ttf') format('truetype'),
+         url('fonts/stolen-headline-bolditalic.svg#stolen-headline-bolditalic') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'StolenSans';
+    src: url('fonts/stolen-sans.eot');
+    src: url('fonts/stolen-sans.eot?#iefix') format('embedded-opentype'),
+         url('fonts/stolen-sans.woff') format('woff'),
+         url('fonts/stolen-sans.ttf') format('truetype'),
+         url('fonts/stolen-sans.svg#stolen-sans') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body 
+{ 
+font:12px/1.45 StolenBody, Georgia, sans-serif; *font-size:small;
+}
+
+select, input, textarea, button 
+{
+font:99% sans-serif;
+}
+
+pre, code, kbd, samp 
+{
+font-family: monospace, sans-serif;
+}
+
 
 /*
  *
@@ -59,20 +138,51 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
  *
  */
 body, select, input, textarea { 
-  /* #444 looks better than black: twitter.com/H_FJ/statuses/11800719859 */ 
-  color: #444; 
-  /* set your base font here, to apply evenly */
-  /* font-family: Georgia, serif;  */   
+  color: #293034;
 }
-/* Headers (h1,h2,etc) have no default font-size or margin,
-   you'll want to define those yourself. */ 
-h1,h2,h3,h4,h5,h6 { font-weight: bold; }
+
+p
+{
+	color: #777777;
+}
+ 
+h1,h2,h3,h4,h5,h6 {
+	font-family: 'StolenHeadline';
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+h1
+{
+	font-weight: normal;
+	font-size: 2.5em;
+}
+
+#access a, .section-header, .aside-header
+{
+	font-family: 'StolenSans';
+	font-size: 1.2em;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	font-weight: normal;
+	padding-bottom: 7px;
+	border-bottom: 1px solid #d8d8d4;
+	border-bottom: 1px solid rgba(41, 48, 53, 0.2);
+}
+
 /* always force a scrollbar in non-IE */ 
 html { overflow-y: scroll; }
 /* Accessible focus treatment: people.opera.com/patrickl/experiments/keyboard/test */
-a:hover, a:active { outline: none; }
-a, a:active, a:visited { color: #607890; }
-a:hover { color: #036; }
+a:hover, a:active 
+{
+	outline: none;
+}
+a, a:active, a:visited {
+	color: #607890; 
+}
+a:hover {
+	color: #036;
+}
 ul, ol { margin-left: 1.8em; }
 ol { list-style-type: decimal; }
 /* Remove margins for navigation lists */
@@ -192,6 +302,33 @@ button {width: auto; overflow: visible;}
 
 /*
  *
+ * Backgrounds
+ *
+ */
+
+body
+{
+	background: url('images/main-bg.jpg');
+}
+
+#branding
+{
+	background: url('images/nav-bg.jpg') repeat-y top left;
+}
+
+#branding hgroup a
+{
+	background: url('images/logo.png') no-repeat center center;
+	width: 128px;
+	height: 149px;
+	text-indent: -9000px;
+	margin: 18px auto;
+	padding: 1.4% 0;
+	display: block;
+}
+
+/*
+ *
  * Structure
  *
  */
@@ -199,7 +336,6 @@ button {width: auto; overflow: visible;}
 #page, #branding, body, html
 {
 height:100%;
-/*background: darkturquoise;*/
 }
 
 #branding
@@ -208,13 +344,11 @@ position:fixed;
 max-width: 225px;
 width: 22.66%;
 min-width: 155px;
-background:darkturquoise;
 }
 
 #main
 {
 margin-left: 225px;
-background: whitesmoke;
 height:100%;
 max-width: 1300px;
 min-width: 535px;
@@ -228,7 +362,6 @@ padding: 18px 0 0 18px;
 .twelvecol, .eightcol, .sevencol, .sixcol, .fivecol, .fourcol , .twocol , .onecol
 {
 margin: 1.4%;
-background: white;
 float: left;
 }
 
@@ -987,6 +1120,40 @@ Colours
 }
 
 /* controls */
+
+/* volume control */
+.sc-volume-slider {
+  top: -25px;
+  left: 0px;
+  position: absolute;
+  width: 110px;
+  height: 12px;
+  background-color: white;
+}
+.sc-volume-slider .sc-volume-status{
+  position: absolute;
+  width: 0%;
+  height: 10px;
+  top: 1px;
+  left: 1px;
+}
+
+.sc-volume-slider {
+  background-color: #e5e5e5;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+}
+
+
+.sc-volume-slider .sc-volume-status{
+  background-color: #666;
+  border-right: 1px solid #f6a400;
+}
+
+.sc-volume-status{
+  background-color: #333;
+  border-right: 1px solid #f6a400;
+}
 
 
 /*
