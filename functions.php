@@ -185,11 +185,19 @@ function async_google_analytics() { ?>
 
 //Read more link
 
-function new_excerpt_more($more) {
+function sr_excerpt_more($more) {
        global $post;
-	return '...<div class="read-more"><a href="'. get_permalink($post->ID) . '">Read more</a></div>';
+	return '...<span class="read-more"> <a href="'. get_permalink($post->ID) . '">read more</a></span>';
 }
-add_filter('excerpt_more', 'new_excerpt_more');
+add_filter('excerpt_more', 'sr_excerpt_more');
+
+function sr_post_date() {
+   global $post;
+   $d = 'l, j<\s\u\p>S</\s\u\p> F Y'; 
+   $the_date = mysql2date($d, $post->post_date);
+	return $the_date;
+}
+add_filter('get_the_date', 'sr_post_date');
 
 
 //Truncation
@@ -602,8 +610,8 @@ function sr_shows_markup($aside){
 	
 	$datetime = get_post_meta(get_the_ID(),'_sr_show-date',TRUE);
 	$datetime = new DateTime($datetime);
-	$date = $datetime->format('l, jS F Y');
-	$time = $datetime->format('g:iA'); 
+	$date = $datetime->format('l, j<\s\u\p>S</\s\u\p> F Y');
+	$time = $datetime->format('g:i<\s\u\p>A</\s\u\p> '); 
 	$venue = get_post_meta(get_the_ID(),'_sr_show-venue',TRUE);
 	$venue_link = get_post_meta(get_the_ID(),'_sr_show-venue-link',TRUE);
 	$buy_tix = get_post_meta(get_the_ID(),'_sr_buy-tickets-link',TRUE);
@@ -1052,9 +1060,9 @@ function sr_release_tracks()
 
 //Like button and facepile on home page
 function sr_index_fb(){ ?>
-	<aside id="facebook">
-		<iframe src="//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FSTOLEN-RECORDINGS%2F66626039279&amp;width=292&amp;height=395&amp;colorscheme=light&amp;show_faces=false&amp;border_color&amp;stream=true&amp;header=false" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:292px; height:395px;" allowTransparency="true"></iframe>
-	</aside><!--#facebook-->
+	<div id="facebook">
+		<iframe src="//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FSTOLEN-RECORDINGS%2F66626039279&amp;width=292&amp;height=395&amp;colorscheme=light&amp;show_faces=false&amp;border_color=%23ffffff&amp;stream=true&amp;header=false" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:395px;" allowTransparency="true"></iframe>
+	</div><!--#facebook-->
 	<?php
 }
 
@@ -1075,12 +1083,12 @@ Home page latest videos
 */
 
 function sr_latest_videos(){ ?>
-	<aside id="latest-videos">
+	<div id="latest-videos">
 			<!--<div id="embed"></div>-->
 			<div id="thumbs">
 				<ul></ul>
 			</div>
-	</aside><!--#latest-videos-->
+	</div><!--#latest-videos-->
 <?php }
 
 /* END Home page latest videos
@@ -1732,7 +1740,7 @@ function get_twitter_link(){?>
 
 // RSS shotcode
 function sr_latest_tweets(){ ?>
-	<aside id="twitter"><?php
+	<div id="twitter"><?php
 include_once(ABSPATH . WPINC . '/feed.php');
 
 $rss = fetch_feed('http://twitter.com/statuses/user_timeline/20986653.rss');
@@ -1746,17 +1754,49 @@ endif;
     <?php if ($maxitems == 0) echo '<li>No items.</li>';
     else
     // Loop through each feed item and display each item as a hyperlink.
-    foreach ( $rss_items as $item ) : ?>
+    foreach ( $rss_items as $item ) : 
+    $time = $item->get_date('g:i A M jS');
+    $time_rel = relativeTime($time, 86400 , 'l, j<\s\u\p>S</\s\u\p> F Y');
+    $tweet_text = make_clickable( esc_html( $item->get_title() ) );
+    ?>
     <li class="tweet">
-    	<time class="date tweet"><?php echo $item->get_date('j F g:ia'); ?></time>
-        <!--<a href='<?php echo esc_url( $item->get_permalink() ); ?>'
-        title='<?php echo $item->get_date('j F g:i a'); ?>'>-->
-        <?php echo esc_html( $item->get_title() ); ?><!--</a>-->
+    	<time class="date tweet"><?php echo $time_rel; ?></time>
+        <span class="tweet-text"><?php echo $tweet_text; ?></span>
     </li>
     <?php endforeach; ?>
+    <li>
+    	<a href="https://twitter.com/stolenrecs" class="twitter-link" rel="bookmark" title="Stolen Records on Twitter">Follow @stolenrecs on Twitter</a>
+    </li>
 </ul>
-	</aside>
+	</div>
 <?php }
+
+//Relative Time
+function relativeTime($time = false, $limit = 86400, $format = 'g:i A M jS') {
+	if (empty($time) || (!is_string($time) && !is_numeric($time))) $time = time();
+	elseif (is_string($time)) $time = strtotime($time);
+	
+		$now = time();
+		$relative = '';
+	
+	if ($time === $now) $relative = 'now';
+	elseif ($time > $now) $relative = 'in the future';
+	else {
+		$diff = $now - $time;
+	
+	if ($diff >= $limit) $relative = date($format, $time);
+	elseif ($diff < 60) {
+	$relative = 'less than one minute ago';
+	} elseif (($minutes = ceil($diff/60)) < 60) {
+		$relative = $minutes.' minute'.(((int)$minutes === 1) ? '' : 's').' ago';
+	} else {
+		$hours = ceil($diff/3600);
+		$relative = 'about '.$hours.' hour'.(((int)$hours === 1) ? '' : 's').' ago';
+	}
+}
+
+return $relative;
+}
 
 //END MISC
 ?>

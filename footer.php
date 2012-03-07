@@ -14,7 +14,7 @@
 <script src="<?php echo get_template_directory_uri(); ?>/js/jquery.truncate.min.js"></script>
 <script src="<?php echo get_template_directory_uri(); ?>/js/jquery.isotope.min.js"></script>
 <script src="<?php echo get_template_directory_uri(); ?>/js/jquery.cycle.all.js"></script>
-<script src="<?php echo get_template_directory_uri(); ?>/js/jquery-ui-1.8.17.custom.min.js"></script>
+<script src="<?php echo get_template_directory_uri(); ?>/js/jquery-ui-1.8.18.custom.min.js"></script>
 <script src="<?php echo get_template_directory_uri(); ?>/js/jquery.tooltip.min.js"></script>
 <script src="<?php echo get_template_directory_uri(); ?>/js/jquery.fancybox.pack.js"></script>
 <script src="<?php echo get_template_directory_uri(); ?>/js/jquery.oembed.min.js"></script>

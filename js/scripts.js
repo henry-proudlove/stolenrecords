@@ -130,7 +130,7 @@ function setupGallery(videos) {
 	// Add the videos to the gallery
 	for (var i = 0; i < 4; i++) {	
 		var html = '<li class="video vimeo"><a href="http://player.vimeo.com/video/' + videos[i].id + '?autoplay=1" class="media-thumb fancybox.iframe vimeo" rel="gallery-vid-aside"><img src="' + videos[i].thumbnail_small + '" class="media-img" />';
-		html += '<div class="info"><h1 class="vid-title">' + videos[i].title + '</h1>';
+		html += '<div class="info"><h3 class="vid-title">' + videos[i].title + '</h3>';
 		html += '<p class="vid-decription">' + videos[i].description + '</p></li></div></a>';
 		
 		$('#latest-videos ul').append(html);
@@ -151,6 +151,17 @@ $.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?id=8546357@N03
       if ( i == 10 ) return false;
   });
 });
+
+jQuery.fn.scPlayerHeight = function(){
+	o = $(this[0]);
+	playWidth = o.outerWidth();
+		$('.sc-controls a , .sc-played, .sc-buffer, .sc-scrubber, .sc-time-span img').each(function(){
+			$(this).outerHeight(playWidth);
+	});
+	$('.sc-scrubber').width($('.sc-player').outerWidth() - playWidth);
+	$('.sc-artwork-list .active').height($('.sc-info').outerHeight());
+	$('.sc-info').css({"position":"absolute","top":playWidth+12}).width($('.sc-info').parent().width());
+}
 
 /*
 ISOTOPE
@@ -186,11 +197,12 @@ $(document).ready(function() {
 	$(".slider").sliderinit()
 	$(".slider").sliderheight();;
 	//Tooltips
-	$("a").tooltip({
+	/*$("a").tooltip({
 		showURL: false
-	});
+	});*/
 	$(window).smartresize(function(){  
 		$(".slider").sliderheight();
+		$('.sc-controls a').scPlayerHeight();
 	});	
     //navigation
     /*$("#access a").click(function(event){
@@ -224,6 +236,20 @@ $(document).ready(function() {
 		recievedMsg : 'Thanks for your message!',
 		notRecievedMsg : 'Sorry, your message could not be sent, try again later',
 		disclaimer: ''
+	});
+	
+	$(document).bind('onPlayerInit.scPlayer', function(event){
+		$('.sc-player').prepend($('.sc-scrubber , .sc-controls'), function(){
+			$('.sc-player').prepend($('.sc-volume-slider , .sc-time-indicators'));	
+		});
+		$('.sc-controls a').scPlayerHeight();
+		$('.sc-track-duration').each(function(){
+			$(this).siblings().append($(this));
+		});
+	});
+	
+	$(document).bind('onPlayerPlay.scPlayer', function(event){
+	  $('.sc-controls a').scPlayerHeight();
 	});
 	
 	/*$.address.init(function(event) {
