@@ -135,9 +135,6 @@ function setupGallery(videos) {
 		
 		$('#latest-videos ul').append(html);
 	}
-	$('.vid-decription').truncate({
-			width: '250'
-		});
 }
 
 /*
@@ -159,8 +156,13 @@ jQuery.fn.scPlayerHeight = function(){
 			$(this).outerHeight(playWidth);
 	});
 	$('.sc-scrubber').width($('.sc-player').outerWidth() - playWidth);
-	$('.sc-artwork-list .active').height($('.sc-info').outerHeight());
-	$('.sc-info').css({"position":"absolute","top":playWidth+12}).width($('.sc-info').parent().width());
+	//$('.sc-artwork-list .active').height($('.sc-info').outerHeight());
+	activeScr = $('.sc-artwork-list .active img').attr('src');	
+	$('.sc-info').css({
+		"background-image" : "url('images/info-bg.png') , url('"+activeScr+"')",
+		"background-size" : "cover , auto",
+		
+	});
 }
 
 /*

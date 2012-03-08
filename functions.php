@@ -441,7 +441,7 @@ $featured_mb = new WPAlchemy_MetaBox(array
 	'priority' => 'low',
 	'mode' => WPALCHEMY_MODE_EXTRACT,
 	'prefix' => '_sr_',
-	'template' => get_stylesheet_directory() . '/metaboxes/featured-post-meta.php'
+	'template' => get_stylesheet_directory() . '/library/metaboxes/featured-post-meta.php'
 ));
 
 $artist_lnks_mb = new WPAlchemy_MetaBox(array
@@ -464,7 +464,7 @@ $past_artist_mb = new WPAlchemy_MetaBox(array
 	'priority' => 'low',
 	'mode' => WPALCHEMY_MODE_EXTRACT,
 	'prefix' => '_sr_',
-	'template' => get_stylesheet_directory() . '/metaboxes/past-artist-meta.php'
+	'template' => get_stylesheet_directory() . '/library/metaboxes/past-artist-meta.php'
 ));
 
 $show_mb = new WPAlchemy_MetaBox(array
@@ -488,7 +488,7 @@ $release_mb = new WPAlchemy_MetaBox(array
 	'priority' => 'high',
 	'mode' => WPALCHEMY_MODE_EXTRACT,
 	'prefix' => '_sr_',
-	'template' => get_stylesheet_directory() . '/metaboxes/release-meta.php'
+	'template' => get_stylesheet_directory() . '/library/metaboxes/release-meta.php'
 ));
 
 $video_mb = new WPAlchemy_MetaBox(array
@@ -509,7 +509,7 @@ $tracks_mb = new WPAlchemy_MetaBox(array
 	'types' => array('release' , 'artist'),
 	'context' => 'side',
 	'priority' => 'low',
-	'template' => get_stylesheet_directory() . '/metaboxes/tracks-meta.php'
+	'template' => get_stylesheet_directory() . '/library/metaboxes/tracks-meta.php'
 ));
 
 $review_mb = new WPAlchemy_MetaBox(array
@@ -869,7 +869,7 @@ function sr_rels_by_artist($args = array())
 		$article_tag_o = '<article class="release twocol">';
 		$article_tag_c = '</article>';
 	}else{
-		$wrapper_o = '<aside id="releases"><h2 class="aside-header">More Releases</h2><ul class="artist-releases">';
+		$wrapper_o = '<aside id="releases"><h2 class="aside-header">More Releases</h2><ul class="artist-releases img-list clearfix">';
 		$wrapper_c = '</ul></aside><!--#releases-->';
 		$article_tag_o = '<li class="release">';
 		$article_tag_c = '</li>';
@@ -954,13 +954,11 @@ function sr_aside_shows($artist, $home)
 	
 	$the_query = new WP_query($args);
 	if($home == true){
-		echo  '<aside id="shows">';
+		echo  '<aside id="shows"><h2 class="aside-header">Shows</h2><ul class="latest-shows img-list clearfix">';
 	}else{
-		echo '<aside id="shows" class="fourcol">';
+		echo '<aside id="shows" class="fourcol"><h2 class="aside-header">Shows</h2><ul class="txt-list">';
 	}
 	?>
-		<h2 class="aside-header">Shows</h2>
-		<ul class="artist-shows">
 	<?php if ( $the_query->have_posts() ) :
 	while ( $the_query->have_posts() ) : $the_query->the_post();?>
 		<?php sr_shows_markup(true); ?>
@@ -1086,7 +1084,7 @@ function sr_latest_videos(){ ?>
 	<div id="latest-videos">
 			<!--<div id="embed"></div>-->
 			<div id="thumbs">
-				<ul></ul>
+				<ul class="img-list clearfix"></ul>
 			</div>
 	</div><!--#latest-videos-->
 <?php }
@@ -1288,7 +1286,7 @@ function sr_artist_videos($artist)
 		$videos = array_slice($videos, 0, 4);
 	}
 	if(!empty($videos)){
-		echo '<aside id="videos" class="fourcol"><h2 class="aside-header">Videos</h2><ul>';
+		echo '<aside id="videos" class="fourcol"><h2 class="aside-header">Videos</h2><ul class="img-list clearfix">';
 		$videos = sr_get_videos($videos);
 		video_aside_markup($videos);
 		echo '</ul></aside><!--#videos-->';
@@ -1356,7 +1354,7 @@ function video_aside_markup($videos)
 				<a href="<?php echo $video['embed'] ?>" class="media-thumb fancybox.iframe <?php echo $video['vendor'] ?>" rel="gallery-vid-aside">
 					<img src="<?php echo $video['thumbnail_small']?>" class="media-img" />
 					<div class="info">
-						<h1><?php echo $video['title'] ?></h1>
+						<h3><?php echo $video['title'] ?></h3>
 						<p><?php echo $video['description'] ?></p>
 					</div>
 				</a>
@@ -1750,17 +1748,16 @@ if (!is_wp_error( $rss ) ) :
 endif;
 ?>
 
-<ul>
+<ul class="txt-list">
     <?php if ($maxitems == 0) echo '<li>No items.</li>';
     else
-    // Loop through each feed item and display each item as a hyperlink.
     foreach ( $rss_items as $item ) : 
     $time = $item->get_date('g:i A M jS');
     $time_rel = relativeTime($time, 86400 , 'l, j<\s\u\p>S</\s\u\p> F Y');
     $tweet_text = make_clickable( esc_html( $item->get_title() ) );
-    ?>
+	?>
     <li class="tweet">
-    	<time class="date tweet"><?php echo $time_rel; ?></time>
+    	<a href='<?php echo esc_url( $item->get_permalink() ); ?>'><time class="date tweet"><?php echo $time_rel; ?></time></a>
         <span class="tweet-text"><?php echo $tweet_text; ?></span>
     </li>
     <?php endforeach; ?>
