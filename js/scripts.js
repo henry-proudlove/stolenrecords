@@ -128,8 +128,14 @@ $(document).ready(function() {
 function setupGallery(videos) {
 
 	// Add the videos to the gallery
-	for (var i = 0; i < 4; i++) {	
-		var html = '<li class="video vimeo"><a href="http://player.vimeo.com/video/' + videos[i].id + '?autoplay=1" class="media-thumb fancybox.iframe vimeo" rel="gallery-vid-aside"><img src="' + videos[i].thumbnail_small + '" class="media-img" />';
+	for (var i = 0; i < 4; i++) {
+		var html = '<li class="video vimeo"><a href="http://player.vimeo.com/video/' + videos[i].id + '?autoplay=1"' ;
+		if(i == 0){
+			html += 'class="media-thumb fancybox.iframe vimeo no-border" rel="gallery-vid-aside">';
+		}else{
+			html += 'class="media-thumb fancybox.iframe vimeo" rel="gallery-vid-aside">';
+		}
+		html += '<img src="' + videos[i].thumbnail_small + '" class="media-img" />';
 		html += '<div class="info"><h3 class="vid-title">' + videos[i].title + '</h3>';
 		html += '<p class="vid-decription">' + videos[i].description + '</p></li></div></a>';
 		
@@ -159,9 +165,9 @@ jQuery.fn.scPlayerHeight = function(){
 	//$('.sc-artwork-list .active').height($('.sc-info').outerHeight());
 	activeScr = $('.sc-artwork-list .active img').attr('src');	
 	$('.sc-info').css({
-		"background-image" : "url('images/info-bg.png') , url('"+activeScr+"')",
-		"background-size" : "cover , auto",
-		
+		"background-image" : "url('" + templateDir + "/images/info-bg.png') , url('"+activeScr+"')",
+		"background-size" : "auto , cover",
+		"background-position-y" : "40%"
 	});
 }
 
@@ -252,6 +258,15 @@ $(document).ready(function() {
 	
 	$(document).bind('onPlayerPlay.scPlayer', function(event){
 	  $('.sc-controls a').scPlayerHeight();
+	});
+	
+	//CURRENT MENU ITEM ADD CLASS
+	currentPage = document.location.href;
+	$('#access a').each(function(){
+		target = $(this).attr('href');
+		if(currentPage.indexOf(target) != -1){
+			$(this).parent().addClass('active');
+		}
 	});
 	
 	/*$.address.init(function(event) {

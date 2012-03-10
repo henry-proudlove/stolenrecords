@@ -23,13 +23,13 @@ get_header(); ?>
 			<h2 class="aside-header">Follow</h2>
 			<div id="social-tabs">
 				<ul>
-					<li><a id="twitter-tab" href="#twitter">Twitter</a></li>
 					<li><a id="vimeo-tab" href="#latest-videos">Videos</a></li>
+					<li><a id="twitter-tab" href="#twitter">Twitter</a></li>
 					<li><a id="facebook-tab" href="#facebook">Facebook</a></li>
 				</ul>
 				<?php sr_index_fb(); ?>
-				<?php sr_latest_videos(); ?>
 				<?php sr_latest_tweets(); ?>
+				<?php sr_latest_videos(); ?>
 			</div><!--#social-tabs-->
 		</aside><!--#follow-->
 	</div><!--#sidebar-->

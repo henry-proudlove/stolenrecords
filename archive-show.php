@@ -38,7 +38,7 @@ get_header(); ?>
 		<?php if ( $the_query->have_posts() ) : ?>
 		<?php while ( $the_query->have_posts() ) : $the_query->the_post();
 		array_push($dont_copy, $post->ID);
-			sr_shows_markup(false);
+			sr_shows_markup();
 		
 		endwhile; ?>
 			
@@ -59,7 +59,7 @@ get_header(); ?>
 		<?php if ( $the_query->have_posts() ) : ?>
 		<?php while ( $the_query->have_posts() ) : $the_query->the_post();
 		
-			sr_shows_markup(false);
+			sr_shows_markup();
 		
 		endwhile; else: ?>
 		

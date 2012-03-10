@@ -605,7 +605,84 @@ function sr_relart_loop_markup(){
 Shows
 */
 
-function sr_shows_markup($aside){
+function sr_shows_markup(){
+	global $post;
+	
+	$datetime = get_post_meta(get_the_ID(),'_sr_show-date',TRUE);
+	$datetime = new DateTime($datetime);
+	$date = $datetime->format('l, j<\s\u\p>S</\s\u\p> F Y');
+	$time = $datetime->format('g:i<\s\u\p>A</\s\u\p> '); 
+	$venue = get_post_meta(get_the_ID(),'_sr_show-venue',TRUE);
+	$venue_link = get_post_meta(get_the_ID(),'_sr_show-venue-link',TRUE);
+	$buy_tix = get_post_meta(get_the_ID(),'_sr_buy-tickets-link',TRUE);
+	$artist_terms = get_the_terms( $post->ID, 'artist' );
+	$artists = array();
+	foreach ($artist_terms as $artist_term)
+	{
+		$artist = get_page_by_title($artist_term->name , OBJECT, 'artist');
+		$artist = array('ID' => $artist->ID , 'title' => $artist->post_title, 'guid' => $artist->guid);
+		array_push($artists, $artist);
+	}
+	$artists_count = count($artists);?>
+
+	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
+		<?php if($buy_tix): ?>
+			<a href="<?php echo $buy_tix; ?>" title="Buy Tickets" rel="bookmark">
+			<div class="show-img-gallery fivecol">
+			<?php sr_shows_images($artists); ?>
+			</div><!--.show-img-gallery-->
+			</a>
+		<?php else: ?>
+			<div class="show-img-gallery fivecol">
+			<?php sr_shows_images($artists); ?>
+			</div><!--.show-img-gallery-->
+		<?php endif; ?>
+	<div class="info sevencol">
+		<header class="entry-header">
+			<time class="show-date"><?php echo $date; ?></time>
+			<h1 class="entry-title">
+			<?php if($buy_tix): ?>
+				<a href="<?php echo $buy_tix; ?>" title="Buy Tickets" rel="bookmark">
+				<?php the_title(); ?></a>
+			<?php else: ?>
+				<?php the_title(); ?>
+			<?php endif; ?>
+			</h1>
+		</header><!-- .entry-header -->
+		
+		<div class="entry-meta">
+			<?php if($aside == false && $artists_count > 0):?>
+				<ul class="artists">
+				<?php foreach($artists as $artist):?>
+					<li>
+						<a href="<?php echo $artist['guid']; ?>" title="More about <?php echo $artist['title'];?>" rel="bookmark">
+						<?php echo $artist['title'];?>
+						</a>
+					</li>
+				<?php endforeach; ?>
+				</ul>
+			<?php endif; ?>
+			<time class="show-time"><?php echo $time; ?></time>
+			<?php if($venue_link && $venue):?>
+				<span class="venue"><a href="<?php echo $venue_link; ?>" title="More info" rel="bookmark"><?php echo $venue; ?></a></span>
+			<?php elseif($venue): ?>
+				<span class="venue"><?php echo $venue; ?></span>
+			<?php elseif($venue_link):?>
+				<span class="venue"><a href="<?php echo $venue_link; ?>" title="More info" rel="bookmark"></span>
+				<?php echo $venue_link; ?></a>
+			<?php endif; ?>
+		</div>
+		<div class="entry-content">
+			<?php the_excerpt(); ?>
+		</div><!-- .entry-content -->
+		
+		<?php if($buy_tix): ?>
+			<a class="button buy-tickets" href="<?php echo $buy_tix; ?>" title="Buy Tickets" rel="bookmark">Buy Tickets</a>
+		<?php endif; ?>
+	</article><!-- #post-<?php the_ID(); ?> -->
+<?php }
+
+function sr_show_aside_markup(){
 	global $post;
 	
 	$datetime = get_post_meta(get_the_ID(),'_sr_show-date',TRUE);
@@ -616,84 +693,32 @@ function sr_shows_markup($aside){
 	$venue_link = get_post_meta(get_the_ID(),'_sr_show-venue-link',TRUE);
 	$buy_tix = get_post_meta(get_the_ID(),'_sr_buy-tickets-link',TRUE);
 	
-	
-	if($aside == false):
-		$h_tag = 'h1';
-		$artist_terms = get_the_terms( $post->ID, 'artist' );
-		$artists = array();
-		foreach ($artist_terms as $artist_term)
-		{
-			$artist = get_page_by_title($artist_term->name , OBJECT, 'artist');
-			$artist = array('ID' => $artist->ID , 'title' => $artist->post_title, 'guid' => $artist->guid);
-			array_push($artists, $artist);
-		}
-		$artists_count = count($artists);?>
-	
-		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
-			<?php if($buy_tix): ?>
-				<a href="<?php echo $buy_tix; ?>" title="Buy Tickets" rel="bookmark">
-				<div class="show-img-gallery fivecol">
-				<?php sr_shows_images($artists); ?>
-				</div><!--.show-img-gallery-->
-				</a>
-			<?php else: ?>
-				<div class="show-img-gallery fivecol">
-				<?php sr_shows_images($artists); ?>
-				</div><!--.show-img-gallery-->
-			<?php endif; ?>
-		<div class="info sevencol">
-	<?php else: 
-		$h_tag = 'h3'; ?>
+	$h_tag = 'h3'; ?>
+		<?php if($buy_tix): ?>
 		<li id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
-	<?php endif; ?>
-			<header class="entry-header">
-				<time class="show-date"><?php echo $date; ?></time>
-				<?php echo '<' . $h_tag . ' class="entry-title">'; ?>
-				<?php if($buy_tix): ?>
-					<a href="<?php echo $buy_tix; ?>" title="Buy Tickets" rel="bookmark">
-					<?php the_title(); ?></a>
-				<?php else: ?>
-					<?php the_title(); ?>
-				<?php endif; ?>
-				<?php echo '</' . $h_tag . '>'; ?>
-			</header><!-- .entry-header -->
-			
-			<div class="entry-meta">
-				<?php if($aside == false && $artists_count > 0):?>
-					<ul class="artists">
-					<?php foreach($artists as $artist):?>
-						<li>
-							<a href="<?php echo $artist['guid']; ?>" title="More about <?php echo $artist['title'];?>" rel="bookmark">
-							<?php echo $artist['title'];?>
-							</a>
-						</li>
-					<?php endforeach; ?>
-					</ul>
-				<?php endif; ?>
-				<time class="show-time"><?php echo $time; ?></time>
-				<?php if($venue_link && $venue):?>
-					<span class="venue"><a href="<?php echo $venue_link; ?>" title="More info" rel="bookmark"><?php echo $venue; ?></a></span>
-				<?php elseif($venue): ?>
-					<span class="venue"><?php echo $venue; ?></span>
-				<?php elseif($venue_link):?>
-					<span class="venue"><a href="<?php echo $venue_link; ?>" title="More info" rel="bookmark"></span>
-					<?php echo $venue_link; ?></a>
-				<?php endif; ?>
-			</div>
-	
-	<?php if($aside == false): ?>
-			<div class="entry-content">
-				<?php the_excerpt(); ?>
-			</div><!-- .entry-content -->
-			
+			<a href="<?php echo $buy_tix; ?>" class="block" title="Buy Tickets" rel="bookmark">
+		<?php else: ?>
+			<li id="post-<?php the_ID(); ?>" <?php post_class(block); ?> role="article">
+		<?php endif; ?>
+				<header class="entry-header">
+					<time class="show-date"><?php echo $date; ?></time>
+					<h3 class="entry-title">
+						<?php the_title(); ?>
+					</h3>
+				</header><!-- .entry-header -->
+				
+				<div class="entry-meta">
+					<time class="show-time"><?php echo $time; ?></time>
+					<?php if($venue): ?>
+						<span class="venue"><?php echo $venue; ?></span>
+					<?php endif; ?>
+				</div>
 			<?php if($buy_tix): ?>
-				<a class="button buy-tickets" href="<?php echo $buy_tix; ?>" title="Buy Tickets" rel="bookmark">Buy Tickets</a>
+			</a>
 			<?php endif; ?>
-		</article><!-- #post-<?php the_ID(); ?> -->
-	<?php else: ?>
 		</li><!-- #post-<?php the_ID(); ?> -->
-	<?php endif;
-}
+<?php }
+
 
 /* END Shows
 ---------------------------------------------------*/
@@ -709,11 +734,11 @@ function sr_social_links($stolen , $nav)
 		global $artist_lnks_mb;
 		$meta = $artist_lnks_mb->the_meta();
 	}else{
-		$meta = get_post_meta( 1229, _artist_lnks);
+		$meta = get_post_meta( 1614, _artist_lnks);
 		$meta = $meta[0];
 	}
 	if($meta['artist_soc_links']){
-		echo '<nav id="social-links">';
+		echo '<nav class="social-links">';
 		echo '<ul>';
 		if ($stolen == false){
 			$artist_name = get_the_title();
@@ -776,7 +801,7 @@ function sr_social_links($stolen , $nav)
 			{
 				$art_link_title = str_replace(array('http://' , 'www.' , '/') , '' , $artist_link);
 			}
-			echo '<li><a href="'. $artist_link .'" class"' . $art_link_class . '" title="' . $art_link_title . '" rel="bookmark">' . $art_link_title . '</a></li> ';  
+			echo '<li><a href="'. $artist_link .'" class="' . $art_link_class . '" title="' . $art_link_title . '" rel="bookmark">' . $art_link_title . '</a></li> ';  
 		}
 		echo '</ul>';
 	echo '</nav><!--#social-links-->';
@@ -861,7 +886,6 @@ function sr_rels_by_artist($args = array())
 		)
 	);
 	$aside = $options['aside'];
-	echo $aside;
 	if($aside == false)
 	{
 		$wrapper_o = '<section id="releases">';
@@ -869,7 +893,7 @@ function sr_rels_by_artist($args = array())
 		$article_tag_o = '<article class="release twocol">';
 		$article_tag_c = '</article>';
 	}else{
-		$wrapper_o = '<aside id="releases"><h2 class="aside-header">More Releases</h2><ul class="artist-releases img-list clearfix">';
+		$wrapper_o = '<aside id="releases"><h2 class="aside-header">More Releases</h2><ul class="artist-releases txt-list">';
 		$wrapper_c = '</ul></aside><!--#releases-->';
 		$article_tag_o = '<li class="release">';
 		$article_tag_c = '</li>';
@@ -954,14 +978,16 @@ function sr_aside_shows($artist, $home)
 	
 	$the_query = new WP_query($args);
 	if($home == true){
-		echo  '<aside id="shows"><h2 class="aside-header">Shows</h2><ul class="latest-shows img-list clearfix">';
+		echo  '<aside id="shows"><h2 class="aside-header">Shows</h2><ul class="latest-shows txt-list clearfix">';
 	}else{
 		echo '<aside id="shows" class="fourcol"><h2 class="aside-header">Shows</h2><ul class="txt-list">';
 	}
 	?>
 	<?php if ( $the_query->have_posts() ) :
 	while ( $the_query->have_posts() ) : $the_query->the_post();?>
-		<?php sr_shows_markup(true); ?>
+		<?php //sr_shows_markup(true);
+			sr_show_aside_markup();
+		?>
 		
 	<?php endwhile; else: ?>
 			
