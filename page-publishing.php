@@ -20,7 +20,7 @@ get_header(); ?>
 
 			<div class="entry-content">
 				<?php the_content(); ?>
-				<?php sr_post_thumbnail('medium' , false); ?>
+				<?php sr_post_thumbnail('medium' , false, 'null'); ?>
 			</div><!-- .entry-content -->
 		</article><!-- #post-<?php the_ID(); ?> -->
 		

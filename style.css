@@ -168,30 +168,61 @@ h1
 {
 	font-weight: normal;
 	font-size: 2.5em;
-	margin-top: -0.2em;
+	line-height: 1em;
+	margin-bottom: 0.2em;
 }
 
-#access a, .section-header, .aside-header, .widget-title
+h2
+{
+	font-size: 1.8em;
+	line-height: 1.2em;
+	margin-bottom: 0.3em;
+	margin-top: -0.1em;
+}
+#access a, .section-header, .aside-header, .widget-title, .button
 {
 	font-family: 'StolenSans';
 	font-size: 1.2em;
-	letter-spacing: 2px;
+	letter-spacing: 0.15em;
 	text-transform: uppercase;
 	font-weight: normal;
+	margin-top: 0;
 }
 
 .section-header, .aside-header, .widget-title
 {
-	padding-bottom: 5px;
+	padding-bottom: 0.4em;
+}
+
+.aside-header, .widget-title{
+	margin: 0;
 }
 
 .section-header
 {
 	border-bottom: 1px solid #d8d8d4;
 	border-bottom: 1px solid rgba(41, 48, 53, 0.2);
-	margin-bottom: 5px;
+	margin-bottom: 0.4em;
 }
 
+/*
+ *
+ * Buttons
+ *
+ */
+ 
+.button a{
+	background-color: #e14e49;
+	color: white !important;
+	border: none;
+	display: inline-block;
+	font-size: 1em;
+}
+
+.button-large a
+{
+	padding: 0.45em 1.35em;
+}
 
 /*
  *
@@ -245,7 +276,7 @@ display:block;
 border-top: 1px solid #D9D9D9;
 }
 
-.txt-list .block
+.txt-list .block, .tweet
 {
 	display:block;
 	padding: 3% 3.4% 2.1%;
@@ -338,6 +369,14 @@ h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover {
 	color: #e14e49; 
 }
 
+.entry-title a{
+	display:block;
+	transition: color 0.3s;
+	-moz-transition: color 0.3s;
+	-webkit-transition: color 0.3s;
+	-o-transition: color 0.3s;
+}
+
 ul, ol { margin-left: 1.8em; }
 ol { list-style-type: decimal; }
 /* Remove margins for navigation lists */
@@ -409,10 +448,10 @@ button {width: auto; overflow: visible;}
 /* Hide visually and from screenreaders, but maintain layout */
 .invisible { visibility: hidden; }
 /* >> The Magnificent CLEARFIX: Updated to prevent margin-collapsing on child elements << j.mp/bestclearfix */
-.clearfix:before, .clearfix:after {
+.clearfix:before, .clearfix:after, .nested article:before, .nested article:after {
   content: "\0020"; display: block; height: 0; visibility: hidden;	
 } 
-.clearfix:after { clear: both; }
+.clearfix:after, .nested article:after { clear: both; }
 /* Fix clearfix: blueprintcss.lighthouseapp.com/projects/15318/tickets/5-extra-margin-padding-bottom-of-page */
 .clearfix { zoom: 1; }
 
@@ -598,19 +637,38 @@ width: 13.25%;
 
 /* Nested Layout */
 
-.fivecol
+.nested .fivecol
 {
 width: 40%;
 margin: 1.4% 0 1.4% 0;
 background-color:blue;
 }
 
-.sevencol
+.nested .sevencol
 {
 width: 57%;
 margin: 1.4% 0 1.4% 0%;
 background-color: pink;
 float:right;
+}
+
+.nested .twocol
+{
+width: 21.3%;
+margin: 0;
+float:left;
+}
+
+.nested .sixcol
+{
+width: 73.8%;
+margin: 0;
+float:right;
+}
+
+.nested article
+{
+	clear: both;
 }
 
 
@@ -777,6 +835,7 @@ background: transparent;
  
 .social-links{
 text-align: center;
+cursor: pointer;
 }
 .social-links li
 {
@@ -812,8 +871,8 @@ width: 10px;
 
 .social-links .twitter
 {
-background-position-x: -113px;
-width: 25px;
+background-position-x: -114px;
+width: 24px;
 }
 
 .social-links .soundcloud
@@ -1887,6 +1946,225 @@ display:block;
 max-height: 4.35em;
 overflow: hidden;
 }
+
+/*
+ *
+ * Latest
+ *
+ */
+
+#latest{
+	border-bottom: 1px solid #d8d8d4;
+	border-bottom: 1px solid rgba(41, 48, 53, 0.2);
+	padding-bottom: 0.3em;
+}
+
+#latest article
+{
+	width: 100%;
+	text-align: center;
+	margin: 1.45em 0;
+}
+
+#latest .nested .sixcol{
+	width: 48.4%;
+}
+
+#latest .nested .left{
+	float: left;
+}
+
+#latest .nested .right{
+	float: right;
+}
+
+#latest .entry-header {
+	width: 90%;
+	margin: 0 auto;
+}
+
+#latest .entry-summary p {
+display: block;
+width: 70%;
+margin: 0 auto;
+padding: 1.45em 0 2.1em 0;
+background: url('images/wiggly-line-dark.png') no-repeat bottom center;
+}
+
+#latest .entry-header{
+	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
+	padding-bottom: 1.45em;
+}
+
+#latest .read-more
+{
+	margin-top: 1.45em;
+}
+
+
+/*
+ *
+ * Index News
+ *
+ */
+
+.home #news-feed article
+{
+	border-bottom: 1px solid #d8d8d4;
+	border-bottom: 1px solid rgba(41, 48, 53, 0.2);
+}
+
+#news-long article{
+	padding: 0.25em 0 0.7em 0;
+}
+
+#news-trunc article{
+	padding: 0.8em 0 0.5em;
+}
+
+#news-trunc h2
+{
+	font-size: 1.5em;
+	margin-top: -0.4em;
+}
+
+#news-trunc .entry-date {
+margin-top: -0.3em;
+}
+
+/*
+ *
+ * Image Rollover
+ *
+ */
+
+.fancy-roll{
+	display: block;
+	position: relative;
+}
+
+.fancy-roll, .fancy-roll:hover, .fancy-roll:visited{
+	border: none;
+}
+
+
+.fancy-roll img{
+	display: block;
+}
+
+.fancy-roll .info
+{
+	opacity: 0;
+	display:none;
+	position: absolute;
+	background: rgba(41,48,52,0.7);
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	color: white;
+	transition: opacity 0.5s;
+	-moz-transition: opacity 0.5s; /* Firefox 4 */
+	-webkit-transition: opacity 0.5s; /* Safari and Chrome */
+	-o-transition: opacity 0.5s; /* Opera */
+	/* Firefox */
+	display:-moz-box;
+	-moz-box-orient:horizontal;
+	-moz-box-pack:center;
+	-moz-box-align:center;
+	
+	/* Safari and Chrome */
+	display:-webkit-box;
+	-webkit-box-orient:horizontal;
+	-webkit-box-pack:center;
+	-webkit-box-align:center;
+	
+	/* W3C */
+	display:box;
+	box-orient:horizontal;
+	box-pack:center;
+	box-align:center;
+}
+
+.fancy-roll .info > div{
+	margin: 3.4%;
+	text-align: center;
+}
+
+.fancy-roll .info .entry-header{
+	background: url('images/wiggly-line-light.png') no-repeat bottom center;
+	padding-bottom: 1.45em;
+	background-position: center 80%;
+	position: relative;
+	top: -1.45em;
+	transition: top 0.2s;
+	-moz-transition: top 0.2s, background-position 0.2s ease-out; /* Firefox 4 */
+	-webkit-transition: top 0.2s, background-position 0.2s ease-out; /* Safari and Chrome */
+	-o-transition: top 0.2s, background-position 0.2s ease-out; /* Opera */
+}
+
+.release .fancy-roll .info .entry-header, .past .fancy-roll .info .entry-header {
+	background-position: center 88%;
+}
+
+.fancy-roll:hover .info .entry-header{
+	top: 0;
+	background-position: center 100%;
+}
+
+
+.fancy-roll .info .entry-summary p{
+	color: rgba(255, 255, 255, 0.6);
+	max-height: 4.35em;
+	overflow-y: hidden;
+	display:inline-block;
+	width: 80%;
+}
+
+.fancy-roll .info .entry-summary{
+	padding-top: 0.9em;
+}
+
+.fancy-roll .info .wrap{
+	position: relative;
+}
+
+.fancy-roll .info .click-prompt{
+	display: block;
+	text-transform: uppercase;
+	font-style: italic;
+	color: rgba(255, 255, 255, 0.6);
+}
+
+.fancy-roll .info .read-more{
+	padding-top: 1.45em;
+	background-position: center top;
+	background: url('images/wiggly-line-light.png') no-repeat top center;
+	position: relative;
+	bottom: -1.45em;
+	transition: bottom 0.2s;
+	-moz-transition: bottom 0.2s; /* Firefox 4 */
+	-webkit-transition: bottom 0.2s; /* Safari and Chrome */
+	-o-transition: bottom 0.2s; /* Opera */
+}
+
+.fancy-roll:hover .info .read-more{
+	bottom: 0;
+}
+
+.fancy-roll .info .zoom{
+	background: url('images/magnifyer.png') no-repeat top center;
+	padding-top: 26px;
+}
+
+.fancy-roll:hover .info
+{
+	opacity: 1;
+	width: 100%
+	height: 100%;
+}
+
+
 
 
 

@@ -59,7 +59,7 @@ get_header(); ?>
 			
 			foreach($post_nums as $post_num)
 			{
-				$options = array('size' => 'sr-fourcol', 'post_id' => $post_num, 'wrapper' => false, 'a_class' => 'media-thumb fancybox.image fourcol', 'a_rel' => 'gallery-media' );
+				$options = array('size' => 'sr-fourcol', 'post_id' => $post_num, 'wrapper' => false, 'a_class' => 'media-thumb fancy-roll fancybox.image fourcol', 'a_rel' => 'gallery-media' );
 				sr_get_images($options);
 			}
 		endwhile;?>

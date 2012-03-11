@@ -25,7 +25,7 @@ get_header(); ?>
 		<a href="<?php echo get_post_type_archive_link( 'release' ); ?>">All Releases</a>
 		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
 			<div class="entry-gallery">
-				<?php sr_post_thumbnail('medium' , false) ?>
+				<?php sr_post_thumbnail('medium' , false, 'null') ?>
 			</div><!-- .entry-gallery -->
 			
 			<div id="release-info">

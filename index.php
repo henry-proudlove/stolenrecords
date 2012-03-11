@@ -18,7 +18,7 @@ get_header(); ?>
 					
 				</header><!-- .entry-header -->
 					
-				<?php sr_post_thumbnail('medium' , true); ?>
+				<?php sr_post_thumbnail('medium' , true, 'parent'); ?>
 				
 				<div class="entry-summary">
 					<?php the_excerpt(); ?>

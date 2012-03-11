@@ -186,15 +186,20 @@ function async_google_analytics() { ?>
 //Read more link
 
 function sr_excerpt_more($more) {
-       global $post;
+	global $post;
 	return '...<span class="read-more"> <a href="'. get_permalink($post->ID) . '">read more</a></span>';
 }
 add_filter('excerpt_more', 'sr_excerpt_more');
 
 function sr_post_date() {
    global $post;
-   $d = 'l, j<\s\u\p>S</\s\u\p> F Y'; 
-   $the_date = mysql2date($d, $post->post_date);
+   if(get_post_type() == post){
+		$d = 'j<\s\u\p>S</\s\u\p> F Y'; 
+		$the_date = mysql2date($d, $post->post_date);
+	}else{
+		$d = 'l, j<\s\u\p>S</\s\u\p> F Y'; 
+		$the_date = mysql2date($d, $post->post_date);
+	}
 	return $the_date;
 }
 add_filter('get_the_date', 'sr_post_date');
@@ -202,23 +207,19 @@ add_filter('get_the_date', 'sr_post_date');
 
 //Truncation
 
-function _sr_truncate($string, $limit, $break=0, $pad="...")
+function sr_truncate($string, $limit, $break=0, $pad="...")
 {	
 	$string = strip_tags($string);
 	// return with no change if string is shorter than $limit
 	if(strlen($string) <= $limit) return $string;
-	
-	if($break=0){
-		$string = substr($string, $limit) . $pad;
-		return $string;
-	}
+
 	// is $break present between $limit and the end of the string?
 	if(false !== ($breakpoint = strpos($string, $break, $limit))) {
-	if($breakpoint < strlen($string) - 1) {
-	  $string = substr($string, 0, $breakpoint) . $pad;
+		if($breakpoint < strlen($string) - 1) {
+		  $string = substr($string, 0, $breakpoint) . $pad;
+		}
 	}
-	}
-	
+    
   return $string;
 }
 
@@ -538,10 +539,10 @@ $thumb_mb = new WPAlchemy_MetaBox(array
 //jquery date-time picker on admin
 
 function load_date_time_picker(){
-	wp_register_script( 'datepicker', get_template_directory_uri() . '/js/jquery-ui-1.8.17.custom.min.js');
+	wp_register_script( 'datepicker', get_template_directory_uri() . '/js/jquery-ui-1.8.18.custom.min.js');
 	wp_enqueue_script( 'datepicker' );
 	
-	wp_register_style('datepicker-css', get_template_directory_uri() . "/css/jquery-ui-1.8.17.custom.css");  
+	wp_register_style('datepicker-css', get_template_directory_uri() . "/css/jquery-ui-1.8.18.custom.css");  
 	wp_enqueue_style( 'datepicker-css');
 	
 	wp_register_script( 'timepicker', get_template_directory_uri() . '/js/jquery-ui-timepicker-addon.js');
@@ -572,26 +573,39 @@ function sr_relart_loop_markup(){
 	if('artist' == get_post_type()){
 		$sr_post_class = get_post_meta(get_the_ID(),'_sr_present-past',TRUE);
 		if ($sr_post_class == 'past'){
-			$artist_status = '<span class="artist-status">' . $sr_post_class . '</span>'; 
+			$meta_blob = '<span class="artist-status">Past Artist</span>'; 
 		}else{
 			$artist_status = null;
+			$meta_blob = null;
 		}
 	}else{
 		$sr_post_class = null;
-		$artist_status = null;
+		$meta_blob = get_post_meta( $rel_id , '_sr_release-date', true);
+		$meta_blob = date_create($meta_blob);
+		$meta_blob = date_format($meta_blob, 'Y');
+		$meta_blob = '<span class="artist-status">'. $meta_blob . '</span>';
 	}
 	$sr_post_class .= ' fourcol';
 	?>
 	<article id="post-<?php the_ID(); ?>" <?php post_class($sr_post_class); ?> role="article">
-	<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark">
-		<?php sr_post_thumbnail('sr-fourcol' , false); ?>
-		<header class="entry-header">
-			<?php _sr_post_header(); ?>
-			<?php echo $artist_status ?>
-		</header><!-- .entry-header -->
-		<div class="entry-summary">
-			<?php the_excerpt(); ?>
-		</div><!-- .entry-summary -->
+	<a href="<?php the_permalink(); ?>" class="fancy-roll" title="<?php printf( esc_attr__( 'Permalink to %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark">
+		<?php sr_post_thumbnail('sr-fourcol' , false, 'null'); ?>
+		<div class="info">
+			<div class="wrap">
+				<header class="entry-header">
+					<?php the_title('<h1 class="entry-title">' , '</h1>');?>
+					<?php echo $meta_blob; ?>
+				</header><!-- .entry-header -->
+				<div class="entry-summary">
+					<?php
+					$excerpt = get_the_content();
+					$excerpt = sr_truncate($excerpt, 250, ' ');
+					echo '<p>' . $excerpt . '</p>' ;
+					echo '<div class="read-more button button-large">read more</div>';
+					?>
+				</div>
+			</div>
+		</div>
 	</a>
 	</article><!-- #post-<?php the_ID(); ?> -->
 
@@ -801,7 +815,7 @@ function sr_social_links($stolen , $nav)
 			{
 				$art_link_title = str_replace(array('http://' , 'www.' , '/') , '' , $artist_link);
 			}
-			echo '<li><a href="'. $artist_link .'" class="' . $art_link_class . '" title="' . $art_link_title . '" rel="bookmark">' . $art_link_title . '</a></li> ';  
+			echo '<li><a href="'. $artist_link .'" class="' . $art_link_class . '" title="' . $art_link_title . '" rel="bookmark" target="_blank">' . $art_link_title . '</a></li> ';  
 		}
 		echo '</ul>';
 	echo '</nav><!--#social-links-->';
@@ -845,9 +859,9 @@ function sr_single_post_navigation(){?>
 Post Header
 */
 
-function _sr_post_header(){
+function _sr_post_header($tag = "h1" , $class = ''){
 	global $post;?>
-	<h1 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h1>
+	<<?php echo $tag; ?>  class="entry-title <?php echo $class; ?> "><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></<?php echo $tag; ?> >
 <?php }
 
 /* END Post Header
@@ -905,8 +919,8 @@ function sr_rels_by_artist($args = array())
 		while ($rel_query->have_posts() ): $rel_query->the_post();?>
 				<?php echo $article_tag_o;?>
 				<?php $rel_id = get_the_ID(); ?>
-				<?php sr_post_thumbnail($options['thumb_size'] , false);?>
-				<?php _sr_post_header();
+				<?php sr_post_thumbnail($options['thumb_size'] , false, 'parent');?>
+				<?php _sr_post_header('h3');
 				$release_date = get_post_meta( $rel_id , '_sr_release-date', true);
 				
 				if ($release_date)
@@ -1244,7 +1258,7 @@ function sr_media_videos(&$dont_copy)
 			if($video['is_valid'] == 'true')
 			{?>
 					<a href="<?php echo $video['embed'] ?>" class="media-thumb fancybox.iframe <?php echo $video['vendor'] ?> fourcol" rel="gallery-media">
-						<img src="<?php echo $video['thumbnail_large']?>" class="media-img <?php echo $video['vendor'] ?>" />
+						<img src="<?php echo $video['thumbnail_large']?>" class="fancy-roll <?php echo $video['vendor'] ?>" />
 						<div class="info">
 							<h1><?php echo $video['title'] ?></h1>
 							<p><?php echo $video['description'] ?></p>
@@ -1484,9 +1498,9 @@ function sr_get_images( $args = array() ) {
 			<article class="<?php echo $wrapper_class ?>">
 			<?php endif; ?>
 			<?php if($link == 'self'):?>
-			<a href="<?php echo $img_url; ?>" title="<?php echo $img_title; ?>" class="<?php echo $a_class; ?>" <?php if(!$a_rel == ''){echo 'rel="'. $a_rel .'"';}?>>
+			<a href="<?php echo $img_url; ?>" class="fancy-roll" title="<?php echo $img_title; ?>" class="<?php echo $a_class; ?>" <?php if(!$a_rel == ''){echo 'rel="'. $a_rel .'"';}?>>
 			<?php elseif($link == 'parent'):?>
-			<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark">
+			<a href="<?php the_permalink(); ?>" class="fancy-roll" title="<?php printf( esc_attr__( 'Permalink to %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark">
 			<?php endif; ?>
 			<img class="<?php echo $img_class;?>" src="<?php echo $img_src[0]; ?>" alt="<?php echo $img_alt; ?>" title="<?php echo $img_title; ?>" />
 			<?php if($link == 'self'):?>
@@ -1497,11 +1511,14 @@ function sr_get_images( $args = array() ) {
 				<?php if ($img_description != '') : ?>
 					<div class="attachment-description"><?php echo $img_description; ?></div>
 				<?php endif; ?>
-					<span>Click to zoom</span>
-					</div>
-			<?php endif; ?>
-			<?php if($link == 'self' || $link == 'parent'):?>
-			</a>
+					<span class="click-prompt zoom">Click to zoom</span>
+				</div>
+				</a>
+			<?php elseif($link == 'parent'): ?>
+				<div class="info">
+					<span class="click-prompt read"><?php echo get_the_title(); ?></span>
+				</div>
+				</a>
 			<?php endif; ?>
 			<?php if($wrapper == true):?>
 			</article>
@@ -1524,16 +1541,16 @@ Image display
 */
 
 // Default post thumbnail. Check for video, thumbnail, if not show first attachment
-function sr_post_thumbnail($size , $show_video)
+function sr_post_thumbnail($size , $show_video, $link)
 { 	
 	global $post;
-	if ($show_video == true && 'post' == get_post_type() && get_post_meta(get_the_ID(),'_sr_thumb-URL',TRUE)):
+	if ($show_video == true && get_post_meta(get_the_ID(),'_sr_thumb-URL',TRUE)):
 		$vid_link = get_post_meta(get_the_ID(),'_sr_thumb-URL',TRUE);
 		$embed_code = wp_oembed_get($vid_link);
 		echo $embed_code;	
 	elseif (has_post_thumbnail()):
 		$post_thumb = get_post_thumbnail_id();
-		$options = array(
+		$options = array(	
 			'size' => $size,
 			'big' => 'full' ,
 			'img_class' => 'post',

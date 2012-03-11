@@ -81,8 +81,8 @@ jQuery.fn.sliderheight = function() {
 		var maxHeight = 0;
 		el = o.children();
 		el.each(function(){
-			if($(this).height() > maxHeight) {
-				maxHeight = $(this).height();
+			if($(this).outerHeight(true) > maxHeight) {
+				maxHeight = $(this).outerHeight(true);
 			}
 		});
 		o.height(maxHeight);
