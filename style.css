@@ -141,7 +141,7 @@ body, select, input, textarea {
   color: #293034;
 }
 
-p, time, .sc-track-duration
+p, time, .sc-track-duration, .widget li a
 {
 	color: #777;
 }
@@ -331,7 +331,64 @@ font-size: 0.9em;
 	border: none !important;
 }
 
+/*
+ *
+ * Widgets
+ *
+ */
+ 
+.widget ul{
+	background: transparent;
+}
 
+.widget li{
+	background: white;
+	padding: 0.7em 0.7em 0.5em 0.7em;
+	display: inline-block;
+	margin: 0em 0.1em 0.4em 0;
+	max-height: 1.45em;
+	overflow: hidden;
+	white-space:nowrap;
+	max-width: 94%;
+	text-overflow: ellipsis;
+}
+
+.widget li:hover{
+	background: #e14e49;
+	color:white;
+}
+.widget li:hover a{
+	color: rgba(255, 255, 255, 0.6);
+}
+.widget li a:hover{
+	border: none;
+}
+.widget li a{
+transition: none;
+	-moz-transition: none;
+	-webkit-transition: none;
+	-o-transition: color none;
+}
+
+#searchsubmit {
+width: 9%;
+margin: 0;
+background: red;
+border: none;
+color: white;
+text-indent: -9000px;
+height: 2.45em;
+padding: 0.5em;
+display: inline-block;
+}
+
+#s {
+	width: 87%;
+	height: 1.45em;
+	padding: 0.5em;
+	border: none;
+	display: inline-block;
+}
 
 /* always force a scrollbar in non-IE */ 
 html { overflow-y: scroll; }
@@ -439,7 +496,7 @@ button {width: auto; overflow: visible;}
 .ir { display: block; text-indent: -999em; overflow: hidden; background-repeat: no-repeat; text-align: left; direction: ltr; }
 /* Hide for both screenreaders and browsers
    css-discuss.incutio.com/wiki/Screenreader_Visibility */
- .sr-hidden { display: none; visibility: hidden; } 
+ .sr-hidden, .screen-reader-text { display: none; visibility: hidden; } 
 /*Hide only visually, but have it available for screenreaders 
    www.webaim.org/techniques/css/invisiblecontent/  &  j.mp/visuallyhidden  */
 .visuallyhidden { position: absolute !important;    
