@@ -404,7 +404,7 @@ IMAGE SIZES
 */
 if ( function_exists( 'add_image_size' ) ) { 
 	add_image_size( 'sr-twelvecol', 1217, 500, true );
-	add_image_size( 'sr-eightcol', 801, 801, false );
+	add_image_size( 'sr-eightcol', 801, 600, false );
 	add_image_size( 'sr-sixcol', 592, 592, true );
 	add_image_size( 'sr-fivecol', 487, 650, false );
 	add_image_size( 'sr-art-fivecol', 487, 487, true );
@@ -1553,7 +1553,7 @@ function sr_post_thumbnail($size , $show_video, $link)
 		$options = array(	
 			'size' => $size,
 			'big' => 'full' ,
-			'img_class' => 'post',
+			'img_class' => 'post-thumb',
 			'wrapper' => false ,
 			'include' => $post_thumb,
 			'link' => $link
@@ -1563,7 +1563,7 @@ function sr_post_thumbnail($size , $show_video, $link)
 		$options = array(
 			'size' => $size,
 			'big' => 'full' ,
-			'img_class' => 'post',
+			'img_class' => 'post-thumb',
 			'wrapper' => false ,
 			'limit' => '1',
 			'link' => $link
@@ -1836,6 +1836,11 @@ function relativeTime($time = false, $limit = 86400, $format = 'g:i A M jS') {
 }
 
 return $relative;
+}
+
+function sr_get_news_page_link(){
+	$news_page = get_page_by_title( 'News' );
+	echo '<a href="' . $news_page->guid . '" class="content-close" title="Go back to the news page" rel="Bookmark">Back to The News Page</a>';
 }
 
 //END MISC

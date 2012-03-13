@@ -10,7 +10,7 @@
 get_header(); ?>
 
 <div id="content" class="clearfix offset">
-	<?php get_template_part('loop' , 'index');?>
+	<?php get_template_part('loop' , 'front');?>
 	<div id="sidebar" class="fourcol shim-left">
 		<aside id="stolen-listen" class="listen">
 			<h2 class="aside-header">Listen</h2>

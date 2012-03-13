@@ -71,6 +71,25 @@ jQuery.fn.sliderinit = function(){
 	});
 };
 
+/* 
+FLUID WIDTH FORM ELEMENTS
+*/
+
+jQuery.fn.fluidSearchForm = function(){
+	o = $(this[0]);
+	$submit = o.find('input[type="submit"]');
+	$search = o.find('input[type="text"]');
+	submitWidth = $submit.outerWidth();
+	submitHeight = $submit.outerHeight(); 
+	if (submitWidth > 28)
+	{
+		$search.outerHeight(submitWidth);
+		$submit.height(submitWidth);
+	}else{
+		$search.outerHeight(28);
+		$submit.height(28);
+	}
+};
 /*
 MAKING SLIDES FLUID
 */
@@ -211,6 +230,7 @@ $(document).ready(function() {
 	$(window).smartresize(function(){  
 		$(".slider").sliderheight();
 		$('.sc-controls a').scPlayerHeight();
+		$('form[role="search"]').fluidSearchForm();
 	});	
     //navigation
     /*$("#access a").click(function(event){
@@ -268,6 +288,8 @@ $(document).ready(function() {
 			$(this).parent().addClass('active');
 		}
 	});
+	
+	$('form[role="search"]').fluidSearchForm();
 	
 	/*$.address.init(function(event) {
 
