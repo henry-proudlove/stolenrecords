@@ -141,7 +141,7 @@ body, select, input, textarea {
   color: #293034;
 }
 
-p, time, .sc-track-duration, .widget li a
+p, time, .sc-track-duration, .widget li a, .single .entry-content li, .single .entry-content blockquote, .single .entry-content quote, .single .entry-content span
 {
 	color: #777;
 }
@@ -2127,17 +2127,16 @@ margin-top: -0.3em;
  *
  */
 
-.blog article, .search article, .archive article, .tag article{
+.blog article, .search article, .archive article, .tag article, .single .entry-header{
 	text-align: center;
 	margin: 0;
 	padding-bottom: 1.9em;
 }
-
 .blog .entry-header img, .search .entry-header img, .archive .entry-header img, .tag .entry-header img{
 	margin-bottom: 0.5em;
 }
 
-.blog .entry-header, .search .entry-header, .archive .entry-header, .tag .entry-header{
+.blog .entry-header, .search .entry-header, .archive .entry-header, .tag .entry-header, .single .entry-header{
 	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
 	padding-bottom: 1.45em;
 	margin-bottom: 1.45em;
@@ -2158,13 +2157,133 @@ margin: 0.8em 0;
 	margin-top: 0.75em;	
 }
 
-
 .divider{
 width: 40%;
 background-color: rgba(41, 48, 53, 0.2);
 height: 1px;
 margin: 0 auto 2.9em;
 }
+
+/* Single Post */
+
+.single .entry-content{
+	font-size: 1.15em;
+	text-align: center;
+}
+.single .entry-content h1{
+	font-size: 2.25em;
+	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
+	padding-bottom: 1.45em;
+	text-align: center;
+}
+
+.single .entry-content h2{
+	font-size: 1.75em;
+	text-align: center;
+}
+
+.single .entry-content h3{
+	font-size: 1.5em;
+	text-align: center;
+}
+
+.single .entry-content h4{
+	font-size: 1.25em;
+	text-align: center;
+}
+
+.single .entry-content h5{
+	font-size: 1.15em;
+}
+
+.single .entry-content h5{
+	font-size: 1em;
+}
+
+.single .entry-content ul{
+	text-align: center;
+	border-bottom: 1px solid rgba(41, 48, 53, 0.1);
+}
+
+.entry-content p {
+padding-bottom: 0.5em;
+text-align: justify;
+}
+
+.entry-content blockquote p, .entry-content blockquote {
+text-align: center;
+font-size: 1em;
+}
+
+.entry-content blockquote {
+text-align: center;
+font-size: 1em;
+font-style: italic;
+width: 70%;
+margin: 1em auto;
+}
+
+blockquote:before, blockquote:after{
+	font-style: normal;
+	font-family: 'StolenSans';
+	font-size: 2.5em;
+	color: #293034;
+	position: absolute;
+}
+
+blockquote{
+	position: relative;
+}
+
+blockquote:before{
+	content:'\201C';
+	top: -0.3em;
+	left: -0.7em;
+}
+
+blockquote:after {
+	content: '\201D';
+	bottom: -0.6em;
+	right: -0.7em;
+}
+
+cite{
+	text-align: center;
+	text-transform: uppercase;
+	font-size: 0.8em;
+	margin: 0 atuo;
+	display: block;
+	font-style: normal;
+}
+
+.entry-content{
+	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
+	padding-bottom: 2.9em;
+}
+
+.single .entry-meta{
+	text-align: center;
+	margin-top: 2.9em;
+}
+.single .entry-meta a{
+	color: #777;
+	text-transform: uppercase;
+}
+
+
+
+
+
+.single .entry-content li{
+	text-align: center;
+	border-top: 1px solid rgba(41, 48, 53, 0.1);
+	padding: 0.5em;
+	list-style: none;
+}
+
+
+
+
 
 /*
  *
