@@ -141,7 +141,7 @@ body, select, input, textarea {
   color: #293034;
 }
 
-p, time, .sc-track-duration, .widget li a, .single .entry-content li, .single .entry-content blockquote, .single .entry-content quote, .single .entry-content span
+p, time, .sc-track-duration, .widget li a, .single-post .entry-content li, .single-post .entry-content blockquote, .single-post .entry-content quote, .single-post .entry-content span, dd
 {
 	color: #777;
 }
@@ -200,7 +200,7 @@ h2
 	display:block;
 	background-image: url('images/sprite.png');
 	background-position: -236px 0;
-	border: none;
+	border: none !important;
 	border-bottom: none;
 	transition: none;
 	-moz-transition: none;
@@ -273,54 +273,72 @@ aside ul, aside ol
 	list-style: none;
 }
 
+aside ul > li, aside ol > li
+{
+	margin: 0;
+	list-style: none;
+	border-top: 1px solid #D9D9D9;
+}
+
+aside .block
+{
+	display:block;
+	padding: 3% 3.4% 2.1%;
+	border-bottom: none;
+}
+
+aside li:nth-child(1) {
+	border-top: none !important;
+}
+
+
 .sc-trackslist li a
 {
 	padding: 3% 3.4% 2.1%;
-	border-top: 1px solid #D9D9D9;
-
+	text-transform: uppercase;
+	display: block;
 }
 
-.sc-trackslist li a
+.red-roll, .sc-trackslist li a
 {
-text-transform: uppercase;
-display: block;
-border-top: 1px solid #D9D9D9;
-
-}
-
-.img-list li > a, .sc-trackslist li a, .txt-list a
-{
-
 border-bottom: none;
 	transition: none;
 	-moz-transition: none;
 	-webkit-transition: none;
-	-o-transition: none;
+	-o-transition: none;	
 }
 
-.img-list li > a
-{
-display:block;
-border-top: 1px solid #D9D9D9;
-}
-
-.txt-list .block, .tweet
-{
-	display:block;
-	padding: 3% 3.4% 2.1%;
-	border-top: 1px solid #D9D9D9;
-	border-bottom: none;
-}
-
-.sc-trackslist li a:hover, .img-list li a:hover, .img-list a:hover > * , .txt-list a:hover , .txt-list li > a:hover .venue
+.red-roll:hover, .red-roll:hover > *, .sc-trackslist li a:hover
 {
 	color: white;
 	background: #e14e49;
 }
 
-.sc-trackslist li a:hover span, .img-list a:hover .info p, .txt-list a:hover time 
+.red-roll:hover .faint, .sc-trackslist li a:hover span
 {
 	color: rgba(255,255,255,0.5);
+}
+
+.img-list li > a, .sc-trackslist li a, .latest-shows a
+{
+}
+
+.img-list li > a
+{
+display:block;
+}
+
+.sc-trackslist li a:hover, .img-list li a:hover, .img-list a:hover > * , .latest-shows a:hover , .txt-list li > a:hover .venue
+{
+}
+
+.tweet a{
+	background: transparent !important;
+}
+
+.sc-trackslist li a:hover span, .img-list a:hover .info p, .latest-shows a:hover time 
+{
+	
 }
 
 .img-list li img
@@ -379,6 +397,7 @@ font-size: 0.9em;
 	white-space:nowrap;
 	max-width: 94%;
 	text-overflow: ellipsis;
+	border:none;
 }
 
 .widget li:hover{
@@ -419,6 +438,10 @@ border: none;
 display: block;
 float: left;
 margin: 0 !important;
+}
+
+.tagcloud{
+	background: transparent;
 }
 
 /* always force a scrollbar in non-IE */ 
@@ -1039,7 +1062,7 @@ width: 15px;
 	display: none;
 }
 .paged #content #nav-above,
-.single #content #nav-above {
+.single-post #content #nav-above {
 	display: block;
 }
 /*#nav-below {
@@ -2127,31 +2150,31 @@ margin-top: -0.3em;
  *
  */
 
-.blog article, .search article, .archive article, .tag article, .single .entry-header{
+.blog article, .search article, .date article, .tag article, .single-post .entry-header{
 	text-align: center;
 	margin: 0;
 	padding-bottom: 1.9em;
 }
-.blog .entry-header img, .search .entry-header img, .archive .entry-header img, .tag .entry-header img{
+.blog .entry-header img, .search .entry-header img, .date .entry-header img, .tag .entry-header img{
 	margin-bottom: 0.5em;
 }
 
-.blog .entry-header, .search .entry-header, .archive .entry-header, .tag .entry-header, .single .entry-header{
+.blog .entry-header, .search .entry-header, .date .entry-header, .tag .entry-header, .single-post .entry-header{
 	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
 	padding-bottom: 1.45em;
 	margin-bottom: 1.45em;
 }
 
-.blog article p, .search article p, .archive article p, .tag article p{
+.blog article p, .search article p, .date article p, .tag article p{
 	width: 85%;
 	padding-bottom: 1em;
 	margin: 0 auto;
 }
-.blog article .fancy-roll, .search article .fancy-roll, .archive article .fancy-roll, .tag article .fancy-roll{
+.blog article .fancy-roll, .search article .fancy-roll, .date article .fancy-roll, .tag article .fancy-roll{
 margin: 0.8em 0;
 }
 
-.blog .read-more, .search .read-more, .archive .read-more, .tag .read-more{
+.blog .read-more, .search .read-more, .date .read-more, .tag .read-more{
 	display: block;
 	text-transform: uppercase;
 	margin-top: 0.75em;	
@@ -2166,43 +2189,57 @@ margin: 0 auto 2.9em;
 
 /* Single Post */
 
-.single .entry-content{
+.single-post .entry-content{
 	font-size: 1.15em;
 	text-align: center;
 }
-.single .entry-content h1{
-	font-size: 2.25em;
-	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
-	padding-bottom: 1.45em;
+
+.single-post .entry-content h1, .single-post .entry-content h2, .single-post .entry-content h3, .single-post .entry-content h4, .single-post .entry-content h5, .single-post .entry-content h6{
 	text-align: center;
+	margin: 0.3em 0 0.8em;
+	line-height: 1.45em;
+	/*display: inline-block*/;
 }
 
-.single .entry-content h2{
-	font-size: 1.75em;
-	text-align: center;
-}
-
-.single .entry-content h3{
-	font-size: 1.5em;
-	text-align: center;
-}
-
-.single .entry-content h4{
-	font-size: 1.25em;
-	text-align: center;
-}
-
-.single .entry-content h5{
-	font-size: 1.15em;
-}
-
-.single .entry-content h5{
-	font-size: 1em;
-}
-
-.single .entry-content ul{
-	text-align: center;
+.single-post .entry-content h1{
+	font-size: 1.6em;
+	font-weight: bold;
 	border-bottom: 1px solid rgba(41, 48, 53, 0.1);
+}
+
+.single-post .entry-content h2{
+	font-size: 1.4em;
+	font-weight: bold;
+	border-bottom: 1px solid rgba(41, 48, 53, 0.1);
+}
+
+.single-post .entry-content h3, .single-post .entry-content h4{
+	font-family: 'StolenBody';
+	font-size: 1.25em;
+	margin: 0;
+	text-align: center;
+	text-align: left;
+}
+
+.single-post .entry-content h5, .single-post .entry-content h6{
+	font-family: 'StolenBody';
+	font-weight: bold;
+	font-size: 1em;
+	margin: 0;
+	text-align: left;
+}
+
+.single-post .entry-content ul, .single-post .entry-content ol {
+	text-align: left;
+	border-bottom: 1px solid rgba(41, 48, 53, 0.1);
+	margin: 0.9em 2em 1.45em;
+}
+
+.single-post .entry-content li > ul, .single-post .entry-content li > ol {
+	text-align: left;
+	margin: 0.6em 2em -0.4em;
+	border:none;
+	margin-right: 0;
 }
 
 .entry-content p {
@@ -2219,14 +2256,15 @@ font-size: 1em;
 text-align: center;
 font-size: 1em;
 font-style: italic;
-width: 70%;
+max-width: 70%;
 margin: 1em auto;
+display: inline-block;
 }
 
 blockquote:before, blockquote:after{
 	font-style: normal;
 	font-family: 'StolenSans';
-	font-size: 2.5em;
+	font-size: 2.7em;
 	color: #293034;
 	position: absolute;
 }
@@ -2235,15 +2273,15 @@ blockquote{
 	position: relative;
 }
 
-blockquote:before{
-	content:'\201C';
-	top: -0.3em;
+blockquote::before {
+	content: '\201C';
+	top: -0.28em;
 	left: -0.7em;
 }
 
-blockquote:after {
+blockquote::after {
 	content: '\201D';
-	bottom: -0.6em;
+	bottom: -0.54em;
 	right: -0.7em;
 }
 
@@ -2251,38 +2289,70 @@ cite{
 	text-align: center;
 	text-transform: uppercase;
 	font-size: 0.8em;
-	margin: 0 atuo;
 	display: block;
 	font-style: normal;
 }
 
 .entry-content{
 	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
-	padding-bottom: 2.9em;
+	padding-bottom: 1.45em;
+
 }
 
-.single .entry-meta{
+.single-post .entry-meta{
 	text-align: center;
-	margin-top: 2.9em;
+	margin: 1.45em 0;
+		clear: both;
 }
-.single .entry-meta a{
+.single-post .entry-meta a{
 	color: #777;
 	text-transform: uppercase;
 }
 
-
-
-
-
-.single .entry-content li{
-	text-align: center;
+.single-post .entry-content li{
+	text-align: left;
 	border-top: 1px solid rgba(41, 48, 53, 0.1);
 	padding: 0.5em;
-	list-style: none;
+	font-style: italic;
 }
 
+/* Tables */
 
+.single-post table{
+	margin: 1em auto 1.45em;
+	background: rgba(255, 255, 255, 0.6);
+}
 
+.single-post th, td {
+padding: 0.7em 1.4em;
+border: 1px solid rgba(41, 48, 53, 0.1);
+}
+
+/* Definition Lists*/
+
+dt{
+	font-weight: bold;
+	padding: 0.5em 0.5em 0;
+}
+
+dl{
+margin: 0.9em 2em 1.45em;
+padding-bottom: 0.7em;
+text-align: left;
+border-top: 1px solid rgba(41, 48, 53, 0.1);
+}
+
+dd{
+	padding: 0 0.5em 0.7em 0.5em;
+	font-style: italic;
+	border-bottom: 1px solid rgba(41, 48, 53, 0.1);
+}
+
+/* Captions */
+
+wp-caption-text{
+	
+}
 
 
 /*

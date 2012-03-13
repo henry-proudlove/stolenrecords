@@ -149,17 +149,16 @@ function setupGallery(videos) {
 	// Add the videos to the gallery
 	for (var i = 0; i < 4; i++) {
 		var html = '<li class="video vimeo"><a href="http://player.vimeo.com/video/' + videos[i].id + '?autoplay=1"' ;
-		if(i == 0){
-			html += 'class="media-thumb fancybox.iframe vimeo no-border" rel="gallery-vid-aside">';
-		}else{
-			html += 'class="media-thumb fancybox.iframe vimeo" rel="gallery-vid-aside">';
-		}
+		html += 'class="media-thumb fancybox.iframe vimeo red-roll" rel="gallery-vid-aside">';
 		html += '<img src="' + videos[i].thumbnail_small + '" class="media-img" />';
 		html += '<div class="info"><h3 class="vid-title">' + videos[i].title + '</h3>';
-		html += '<p class="vid-decription">' + videos[i].description + '</p></li></div></a>';
+		html += '<p class="vid-decription faint">' + videos[i].description + '</p></li></div></a>';
 		
 		$('#latest-videos ul').append(html);
 	}
+	
+	link = '<a href="http://vimeo.com/user3362379" class="block red-roll" title="Stolen Recordings on Vimeo" rel="bookmark">Stolen Records on Vimeo</a>';
+	$('#latest-videos').append(link);
 }
 
 /*

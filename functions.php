@@ -408,7 +408,8 @@ if ( function_exists( 'add_image_size' ) ) {
 	add_image_size( 'sr-sixcol', 592, 592, true );
 	add_image_size( 'sr-fivecol', 487, 650, false );
 	add_image_size( 'sr-art-fivecol', 487, 487, true );
-	add_image_size( 'sr-fourcol', 384, 512, false );
+	add_image_size( 'sr-fourcol', 384, 288, true );
+	add_image_size( 'sr-art-fourcol', 384, 384, true );
 	add_image_size( 'sr-twocol', 174, 174, true );
 }
 
@@ -710,19 +711,19 @@ function sr_show_aside_markup(){
 	$h_tag = 'h3'; ?>
 		<?php if($buy_tix): ?>
 		<li id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
-			<a href="<?php echo $buy_tix; ?>" class="block" title="Buy Tickets" rel="bookmark">
+			<a href="<?php echo $buy_tix; ?>" class="block red-roll" title="Buy Tickets" rel="bookmark">
 		<?php else: ?>
 			<li id="post-<?php the_ID(); ?>" <?php post_class(block); ?> role="article">
 		<?php endif; ?>
 				<header class="entry-header">
-					<time class="show-date"><?php echo $date; ?></time>
+					<time class="show-date faint"><?php echo $date; ?></time>
 					<h3 class="entry-title">
 						<?php the_title(); ?>
 					</h3>
 				</header><!-- .entry-header -->
 				
 				<div class="entry-meta">
-					<time class="show-time"><?php echo $time; ?></time>
+					<time class="show-time faint"><?php echo $time; ?></time>
 					<?php if($venue): ?>
 						<span class="venue"><?php echo $venue; ?></span>
 					<?php endif; ?>
@@ -909,7 +910,7 @@ function sr_rels_by_artist($args = array())
 	}else{
 		$wrapper_o = '<aside id="releases"><h2 class="aside-header">More Releases</h2><ul class="artist-releases txt-list">';
 		$wrapper_c = '</ul></aside><!--#releases-->';
-		$article_tag_o = '<li class="release">';
+		$article_tag_o = '<li class="release red-roll">';
 		$article_tag_c = '</li>';
 		
 	}
@@ -918,6 +919,9 @@ function sr_rels_by_artist($args = array())
 		echo $wrapper_o;	
 		while ($rel_query->have_posts() ): $rel_query->the_post();?>
 				<?php echo $article_tag_o;?>
+				<?php if($aside == true): ?>
+				<a href="<?php echo get_the_permalink(); ?>" title="View release" rel="bookmark">
+				<?php endif; ?>
 				<?php $rel_id = get_the_ID(); ?>
 				<?php sr_post_thumbnail($options['thumb_size'] , false, 'parent');?>
 				<?php _sr_post_header('h3');
@@ -930,20 +934,26 @@ function sr_rels_by_artist($args = array())
 					echo '<time class="release-date">' . $release_date . '</time>';
 				}
 				
-				$buy_now_link = get_post_meta ( $rel_id , '_sr_release-buy-link' , true);
-				
-				if ($buy_now_link && $options['buy_now'])
+				if($aside == false)
 				{
-					$curr_date = date('U');
-					$release_date = strtotime($release_date);
-					if ($curr_date <= $release_date)
+					$buy_now_link = get_post_meta ( $rel_id , '_sr_release-buy-link' , true);
+					
+					if ($buy_now_link && $options['buy_now'])
 					{
-						echo '<a class="buy-link preorder">Preorder now</a>';
-					}else
-					{
-						echo '<a class="buy-link buy-now">Buy Now</a>';
+						$curr_date = date('U');
+						$release_date = strtotime($release_date);
+						if ($curr_date <= $release_date)
+						{
+							echo '<a class="buy-link preorder">Preorder now</a>';
+						}else
+						{
+							echo '<a class="buy-link buy-now">Buy Now</a>';
+						}
 					}
 				}?>
+				<?php if($aside == true): ?>
+					</a>
+				<?php endif; ?>
 			<?php echo $article_tag_c; ?>
 		<?php endwhile; 
 		echo $wrapper_c;
@@ -992,9 +1002,9 @@ function sr_aside_shows($artist, $home)
 	
 	$the_query = new WP_query($args);
 	if($home == true){
-		echo  '<aside id="shows"><h2 class="aside-header">Shows</h2><ul class="latest-shows txt-list clearfix">';
+		echo  '<aside id="shows"><h2 class="aside-header">Shows</h2><ul class="latest-shows txt-list ">';
 	}else{
-		echo '<aside id="shows" class="fourcol"><h2 class="aside-header">Shows</h2><ul class="txt-list">';
+		echo '<aside id="shows" class="fourcol"><h2 class="aside-header">Shows</h2><ul class="txt-list red-roll">';
 	}
 	?>
 	<?php if ( $the_query->have_posts() ) :
@@ -1391,11 +1401,11 @@ function video_aside_markup($videos)
 		if($video['is_valid'] == 'true')
 		{?>
 			<li class="video <?php echo $video['vendor'] ?>">
-				<a href="<?php echo $video['embed'] ?>" class="media-thumb fancybox.iframe <?php echo $video['vendor'] ?>" rel="gallery-vid-aside">
+				<a href="<?php echo $video['embed'] ?>" class="media-thumb red-roll fancybox.iframe <?php echo $video['vendor'] ?>" rel="gallery-vid-aside">
 					<img src="<?php echo $video['thumbnail_small']?>" class="media-img" />
 					<div class="info">
 						<h3><?php echo $video['title'] ?></h3>
-						<p><?php echo $video['description'] ?></p>
+						<p class="faint"><?php echo $video['description'] ?></p>
 					</div>
 				</a>
 			</li>
@@ -1799,12 +1809,12 @@ endif;
     $time_rel = relativeTime($time, 86400 , 'l, j<\s\u\p>S</\s\u\p> F Y');
     $tweet_text = make_clickable( esc_html( $item->get_title() ) );
 	?>
-    <li class="tweet">
+    <li class="tweet block">
     	<a href='<?php echo esc_url( $item->get_permalink() ); ?>'><time class="date tweet"><?php echo $time_rel; ?></time></a>
         <span class="tweet-text"><?php echo $tweet_text; ?></span>
     </li>
     <?php endforeach; ?>
-    <li>
+    <li class="block">
     	<a href="https://twitter.com/stolenrecs" class="twitter-link" rel="bookmark" title="Stolen Records on Twitter">Follow @stolenrecs on Twitter</a>
     </li>
 </ul>
@@ -1842,6 +1852,19 @@ function sr_get_news_page_link(){
 	$news_page = get_page_by_title( 'News' );
 	echo '<a href="' . $news_page->guid . '" class="content-close" title="Go back to the news page" rel="Bookmark">Back to The News Page</a>';
 }
+
+//Tag Cloud
+
+add_filter( 'widget_tag_cloud_args', 'my_widget_tag_cloud_args' );
+function my_widget_tag_cloud_args( $args ) {
+	$args['largest'] = 1;
+	$args['smallest'] = 1;
+	$args['number'] = 45;
+	$args['unit'] = 'em';
+	$args['format'] = 'list';
+	return $args;
+}
+
 
 //END MISC
 ?>
