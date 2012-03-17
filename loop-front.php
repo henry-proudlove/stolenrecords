@@ -21,22 +21,24 @@ while ( $the_query->have_posts() ) : $the_query->the_post();?>
 		if('post' == get_post_type()){
 			array_push($dont_copy, $post->ID);
 		}?>
-		<div class="sixcol left">
-			<header class="entry-header">
-			
-				<time class="entry-date"><?php echo get_the_date(); ?></time>
-				<?php _sr_post_header(); ?>
-			
-			</header><!-- .entry-header -->
-			
-			<div class="entry-summary">
-				<?php 
-					$excerpt = get_the_content();
-					$excerpt = sr_truncate($excerpt, 250, ' ');
-					echo '<p>' . $excerpt . '</p>' ;
-					echo '<div class="read-more button button-large"> <a href="'. get_permalink($post->ID) . '">read more</a></div>';
-				?>
-			</div><!-- .entry-summary -->
+		<div class="sixcol left vert-cent box-pack">
+			<div>
+				<header class="entry-header">
+				
+					<time class="entry-date"><?php echo get_the_date(); ?></time>
+					<?php _sr_post_header(); ?>
+				
+				</header><!-- .entry-header -->
+				
+				<div class="entry-summary">
+					<?php 
+						$excerpt = get_the_excerpt();
+						//$excerpt = sr_truncate($excerpt, 250, ' ');
+						echo '<p class="big-center">' . $excerpt . '</p>' ;
+						echo '<a href="'. get_permalink($post->ID) . '" class="read-more button button-large">read more</a>';
+					?>
+				</div><!-- .entry-summary -->
+			</div>
 		</div>
 		<div class="sixcol right">
 			<?php sr_post_thumbnail('sr-sixcol' , true, 'parent');?>

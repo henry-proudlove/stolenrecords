@@ -7,8 +7,9 @@ get_header(); ?>
 
 <div id="content">
 	<section id="shows" class="twelvecol nested">
+	<header class="results-header"><a href="<?php echo get_page_link($showsarchive->ID); ?>" title="Stolen Shows from days gone by" rel="bookmark">Stolen Shows Archive</a></header>
 	<?php $showsarchive = get_page_by_title( 'Stolen Shows Archive' ); ?>
-	<a href="<?php echo get_page_link($showsarchive->ID); ?>" title="See Stolen Shows from days gone by" rel="bookmark">Stolen Shows Archive</a>
+	
 	<?php
 		$current_datetime = date('Y-m-d H:i');
 		$meta_query_str = array(

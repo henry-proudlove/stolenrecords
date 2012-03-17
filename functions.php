@@ -590,7 +590,7 @@ function sr_relart_loop_markup(){
 	?>
 	<article id="post-<?php the_ID(); ?>" <?php post_class($sr_post_class); ?> role="article">
 	<a href="<?php the_permalink(); ?>" class="fancy-roll" title="<?php printf( esc_attr__( 'Permalink to %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark">
-		<?php sr_post_thumbnail('sr-fourcol' , false, 'null'); ?>
+		<?php sr_post_thumbnail('sr-art-fourcol' , false, 'null'); ?>
 		<div class="info">
 			<div class="wrap">
 				<header class="entry-header">
@@ -619,6 +619,8 @@ function sr_relart_loop_markup(){
 /*---------------------------------------------------
 Shows
 */
+
+//Shows Page
 
 function sr_shows_markup(){
 	global $post;
@@ -687,15 +689,20 @@ function sr_shows_markup(){
 				<?php echo $venue_link; ?></a>
 			<?php endif; ?>
 		</div>
-		<div class="entry-content">
-			<?php the_excerpt(); ?>
+		<div class="entry-summary">
+			<?php 
+				$excerpt = get_the_excerpt();
+				echo '<p>'. $excerpt . '</p>';
+			?>
 		</div><!-- .entry-content -->
 		
 		<?php if($buy_tix): ?>
-			<a class="button buy-tickets" href="<?php echo $buy_tix; ?>" title="Buy Tickets" rel="bookmark">Buy Tickets</a>
+			<a class="button button-large buy-tickets" href="<?php echo $buy_tix; ?>" title="Buy Tickets" rel="bookmark">Buy Tickets</a>
 		<?php endif; ?>
 	</article><!-- #post-<?php the_ID(); ?> -->
 <?php }
+
+//Shows Asides
 
 function sr_show_aside_markup(){
 	global $post;
@@ -862,7 +869,7 @@ Post Header
 
 function _sr_post_header($tag = "h1" , $class = ''){
 	global $post;?>
-	<<?php echo $tag; ?>  class="entry-title <?php echo $class; ?> "><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></<?php echo $tag; ?> >
+	<<?php echo $tag; ?>  class="entry-title <?php echo $class; ?> "><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'View %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></<?php echo $tag; ?> >
 <?php }
 
 /* END Post Header
@@ -890,6 +897,7 @@ function sr_rels_by_artist($args = array())
 	$options = array_merge($defaults , $args);
 	$query_args = array(
 		'post_type' => 'release' ,
+		'post_status' => 'publish',
 		'posts_per_page' => $options['limit'] ,
 		'post__not_in' => array($options['exclude']),
 		'tax_query' => array(
@@ -903,12 +911,12 @@ function sr_rels_by_artist($args = array())
 	$aside = $options['aside'];
 	if($aside == false)
 	{
-		$wrapper_o = '<section id="releases">';
-		$wrapper_c = '</section><!--#releases-->';
+		$wrapper_o = '<div class="releases-divider"></div><section id="releases" class="clearfix">';
+		$wrapper_c = '</section><!--#releases--><div class="releases-divider"></div>';
 		$article_tag_o = '<article class="release twocol">';
 		$article_tag_c = '</article>';
 	}else{
-		$wrapper_o = '<aside id="releases"><h2 class="aside-header">More Releases</h2><ul class="artist-releases txt-list">';
+		$wrapper_o = '<aside id="releases" class="fourcol"><h2 class="aside-header">More Releases</h2><ul class="artist-releases txt-list">';
 		$wrapper_c = '</ul></aside><!--#releases-->';
 		$article_tag_o = '<li class="release red-roll">';
 		$article_tag_c = '</li>';
@@ -916,15 +924,15 @@ function sr_rels_by_artist($args = array())
 	}
 	$rel_query = new WP_query($query_args);
 	if( have_posts() ):
-		echo $wrapper_o;	
-		while ($rel_query->have_posts() ): $rel_query->the_post();?>
+		echo $wrapper_o;
+		while ($rel_query->have_posts() ): $rel_query->the_post(); ?>
 				<?php echo $article_tag_o;?>
-				<?php if($aside == true): ?>
-				<a href="<?php echo get_the_permalink(); ?>" title="View release" rel="bookmark">
-				<?php endif; ?>
 				<?php $rel_id = get_the_ID(); ?>
-				<?php sr_post_thumbnail($options['thumb_size'] , false, 'parent');?>
-				<?php _sr_post_header('h3');
+				<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'View %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark">
+				<div class="img-holder">
+					<?php sr_post_thumbnail($options['thumb_size'] , false, 'null');?>
+				</div>
+				<h3 class="entry-title <?php echo $class; ?> "><?php the_title(); ?></h3> <?php
 				$release_date = get_post_meta( $rel_id , '_sr_release-date', true);
 				
 				if ($release_date)
@@ -932,28 +940,23 @@ function sr_rels_by_artist($args = array())
 					$release_date = date_create($release_date);
 					$release_date = date_format($release_date, 'Y');
 					echo '<time class="release-date">' . $release_date . '</time>';
-				}
+				}?>
+				</a>
+				<?php
+				$buy_now_link = get_post_meta ( $rel_id , '_sr_release-buy-link' , true);
 				
-				if($aside == false)
+				if ($buy_now_link && $options['buy_now'])
 				{
-					$buy_now_link = get_post_meta ( $rel_id , '_sr_release-buy-link' , true);
-					
-					if ($buy_now_link && $options['buy_now'])
+					$curr_date = date('U');
+					$release_date = strtotime($release_date);
+					if ($curr_date <= $release_date)
 					{
-						$curr_date = date('U');
-						$release_date = strtotime($release_date);
-						if ($curr_date <= $release_date)
-						{
-							echo '<a class="buy-link preorder">Preorder now</a>';
-						}else
-						{
-							echo '<a class="buy-link buy-now">Buy Now</a>';
-						}
+						echo '<a href="'.$buy_now_link .'" class="buy-link preorder button button-small">Preorder now</a>';
+					}else
+					{
+						echo '<a href="'.$buy_now_link .'" class="buy-link buy-now button button-small">Buy Now</a>';
 					}
 				}?>
-				<?php if($aside == true): ?>
-					</a>
-				<?php endif; ?>
 			<?php echo $article_tag_c; ?>
 		<?php endwhile; 
 		echo $wrapper_c;
@@ -971,10 +974,13 @@ function sr_get_reivews($reviews)
 			$reviewlnk_c = '</a>';
 		}?>
 		<div class="review">
-		<q><?php echo $review['review-text']; ?></q>
-		<cite> <?php echo $reviewlnk_o ?>
-		<?php echo $review['review-attr']; ?>
-		<?php echo $reviewlnk_c; ?></cite></div>
+			<div class="big-center">
+				<blockquote><?php echo $review['review-text']; ?></blockquote>
+				<cite> <?php echo $reviewlnk_o ?>
+				<?php echo $review['review-attr']; ?>
+				<?php echo $reviewlnk_c; ?></cite>
+			</div>
+		</div>
 	<?php }
 }
 
@@ -1016,8 +1022,10 @@ function sr_aside_shows($artist, $home)
 	<?php endwhile; else: ?>
 			
 		<li id="no-shows" role="article">
-			<header class="entry-header"><h3 class="entry-title">Sorry, no gigs coming up</h3></header>
-			<span class="no-shows-msg">Check back soon or <?php get_twitter_link(); ?> for incessant updates </span>
+			<a href="<?php echo get_twitter_link('false'); ?>" class="block red-roll" title="Follow us on twitter" rel="Bookmark">
+				<header class="entry-header"><h3 class="entry-title">Sorry, no gigs coming up</h3></header>
+				<p id="no-shows-msg" class="faint">Check back soon or follow us on Twitter for incessant updates</p>
+			</a>
 		</li>
 		
 	<?php endif; ?>
@@ -1379,7 +1387,7 @@ function sr_release_videos()
 		$videos = array_slice($videos, 0, 4);
 	}
 	if(!empty($videos)){
-		echo '<aside id="videos"><h2 class="aside-header">Videos</h2><ul>';
+		echo '<aside id="videos" class="fourcol"><h2 class="aside-header">Videos</h2><ul class="img-list clearfix">';
 		$videos = sr_get_videos($videos);
 		video_aside_markup($videos);
 		echo '</ul></aside><!--#videos-->';
@@ -1551,7 +1559,7 @@ Image display
 */
 
 // Default post thumbnail. Check for video, thumbnail, if not show first attachment
-function sr_post_thumbnail($size , $show_video, $link)
+function sr_post_thumbnail($size , $show_video, $link, $wrapper = true)
 { 	
 	global $post;
 	if ($show_video == true && get_post_meta(get_the_ID(),'_sr_thumb-URL',TRUE)):
@@ -1615,13 +1623,14 @@ function sr_shows_images($artists )
 	if (has_post_thumbnail()){
 		the_post_thumbnail('sr-fivecol');
 	}else{
+		echo '<div class="show-slider">';
 		$args = array('size' => 'sr-art-fivecol');
 		$artist_count = count($artists);
 		foreach($artists as $artist)
 		{	
 			$artist_id = $artist['ID'];
 			if(has_post_thumbnail($artist_id)){
-				echo get_the_post_thumbnail( $artist_id, 'medium' );
+				echo get_the_post_thumbnail( $artist_id, 'sr-art-fivecol' );
 			}else{
 				$options = array(
 					'size' => 'sr-art-fivecol',
@@ -1633,6 +1642,7 @@ function sr_shows_images($artists )
 				sr_get_images($options);
 			}
 		}
+		echo '</div><!--.show-slider-->';
 	}
 }
 /*
@@ -1785,9 +1795,14 @@ MISC
 */
 
 //Get twitter link
-function get_twitter_link(){?>
-	<a href="http://www.twitter.com/mysadcaptains" title="Follow stolen on 	">Follow us on twitter</a>
-<?php }
+function get_twitter_link($echo = 'true'){
+	$twitter_link = 'http://twitter.com/stolenrecs';
+	if($echo == 'false'){
+		return $twitter_link;
+	}else{ ?>
+	<a href="<?php echo $twitter_link ?>" title="Follow stolen on 	">Follow us on twitter</a>
+	<?php }
+}
 
 // RSS shotcode
 function sr_latest_tweets(){ ?>

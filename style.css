@@ -231,6 +231,7 @@ h2
 .results-header
 {
 	margin-bottom: 1.45em;
+	min-height: 1.45em;
 }
 
 /*
@@ -239,17 +240,33 @@ h2
  *
  */
  
-.button a{
-	background-color: #e14e49;
-	color: white !important;
+.button{
 	border: none;
-	display: inline-block;
+	display: block;
 	font-size: 1em;
 }
 
-.button-large a
+.button:hover{
+	background: #293034;
+}
+
+.button{
+	display: inline-block;
+	border: none !important;
+	background-color: #e14e49;
+	color: white !important;
+}
+
+.button-large
 {
-	padding: 0.45em 1.35em;
+	padding: 0.6em 1.9em 0.5em;
+}
+
+.button-small{
+	width: 100%;
+	font-size: 0.9em;
+	padding: 0.2em 0;
+	margin-top: 0.6em;
 }
 
 /*
@@ -495,7 +512,7 @@ nav ul, nav li { margin: 0; }
 small { font-size: 85%; }
 strong, th { font-weight: bold; }
 td, td img { vertical-align: top; } 
-sub { vertical-align: sub; font-size: smaller; }
+sub { vertical-align: sub;font-size: 0.7em; }
 sup { vertical-align: 0.35em; font-size: 0.7em; }
 pre { 
   padding: 15px; 
@@ -585,6 +602,8 @@ button {width: auto; overflow: visible;}
      j.mp/textsizeadjust 
   html { -webkit-text-size-adjust:none; -ms-text-size-adjust:none; } */
 }
+	
+}
 
 /*
  *
@@ -604,6 +623,31 @@ button {width: auto; overflow: visible;}
   p, h2, h3 { orphans: 3; widows: 3; }
   h2, h3{ page-break-after: avoid; }
 }
+
+.box-pack{
+	/* Firefox */
+	display:-moz-box;
+	-moz-box-orient:horizontal;
+	-moz-box-pack:center;
+	-moz-box-align:center;
+	
+	/* Safari and Chrome */
+	display:-webkit-box;
+	-webkit-box-orient:horizontal;
+	-webkit-box-pack:center;
+	-webkit-box-align:center;
+	
+	/* W3C */
+	display:box;
+	box-orient:horizontal;
+	box-pack:center;
+	box-align:center;
+}
+
+.box-pack > div{
+	width: 100%;
+}
+
 
 /*
  *
@@ -665,10 +709,22 @@ min-width: 535px;
 padding: 18px 0 0 18px;
 }
 
-.twelvecol, .eightcol, .sevencol, .sixcol, .fivecol, .fourcol , .twocol , .onecol
+.twelvecol
+{
+margin: 1.4%;
+}
+
+.eightcol, .sevencol, .sixcol, .fivecol, .fourcol , .onecol
 {
 margin: 1.4%;
 float: left;
+}
+.twocol
+{
+	margin: 1.25%;
+	display: inline-block;
+	position: relative;
+	left: 2px;
 }
 
 /* Main Layout */
@@ -752,14 +808,12 @@ width: 13.25%;
 {
 width: 40%;
 margin: 1.4% 0 1.4% 0;
-background-color:blue;
 }
 
 .nested .sevencol
 {
 width: 57%;
 margin: 1.4% 0 1.4% 0%;
-background-color: pink;
 float:right;
 }
 
@@ -919,7 +973,7 @@ background: transparent;
 	font-size: 1em;
 	display: block;
 	line-height: 1em;
-	padding: 0.6em;
+	padding: 0.5em;
 	border: none;
 	color: #3c474d;
 }
@@ -934,7 +988,7 @@ background: transparent;
 
 #access .active ul {
 	display: block;
-	padding: 0.8em 0;
+	padding: 1em 0;
 }
 
 
@@ -946,8 +1000,12 @@ background: transparent;
  
 .social-links{
 text-align: center;
-cursor: pointer;
+padding-bottom: 1em;
 }
+
+#content .social-links{
+	padding: 0.5em 0 0.9em;
+}	
 .social-links li
 {
 display: inline-block;
@@ -1119,12 +1177,16 @@ img.alignright {
 	margin: .25em;
 }
 .wp-caption .wp-caption-text {
-	margin: .5em;
+	margin: 0.2em 0.5em 0.5em;
+	font-style: italic;
+	text-align: center;
 }
 
 img
 {
 max-width: 100%;
+background-image: url('images/dark-grey.png');
+display: block;
 }
 
 /* Forms - Class for labelling required form items */
@@ -1249,6 +1311,13 @@ width: 100% !important;
 	float: right;
 	position: relative;
 	top: -27px;
+	margin: 0;
+}
+
+.slider-nav
+{
+	display: inline-block !important;
+	margin: 1.2em 0 0.4em;
 }
 
 /*
@@ -2196,7 +2265,7 @@ margin: 0 auto 2.9em;
 
 .single-post .entry-content h1, .single-post .entry-content h2, .single-post .entry-content h3, .single-post .entry-content h4, .single-post .entry-content h5, .single-post .entry-content h6{
 	text-align: center;
-	margin: 0.3em 0 0.8em;
+	margin: 0.8em 0 0.8em;
 	line-height: 1.45em;
 	/*display: inline-block*/;
 }
@@ -2243,22 +2312,22 @@ margin: 0 auto 2.9em;
 }
 
 .entry-content p {
-padding-bottom: 0.5em;
-text-align: justify;
+	padding-bottom: 0.5em;
+	text-align: justify;
 }
 
 .entry-content blockquote p, .entry-content blockquote {
-text-align: center;
-font-size: 1em;
+	text-align: center;
+	font-size: 1em;
 }
 
 .entry-content blockquote {
-text-align: center;
-font-size: 1em;
-font-style: italic;
-max-width: 70%;
-margin: 1em auto;
-display: inline-block;
+	text-align: center;
+	font-size: 1em;
+	font-style: italic;
+	max-width: 70%;
+	margin: 1em auto;
+	display: inline-block;
 }
 
 blockquote:before, blockquote:after{
@@ -2348,6 +2417,27 @@ dd{
 	border-bottom: 1px solid rgba(41, 48, 53, 0.1);
 }
 
+address{
+	padding-bottom: 0.5em;
+	margin-left: 1.8em;
+}
+address, pre{
+	text-align: left;
+}
+
+.single-post #nav-below {
+position: relative;
+top: -2.9em;
+}
+
+.single-post a[rel^="attachment"]{
+	border: none;
+}
+
+.page-link{
+	margin: 1em 0;
+}
+
 /* Captions */
 
 wp-caption-text{
@@ -2364,6 +2454,7 @@ wp-caption-text{
 .fancy-roll{
 	display: block;
 	position: relative;
+	background-color: #293034;
 }
 
 .fancy-roll, .fancy-roll:hover, .fancy-roll:visited{
@@ -2373,6 +2464,7 @@ wp-caption-text{
 
 .fancy-roll img{
 	display: block;
+	margin: 0 auto;
 }
 
 .fancy-roll .info
@@ -2438,10 +2530,11 @@ wp-caption-text{
 
 .fancy-roll .info .entry-summary p{
 	color: rgba(255, 255, 255, 0.6);
-	max-height: 4.35em;
-	overflow-y: hidden;
+	/*max-height: 3.5em;
+	overflow-y: hidden;*/
 	display:inline-block;
 	width: 80%;
+	margin-bottom: 0.6em;
 }
 
 .fancy-roll .info .entry-summary{
@@ -2460,7 +2553,7 @@ wp-caption-text{
 }
 
 .fancy-roll .info .read-more{
-	padding-top: 1.45em;
+	padding-top: 1.8em;
 	background-position: center top;
 	background: url('images/wiggly-line-light.png') no-repeat top center;
 	position: relative;
@@ -2488,7 +2581,205 @@ wp-caption-text{
 }
 
 
+/*
+ *
+ * Single artist, page
+ *
+ */
+
+.single-artist article h1, .page-template-page-about-php article h1, .page-template-page-publishing-php .page h1,.post-type-archive-show h1 
+{
+	font-size: 4.2em;
+}
+
+.single-artist .artist-status
+{
+	font-size: 1.45em;
+	font-weight: normal;
+	margin-top: -0.6em;
+}
+
+.single-artist article .entry-header, .page-template-page-about-php article .entry-header, .page-template-page-publishing-php .page .entry-header
+{
+	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
+	padding-bottom: 1.45em;
+	margin-bottom: 2.5em;
+}
+
+.single-artist article, .page-template-page-about-php article, .page-template-page-publishing-php .page
+{
+	text-align: center;
+}
+
+.page-template-page-publishing-php .section-header{
+	margin: 1.4% 1.4% 0;
+}
+
+.single-artist .entry-content, .page-template-page-about-php .entry-content, .page-template-page-publishing-php article .entry-content {
+margin: 0.2em auto;
+padding-bottom: 1.45em;
+}
+
+.big-center{
+	max-width: 70%;
+}
+.big-center{
+	text-align: center;
+	font-weight: normal;
+	font-size: 1.15em;
+	margin: 0 auto;
+}
+
+.big-center blockquote{
+display: inline-block;
+}
+.big-center cite{
+display:block;
+}
+
+.big-center p, .big-center blockquote{
+	text-align: center;
+	color: #777;
+}
+
+.entry-content{
+	padding-top: 1.45em;
+}
+
+.slider-nav + .entry-content{
+	padding-top: 0.3em;
+}
+
+#reviews{
+	text-align: center;
+	margin-top: 2.9em;
+}
+.review{
+	width: 100%;
+}
+
+.review blockquote:before, .review blockquote:after{
+	font-size: 2.5em;
+}
+.review blockquote:before{
+	top: -0.35em;
+}
+
+.review cite{
+	padding-top: 0.5em;
+}
+
+.releases-divider + #reviews 
+{
+	padding-top: 3.9em;
+	background: url('images/wiggly-line-dark.png') no-repeat top center;
+}
+
+/* Releases inline */
+
+section#releases{
+margin: 0;
+width: 100%;
+margin-left: -1.4%;
+text-align: center;
+display: block;
+clear: both;
+}
+
+.releases-divider{
+	clear: both;
+	width: 95%;
+	margin: 2.9em 1.4% 0.2em;
+	height: 1px;
+	background: rgba(41, 48, 53, 0.1);
+}
+
+section#releases + .releases-divider{
+	clear: both;
+	width: 95%;
+	margin: 0.2em 1.4% 2.9em;
+}
+
+section .release *{
+	transition: 0.3s;
+	-moz-transition: 0.3s;
+	-webkit-transition: 0.3s;
+	-o-transition: 0.3s;
+}
+
+section .release{
+	line-height: 1.2em;	
+}
+
+section .release a{
+	border: none;
+}
+
+section .release img{
+	margin-bottom: 0.8em;
+	display: block;
+}
+
+section .release .img-holder{
+	background: #293034;
+}
+
+section .release h3{
+	color: #293034;
+	font-family: 'StolenBody';
+}
 
 
+section .release a:hover h3{
+	color: #e14e49;
+}
+
+section .release a:hover img{
+	opacity: 0.6;
+}
+
+section .release time{
+	display: block;
+	font-size: 1em;
+}
+
+/* Single Artist, Release Asides */
+
+#artist-asides, #release-asides{
+	margin-top: 1.45em;
+}
+
+/* Single Artist, Release Asides */
+
+.single-release article{
+	text-align: center;
+}
+
+.single-release .entry-header{
+	margin-bottom: 2em;
+	padding-bottom: 2em;
+	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
+}
+
+.single-release .slider-nav{
+	margin: 2em 0 0 0;
+}
+
+.single-release .button{
+	margin-top: 1.5em;
+}
 
 
+/*
+ *
+ * Shows Page
+ *
+ */
+ 
+.post-type-archive-show time{
+	font-size: 1em;
+}
+
+.post-type-archive-show .entry-meta, .post-type-archive-show .show-date{
+	font-size: 1.167em;
+}
