@@ -1234,22 +1234,33 @@ function sr_get_videos($videos){
 	for($i = 0; $i < $videos_count; $i++)
 	{	
 		$vid_data = simplexml_load_string(curl_multi_getcontent  ( $curl_arr[$i]  ));
-		
-		if($videos[$i]['vendor'] == 'vimeo')
-		{
-			$vid_data = $vid_data->video;
-			$videos[$i]['title'] = (string) $vid_data->title;
-			$videos[$i]['thumbnail_large'] = (string) $vid_data->thumbnail_large;
-			$videos[$i]['thumbnail_small'] = (string) $vid_data->thumbnail_small;
-			$videos[$i]['description'] = (string) strip_tags($vid_data->description);
-			$videos[$i]['description'] = sr_truncate($videos[$i]['description'], 250, ' ');
-		}elseif($videos[$i]['vendor'] == 'youtube')
-		{
-			$videos[$i]['title'] = (string) $vid_data->title;
-			$videos[$i]['thumbnail_large'] = (string) 'http://img.youtube.com/vi/'. $videos[$i]['id'] .'/0.jpg';
-			$videos[$i]['thumbnail_small'] = (string) 'http://img.youtube.com/vi/'. $videos[$i]['id'] .'/1.jpg';
-			$videos[$i]['description'] = (string) strip_tags($vid_data->content);
-			$videos[$i]['description'] = sr_truncate($videos[$i]['description'], 100, ' ');
+		if( strlen($vid_data->title) > 0){ 
+			if($videos[$i]['vendor'] == 'vimeo')
+			{
+				$vid_data = $vid_data->video;
+				$videos[$i]['title'] = (string) $vid_data->title;
+				$videos[$i]['thumbnail_large'] = (string) $vid_data->thumbnail_large;
+				$videos[$i]['thumbnail_small'] = (string) $vid_data->thumbnail_small;
+				if(strlen($vid_data->description) > 0){
+					$videos[$i]['description'] = (string) strip_tags($vid_data->description);
+					$videos[$i]['description'] = sr_truncate($videos[$i]['description'], 250, ' ');
+				}else{
+					$videos[$i]['description'] = '_empty_';
+				}
+			}elseif($videos[$i]['vendor'] == 'youtube')
+			{
+				$videos[$i]['title'] = (string) $vid_data->title;
+				$videos[$i]['thumbnail_large'] = (string) 'http://img.youtube.com/vi/'. $videos[$i]['id'] .'/0.jpg';
+				$videos[$i]['thumbnail_small'] = (string) 'http://img.youtube.com/vi/'. $videos[$i]['id'] .'/1.jpg';
+				if(strlen($vid_data->content) > 0){
+					$videos[$i]['description'] = (string) strip_tags($vid_data->content);
+					$videos[$i]['description'] = sr_truncate($videos[$i]['description'], 100, ' ');
+				}else{
+					$videos[$i]['description'] = '_empty_';
+				}
+			}
+		}else{
+			$videos[$i]['is_valid'] = 'false';
 		}
 	}
 	return $videos;
@@ -1293,11 +1304,14 @@ function sr_media_videos(&$dont_copy)
 						<div class="info">
 							<div>
 							<header class="entry-header">
-								<h1 class="entry-header"><?php echo $video['title'] ?></h1>
+								<h1 class="entry-title"><?php echo $video['title'] ?></h1>
 							</header>
-							<div class="entry-summary">
-								<p><?php echo $video['description'] ?></p>
-							</div>
+							<?php if($video['description'] != '_empty_'):?>
+								<div class="entry-summary">
+									<p><?php echo $video['description'] ?></p>
+								</div>
+							<?php endif; ?>
+							<div class="read-more button button-large">Click to watch</div>
 							</div>
 						</div>
 					</a>
@@ -1466,7 +1480,7 @@ function sr_get_images( $args = array() ) {
 		'post_id' => $post->ID,
 		'link' => 'self',
 		'img_class' => 'attachment-image',
-		'a_class' => 'media-thumb fancybox.image',
+		'a_class' => 'media-thumb fancybox.image fancy-roll',
 		'a_rel' => '',
 		'wrapper' => true,
 		'wrapper_class' => 'attachment-image-wrapper',
@@ -1615,7 +1629,7 @@ function sr_artist_gallery(){
 	global $post;
 	$options = array(
 			'size' => 'sr-twelvecol',
-			'a_class' => 'media-thumb fancybox.image',
+			'a_class' => 'media-thumb fancybox.image fancy-roll',
 			'img_class' => 'artist-header attachment-image',
 			'wrapper' => false ,
 			'a_rel' => 'gallery-artist'

@@ -2615,7 +2615,7 @@ wp-caption-text{
 	margin: 1.4% 1.4% 0;
 }
 
-.single-artist .entry-content, .page-template-page-about-php .entry-content, .page-template-page-publishing-php article .entry-content {
+.single-artist .entry-content, .page-template-page-about-php .entry-content {
 margin: 0.2em auto;
 padding-bottom: 1.45em;
 }
@@ -2894,4 +2894,78 @@ section .release time{
 
 .post-type-archive-show .results-header{
 	text-align: right;
+}
+
+/*
+ *
+ * Media Page
+ *
+ */
+
+.page-template-page-media-php .entry-title{
+	max-height: 1em;
+	overflow: hidden;
+}
+
+.fancy-roll .info .entry-header + .read-more{
+	padding-top: 1.2em;
+	background: transparent;
+	position: relative;
+	bottom: -1.45em;
+	transition: bottom 0.2s;
+	-moz-transition: bottom 0.2s; /* Firefox 4 */
+	-webkit-transition: bottom 0.2s; /* Safari and Chrome */
+	-o-transition: bottom 0.2s; /* Opera */
+}
+
+.fancy-roll:hover .info .entry-header + .read-more{
+	bottom: 0em;
+}
+
+
+/*
+ *
+ * Publishing & Default Page 
+ *
+ */
+ 
+.page-template-page-publishing-php .entry-content, .page-template-page-php .entry-content{
+	padding-top: 0;
+	padding-bottom: 2.9em;
+	max-width: 70%;
+	margin: 0 auto;
+}
+
+.page-template-page-publishing-php .entry-content p, .page-template-page-php .entry-content p{
+	font-size: 1.15em;
+	text-align: left;
+}
+
+.page-template-page-publishing-php .entry-content img, .page-template-page-php .entry-content img{
+	float: right;
+	margin: 0.5em 0 0.75em 1.45em;
+}
+
+
+.page-template-page-publishing-php article{
+	margin-bottom: 3.8em;
+}
+
+.page-template-page-publishing-php #content, .page-template-page-php #content{
+	padding-bottom: 3.5em;
+}
+
+.wp-caption{
+	margin: 0.5em 0 0.75em 1.45em;
+	float: right;
+	padding: 0;
+}
+
+.wp-caption img{
+	margin: 0;
+	float: none;
+}
+
+.wp-caption-text p{
+	padding-bottom: 0;
 }

@@ -18,13 +18,13 @@ get_header(); ?>
 				<h1 class="entry-title"><?php the_title(); ?></h1>
 			</header><!-- .entry-header -->
 
-			<div class="entry-content">
+			<div class="entry-content clearfix">
+				<?php //sr_post_thumbnail('sr-fourcol' , false, 'null'); ?>
 				<?php the_content(); ?>
-				<?php sr_post_thumbnail('medium' , false, 'null'); ?>
 			</div><!-- .entry-content -->
 		</article><!-- #post-<?php the_ID(); ?> -->
 		
-		<section id=artists">
+		<section id="artists" class="clearfix">
 		<h2 class="section-header twelvecol">Published by stolen</h2>
 		<?php /* Start the Loop */
 	
