@@ -20,7 +20,7 @@ get_header(); ?>
 			<div class="entry-gallery">
 					<?php sr_artist_gallery(); ?>
 				</div><!-- .entry-gallery -->
-			<div class="entry-content">
+			<div class="entry-content big-center">
 				<?php the_content(); ?>
 				<?php sr_social_links(true, false); ?>
 			</div><!-- .entry-content -->
@@ -32,12 +32,21 @@ get_header(); ?>
 			$reviews = $meta['reviews'];
 			if($reviews): ?>
 			<section id="reviews" class="twelvecol">
-				<?php sr_get_reivews($reviews); ?>
+				<div class="slider">
+					<?php sr_get_reivews($reviews); ?>
+				</div>
 			</section><!--#reviews-->
 			<?php endif; ?>
 			
-		<section id="contact">
-				<div id="general-contact" class="fourcol">
+		<section id="contact" class="clearfix">
+		<div class="releases-divider"></div>
+			<div id="general-contact" class="fourcol">
+				<?php echo do_shortcode('[contact-form-7 id="1263" title="Contact"]'); ?>
+			</div><!--#general-contact-->
+			<div id="press-contact" class="fourcol">
+				<?php echo do_shortcode('[contact-form-7 id="1264" title="Press request"]'); ?>
+			</div><!--#general-contact-->
+				<!--<div id="general-contact" class="fourcol">
 					<h2 class="aside-header">Contact</h2>
 					<p>Send us a message using the form below</p>
 					<div id="general-form"></div>
@@ -46,12 +55,13 @@ get_header(); ?>
 					<h2 class="aside-header">Press Login</h2>
 					<p>Please enter your name and email below to get access to press assets</p>
 					<div id="press-form"></div>
-				</div>
-				<div id="demo-submissions" class="fourcol">
-					<h2 class="aside-header">Demo Submissions</h2>
-					<p>Please Upload your demo to our Soundcloud dropbox</p>
-					<a href="http://soundcloud.com/stolen-recordings/dropbox/profile">Our Dropbox</a>
-				</div>
+				</div>-->
+			<div id="demo-submissions" class="fourcol">
+				<h2 class="aside-header">Demo Submissions</h2>
+				<p class="contact-label">Please Upload your demo to our Soundcloud dropbox</p>
+				<a href="http://soundcloud.com/stolen-recordings/dropbox/profile" class="soundcloud-dropbox button button-large" title="Go to our Soundcloud Dropbox" rel="bookmark"><span class="logo"></span><span class="label">Our Dropbox</span></a>
+			</div>
+		<div class="releases-divider"></div>
 		</section><!-- #contact -->
 	</div><!-- #content -->
 	

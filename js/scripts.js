@@ -360,18 +360,18 @@ $(document).ready(function() {
 		arrows		: true
 	});
 	
-	$('#general-form').contactable({
-		url: 'http://localhost/stolen/wp-content/themes/stolenrecords/library/mail.php',
+	/*$('#general-form').contactable({
+		url: templateDir +'/library/mail.php',
 		name: 'Name',
 		email: 'Email',
 		message : 'Message',
 		subject : 'MESSAGE: stolenrecordings.co.uk',
-		recievedMsg : 'Thankyou for your message',
+		recievedMsg : 'Thank you for your message',
 		notRecievedMsg : 'Sorry, your message could not be sent, try again later',
 		disclaimer: ''
 	});
 	$('#press-form').contactable({
-		url: 'http://localhost/stolen/wp-content/themes/stolenrecords/library/mail.php',
+		url: templateDir +'/library/mail.php',
 		name: 'Name',
 		email: 'Email',
 		message : 'Message',
@@ -379,7 +379,7 @@ $(document).ready(function() {
 		recievedMsg : 'Thanks for your message!',
 		notRecievedMsg : 'Sorry, your message could not be sent, try again later',
 		disclaimer: ''
-	});
+	});*/
 	
 	$(document).bind('onPlayerInit.scPlayer', function(event){
 		$('.sc-player').prepend($('.sc-scrubber , .sc-controls'), function(){

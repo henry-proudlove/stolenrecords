@@ -1581,6 +1581,8 @@ function sr_get_images( $args = array() ) {
 			$i++;
 		}
 
+	}else{
+		return false;
 	}
 }
 

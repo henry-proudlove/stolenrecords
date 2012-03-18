@@ -246,18 +246,18 @@ h2
 	font-size: 1em;
 }
 
-.button:hover{
+.button:hover, .wpcf7 input[type="submit"]:hover{
 	background: #293034;
 }
 
-.button{
+.button, .wpcf7 input[type="submit"]{
 	display: inline-block;
 	border: none !important;
 	background-color: #e14e49;
 	color: white !important;
 }
 
-.button-large
+.button-large, .wpcf7 input[type="submit"]
 {
 	padding: 0.6em 1.9em 0.5em;
 }
@@ -2951,7 +2951,7 @@ section .release time{
 	margin-bottom: 3.8em;
 }
 
-.page-template-page-publishing-php #content, .page-template-page-php #content{
+.page #content, .page #content{
 	padding-bottom: 3.5em;
 }
 
@@ -2969,3 +2969,92 @@ section .release time{
 .wp-caption-text p{
 	padding-bottom: 0;
 }
+
+/* Contact*/
+
+.wpcf7 input[type="text"], .wpcf7 textarea  {
+border: none !important;
+padding: 3%;
+margin: 0.8em 0;
+width: 94%;
+font-family: sans-serif;
+}
+
+.wpcf7 .watermark{
+	font-family: sans-serif;
+	font-style: italic;
+}
+
+.wpcf7 input[type="submit"]{
+	font-family: 'stolenSans';
+	text-transform: uppercase;
+	letter-spacing: 0.15em;
+	margin-bottom: 0.8em;
+}
+
+#press-contact .wpcf7 input[type="submit"]{
+	margin-top: 0.7em;
+}
+
+#general-contact .wpcf7 input[type="submit"]{
+	margin-top: 0.2em;
+}
+.wpcf7-response-output{
+border: none;
+background: #293034;
+padding: 0.8em 1em 0.5em !important;
+margin: 0;
+color: #777;
+margin: 0.8em 0 !important;
+}
+
+div.wpcf7-validation-errors{
+	border: none !important;
+	background: rgba(41,48,52,0.1);
+}
+
+span.wpcf7-not-valid-tip {
+background: rgba(41,48,52,0.1) !important;
+padding: 0.6em 1em 0.5em !important;
+margin: 10px 0;
+border: none !important;
+font-size: 1em !important;
+width: auto !important;
+left: 30% !important;
+
+}
+
+.soundcloud-dropbox .logo{
+	display: inline-block;
+	width: 32px;
+	height: 14px;
+	background: url('images/sprite.png') no-repeat;
+	background-position: -54px 0px;
+	margin-right: 0.5em;
+}
+
+.soundcloud-dropbox {
+	padding: 0.7em 1.9em 0.5em 1em;
+	margin-top: 0.8em;
+}
+.soundcloud-dropbox .label{
+	position: relative;
+	top: -0.2em;
+	margin-left: 0.2em;
+}
+
+#general-contact{
+	position: relative;
+}
+
+div.wpcf7 img.ajax-loader {
+border: none;
+vertical-align: middle;
+margin-left: 0;
+position: absolute !important;
+right: 0;
+bottom: 1.4em;
+background: transparent;
+}
+
+
