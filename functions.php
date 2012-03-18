@@ -191,6 +191,13 @@ function sr_excerpt_more($more) {
 }
 add_filter('excerpt_more', 'sr_excerpt_more');
 
+
+function sr_excerpt_length($length) {
+return 40; // Or whatever you want the length to be.
+}
+
+add_filter('excerpt_length', 'sr_excerpt_length');
+
 function sr_post_date() {
    global $post;
    if(get_post_type() == post){
@@ -644,61 +651,65 @@ function sr_shows_markup(){
 
 	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
 		<?php if($buy_tix): ?>
-			<a href="<?php echo $buy_tix; ?>" title="Buy Tickets" rel="bookmark">
-			<div class="show-img-gallery fivecol">
-			<?php sr_shows_images($artists); ?>
-			</div><!--.show-img-gallery-->
-			</a>
-		<?php else: ?>
-			<div class="show-img-gallery fivecol">
-			<?php sr_shows_images($artists); ?>
-			</div><!--.show-img-gallery-->
-		<?php endif; ?>
-	<div class="info sevencol">
-		<header class="entry-header">
-			<time class="show-date"><?php echo $date; ?></time>
-			<h1 class="entry-title">
-			<?php if($buy_tix): ?>
+			<div class="show-img-gallery fivecol hide">
 				<a href="<?php echo $buy_tix; ?>" title="Buy Tickets" rel="bookmark">
-				<?php the_title(); ?></a>
-			<?php else: ?>
-				<?php the_title(); ?>
-			<?php endif; ?>
-			</h1>
-		</header><!-- .entry-header -->
-		
-		<div class="entry-meta">
-			<?php if($aside == false && $artists_count > 0):?>
-				<ul class="artists">
-				<?php foreach($artists as $artist):?>
-					<li>
-						<a href="<?php echo $artist['guid']; ?>" title="More about <?php echo $artist['title'];?>" rel="bookmark">
-						<?php echo $artist['title'];?>
-						</a>
-					</li>
-				<?php endforeach; ?>
-				</ul>
-			<?php endif; ?>
-			<time class="show-time"><?php echo $time; ?></time>
-			<?php if($venue_link && $venue):?>
-				<span class="venue"><a href="<?php echo $venue_link; ?>" title="More info" rel="bookmark"><?php echo $venue; ?></a></span>
-			<?php elseif($venue): ?>
-				<span class="venue"><?php echo $venue; ?></span>
-			<?php elseif($venue_link):?>
-				<span class="venue"><a href="<?php echo $venue_link; ?>" title="More info" rel="bookmark"></span>
-				<?php echo $venue_link; ?></a>
-			<?php endif; ?>
-		</div>
-		<div class="entry-summary">
-			<?php 
-				$excerpt = get_the_excerpt();
-				echo '<p>'. $excerpt . '</p>';
-			?>
-		</div><!-- .entry-content -->
-		
-		<?php if($buy_tix): ?>
-			<a class="button button-large buy-tickets" href="<?php echo $buy_tix; ?>" title="Buy Tickets" rel="bookmark">Buy Tickets</a>
+				<?php sr_shows_images($artists); ?>
+				</a>
+			</div><!--.show-img-gallery-->
+		<?php else: ?>
+			<div class="show-img-gallery fivecol hide">
+			<?php sr_shows_images($artists); ?>
+			</div><!--.show-img-gallery-->
 		<?php endif; ?>
+		<div class="info sevencol">
+			<div>
+				<header class="entry-header">
+					<time class="show-date"><?php echo $date; ?></time>
+					<h1 class="entry-title">
+					<?php if($buy_tix): ?>
+						<a href="<?php echo $buy_tix; ?>" title="Buy Tickets" rel="bookmark">
+						<?php the_title(); ?></a>
+					<?php else: ?>
+						<?php the_title(); ?>
+					<?php endif; ?>
+					</h1>
+				</header><!-- .entry-header -->
+			<div class="hide">	
+				<div class="entry-meta">
+					<?php if($aside == false && $artists_count > 0):?>
+						<ul class="artists">
+						<?php foreach($artists as $artist):?>
+							<li>
+								<a href="<?php echo $artist['guid']; ?>" title="More about <?php echo $artist['title'];?>" rel="bookmark">
+								<?php echo $artist['title'];?>
+								</a>
+							</li>
+						<?php endforeach; ?>
+						</ul>
+					<?php endif; ?>
+					<time class="show-time"><?php echo $time; ?></time>
+					<?php if($venue_link && $venue):?>
+						<span class="venue"><a href="<?php echo $venue_link; ?>" title="More info" rel="bookmark"><?php echo $venue; ?></a></span>
+					<?php elseif($venue): ?>
+						<span class="venue"><?php echo $venue; ?></span>
+					<?php elseif($venue_link):?>
+						<span class="venue"><a href="<?php echo $venue_link; ?>" title="More info" rel="bookmark"></span>
+						<?php echo $venue_link; ?></a>
+					<?php endif; ?>
+				</div>
+				<div class="entry-summary">
+					<?php 
+						$excerpt = get_the_excerpt();
+						echo '<p>'. $excerpt . '</p>';
+					?>
+				</div><!-- .entry-content -->
+				
+				<?php if($buy_tix): ?>
+					<a class="button button-large buy-tickets" href="<?php echo $buy_tix; ?>" title="Buy Tickets" rel="bookmark">Buy Tickets</a>
+				<?php endif; ?>
+			</div>
+		</div>
+		</div><!--.info-->
 	</article><!-- #post-<?php the_ID(); ?> -->
 <?php }
 
@@ -1231,12 +1242,14 @@ function sr_get_videos($videos){
 			$videos[$i]['thumbnail_large'] = (string) $vid_data->thumbnail_large;
 			$videos[$i]['thumbnail_small'] = (string) $vid_data->thumbnail_small;
 			$videos[$i]['description'] = (string) strip_tags($vid_data->description);
+			$videos[$i]['description'] = sr_truncate($videos[$i]['description'], 250, ' ');
 		}elseif($videos[$i]['vendor'] == 'youtube')
 		{
 			$videos[$i]['title'] = (string) $vid_data->title;
 			$videos[$i]['thumbnail_large'] = (string) 'http://img.youtube.com/vi/'. $videos[$i]['id'] .'/0.jpg';
 			$videos[$i]['thumbnail_small'] = (string) 'http://img.youtube.com/vi/'. $videos[$i]['id'] .'/1.jpg';
 			$videos[$i]['description'] = (string) strip_tags($vid_data->content);
+			$videos[$i]['description'] = sr_truncate($videos[$i]['description'], 100, ' ');
 		}
 	}
 	return $videos;
@@ -1275,11 +1288,17 @@ function sr_media_videos(&$dont_copy)
 		{
 			if($video['is_valid'] == 'true')
 			{?>
-					<a href="<?php echo $video['embed'] ?>" class="media-thumb fancybox.iframe <?php echo $video['vendor'] ?> fourcol" rel="gallery-media">
-						<img src="<?php echo $video['thumbnail_large']?>" class="fancy-roll <?php echo $video['vendor'] ?>" />
+					<a href="<?php echo $video['embed'] ?>" class="fancy-roll media-thumb fancybox.iframe <?php echo $video['vendor'] ?> fourcol" rel="gallery-media">
+						<img src="<?php echo $video['thumbnail_large']?>" class="<?php echo $video['vendor'] ?>" />
 						<div class="info">
-							<h1><?php echo $video['title'] ?></h1>
-							<p><?php echo $video['description'] ?></p>
+							<div>
+							<header class="entry-header">
+								<h1 class="entry-header"><?php echo $video['title'] ?></h1>
+							</header>
+							<div class="entry-summary">
+								<p><?php echo $video['description'] ?></p>
+							</div>
+							</div>
 						</div>
 					</a>
 			<?php }
@@ -1516,7 +1535,7 @@ function sr_get_images( $args = array() ) {
 			<article class="<?php echo $wrapper_class ?>">
 			<?php endif; ?>
 			<?php if($link == 'self'):?>
-			<a href="<?php echo $img_url; ?>" class="fancy-roll" title="<?php echo $img_title; ?>" class="<?php echo $a_class; ?>" <?php if(!$a_rel == ''){echo 'rel="'. $a_rel .'"';}?>>
+			<a href="<?php echo $img_url; ?>" class="<?php echo $a_class; ?>" title="<?php echo $img_title; ?>" class="<?php echo $a_class; ?>" <?php if(!$a_rel == ''){echo 'rel="'. $a_rel .'"';}?>>
 			<?php elseif($link == 'parent'):?>
 			<a href="<?php the_permalink(); ?>" class="fancy-roll" title="<?php printf( esc_attr__( 'Permalink to %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark">
 			<?php endif; ?>
@@ -1621,7 +1640,7 @@ function sr_shows_images($artists )
 {
 	global $post;
 	if (has_post_thumbnail()){
-		the_post_thumbnail('sr-fivecol');
+		the_post_thumbnail('sr-art-fivecol');
 	}else{
 		echo '<div class="show-slider">';
 		$args = array('size' => 'sr-art-fivecol');

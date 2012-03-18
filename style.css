@@ -628,19 +628,19 @@ button {width: auto; overflow: visible;}
 	/* Firefox */
 	display:-moz-box;
 	-moz-box-orient:horizontal;
-	-moz-box-pack:center;
+	-moz-box-pack:left;
 	-moz-box-align:center;
 	
 	/* Safari and Chrome */
 	display:-webkit-box;
 	-webkit-box-orient:horizontal;
-	-webkit-box-pack:center;
+	-webkit-box-pack:left;
 	-webkit-box-align:center;
 	
 	/* W3C */
 	display:box;
 	box-orient:horizontal;
-	box-pack:center;
+	box-pack:left;
 	box-align:center;
 }
 
@@ -1187,6 +1187,7 @@ img
 max-width: 100%;
 background-image: url('images/dark-grey.png');
 display: block;
+height: auto;
 }
 
 /* Forms - Class for labelling required form items */
@@ -2580,14 +2581,13 @@ wp-caption-text{
 	height: 100%;
 }
 
-
 /*
  *
  * Single artist, page
  *
  */
 
-.single-artist article h1, .page-template-page-about-php article h1, .page-template-page-publishing-php .page h1,.post-type-archive-show h1 
+.single-artist article h1, .page-template-page-about-php article h1, .page-template-page-publishing-php .page h1,.post-type-archive-show article h1 
 {
 	font-size: 4.2em;
 }
@@ -2775,11 +2775,123 @@ section .release time{
  * Shows Page
  *
  */
- 
+
+.post-type-archive-show #content{
+	padding-bottom: 2000px;
+}
+
 .post-type-archive-show time{
 	font-size: 1em;
 }
 
 .post-type-archive-show .entry-meta, .post-type-archive-show .show-date{
 	font-size: 1.167em;
+}
+.post-type-archive-show ul.artists {
+	margin-left: 0;
+	margin-bottom: 0.2em;
+}
+
+.post-type-archive-show .artists li{
+	list-style: none;
+	display:inline-block;
+	padding-right: 0.5em;
+}
+
+.post-type-archive-show .artists li a{
+	color: #293034;
+	border:none !important;
+}
+
+.post-type-archive-show .venue a{
+	color: #777;
+	border:none !important;
+}
+
+.post-type-archive-show .artists li a:hover, .post-type-archive-show .venue a:hover{
+	color: #e14e49;
+	border:none ;
+}
+
+.post-type-archive-show .show-time{
+	display: inline-block;
+	padding-right: 0.5em;
+}
+
+.post-type-archive-show .entry-meta{
+	margin-bottom: 0.3em;
+}
+
+.post-type-archive-show .entry-summary{
+	margin: 0.3em 0 0.5em;
+}
+
+.post-type-archive-show .button{
+	margin-top: 0.4em;
+}
+
+.post-type-archive-show article{
+	border: 1px solid rgba(41, 48, 53, 0.2);
+	border-width: 1px 0;
+	padding: 1em 0;
+}
+.post-type-archive-show article:nth-child(2) {
+	border-top: none !important;
+	margin-top: 0;
+}
+
+.post-type-archive-show .results-header{
+	margin: 0;
+}
+
+.post-type-archive-show article{
+	border:none;
+	padding-bottom: 0;
+	margin-bottom: 0;
+}
+
+.post-type-archive-show .sevencol{
+	width: 100%;
+	margin: 1.2% 0 0 0%;
+	float: none;
+}
+
+.post-type-archive-show .hide
+{
+	display: none;
+}
+
+.post-type-archive-show article.expanded{
+	border: 1px solid rgba(41, 48, 53, 0.2);
+	border-width: 1px 0;
+	padding: 1em 0;
+}
+.post-type-archive-show .expanded .sevencol{
+	width: 57%;
+	margin: 1.4% 0 1.4% 0%;
+	float: right;
+	/*width: auto;
+	margin: 1.4% 0 1.4%;
+	float:none;
+	box-flex: 1.0;
+	-moz-box-flex: 1.0;
+	-webkit-box-flex: 1.0;*/
+}
+
+.post-type-archive-show .expanded .fivecol{
+	/*width: auto;
+	margin: 1.4%  1.4% 0;
+	float:none;
+	box-flex: 0;
+	-moz-box-flex: 0;
+	-webkit-box-flex: 0;*/
+}
+
+.post-type-archive-show .expanded .hide
+{
+	display: inherit;
+}
+
+.post-type-archive-show .results-header{
+	text-align: right;
 }

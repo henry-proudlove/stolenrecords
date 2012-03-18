@@ -32,7 +32,7 @@ DEBOUNCED RESIZE
           else if (execAsap)
               func.apply(obj, args);
  
-          timeout = setTimeout(delayed, threshold || 100); 
+          timeout = setTimeout(delayed, threshold || 10); 
       };
   }
 	// smartresize 
@@ -40,6 +40,81 @@ DEBOUNCED RESIZE
  
 })(jQuery,'smartresize');
 
+/*
+DEBOUNCED SCROLL
+*/
+
+(function($,sr){
+ 
+  var debounce = function (func, threshold, execAsap) {
+      var timeout;
+ 
+      return function debounced () {
+          var obj = this, args = arguments;
+          function delayed () {
+              if (!execAsap)
+                  func.apply(obj, args);
+              timeout = null; 
+          };
+ 
+          if (timeout)
+              clearTimeout(timeout);
+          else if (execAsap)
+              func.apply(obj, args);
+ 
+          timeout = setTimeout(delayed, threshold || 100); 
+      };
+  }
+	jQuery.fn[sr] = function(fn){  return fn ? this.bind('scroll', debounce(fn)) : this.trigger(sr); };
+ 
+})(jQuery,'smartscroll');
+
+var shows = []; //global array of section offsetTops for the page.
+
+jQuery.fn.borderScroll = function(currentPos) {
+        var currentBubble = 1; //Init the current bubble var.
+		var $articles = $('.post-type-archive-show #shows article');
+        if ($('.expanded').length > 0) {            
+            currentBubble = $('.expanded').offsetTop;            
+        }
+        else {            
+            $articles.first().addClass('expanded');
+        }
+        function closestSection() {
+            yPos = currentPos;
+            var checks = [];
+            $.each(shows, function(){
+                checks.push(Math.abs(this - yPos));       
+            })
+            min = Math.min.apply( Math, checks );
+            return $.inArray(min, checks);
+        }
+        var  closestArrPos = closestSection();
+        var closest = shows[closestArrPos];
+        function changeSection() {
+        	$articles.removeClass('invisible')
+        		.find('.info').removeAttr('style');
+        		
+            $('.expanded')
+            	.removeClass('expanded')
+            	.find('.show-slider').cycle('destroy');
+            	
+            $articles
+            	.eq(closestArrPos)
+            	.addClass('expanded');
+            	
+            if(closestArrPos > 0){
+            	$articles.eq(closestArrPos -1 ).addClass('invisible');
+            }
+            
+            $('.expanded .show-slider').showSlider();
+            $('.expanded .info').vertCent();
+        }               
+        if (closest != currentBubble) {
+            changeSection();
+        }
+                     
+};
 
 /*
 INITIALISING CYCLE PLUGIN
@@ -78,10 +153,10 @@ jQuery.fn.showSlider = function(){
 			fx:     'fade', 
 			speed:  'slow', 
 			timeout: 2000,
-			containerResize: true,
+			containerResize: false,
 			slideResize: false,
 			fit: 1
-		})
+		}).sliderheight();
 	}
 }
 
@@ -128,14 +203,23 @@ RELEASE INFO LATEST POST VERT CENTRED
 
 jQuery.fn.vertCent = function(){
 	o = $(this[0]);
-	sibWidth = o.siblings().width();
+	oH = o.outerHeight(true);
+	pH = o.parent().height();
+	if(oH < pH){
+	 shim = (pH - oH) / 2;
+	 o.css({'margin-top' : shim , 'margin-bottom' : '0'});
+	}else{
+		o.removeAttr('style');
+	};
+	/*sibWidth = o.siblings().width();
 	if(o.height() < sibWidth){
-		o.height(sibWidth);
+		o.outerHeight(sibWidth);
 		o.addClass('box-pack');
 	}else{
-		o.height('100%');
+		o.outerHeight('100%');
 		o.removeClass('box-pack');
-	}
+	}*/
+	
 }
 
 /*jQuery.fn.loadURL = function(){
@@ -257,6 +341,8 @@ $(document).ready(function() {
 	});*/
 	$(window).smartresize(function(){  
 		$(".slider").sliderheight();
+		$(".show-slider").sliderheight();
+		$(".expanded .info").vertCent();
 		$('.sc-controls a').scPlayerHeight();
 		$('form[role="search"]').fluidSearchForm();
 		$(".vert-cent").vertCent();
@@ -337,7 +423,14 @@ $(document).ready(function() {
 	
 	$(".vert-cent").vertCent();
 	
-	$('.show-slider').showSlider();
+	$('.post-type-archive-show #shows article').each(function() {            
+        shows.push(this.offsetTop);        
+    });
+
+    $(window).scroll(function(){
+        $(this).borderScroll($(this).scrollTop());
+        $('.smart').append('fire</br>');
+    }).scroll();
 	
 	/*$.address.init(function(event) {
 
