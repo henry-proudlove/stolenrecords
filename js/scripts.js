@@ -278,8 +278,8 @@ GET FLICKR FOR MEDIA PAGE
 
 $.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?id=8546357@N03&lang=en-us&format=json&jsoncallback=?", function(data){
   $.each(data.items, function(i,item){
-    $("<img/>").attr("src", item.media.m).appendTo("#flickr-images")
-      .wrap("<a href='" + item.link + "' class='fourcol'></a>");
+    $("<img/>").attr("src", item.media.m).appendTo("#flickr-images #photos")
+      .wrap("<div class='flickr-photo'><a href='" + item.link + "'></a></div>");
       if ( i == 10 ) return false;
   });
 });
@@ -304,22 +304,9 @@ jQuery.fn.scPlayerHeight = function(){
 ISOTOPE
 */
 
-/*var $container = $('.isotope-content')
-// initialize Isotope
-$container.isotope({
-  // options...
-  resizable: false, // disable normal resizing
-  // set columnWidth to a percentage of container width
-  masonry: { columnWidth: $container.innerWidth() / 3 }
-});
+var $container = $('#flickr-images #photos')
+$container.isotope();
 
-// update columnWidth on window resize
-$(window).smartresize(function(){
-  $container.isotope({
-    // update columnWidth to a percentage of container width
-    masonry: { columnWidth: $container.innerWidth() / 3 }
-  });
-});*/
 
 /*$(function(){
  $('#slider').anythingSlider({
