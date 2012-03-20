@@ -192,8 +192,14 @@ function sr_excerpt_more($more) {
 add_filter('excerpt_more', 'sr_excerpt_more');
 
 
+function no_more_excerpt($postID){
+	$excerpt = get_the_content($postID);
+	$excerpt = sr_truncate($excerpt, 250, ' ');
+	echo '<p>' . $excerpt . '</p>' ;
+}
+
 function sr_excerpt_length($length) {
-return 40; // Or whatever you want the length to be.
+	return 40;
 }
 
 add_filter('excerpt_length', 'sr_excerpt_length');
@@ -626,7 +632,9 @@ function sr_relart_loop_markup(){
 /*---------------------------------------------------
 Shows
 */
-
+function sr_shows_meta($post_ID){
+	
+}
 //Shows Page
 
 function sr_shows_markup(){
@@ -676,17 +684,15 @@ function sr_shows_markup(){
 				</header><!-- .entry-header -->
 			<div class="hide">	
 				<div class="entry-meta">
-					<?php if($aside == false && $artists_count > 0):?>
-						<ul class="artists">
-						<?php foreach($artists as $artist):?>
-							<li>
-								<a href="<?php echo $artist['guid']; ?>" title="More about <?php echo $artist['title'];?>" rel="bookmark">
-								<?php echo $artist['title'];?>
-								</a>
-							</li>
-						<?php endforeach; ?>
-						</ul>
-					<?php endif; ?>
+					<ul class="artists">
+					<?php foreach($artists as $artist):?>
+						<li>
+							<a href="<?php echo $artist['guid']; ?>" title="More about <?php echo $artist['title'];?>" rel="bookmark">
+							<?php echo $artist['title'];?>
+							</a>
+						</li>
+					<?php endforeach; ?>
+					</ul>
 					<time class="show-time"><?php echo $time; ?></time>
 					<?php if($venue_link && $venue):?>
 						<span class="venue"><a href="<?php echo $venue_link; ?>" title="More info" rel="bookmark"><?php echo $venue; ?></a></span>
@@ -698,10 +704,7 @@ function sr_shows_markup(){
 					<?php endif; ?>
 				</div>
 				<div class="entry-summary">
-					<?php 
-						$excerpt = get_the_excerpt();
-						echo '<p>'. $excerpt . '</p>';
-					?>
+					<?php no_more_excerpt($post->ID); ?>
 				</div><!-- .entry-content -->
 				
 				<?php if($buy_tix): ?>
@@ -1131,6 +1134,39 @@ function sr_index_fb(){ ?>
 		<iframe src="//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FSTOLEN-RECORDINGS%2F66626039279&amp;width=292&amp;height=395&amp;colorscheme=light&amp;show_faces=false&amp;border_color=%23ffffff&amp;stream=true&amp;header=false" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:395px;" allowTransparency="true"></iframe>
 	</div><!--#facebook-->
 	<?php
+}
+
+// Get artist associated with release
+
+function sr_get_rels_artist($postID){
+
+	$artist_terms = get_the_terms( $postID, 'artist' );
+	$artists = array();
+	foreach ($artist_terms as $artist_term)
+	{	
+		array_push($artists, $artist_term->term_id);
+	}
+	$artists_titles = array();
+	foreach ($artist_terms as $artist_term)
+	{	
+		$artist_title = get_page_by_title($artist_term->name , OBJECT, 'artist');
+		$artist_title = array('title' => $artist_title->post_title, 'guid' => $artist_title->guid);
+		array_push($artists_titles, $artist_title);
+	}
+	
+	$artists_titles_count = count($artists_titles);
+	echo '<h2>';
+	if($artists_titles_count <= 2):
+		foreach($artists_titles as $artist_title): ?>
+			<span class="entry-artist">
+				<a href="<?php echo $artist_title['guid'];?>" title= "More about <?php echo $artist_title['title']; ?>"><?php echo $artist_title['title']; ?></a>
+			</span> <?php
+		endforeach;
+	else: ?>
+		<span class"entry-artist">Various Artists</span>
+	<?php endif; wp_reset_query();
+	echo '</h2>';
+	
 }
 
 /* END Asides
