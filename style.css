@@ -2618,6 +2618,7 @@ wp-caption-text{
 	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
 	padding-bottom: 2em;
 	margin-bottom: 2.5em;
+	margin-top: 2em;
 }
 
 .single-artist article, .page-template-page-about-php article, .page-template-page-publishing-php .page
@@ -2922,10 +2923,10 @@ section#single-release{
  *
  */
 
-.page-template-page-media-php .entry-title{
+/*.page-template-page-media-php .entry-title{
 	max-height: 1em;
 	overflow: hidden;
-}
+}*/
 
 .fancy-roll .info .entry-header + .read-more{
 	padding-top: 1.2em;
@@ -2940,6 +2941,14 @@ section#single-release{
 
 .fancy-roll:hover .info .entry-header + .read-more{
 	bottom: 0em;
+}
+
+.fancy-roll h1{
+	font-size: 2em;
+	max-height: 2em;
+	max-width: 90%;
+	margin: 0 auto;
+	overflow: hidden;
 }
 
 
