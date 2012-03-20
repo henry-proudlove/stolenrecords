@@ -230,7 +230,7 @@ h2
 
 .results-header
 {
-	margin-bottom: 1.45em;
+	/*margin-bottom: 1.45em;*/
 	min-height: 1.45em;
 }
 
@@ -642,6 +642,9 @@ button {width: auto; overflow: visible;}
 	box-orient:horizontal;
 	box-pack:left;
 	box-align:center;
+	
+	height: 100%;
+	position: absolute;
 }
 
 .box-pack > div{
@@ -824,7 +827,7 @@ margin: 0;
 float:left;
 }
 
-.nested .sixcol
+#news-feed.nested .sixcol
 {
 width: 73.8%;
 margin: 0;
@@ -2137,25 +2140,27 @@ overflow: hidden;
 #latest{
 	border-bottom: 1px solid #d8d8d4;
 	border-bottom: 1px solid rgba(41, 48, 53, 0.2);
-	padding-bottom: 0.3em;
+	padding-bottom: 0.4em;
 }
 
 #latest article
 {
 	width: 100%;
+	/*height: 100%;*/
 	text-align: center;
 	margin: 1.45em 0;
 }
 
-#latest .nested .sixcol{
+.nested .sixcol{
 	width: 48.4%;
+	margin: 0;
 }
 
-#latest .nested .left{
+.nested .left{
 	float: left;
 }
 
-#latest .nested .right{
+.nested .right{
 	float: right;
 }
 
@@ -2174,12 +2179,16 @@ background: url('images/wiggly-line-dark.png') no-repeat bottom center;
 
 #latest .entry-header{
 	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
-	padding-bottom: 1.45em;
+	padding-bottom: 2em;
 }
 
 #latest .read-more
 {
-	margin-top: 1.45em;
+	margin-top: 2em;
+}
+
+#latest .left{
+	height: 100%;
 }
 
 
@@ -2231,8 +2240,8 @@ margin-top: -0.3em;
 
 .blog .entry-header, .search .entry-header, .date .entry-header, .tag .entry-header, .single-post .entry-header{
 	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
-	padding-bottom: 1.45em;
-	margin-bottom: 1.45em;
+	padding-bottom: 2em;
+	margin-bottom: 2em;
 }
 
 .blog article p, .search article p, .date article p, .tag article p{
@@ -2240,6 +2249,11 @@ margin-top: -0.3em;
 	padding-bottom: 1em;
 	margin: 0 auto;
 }
+
+.blog .results-header, .search .results-header, .date .results-header, .tag .results-header{
+	margin-bottom: 1.45em;
+}
+
 .blog article .fancy-roll, .search article .fancy-roll, .date article .fancy-roll, .tag article .fancy-roll{
 margin: 0.8em 0;
 }
@@ -2365,7 +2379,7 @@ cite{
 
 .entry-content{
 	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
-	padding-bottom: 1.45em;
+	padding-bottom: 2em;
 
 }
 
@@ -2602,7 +2616,7 @@ wp-caption-text{
 .single-artist article .entry-header, .page-template-page-about-php article .entry-header, .page-template-page-publishing-php .page .entry-header
 {
 	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
-	padding-bottom: 1.45em;
+	padding-bottom: 2em;
 	margin-bottom: 2.5em;
 }
 
@@ -2694,51 +2708,51 @@ clear: both;
 	background: rgba(41, 48, 53, 0.1);
 }
 
-section#releases + .releases-divider{
+.single-artist section#releases + .releases-divider{
 	clear: both;
 	width: 95%;
 	margin: 0.2em 1.4% 2.9em;
 }
 
-section .release *{
+.single-artist section .release *{
 	transition: 0.3s;
 	-moz-transition: 0.3s;
 	-webkit-transition: 0.3s;
 	-o-transition: 0.3s;
 }
 
-section .release{
+.single-artist section .release{
 	line-height: 1.2em;	
 }
 
-section .release a{
+.single-artist section .release a{
 	border: none;
 }
 
-section .release img{
+.single-artist section .release img{
 	margin-bottom: 0.8em;
 	display: block;
 }
 
-section .release .img-holder{
+.single-artist section .release .img-holder{
 	background: #293034;
 }
 
-section .release h3{
+.single-artist section .release h3{
 	color: #293034;
 	font-family: 'StolenBody';
 }
 
 
-section .release a:hover h3{
+.single-artist section .release a:hover h3{
 	color: #e14e49;
 }
 
-section .release a:hover img{
+.single-artist section .release a:hover img{
 	opacity: 0.6;
 }
 
-section .release time{
+.single-artist section .release time{
 	display: block;
 	font-size: 1em;
 }
@@ -2751,8 +2765,14 @@ section .release time{
 
 /* Single Artist, Release Asides */
 
+section#single-release{
+	border-bottom: 1px solid rgba(41, 48, 53, 0.2);
+}
 .single-release article{
 	text-align: center;
+	position: relative;
+	margin: 2em 0;
+	height: 100%;
 }
 
 .single-release .entry-header{

@@ -21,7 +21,7 @@ while ( $the_query->have_posts() ) : $the_query->the_post();?>
 		if('post' == get_post_type()){
 			array_push($dont_copy, $post->ID);
 		}?>
-		<div class="sixcol left vert-cent box-pack">
+		<div class="sixcol left box-pack">
 			<div>
 				<header class="entry-header">
 				

@@ -1446,7 +1446,9 @@ function video_aside_markup($videos)
 					<img src="<?php echo $video['thumbnail_small']?>" class="media-img" />
 					<div class="info">
 						<h3><?php echo $video['title'] ?></h3>
+						<?php if($video['description'] != '_empty_'): ?>
 						<p class="faint"><?php echo $video['description'] ?></p>
+						<?php endif; ?>
 					</div>
 				</a>
 			</li>

@@ -22,9 +22,10 @@ get_header(); ?>
 	}
 ?>
 	<div id="content">
-		<header class="results-header twelvecol"><a href="<?php echo get_post_type_archive_link( 'release' ); ?>" class="content-close">All Releases</a></header>
-		<article id="post-<?php the_ID(); ?>" <?php post_class('clearfix'); ?> role="article">
-			<div id="release-info" class="sixcol box-pack vert-cent">
+		<section id="single-release" class="twelvecol">
+		<header class="results-header"><a href="<?php echo get_post_type_archive_link( 'release' ); ?>" class="content-close">All Releases</a></header>
+		<article id="post-<?php the_ID(); ?>" <?php post_class('clearfix nested'); ?> role="article">
+			<div id="release-info" class="sixcol left box-pack">
 				<div>
 					<header class="entry-header">
 						<?php 
@@ -80,10 +81,11 @@ get_header(); ?>
 					?>
 				</div>
 			</div><!--#release-info-->
-			<div class="entry-gallery sixcol">
+			<div class="entry-gallery sixcol right">
 				<?php sr_post_thumbnail('sr-sixcol' , false, 'null') ?>
 			</div><!-- .entry-gallery -->
 		</article><!-- #post-<?php the_ID(); ?> -->
+		</section><!--#release-->
 		
 		<footer id="release-asides" class="clearfix">
 			<?php sr_release_tracks(); ?>

@@ -141,9 +141,10 @@ jQuery.fn.sliderinit = function(){
 				containerResize: false,
 				slideResize: false,
 				fit: 1
-			})
+			}).sliderheight();
+			
 		}
-	}).sliderheight();
+	})
 };
 
 jQuery.fn.showSlider = function(){
@@ -155,7 +156,7 @@ jQuery.fn.showSlider = function(){
 			timeout: 2000,
 			containerResize: false,
 			slideResize: false,
-			fit: 1
+			fit: 1,
 		}).sliderheight();
 	}
 }
@@ -189,9 +190,11 @@ jQuery.fn.sliderheight = function() {
 		var maxHeight = 0;
 		el = o.children();
 		el.each(function(){
+			//$(this).css('height' , '');
 			if($(this).outerHeight(true) > maxHeight) {
 				maxHeight = $(this).outerHeight(true);
 			}
+			//$(this).css('height' , '90%');
 		});
 		o.height(maxHeight);
 	});
@@ -201,26 +204,20 @@ jQuery.fn.sliderheight = function() {
 RELEASE INFO LATEST POST VERT CENTRED
 */
 
-jQuery.fn.vertCent = function(){
-	o = $(this[0]);
-	oH = o.outerHeight(true);
-	pH = o.parent().height();
-	if(oH < pH){
-	 shim = (pH - oH) / 2;
-	 o.css({'margin-top' : shim , 'margin-bottom' : '0'});
-	}else{
-		o.removeAttr('style');
-	};
-	/*sibWidth = o.siblings().width();
-	if(o.height() < sibWidth){
-		o.outerHeight(sibWidth);
-		o.addClass('box-pack');
-	}else{
-		o.outerHeight('100%');
-		o.removeClass('box-pack');
-	}*/
+/*jQuery.fn.vertCent = function(){
+	$(this).each(function(){
+		o = $(this);
+		oH = o.outerHeight(true);
+		pH = o.parent().height();
+		if(oH < pH){
+		 shim = (pH - oH) / 2;
+		 o.css({'margin-top' : shim , 'margin-bottom' : '0'});
+		}else{
+			o.removeAttr('style');
+		};
+	});
 	
-}
+}*/
 
 /*jQuery.fn.loadURL = function(){
 	o = $(this[0]);
@@ -342,10 +339,10 @@ $(document).ready(function() {
 	$(window).smartresize(function(){  
 		$(".slider").sliderheight();
 		$(".show-slider").sliderheight();
-		$(".expanded .info").vertCent();
+		//$(".expanded .info").vertCent();
 		$('.sc-controls a').scPlayerHeight();
 		$('form[role="search"]').fluidSearchForm();
-		$(".vert-cent").vertCent();
+		//$(".vert-cent").vertCent();
 	});	
     //navigation
     /*$("#access a").click(function(event){
@@ -421,7 +418,7 @@ $(document).ready(function() {
 		$(this).sliderheight();
 	})*/
 	
-	$(".vert-cent").vertCent();
+	//$(".vert-cent").vertCent();
 	
 	$('.post-type-archive-show #shows article').each(function() {            
         shows.push(this.offsetTop);        
