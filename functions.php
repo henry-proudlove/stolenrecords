@@ -633,21 +633,14 @@ function sr_relart_loop_markup(){
 Shows
 */
 function sr_shows_meta($post_ID){
-	
-}
-//Shows Page
-
-function sr_shows_markup(){
-	global $post;
-	
-	$datetime = get_post_meta(get_the_ID(),'_sr_show-date',TRUE);
+	$datetime = get_post_meta($post_ID,'_sr_show-date',TRUE);
 	$datetime = new DateTime($datetime);
 	$date = $datetime->format('l, j<\s\u\p>S</\s\u\p> F Y');
 	$time = $datetime->format('g:i<\s\u\p>A</\s\u\p> '); 
-	$venue = get_post_meta(get_the_ID(),'_sr_show-venue',TRUE);
-	$venue_link = get_post_meta(get_the_ID(),'_sr_show-venue-link',TRUE);
-	$buy_tix = get_post_meta(get_the_ID(),'_sr_buy-tickets-link',TRUE);
-	$artist_terms = get_the_terms( $post->ID, 'artist' );
+	$venue = get_post_meta($post_ID,'_sr_show-venue',TRUE);
+	$venue_link = get_post_meta($post_ID,'_sr_show-venue-link',TRUE);
+	$buy_tix = get_post_meta($post_ID,'_sr_buy-tickets-link',TRUE);
+	$artist_terms = get_the_terms( $post_ID, 'artist' );
 	$artists = array();
 	foreach ($artist_terms as $artist_term)
 	{
@@ -655,27 +648,45 @@ function sr_shows_markup(){
 		$artist = array('ID' => $artist->ID , 'title' => $artist->post_title, 'guid' => $artist->guid);
 		array_push($artists, $artist);
 	}
-	$artists_count = count($artists);?>
+	$artists_count = count($artists);
+	$show_meta = array(
+					'date' => $date ,
+					'time' => $time ,
+					'venue' => $venue ,
+					'venue_link' => $venue_link ,
+					'buy_tix' => $buy_tix ,
+					'artists' => $artists ,
+					'artist_count' => $artist_count);
+					
+	return $show_meta;
+}
+//Shows Page
+
+function sr_shows_markup(){
+
+	global $post;
+	$show_meta = sr_shows_meta($post->ID);
+	?>
 
 	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
-		<?php if($buy_tix): ?>
+		<?php if($show_meta['buy_tix']): ?>
 			<div class="show-img-gallery fivecol hide">
-				<a href="<?php echo $buy_tix; ?>" title="Buy Tickets" rel="bookmark">
-				<?php sr_shows_images($artists); ?>
+				<a href="<?php echo $show_meta['buy_tix']; ?>" title="Buy Tickets" rel="bookmark">
+				<?php sr_shows_images($show_meta['artists']); ?>
 				</a>
 			</div><!--.show-img-gallery-->
 		<?php else: ?>
 			<div class="show-img-gallery fivecol hide">
-			<?php sr_shows_images($artists); ?>
+			<?php sr_shows_images($show_meta['artists']); ?>
 			</div><!--.show-img-gallery-->
 		<?php endif; ?>
 		<div class="info sevencol">
 			<div>
 				<header class="entry-header">
-					<time class="show-date"><?php echo $date; ?></time>
+					<time class="show-date"><?php echo $show_meta['date']; ?></time>
 					<h1 class="entry-title">
-					<?php if($buy_tix): ?>
-						<a href="<?php echo $buy_tix; ?>" title="Buy Tickets" rel="bookmark">
+					<?php if($show_meta['buy_tix']): ?>
+						<a href="<?php echo $show_meta['buy_tix']; ?>" title="Buy Tickets" rel="bookmark">
 						<?php the_title(); ?></a>
 					<?php else: ?>
 						<?php the_title(); ?>
@@ -685,7 +696,7 @@ function sr_shows_markup(){
 			<div class="hide">	
 				<div class="entry-meta">
 					<ul class="artists">
-					<?php foreach($artists as $artist):?>
+					<?php foreach($show_meta['artists'] as $artist):?>
 						<li>
 							<a href="<?php echo $artist['guid']; ?>" title="More about <?php echo $artist['title'];?>" rel="bookmark">
 							<?php echo $artist['title'];?>
@@ -693,22 +704,22 @@ function sr_shows_markup(){
 						</li>
 					<?php endforeach; ?>
 					</ul>
-					<time class="show-time"><?php echo $time; ?></time>
-					<?php if($venue_link && $venue):?>
-						<span class="venue"><a href="<?php echo $venue_link; ?>" title="More info" rel="bookmark"><?php echo $venue; ?></a></span>
-					<?php elseif($venue): ?>
-						<span class="venue"><?php echo $venue; ?></span>
-					<?php elseif($venue_link):?>
-						<span class="venue"><a href="<?php echo $venue_link; ?>" title="More info" rel="bookmark"></span>
-						<?php echo $venue_link; ?></a>
+					<time class="show-time"><?php echo $show_meta['time']; ?></time>
+					<?php if($show_meta['venue_link'] && $show_meta['venue']):?>
+						<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" title="More info" rel="bookmark"><?php echo $show_meta['venue']; ?></a></span>
+					<?php elseif($show_meta['venue']): ?>
+						<span class="venue"><?php echo $show_meta['venue']; ?></span>
+					<?php elseif($show_meta['venue_link']):?>
+						<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" title="More info" rel="bookmark"></span>
+						<?php echo $show_meta['venue_link']; ?></a>
 					<?php endif; ?>
 				</div>
 				<div class="entry-summary">
 					<?php no_more_excerpt($post->ID); ?>
 				</div><!-- .entry-content -->
 				
-				<?php if($buy_tix): ?>
-					<a class="button button-large buy-tickets" href="<?php echo $buy_tix; ?>" title="Buy Tickets" rel="bookmark">Buy Tickets</a>
+				<?php if($show_meta['buy_tix']): ?>
+					<a class="button button-large buy-tickets" href="<?php echo $show_meta['buy_tix']; ?>" title="Buy Tickets" rel="bookmark">Buy Tickets</a>
 				<?php endif; ?>
 			</div>
 		</div>
@@ -1164,7 +1175,7 @@ function sr_get_rels_artist($postID){
 		endforeach;
 	else: ?>
 		<span class"entry-artist">Various Artists</span>
-	<?php endif; wp_reset_query();
+	<?php endif; //wp_reset_query();
 	echo '</h2>';
 	
 }

@@ -2205,17 +2205,17 @@ background: url('images/wiggly-line-dark.png') no-repeat bottom center;
 }
 
 #news-long article{
-	padding: 0.25em 0 0.7em 0;
+	padding: 1em 0 1.5em 0;
 }
 
 #news-trunc article{
-	padding: 0.8em 0 0.5em;
+	padding: 1em 0 0.8em;
 }
 
 #news-trunc h2
 {
 	font-size: 1.5em;
-	margin-top: -0.4em;
+	margin-top: -0.4em !important;
 }
 
 #news-trunc .entry-date {
