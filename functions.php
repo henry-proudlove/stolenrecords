@@ -423,6 +423,8 @@ if ( function_exists( 'add_image_size' ) ) {
 	add_image_size( 'sr-art-fivecol', 487, 487, true );
 	add_image_size( 'sr-fourcol', 384, 288, true );
 	add_image_size( 'sr-art-fourcol', 384, 384, true );
+	add_image_size( 'sr-show-fourcol', 384, 543, true );
+	add_image_size( 'sr-show-fivecol', 487, 688, true );
 	add_image_size( 'sr-twocol', 174, 174, true );
 }
 
@@ -615,7 +617,7 @@ function sr_relart_loop_markup(){
 					$excerpt = get_the_content();
 					$excerpt = sr_truncate($excerpt, 250, ' ');
 					echo '<p>' . $excerpt . '</p>' ;
-					echo '<div class="read-more button button-large">read more</div>';
+					echo '<footer class="read-more button button-large">read more</footer>';
 					?>
 				</div>
 			</div>
@@ -682,7 +684,7 @@ function sr_shows_markup(){
 			</div><!--.show-img-gallery-->
 		<?php endif; ?>
 		<div class="info sevencol">
-			<div>
+			<div class="wrap">
 				<header class="entry-header">
 					<time class="show-date"><?php echo $show_meta['date']; ?></time>
 					<h1 class="entry-title">
@@ -1704,12 +1706,12 @@ function sr_artist_gallery(){
 
 //Shows image. Post thumb/flyer if not all artists
 function sr_shows_images($artists )
-{
+{	
 	global $post;
+	echo '<div class="show-slider">';
 	if (has_post_thumbnail()){
-		the_post_thumbnail('sr-art-fivecol');
+		the_post_thumbnail('sr-show-fivecol');
 	}else{
-		echo '<div class="show-slider">';
 		$args = array('size' => 'sr-art-fivecol');
 		$artist_count = count($artists);
 		foreach($artists as $artist)
@@ -1728,8 +1730,8 @@ function sr_shows_images($artists )
 				sr_get_images($options);
 			}
 		}
-		echo '</div><!--.show-slider-->';
 	}
+	echo '</div><!--.show-slider-->';
 }
 /*
 End Image display

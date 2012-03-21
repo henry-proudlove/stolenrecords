@@ -94,7 +94,7 @@ jQuery.fn.borderScroll = function(currentPos) {
         function changeSection() {
         	$articles.removeClass('invisible')
         		.find('.info')
-        		.removeAttr('style')
+        		//.removeAttr('style')
         		.removeClass('box-pack');
         		
             $('.expanded')
@@ -107,8 +107,7 @@ jQuery.fn.borderScroll = function(currentPos) {
             if(closestArrPos > 0){
             	$articles.eq(closestArrPos -1 ).addClass('invisible');
             }
-            images = $('.expanded .show-slider').children().length
-            
+            images = $('.expanded .show-slider').children().length;
             $('.expanded .show-slider').showSlider();
 			
 			if( images > 0 ){
@@ -182,7 +181,7 @@ jQuery.fn.showSlider = function(){
 			containerResize: false,
 			slideResize: false,
 			fit: 1,
-		}).sliderheight();
+		}).data('sliderinit' , true).sliderheight();
 	}
 }
 
@@ -352,11 +351,9 @@ $(document).ready(function() {
 	});*/
 	$(window).smartresize(function(){  
 		$(".slider").sliderheight();
-		$(".show-slider").sliderheight();
-		//$(".expanded .info").vertCent();
+		$(".expanded .show-slider").sliderheight();
 		$('.sc-controls a').scPlayerHeight();
 		$('form[role="search"]').fluidSearchForm();
-		//$(".vert-cent").vertCent();
 	});	
     //navigation
     /*$("#access a").click(function(event){
@@ -437,11 +434,23 @@ $(document).ready(function() {
 	$('.post-type-archive-show #shows article').each(function() {            
         shows.push(this.offsetTop);        
     });
-
+    
     $(window).scroll(function(){
         $(this).borderScroll($(this).scrollTop());
         $('.smart').append('fire</br>');
     }).scroll();
+	
+	$('#primary').infinitescroll({
+		navSelector  : "#nav-below",            
+		nextSelector : ".nav-previous a",    
+		itemSelector : "#primary article.post",
+		extraScrollPx: 250,
+		loading: {
+					finishedMsg: "",
+					img: templateDir + "/images/loader.png",
+					msgText: ""
+					}
+	});
 	
 	/*$.address.init(function(event) {
 

@@ -31,7 +31,7 @@ while ( $the_query->have_posts() ) : $the_query->the_post();?>
 					<?php _sr_post_header(); ?>
 				</header><!-- .entry-header -->
 				
-				<div class="entry-summary">
+				<div class="entry-summary big-center">
 					<?php no_more_excerpt($post->ID); ?>
 				</div><!-- .entry-summary -->
 				<?php echo '<a href="'. get_permalink($post->ID) . '" class="read-more button button-large">read more</a>'; ?>
@@ -44,7 +44,7 @@ while ( $the_query->have_posts() ) : $the_query->the_post();?>
 				<header class="entry-header">
 					<?php _sr_post_header(); ?>
 				</header><!-- .entry-header -->
-				<div class="entry-summary">
+				<div class="entry-summary big-center">
 					<?php no_more_excerpt($post->ID); ?>
 				</div><!-- .entry-summary -->
 				<?php echo '<a href="'. get_permalink($post->ID) . '" class="read-more button button-large">read more</a>'; ?>
@@ -89,20 +89,20 @@ while ( $the_query->have_posts() ) : $the_query->the_post();?>
 						</span>
 					<?php endforeach; ?>
 					</h2>
+					<div class="entry-meta">
+						<time class="show-time"><?php echo $show_meta['time']; ?></time>
+						<?php if($show_meta['venue_link'] && $show_meta['venue']):?>
+							<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" title="More info" rel="bookmark"><?php echo $show_meta['venue']; ?></a></span>
+						<?php elseif($show_meta['venue']): ?>
+							<span class="venue"><?php echo $show_meta['venue']; ?></span>
+						<?php elseif($show_meta['venue_link']):?>
+							<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" title="More info" rel="bookmark"></span>
+							<?php echo $show_meta['venue_link']; ?></a>
+						<?php endif; ?>
+					</div>
 				</header><!-- .entry-header -->
 				
 				<div class="entry-summary big-center">
-					<div class="entry-meta">
-					<time class="show-time"><?php echo $show_meta['time']; ?></time>
-					<?php if($show_meta['venue_link'] && $show_meta['venue']):?>
-						<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" title="More info" rel="bookmark"><?php echo $show_meta['venue']; ?></a></span>
-					<?php elseif($show_meta['venue']): ?>
-						<span class="venue"><?php echo $show_meta['venue']; ?></span>
-					<?php elseif($show_meta['venue_link']):?>
-						<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" title="More info" rel="bookmark"></span>
-						<?php echo $show_meta['venue_link']; ?></a>
-					<?php endif; ?>
-				</div>
 					<?php no_more_excerpt($post->ID); ?>
 				</div><!-- .entry-summary -->
 				

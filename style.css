@@ -2228,17 +2228,54 @@ margin-top: -0.3em;
  * News Section
  *
  */
+ 
+ #primary{
+ 	position: relative;
+ }
+
+#infscr-loading{
+	position: absolute;
+	bottom: 250px;
+	left: 50%;
+}
+
+#infscr-loading img{
+	position: absolute;
+	left: -35px;
+	background: transparent;
+	height: 69px;
+	width:69px;
+	-webkit-animation-name: spin;
+	-webkit-animation-duration: 700ms;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: linear;
+	-moz-animation-name: spin;
+	-moz-animation-duration: 700ms;
+	-moz-animation-iteration-count: infinite;
+	-moz-animation-timing-function: linear;
+	-ms-animation-name: spin;
+	-ms-animation-duration: 700ms;
+	-ms-animation-iteration-count: infinite;
+	-ms-animation-timing-function: linear;
+	-o-transition: rotate(3600deg);
+}
 
 .blog article, .search article, .date article, .tag article, .single-post .entry-header{
 	text-align: center;
-	margin: 0;
 	padding-bottom: 1.9em;
 }
+
+.single-post .entry-header{
+	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
+	margin-bottom: 0;
+	padding-bottom: 2em;
+}
+
 .blog .entry-header img, .search .entry-header img, .date .entry-header img, .tag .entry-header img{
 	margin-bottom: 0.5em;
 }
 
-.blog .entry-header, .search .entry-header, .date .entry-header, .tag .entry-header, .single-post .entry-header{
+.blog .entry-header, .search .entry-header, .date .entry-header, .tag .entry-header{
 	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
 	padding-bottom: 2em;
 	margin-bottom: 2em;
@@ -2543,7 +2580,7 @@ wp-caption-text{
 }
 
 
-.fancy-roll .info .entry-summary p{
+.fancy-roll .info .entry-summary p, .fancy-roll time{
 	color: rgba(255, 255, 255, 0.6);
 	/*max-height: 3.5em;
 	overflow-y: hidden;*/
@@ -2604,7 +2641,7 @@ wp-caption-text{
 .single-artist article h1, .page-template-page-about-php article h1, .page-template-page-publishing-php .page h1,.post-type-archive-show article h1 
 {
 	font-size: 4.2em;
-	margin-bottom: 0.05em;
+	margin-bottom: 0.2em;
 }
 
 .single-artist .artist-status
@@ -2796,6 +2833,15 @@ display: inline-block;
 padding: 0 0.2em;
 }
 
+.release .entry-artist {
+padding: 0;
+}
+
+.release .entry-artist:nth-child(2)::before {
+content: "& ";
+font-weight: normal;
+}
+
 /*
  *
  * Shows Page
@@ -2929,6 +2975,10 @@ font-size: 1em;
 	text-align: right;
 }
 
+.post-type-archive-show .box-pack .wrap{
+	margin-top: -1em;
+}
+
 /*
  *
  * Media Page
@@ -2961,8 +3011,16 @@ font-size: 1em;
 	max-width: 90%;
 	margin: 0 auto;
 	overflow: hidden;
+	margin-top: -0.25em;
 }
 
+.fancy-roll h3{
+	padding: 0.3em 0;
+}
+
+.fancy-roll .venue{
+	color: rgba(255, 255, 255, 0.6);
+}
 
 /*
  *
