@@ -108,7 +108,7 @@ jQuery.fn.borderScroll = function(currentPos) {
             }
             
             $('.expanded .show-slider').showSlider();
-            $('.expanded .info').vertCent();
+            //$('.expanded .info').vertCent();
         }               
         if (closest != currentBubble) {
             changeSection();
@@ -128,6 +128,19 @@ jQuery.fn.sliderinit = function(){
 		if(c > 1){
 			if(p.attr('id') == 'latest'){
 				$(this).before(slidernav);
+				$(this).children().each(function(){
+					slideimage = $(this).find('.right').children().length;
+					if(slideimage > 0){
+						hasimage = true;
+					}else{
+						hasimage = false;
+					}
+				});
+				$(this).children().each(function(){
+					if(hasimage == true){
+						$(this).find('.left').addClass('box-pack');
+					}
+				});
 			}else{
 				$(this).after(slidernav);	
 			}
@@ -141,8 +154,15 @@ jQuery.fn.sliderinit = function(){
 				containerResize: false,
 				slideResize: false,
 				fit: 1
-			}).sliderheight();
+			}).data('sliderinit' , true).sliderheight();
 			
+		} else {
+			$(this).data('sliderinit' , false);
+			hasimage = $(this).find('.right').children().length;
+			if(hasimage > 0){
+				//alert(hasimage);
+				$(this).css('position' , 'relative').find('.left').addClass('box-pack');
+			}
 		}
 	})
 };
@@ -185,19 +205,21 @@ MAKING SLIDES FLUID
 */
 
 jQuery.fn.sliderheight = function() {
-    $(this).each(function(){
-    	o = $(this);
-		var maxHeight = 0;
-		el = o.children();
-		el.each(function(){
-			//$(this).css('height' , '');
-			if($(this).outerHeight(true) > maxHeight) {
-				maxHeight = $(this).outerHeight(true);
-			}
-			//$(this).css('height' , '90%');
+	if($(this).data('sliderinit') == true){
+		$(this).each(function(){
+			o = $(this);
+			var maxHeight = 0;
+			el = o.children();
+			el.each(function(){
+				//$(this).css('height' , '');
+				if($(this).outerHeight(true) > maxHeight) {
+					maxHeight = $(this).outerHeight(true);
+				}
+				//$(this).css('height' , '90%');
+			});
+			o.height(maxHeight);
 		});
-		o.height(maxHeight);
-	});
+	}
 };
 
 /*

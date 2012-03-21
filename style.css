@@ -2169,7 +2169,7 @@ overflow: hidden;
 	margin: 0 auto;
 }
 
-#latest .entry-summary p {
+#latest .entry-summary {
 display: block;
 width: 70%;
 margin: 0 auto;
@@ -2772,7 +2772,7 @@ section#single-release{
 .single-release article{
 	text-align: center;
 	position: relative;
-	margin: 2em 0;
+	margin: 1.45em 0;
 	height: 100%;
 }
 
@@ -2790,6 +2790,10 @@ section#single-release{
 	margin-top: 1.5em;
 }
 
+.entry-artist {
+display: inline-block;
+padding: 0 0.2em;
+}
 
 /*
  *
@@ -2834,9 +2838,10 @@ section#single-release{
 	border:none ;
 }
 
-.post-type-archive-show .show-time{
-	display: inline-block;
-	padding-right: 0.5em;
+.show-time {
+display: inline-block;
+padding-right: 0.5em;
+font-size: 1em;
 }
 
 .post-type-archive-show .entry-meta{

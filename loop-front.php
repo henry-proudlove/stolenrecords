@@ -3,20 +3,22 @@
  * @package WordPress
  * @subpackage themename
  */
-?>
-<section id="latest" class="twelvecol">
-<h2 class="section-header">Latest</h2>
-<div class="slider">
-<?php /* 'Lastet' section of index */
 
 $args = array( 'posts_per_page' => '5' , 'meta_key' => '_sr_featured-post' , 'post_type' => array( 'post', 'show', 'artist', 'release' ) );
 
 $the_query = new WP_Query($args);
 $dont_copy = array();
+
+/* 'Lastet' section of index */
+
+if($the_query->have_posts() ):?>
+	<section id="latest" class="twelvecol">
+	<h2 class="section-header">Latest</h2>
+	<div class="slider"> <?php
 while ( $the_query->have_posts() ) : $the_query->the_post();?>
 	
-	<article id="post-<?php the_ID(); ?>" <?php post_class('nested'); ?> role="article">		
-		<div class="sixcol left box-pack">
+	<article id="post-<?php the_ID(); ?>" <?php post_class('nested clearfix'); ?> role="article">		
+		<div class="sixcol left">
 			<div>
 			<?php
 			/* 
@@ -30,11 +32,9 @@ while ( $the_query->have_posts() ) : $the_query->the_post();?>
 				</header><!-- .entry-header -->
 				
 				<div class="entry-summary">
-					<?php 
-						no_more_excerpt($post->ID);
-						echo '<a href="'. get_permalink($post->ID) . '" class="read-more button button-large">read more</a>';
-					?>
+					<?php no_more_excerpt($post->ID); ?>
 				</div><!-- .entry-summary -->
+				<?php echo '<a href="'. get_permalink($post->ID) . '" class="read-more button button-large">read more</a>'; ?>
 				
 			<?php
 			/* 
@@ -45,12 +45,9 @@ while ( $the_query->have_posts() ) : $the_query->the_post();?>
 					<?php _sr_post_header(); ?>
 				</header><!-- .entry-header -->
 				<div class="entry-summary">
-					<?php 
-						no_more_excerpt($post->ID);
-						echo '<a href="'. get_permalink($post->ID) . '" class="read-more button button-large">read more</a>';
-					?>
+					<?php no_more_excerpt($post->ID); ?>
 				</div><!-- .entry-summary -->
-				
+				<?php echo '<a href="'. get_permalink($post->ID) . '" class="read-more button button-large">read more</a>'; ?>
 			<?php 
 			/* 
 			RELEASE
@@ -60,17 +57,15 @@ while ( $the_query->have_posts() ) : $the_query->the_post();?>
 					<?php _sr_post_header(); ?>
 					<?php sr_get_rels_artist(get_the_ID()); ?>
 				</header><!-- .entry-header -->
-				<div class="entry-summary">
+				<div class="entry-summary big-center">
+				<?php no_more_excerpt($post->ID); ?>
+				</div><!-- .entry-summary -->
 				<?php 
-					no_more_excerpt($post->ID);
 					$buy_link = get_post_meta( $post->ID , '_sr_release-buy-link', true);
 					if ($buy_link):
 						echo '<a class="button buy-now button-large" href="' . $buy_link . '" title="Buy ' . get_the_title() . '" rel="bookmark">Buy Now</a>';
 					endif;
-					
-					//echo 'fuck';
 				?>
-				</div><!-- .entry-summary -->
 			<?php
 			/* 
 			SHOW
@@ -96,7 +91,8 @@ while ( $the_query->have_posts() ) : $the_query->the_post();?>
 					</h2>
 				</header><!-- .entry-header -->
 				
-				<div class="entry-meta big-center">
+				<div class="entry-summary big-center">
+					<div class="entry-meta">
 					<time class="show-time"><?php echo $show_meta['time']; ?></time>
 					<?php if($show_meta['venue_link'] && $show_meta['venue']):?>
 						<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" title="More info" rel="bookmark"><?php echo $show_meta['venue']; ?></a></span>
@@ -107,10 +103,8 @@ while ( $the_query->have_posts() ) : $the_query->the_post();?>
 						<?php echo $show_meta['venue_link']; ?></a>
 					<?php endif; ?>
 				</div>
-				
-				<div class="entry-summary">
 					<?php no_more_excerpt($post->ID); ?>
-				</div><!-- .entry-content -->
+				</div><!-- .entry-summary -->
 				
 				<?php if($show_meta['buy_tix']): ?>
 					<a class="button button-large buy-tickets" href="<?php echo $show_meta['buy_tix']; ?>" title="Buy Tickets" rel="bookmark">Buy Tickets</a>
@@ -127,7 +121,8 @@ while ( $the_query->have_posts() ) : $the_query->the_post();?>
 
 <?php endwhile;?>
 </div>
-</section><!--#slider-->
+</section><!--#latest-->
+<?php endif; ?>
 
 <section id="news-feed" class="eightcol shim-right nested">
 	<h2 class="section-header">News</h2>
