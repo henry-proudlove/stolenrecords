@@ -669,6 +669,7 @@ function sr_shows_markup(){
 	?>
 
 	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
+		<div class="wrap clearfix">
 		<?php if($show_meta['buy_tix']): ?>
 			<div class="show-img-gallery fivecol hide">
 				<a href="<?php echo $show_meta['buy_tix']; ?>" title="Buy Tickets" rel="bookmark">
@@ -724,6 +725,7 @@ function sr_shows_markup(){
 			</div>
 		</div>
 		</div><!--.info-->
+		</div><!--.wrap-->
 	</article><!-- #post-<?php the_ID(); ?> -->
 <?php }
 

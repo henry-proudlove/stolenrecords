@@ -2604,6 +2604,7 @@ wp-caption-text{
 .single-artist article h1, .page-template-page-about-php article h1, .page-template-page-publishing-php .page h1,.post-type-archive-show article h1 
 {
 	font-size: 4.2em;
+	margin-bottom: 0.05em;
 }
 
 .single-artist .artist-status
@@ -2892,10 +2893,16 @@ font-size: 1em;
 	border-width: 1px 0;
 	padding: 1em 0;
 }
+
+.post-type-archive-show article .wrap{
+	position: relative;
+}
+
 .post-type-archive-show .expanded .sevencol{
 	width: 57%;
 	margin: 1.4% 0 1.4% 0%;
 	float: right;
+	right: 0;
 	/*width: auto;
 	margin: 1.4% 0 1.4%;
 	float:none;

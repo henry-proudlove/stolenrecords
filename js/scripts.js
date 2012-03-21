@@ -93,12 +93,13 @@ jQuery.fn.borderScroll = function(currentPos) {
         var closest = shows[closestArrPos];
         function changeSection() {
         	$articles.removeClass('invisible')
-        		.find('.info').removeAttr('style');
+        		.find('.info')
+        		.removeAttr('style')
+        		.removeClass('box-pack');
         		
             $('.expanded')
             	.removeClass('expanded')
-            	.find('.show-slider').cycle('destroy');
-            	
+            	.find('.show-slider').cycle('destroy');	
             $articles
             	.eq(closestArrPos)
             	.addClass('expanded');
@@ -106,9 +107,13 @@ jQuery.fn.borderScroll = function(currentPos) {
             if(closestArrPos > 0){
             	$articles.eq(closestArrPos -1 ).addClass('invisible');
             }
+            images = $('.expanded .show-slider').children().length
             
             $('.expanded .show-slider').showSlider();
-            //$('.expanded .info').vertCent();
+			
+			if( images > 0 ){
+				$('.expanded .info').addClass('box-pack');
+			}
         }               
         if (closest != currentBubble) {
             changeSection();
