@@ -2634,8 +2634,7 @@ wp-caption-text{
 	padding-top: 26px;
 }
 
-.fancy-roll:hover .info
-{
+.fancy-roll:hover .info{
 	opacity: 1;
 	width: 100%
 	height: 100%;
@@ -2647,7 +2646,7 @@ wp-caption-text{
  *
  */
 
-.single-artist article h1, .page-template-page-about-php article h1, .page-template-page-publishing-php .page h1,.post-type-archive-show article h1 
+.single-artist article h1, .page-template-page-about-php article h1, .page-template-page-publishing-php .page h1,.post-type-archive-show article h1, .page-template-default article h1
 {
 	font-size: 4.2em;
 	margin-bottom: 0.2em;
@@ -2660,7 +2659,7 @@ wp-caption-text{
 	margin-top: -0.6em;
 }
 
-.single-artist article .entry-header, .page-template-page-about-php article .entry-header, .page-template-page-publishing-php .page .entry-header
+.single-artist article .entry-header, .page-template-page-about-php article .entry-header, .page-template-page-publishing-php .page .entry-header, .page-template-default .page .entry-header
 {
 	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
 	padding-bottom: 2em;
@@ -2668,7 +2667,7 @@ wp-caption-text{
 	margin-top: 2em;
 }
 
-.single-artist article, .page-template-page-about-php article, .page-template-page-publishing-php .page
+.single-artist article, .page-template-page-about-php article, .page-template-page-publishing-php .page, 	 .page
 {
 	text-align: center;
 }
@@ -3037,21 +3036,21 @@ font-size: 1em;
  *
  */
  
-.page-template-page-publishing-php .entry-content, .page-template-page-php .entry-content{
+.page-template-page-publishing-php .entry-content, .page-template-default .entry-content{
 	padding-top: 0;
 	padding-bottom: 2.9em;
 	max-width: 70%;
 	margin: 0 auto;
 }
 
-.page-template-page-publishing-php .entry-content p, .page-template-page-php .entry-content p{
+.page-template-page-publishing-php .entry-content p, .page-template-default .entry-content p{
 	font-size: 1.15em;
 	text-align: left;
 }
 
-.page-template-page-publishing-php .entry-content img, .page-template-page-php .entry-content img{
+.page-template-page-publishing-php .entry-content img, .page-template-default .entry-content img{
 	float: right;
-	margin: 0.5em 0 0.75em 1.45em;
+	margin: 0.76em 0 1em 1.45em;
 }
 
 

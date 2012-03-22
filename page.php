@@ -15,16 +15,11 @@ get_header(); ?>
 				<h1 class="entry-title"><?php the_title(); ?></h1>
 			</header><!-- .entry-header -->
 
-			<div class="entry-content">
+			<div class="entry-content clearfix">
 				<?php the_content(); ?>
-				<?php wp_link_pages( array( 'before' => '<div class="page-link">' . __( 'Pages:', 'themename' ), 'after' => '</div>' ) ); ?>
-				<?php edit_post_link( __( 'Edit', 'themename' ), '<span class="edit-link">', '</span>' ); ?>
 			</div><!-- .entry-content -->
 		</article><!-- #post-<?php the_ID(); ?> -->
 
-		<?php comments_template( '', true ); ?>
-
 	</div><!-- #content -->
 
-<?php get_sidebar(); ?>
 <?php get_footer(); ?>
