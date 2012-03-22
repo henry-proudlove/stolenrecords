@@ -132,19 +132,11 @@ jQuery.fn.sliderinit = function(){
 		if(c > 1){
 			if(p.attr('id') == 'latest'){
 				$(this).before(slidernav);
-				$(this).children().each(function(){
-					slideimage = $(this).find('.right').children().length;
-					if(slideimage > 0){
-						hasimage = true;
-					}else{
-						hasimage = false;
-					}
-				});
-				$(this).children().each(function(){
-					if(hasimage == true){
-						$(this).find('.left').addClass('box-pack');
-					}
-				});
+				slideimage = $(this).find('.right').children().length;
+				alert(slideimage);
+				if(slideimage > 0){
+					$(this).find('.left').addClass('box-pack');
+				}
 			}else{
 				$(this).after(slidernav);	
 			}
@@ -162,11 +154,6 @@ jQuery.fn.sliderinit = function(){
 			
 		} else {
 			$(this).data('sliderinit' , false);
-			hasimage = $(this).find('.right').children().length;
-			if(hasimage > 0){
-				//alert(hasimage);
-				$(this).css('position' , 'relative').find('.left').addClass('box-pack');
-			}
 		}
 	})
 };
