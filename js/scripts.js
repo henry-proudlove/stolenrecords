@@ -99,7 +99,7 @@ jQuery.fn.borderScroll = function(currentPos) {
         		
             $('.expanded')
             	.removeClass('expanded')
-            	.find('.show-slider').cycle('destroy');	
+            	.find('.post-type-archive-show .show-slider').cycle('destroy');	
             $articles
             	.eq(closestArrPos)
             	.addClass('expanded');
@@ -108,7 +108,7 @@ jQuery.fn.borderScroll = function(currentPos) {
             	$articles.eq(closestArrPos -1 ).addClass('invisible');
             }
             images = $('.expanded .show-slider').children().length;
-            $('.expanded .show-slider').showSlider();
+            $('post-type-archive-show .expanded .show-slider').showSlider();
 			
 			if( images > 0 ){
 				$('.expanded .info').addClass('box-pack');
@@ -133,7 +133,6 @@ jQuery.fn.sliderinit = function(){
 			if(p.attr('id') == 'latest'){
 				$(this).before(slidernav);
 				slideimage = $(this).find('.right').children().length;
-				alert(slideimage);
 				if(slideimage > 0){
 					$(this).find('.left').addClass('box-pack');
 				}

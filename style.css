@@ -2265,6 +2265,15 @@ margin-top: -0.3em;
 	padding-bottom: 1.9em;
 }
 
+.blog .fancy-roll, .search .fancy-roll, .date .fancy-roll, .tag .fancy-roll{
+	display: inline-block;
+	margin-bottom: 0;
+}
+
+.blog .fancy-roll img, .search .fancy-roll img, .date .fancy-roll img, .tag .fancy-roll img{
+	margin-bottom: 0 !important;
+}
+
 .single-post .entry-header{
 	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
 	margin-bottom: 0;

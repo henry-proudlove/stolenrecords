@@ -89,7 +89,7 @@ while ( $the_query->have_posts() ) : $the_query->the_post();?>
 						</span>
 					<?php endforeach; ?>
 					</h2>
-					<div class="entry-meta">
+					<div class="entry-meta big-center">
 						<time class="show-time"><?php echo $show_meta['time']; ?></time>
 						<?php if($show_meta['venue_link'] && $show_meta['venue']):?>
 							<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" title="More info" rel="bookmark"><?php echo $show_meta['venue']; ?></a></span>
