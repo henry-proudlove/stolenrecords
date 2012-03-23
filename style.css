@@ -1313,8 +1313,10 @@ width: 100% !important;
 #latest .slider-nav
 {
 	float: right;
-	position: relative;
-	top: -27px;
+	/*position: relative;*/
+	top: -4.1em;
+	position: absolute;
+	right: 0;
 	margin: 0;
 }
 
@@ -1322,6 +1324,13 @@ width: 100% !important;
 {
 	display: inline-block !important;
 	margin: 1.2em 0 0.4em;
+}
+
+#latest .slider-wrap{
+	transition: padding 0.5s;
+	-moz-transition: padding 0.5s;
+	-webkit-transition: padding 0.5s;
+	-o-transition: padding 0.5s;
 }
 
 /*
@@ -2140,7 +2149,12 @@ overflow: hidden;
 #latest{
 	border-bottom: 1px solid #d8d8d4;
 	border-bottom: 1px solid rgba(41, 48, 53, 0.2);
-	padding-bottom: 0.4em;
+	/*padding-bottom: 0.4em;*/
+	padding: 0 0 1.85em;
+}
+
+#latest .section-header{
+	margin-bottom: 1.85em
 }
 
 #latest article
@@ -2148,7 +2162,8 @@ overflow: hidden;
 	width: 100%;
 	/*height: 100%;*/
 	text-align: center;
-	margin: 1.45em 0;
+	/*margin: 1.45em 0;*/
+	margin: 0;
 }
 
 .nested .sixcol{
@@ -2260,55 +2275,68 @@ margin-top: -0.3em;
 	-o-transition: rotate(3600deg);
 }
 
-.blog article, .search article, .date article, .tag article, .single-post .entry-header{
+#primary{
+	text-align: center;
+}
+
+#primary .entry-header{
 	text-align: center;
 	padding-bottom: 1.9em;
 }
 
-.blog .fancy-roll, .search .fancy-roll, .date .fancy-roll, .tag .fancy-roll{
+#primary .fancy-roll{
 	display: inline-block;
 	margin-bottom: 0;
 }
 
-.blog .fancy-roll img, .search .fancy-roll img, .date .fancy-roll img, .tag .fancy-roll img{
+ #primary .fancy-roll img{
 	margin-bottom: 0 !important;
 }
 
-.single-post .entry-header{
+#primary .entry-header{
 	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
 	margin-bottom: 0;
 	padding-bottom: 2em;
 }
 
-.blog .entry-header img, .search .entry-header img, .date .entry-header img, .tag .entry-header img{
+#primary .entry-header img{
 	margin-bottom: 0.5em;
 }
 
-.blog .entry-header, .search .entry-header, .date .entry-header, .tag .entry-header{
+#primary .entry-header{
 	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
 	padding-bottom: 2em;
 	margin-bottom: 2em;
 }
 
-.blog article p, .search article p, .date article p, .tag article p{
+#primary .video .entry-header{
+	padding-bottom: 3.2em;
+}
+
+#primary .video h1{
+	margin-bottom: 0.5em;
+}
+
+#primary article p{
 	width: 85%;
 	padding-bottom: 1em;
 	margin: 0 auto;
 }
 
-.blog .results-header, .search .results-header, .date .results-header, .tag .results-header{
+#primary .results-header{
 	margin-bottom: 1.45em;
 }
 
-.blog article .fancy-roll, .search article .fancy-roll, .date article .fancy-roll, .tag article .fancy-roll{
+#primary article .fancy-roll{
 margin: 0.8em 0;
 }
 
-.blog .read-more, .search .read-more, .date .read-more, .tag .read-more{
+#primary .read-more{
 	display: block;
 	text-transform: uppercase;
 	margin-top: 0.75em;	
 }
+
 
 .divider{
 width: 40%;
@@ -2667,7 +2695,7 @@ wp-caption-text{
 	margin-top: 2em;
 }
 
-.single-artist article, .page-template-page-about-php article, .page-template-page-publishing-php .page, 	 .page
+.single-artist article, .page-template-page-about-php article, .page-template-page-publishing-php .page, .page-template-default .page
 {
 	text-align: center;
 }

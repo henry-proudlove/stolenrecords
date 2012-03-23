@@ -1653,7 +1653,7 @@ function sr_post_thumbnail($size , $show_video, $link, $wrapper = true)
 	if ($show_video == true && get_post_meta(get_the_ID(),'_sr_thumb-URL',TRUE)):
 		$vid_link = get_post_meta(get_the_ID(),'_sr_thumb-URL',TRUE);
 		$embed_code = wp_oembed_get($vid_link);
-		echo $embed_code;	
+		echo '<div class="video">' . $embed_code . '</div>';	
 	elseif (has_post_thumbnail()):
 		$post_thumb = get_post_thumbnail_id();
 		$options = array(	

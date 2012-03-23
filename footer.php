@@ -23,6 +23,7 @@ var templateDir = "<?php bloginfo('template_directory') ?>";
 <script src="<?php echo get_template_directory_uri(); ?>/js/soundcloud.player.api.js"></script>
 <script src="<?php echo get_template_directory_uri(); ?>/js/sc-player.js"></script>
 <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/jquery.infinitescroll.min.js"></script>
+<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/jquery.fitvids.js"></script>
 <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/jquery.validate.pack.js"></script>
 <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/jquery.contactable.min.js"></script>
 <script src="<?php echo get_template_directory_uri(); ?>/js/scripts.js"></script>

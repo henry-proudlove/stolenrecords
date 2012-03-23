@@ -1,6 +1,13 @@
-<?php /* Start the Loop */ ?>
-		<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
-			<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
+<?php /* Start the Loop */
+		if ( have_posts() ) : while ( have_posts() ) : the_post();
+		//add video class
+		if(get_post_meta(get_the_ID(),'_sr_thumb-URL',TRUE)){
+			$video = 'video';	
+		}else{
+			$video = null;
+		}
+		//now get on with your shit?>
+			<article id="post-<?php the_ID(); ?>" <?php post_class($video); ?> role="article">
 				<header class="entry-header">
 					<time class="entry-date"><?php echo get_the_date(); ?></time>
 					

@@ -128,7 +128,7 @@ jQuery.fn.sliderinit = function(){
 	slidernav = '<nav class="slider-nav"><a class="prev">Previous</a><div class="pager"></div><a class="next">Next</a></nav><!--#slider-nav-->';
 	$(this).each(function(){
 		var c = $(this).children().length;
-		var p = $(this).parent();
+		var p = $(this).parent().parent();
 		if(c > 1){
 			if(p.attr('id') == 'latest'){
 				$(this).before(slidernav);
@@ -141,7 +141,8 @@ jQuery.fn.sliderinit = function(){
 			}
 			$(this).cycle({ 
 				fx:     'fade', 
-				speed:  'fast', 
+				speed:  'slow',
+				before: onBefore,
 				timeout: 0, 
 				pager:  $('.pager', p),
 				next:   $('.next', p),
@@ -149,13 +150,19 @@ jQuery.fn.sliderinit = function(){
 				containerResize: false,
 				slideResize: false,
 				fit: 1
-			}).data('sliderinit' , true).sliderheight();
-			
+			}).data('sliderinit' , true).latestheight();
 		} else {
 			$(this).data('sliderinit' , false);
 		}
 	})
 };
+
+function onBefore() {
+	height = $(this).height();
+	width = $(this).width();
+	ratio = height / width;
+	$('.slider-wrap').css('padding-top', (ratio * 100) + "%");
+} 
 
 jQuery.fn.showSlider = function(){
 	var c = $(this).children().length;
@@ -209,6 +216,22 @@ jQuery.fn.sliderheight = function() {
 			});
 			o.height(maxHeight);
 		});
+	}
+};
+
+jQuery.fn.latestheight = function() {
+	if($(this).data('sliderinit') == true){
+		$(this).children().each(function(){
+			height = $(this).height();
+			width = $(this).width();
+			ratio = height / width;
+			$(this).data('ratio', ratio);
+		});
+		$(this)
+			.css({'position' : 'absolute' , 'top' : '0', 'left' : '0', 'width' : '100%'});
+		$(this)
+			.parent('.slider-wrap')
+			.css('padding-top', ($(this).children().first().data('ratio')* 100) + "%");
 	}
 };
 
@@ -336,7 +359,7 @@ $(document).ready(function() {
 		showURL: false
 	});*/
 	$(window).smartresize(function(){  
-		$(".slider").sliderheight();
+		//$(".slider").sliderheight();
 		$(".expanded .show-slider").sliderheight();
 		$('.sc-controls a').scPlayerHeight();
 		$('form[role="search"]').fluidSearchForm();
@@ -437,6 +460,8 @@ $(document).ready(function() {
 					msgText: ""
 					}
 	});
+	
+	$(".post").fitVids();
 	
 	/*$.address.init(function(event) {
 

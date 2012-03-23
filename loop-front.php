@@ -14,6 +14,7 @@ $dont_copy = array();
 if($the_query->have_posts() ):?>
 	<section id="latest" class="twelvecol">
 	<h2 class="section-header">Latest</h2>
+	<div class="slider-wrap" style="position: relative;">
 	<div class="slider"> <?php
 while ( $the_query->have_posts() ) : $the_query->the_post();?>
 	
@@ -120,6 +121,7 @@ while ( $the_query->have_posts() ) : $the_query->the_post();?>
 	</article><!-- #post-<?php the_ID(); ?> -->
 
 <?php endwhile;?>
+</div>
 </div>
 </section><!--#latest-->
 <?php endif; ?>
