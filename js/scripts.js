@@ -303,8 +303,8 @@ function setupGallery(videos) {
 		$('#latest-videos ul').append(html);
 	}
 	
-	link = '<a href="http://vimeo.com/user3362379" class="block red-roll" title="Stolen Recordings on Vimeo" rel="bookmark">Stolen Records on Vimeo</a>';
-	$('#latest-videos').append(link);
+	link = '<li><a href="http://vimeo.com/user3362379" class="block red-roll" title="Stolen Recordings on Vimeo" rel="bookmark">Stolen Records on Vimeo</a></li>';
+	$('#latest-videos ul').append(link);
 }
 
 /*

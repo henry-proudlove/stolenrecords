@@ -1917,8 +1917,8 @@ endif;
         <span class="tweet-text"><?php echo $tweet_text; ?></span>
     </li>
     <?php endforeach; ?>
-    <li class="block">
-    	<a href="https://twitter.com/stolenrecs" class="twitter-link" rel="bookmark" title="Stolen Records on Twitter">Follow @stolenrecs on Twitter</a>
+    <li class="">
+    	<a href="https://twitter.com/stolenrecs" class="twitter-link red-roll block" rel="bookmark" title="Stolen Records on Twitter">Follow @stolenrecs on Twitter</a>
     </li>
 </ul>
 	</div>

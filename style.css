@@ -318,7 +318,7 @@ aside li:nth-child(1) {
 
 .red-roll, .sc-trackslist li a
 {
-border-bottom: none;
+border-bottom: none !important;
 	transition: none;
 	-moz-transition: none;
 	-webkit-transition: none;
@@ -327,7 +327,7 @@ border-bottom: none;
 
 .red-roll:hover, .red-roll:hover > *, .sc-trackslist li a:hover
 {
-	color: white;
+	color: white !important;
 	background: #e14e49;
 }
 
