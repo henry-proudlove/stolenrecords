@@ -16,9 +16,9 @@ var templateDir = "<?php bloginfo('template_directory') ?>";
 </script>
 <script src="<?php echo get_template_directory_uri(); ?>/js/jquery.isotope.min.js"></script>
 <script src="<?php echo get_template_directory_uri(); ?>/js/jquery.cycle.all.js"></script>
-<script src="<?php echo get_template_directory_uri(); ?>/js/jquery-ui-1.8.18.custom.min.js"></script>
+<script src="<?php echo get_template_directory_uri();?>/js/jquery-ui-1.8.18.custom.min.js"></script>
+<script src="<?php echo get_template_directory_uri();?>/js/jquery.fancybox.pack.js?v=2.0.5"></script>
 <script src="<?php echo get_template_directory_uri(); ?>/js/jquery.tooltip.min.js"></script>
-<script src="<?php echo get_template_directory_uri(); ?>/js/jquery.fancybox.pack.js"></script>
 <script src="<?php echo get_template_directory_uri(); ?>/js/jquery.oembed.min.js"></script>
 <script src="<?php echo get_template_directory_uri(); ?>/js/soundcloud.player.api.js"></script>
 <script src="<?php echo get_template_directory_uri(); ?>/js/sc-player.js"></script>

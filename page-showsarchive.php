@@ -44,7 +44,7 @@ get_header(); ?>
 					$show_meta = sr_shows_meta($post->ID);
 					$thumb_id = get_post_thumbnail_id();
 					$thumb_src = wp_get_attachment_image_src( $thumb_id, large);?>
-					<a href="<?php echo $thumb_src[0]; ?>" class="fancy-roll fourcol fancybox.image" title="Click to zoom" rel="bookmark">
+					<a href="<?php echo $thumb_src[0]; ?>" class="fancy-roll fourcol lightbox fancybox.image" title="Click to zoom" rel="bookmark">
 						<?php sr_post_thumbnail('sr-show-fourcol' , false, 'null'); ?>
 						<div class="info">
 							<div class="wrap">

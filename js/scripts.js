@@ -93,26 +93,19 @@ jQuery.fn.borderScroll = function(currentPos) {
         var closest = shows[closestArrPos];
         function changeSection() {
         	$articles.removeClass('invisible')
-        		.find('.info')
-        		//.removeAttr('style')
-        		.removeClass('box-pack');
         		
             $('.expanded')
             	.removeClass('expanded')
-            	.find('.post-type-archive-show .show-slider').cycle('destroy');	
+            	.find('.info').removeAttr('style');
+	
             $articles
             	.eq(closestArrPos)
-            	.addClass('expanded');
+            	.addClass('expanded')
+            	.find('.info').vertCenter();
             	
             if(closestArrPos > 0){
             	$articles.eq(closestArrPos -1 ).addClass('invisible');
             }
-            //images = $('.expanded .show-slider').children().length;
-            //$('.post-type-archive-show .expanded .show-slider').showSliderInit();
-			
-			//if( images > 0 ){
-				$('.expanded .info').addClass('box-pack');
-			//}
         }               
         if (closest != currentBubble) {
             changeSection();
@@ -130,7 +123,7 @@ jQuery.fn.sliderInit = function(){
 	$this = $(this[0]);
 	var c = $this.children().length;
 	p = $this.parent();
-	//if(c > 1){
+	if(c > 1){
 		$this.after(slidernav);	
 		$this.cycle({ 
 			fx:     'fade', 
@@ -143,9 +136,9 @@ jQuery.fn.sliderInit = function(){
 			slideResize: false,
 			fit: 1
 		}).data('sliderinit' , true).sliderheight();
-	/*}else{
+	}else{
 		$this.data('sliderinit' , false);
-	}*/
+	}
 };
 
 jQuery.fn.gallerySliderInit = function(){
@@ -189,12 +182,9 @@ jQuery.fn.latestSliderInit = function(){
 	$this = $(this[0]);
 	var c = $this.children().length;
 	var p = $this.parent().parent();
+	$this.children().find('.left').vertCenter();
 	if(c > 1){
 		$(this).before(slidernav);
-		slideimage = $(this).find('.right').children().length;
-		if(slideimage > 0){
-			$(this).find('.left').addClass('box-pack');
-		}
 		$(this).cycle({ 
 			fx:     'fadeOutWaitFadeIn', 
 			speed:  500,
@@ -296,20 +286,20 @@ jQuery.fn.fluidSearchForm = function(){
 RELEASE INFO LATEST POST VERT CENTRED
 */
 
-/*jQuery.fn.vertCent = function(){
+jQuery.fn.vertCenter = function(){
 	$(this).each(function(){
 		o = $(this);
-		oH = o.outerHeight(true);
-		pH = o.parent().height();
-		if(oH < pH){
-		 shim = (pH - oH) / 2;
+		oH = o.height();
+		sH = o.siblings().height();
+		if(oH < sH){
+		 shim = (sH - oH) / 2;
 		 o.css({'margin-top' : shim , 'margin-bottom' : '0'});
 		}else{
 			o.removeAttr('style');
 		};
 	});
 	
-}*/
+}
 
 /*jQuery.fn.loadURL = function(){
 	o = $(this[0]);
@@ -352,7 +342,7 @@ function setupGallery(videos) {
 	// Add the videos to the gallery
 	for (var i = 0; i < 4; i++) {
 		var html = '<li class="video vimeo"><a href="http://player.vimeo.com/video/' + videos[i].id + '?autoplay=1"' ;
-		html += 'class="media-thumb fancybox.iframe vimeo red-roll" rel="gallery-vid-aside">';
+		html += 'class="lightbox fancybox.iframe vimeo red-roll" rel="gallery-vid-aside">';
 		html += '<img src="' + videos[i].thumbnail_small + '" class="media-img" />';
 		html += '<div class="info"><h3 class="vid-title">' + videos[i].title + '</h3>';
 		html += '<p class="vid-decription faint">' + videos[i].description + '</p></li></div></a>';
@@ -368,13 +358,13 @@ function setupGallery(videos) {
 GET FLICKR FOR MEDIA PAGE 
 */
 
-$.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?id=8546357@N03&lang=en-us&format=json&jsoncallback=?", function(data){
+/*$.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?id=8546357@N03&lang=en-us&format=json&jsoncallback=?", function(data){
   $.each(data.items, function(i,item){
     $("<img/>").attr("src", item.media.m).appendTo("#flickr-images #photos")
       .wrap("<div class='flickr-photo'><a href='" + item.link + "'></a></div>");
       if ( i == 10 ) return false;
   });
-});
+});*/
 
 jQuery.fn.scPlayerHeight = function(){
 	o = $(this[0]);
@@ -406,26 +396,34 @@ $container.isotope();
  	resizeContents: true
  });
 });*/
-
-$(document).ready(function() {
-
-	$( "#social-tabs" ).tabs();
-	$("#latest-slider").latestSliderInit();
-	$("#artist-slider").gallerySliderInit();
-	$(".slider").sliderInit();
-	$(window).smartresize(function(){  
-		$(".slider").sliderheight();
-		$('.sc-controls a').scPlayerHeight();
-		$('form[role="search"]').fluidSearchForm();
-	});	
-
-	$('.media-thumb').fancybox({
+$('.lightbox').fancybox({
 		fitToView	: false,
 		width 		: '80%',
 		height		: '60%',
 		autoSize	: false,
 		arrows		: true
 	});
+$(document).ready(function() {
+
+	$( "#social-tabs" ).tabs();
+	$("#latest-slider").latestSliderInit();
+	$("#artist-slider").gallerySliderInit();
+	$(".slider").sliderInit();
+	
+	$(window).smartresize(function(){  
+		$(".slider").sliderheight();
+		$('.sc-controls a').scPlayerHeight();
+		$('form[role="search"]').fluidSearchForm();
+		$('.post-type-archive-show .expanded .info, #latest article .left').vertCenter();
+	});	
+
+	/*$('.lightbox').fancybox({
+		fitToView	: false,
+		width 		: '80%',
+		height		: '60%',
+		autoSize	: false,
+		arrows		: true
+	});*/
 	
 	$(document).bind('onPlayerInit.scPlayer', function(event){
 		$('.sc-player').prepend($('.sc-scrubber , .sc-controls'), function(){

@@ -634,6 +634,7 @@ function sr_relart_loop_markup(){
 /*---------------------------------------------------
 Shows
 */
+
 function sr_shows_meta($post_ID){
 	$datetime = get_post_meta($post_ID,'_sr_show-date',TRUE);
 	$datetime = new DateTime($datetime);
@@ -662,6 +663,7 @@ function sr_shows_meta($post_ID){
 					
 	return $show_meta;
 }
+
 //Shows Page
 
 function sr_shows_markup(){
@@ -670,8 +672,7 @@ function sr_shows_markup(){
 	$show_meta = sr_shows_meta($post->ID);
 	?>
 
-	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
-		<div class="wrap clearfix">
+	<article id="post-<?php the_ID(); ?>" <?php post_class('clearfix'); ?> role="article">
 		<?php if($show_meta['buy_tix']): ?>
 			<div class="show-img-gallery fivecol hide">
 				<a href="<?php echo $show_meta['buy_tix']; ?>" title="Buy Tickets" rel="bookmark">
@@ -684,7 +685,7 @@ function sr_shows_markup(){
 			</div><!--.show-img-gallery-->
 		<?php endif; ?>
 		<div class="info sevencol">
-			<div class="wrap">
+			<div>
 				<header class="entry-header">
 					<time class="show-date"><?php echo $show_meta['date']; ?></time>
 					<h1 class="entry-title">
@@ -727,7 +728,6 @@ function sr_shows_markup(){
 			</div>
 		</div>
 		</div><!--.info-->
-		</div><!--.wrap-->
 	</article><!-- #post-<?php the_ID(); ?> -->
 <?php }
 
@@ -1350,7 +1350,7 @@ function sr_media_videos(&$dont_copy)
 		{
 			if($video['is_valid'] == 'true')
 			{?>
-					<a href="<?php echo $video['embed'] ?>" class="fancy-roll media-thumb fancybox.iframe <?php echo $video['vendor'] ?> fourcol" rel="gallery-media">
+					<a href="<?php echo $video['embed'] ?>" class="fancy-roll lightbox fancybox.iframe <?php echo $video['vendor'] ?> fourcol" rel="gallery-media">
 						<img src="<?php echo $video['thumbnail_large']?>" class="<?php echo $video['vendor'] ?>" />
 						<div class="info">
 							<div>
@@ -1493,7 +1493,7 @@ function video_aside_markup($videos)
 		if($video['is_valid'] == 'true')
 		{?>
 			<li class="video <?php echo $video['vendor'] ?>">
-				<a href="<?php echo $video['embed'] ?>" class="media-thumb red-roll fancybox.iframe <?php echo $video['vendor'] ?>" rel="gallery-vid-aside">
+				<a href="<?php echo $video['embed'] ?>" class="red-roll lightbox fancybox.iframe <?php echo $video['vendor'] ?>" rel="gallery-vid-aside">
 					<img src="<?php echo $video['thumbnail_small']?>" class="media-img" />
 					<div class="info">
 						<h3><?php echo $video['title'] ?></h3>
@@ -1533,7 +1533,8 @@ function sr_get_images( $args = array() ) {
 		'post_id' => $post->ID,
 		'link' => 'self',
 		'img_class' => 'attachment-image',
-		'a_class' => 'media-thumb fancybox.image fancy-roll',
+		//'a_class' => 'lightbox fancybox.image fancy-roll',
+		'a_class' => 'lightbox fancy-roll',
 		'a_rel' => '',
 		'wrapper' => true,
 		'wrapper_class' => 'attachment-image-wrapper',
@@ -1684,7 +1685,8 @@ function sr_artist_gallery(){
 	global $post;
 	$options = array(
 			'size' => 'sr-twelvecol',
-			'a_class' => 'media-thumb fancybox.image fancy-roll',
+			//'a_class' => 'lightbox fancybox.image fancy-roll',
+			'a_class' => 'lightbox fancy-roll',
 			'img_class' => 'artist-header attachment-image',
 			'wrapper' => false ,
 			'a_rel' => 'gallery-artist'
