@@ -108,7 +108,7 @@ jQuery.fn.borderScroll = function(currentPos) {
             	$articles.eq(closestArrPos -1 ).addClass('invisible');
             }
             images = $('.expanded .show-slider').children().length;
-            $('post-type-archive-show .expanded .show-slider').showSlider();
+            $('post-type-archive-show .expanded .show-slider').showSliderInit();
 			
 			if( images > 0 ){
 				$('.expanded .info').addClass('box-pack');
@@ -124,47 +124,51 @@ jQuery.fn.borderScroll = function(currentPos) {
 INITIALISING CYCLE PLUGIN
 */
 
-jQuery.fn.sliderinit = function(){
+jQuery.fn.reviewSliderInit = function(){
 	slidernav = '<nav class="slider-nav"><a class="prev">Previous</a><div class="pager"></div><a class="next">Next</a></nav><!--#slider-nav-->';
-	$(this).each(function(){
-		var c = $(this).children().length;
-		var p = $(this).parent().parent();
-		if(c > 1){
-			if(p.attr('id') == 'latest'){
-				$(this).before(slidernav);
-				slideimage = $(this).find('.right').children().length;
-				if(slideimage > 0){
-					$(this).find('.left').addClass('box-pack');
-				}
-			}else{
-				$(this).after(slidernav);	
-			}
-			$(this).cycle({ 
-				fx:     'fade', 
-				speed:  'slow',
-				before: onBefore,
-				timeout: 0, 
-				pager:  $('.pager', p),
-				next:   $('.next', p),
-				prev:   $('.prev', p),
-				containerResize: false,
-				slideResize: false,
-				fit: 1
-			}).data('sliderinit' , true).latestheight();
-		} else {
-			$(this).data('sliderinit' , false);
-		}
-	})
+	$this = $(this[0]);
+	var c = $this.children().length;
+	if(c > 1){
+		$this.after(slidernav);	
+		$this.cycle({ 
+			fx:     'fade', 
+			speed:  'fast',
+			timeout: 0, 
+			pager:  $('.pager', p),
+			next:   $('.next', p),
+			prev:   $('.prev', p),
+			containerResize: false,
+			slideResize: false,
+			fit: 1
+		}).data('sliderinit' , true).sliderheight();
+	}else{
+		$this.data('sliderinit' , false);
+	}
 };
 
-function onBefore() {
-	height = $(this).height();
-	width = $(this).width();
-	ratio = height / width;
-	$('.slider-wrap').css('padding-top', (ratio * 100) + "%");
-} 
+jQuery.fn.gallerySliderInit = function(){
+	slidernav = '<nav class="slider-nav"><a class="prev">Previous</a><div class="pager"></div><a class="next">Next</a></nav><!--#slider-nav-->';
+	$this = $(this[0]);
+	var c = $this.children().length;
+	if(c > 1){
+		$this.after(slidernav);
+		$this.cycle({ 
+			fx:     'fade', 
+			speed:  'fast',
+			timeout: 0, 
+			pager:  $('.pager', p),
+			next:   $('.next', p),
+			prev:   $('.prev', p),
+			containerResize: false,
+			slideResize: false,
+			fit: 1
+		}).data('sliderinit' , true).padSliderHeight();
+	} else {
+		$this.data('sliderinit' , false);
+	}
+};
 
-jQuery.fn.showSlider = function(){
+jQuery.fn.showSliderInit = function(){
 	var c = $(this).children().length;
 	if(c > 1){
 		$(this).cycle({ 
@@ -174,10 +178,109 @@ jQuery.fn.showSlider = function(){
 			containerResize: false,
 			slideResize: false,
 			fit: 1,
-		}).data('sliderinit' , true).sliderheight();
+		}).data('sliderinit' , true).padSliderHeight();
 	}
 }
 
+
+jQuery.fn.latestSliderInit = function(){
+	slidernav = '<nav class="slider-nav"><a class="prev">Previous</a><div class="pager"></div><a class="next">Next</a></nav><!--#slider-nav-->';
+	$this = $(this[0]);
+		var c = $this.children().length;
+		var p = $this.parent().parent();
+		if(c > 1){
+			$(this).before(slidernav);
+			slideimage = $(this).find('.right').children().length;
+			if(slideimage > 0){
+				$(this).find('.left').addClass('box-pack');
+			}
+			$(this).cycle({ 
+				fx:     'fadeOutWaitFadeIn', 
+				speed:  500,
+				delayBetweenFades: 300,
+				timeout: 0, 
+				pager:  $('.pager', p),
+				next:   $('.next', p),
+				prev:   $('.prev', p),
+				containerResize: false,
+				slideResize: false,
+				fit: 1
+			}).data('sliderinit' , true).padSliderHeight();
+		} else {
+			$(this).data('sliderinit' , false);
+		}
+};
+
+/*
+MAKING SLIDES FLUID
+*/
+
+jQuery.fn.sliderheight = function() {
+	if($(this).data('sliderinit') == true){
+		$(this).each(function(){
+			o = $(this);
+			var maxHeight = 0;
+			el = o.children();
+			el.each(function(){
+				//$(this).css('height' , '');
+				if($(this).outerHeight(true) > maxHeight) {
+					maxHeight = $(this).outerHeight(true);
+				}
+			});
+			o.height(maxHeight);
+		});
+	}
+};
+
+//latest
+
+jQuery.fn.padSliderHeight = function() {
+	if($(this).data('sliderinit') == true){
+		/*$(this).children().each(function(){
+			height = $(this).height();
+			width = $(this).width();
+			ratio = height / width;
+			$(this).data('ratio', ratio);
+		});*/
+		$this = $(this).children().first();
+		/*height = $(this).children().first().height();
+		width = $(this).width();*/
+		ratio = $this.height() / $this.width();
+		$(this)
+			.css({'position' : 'absolute' , 'top' : '0', 'left' : '0', 'width' : '100%'})
+			//.wrap('<div class="slider-wrap"></div>');
+		$(this)
+			.parent('.slider-wrap')
+			//.css('padding-top', ($(this).children().first().data('ratio')* 100) + "%");
+			.css('padding-top', (ratio * 100) + "%");
+	}
+};
+
+
+$.fn.cycle.transitions.fadeOutWaitFadeIn = function($cont, $slides, opts) {
+    opts.fxFn = function(curr, next, opts, after) {
+    	cH = $(curr).height();
+		cW = $(curr).width();
+		cR = cH/cW;
+		nH = $(next).height();
+		nW = $(next).width();
+		nR = nH/nW;
+		if(cR == nR){
+			$(curr).fadeOut(opts.speed);
+			$(next).delay(opts.speed/2).fadeIn(opts.speed, function() {
+					after();              
+				});
+		}else{
+			$(curr).fadeOut(opts.speed, function() {
+				$('.slider-wrap').css('padding-top', (nR * 100) + "%");
+				$(next).delay(opts.delayBetweenFades).fadeIn(opts.speed, function() {
+					after();              
+				});
+			});
+		}
+        
+    };
+};
 /* 
 FLUID WIDTH FORM ELEMENTS
 */
@@ -195,43 +298,6 @@ jQuery.fn.fluidSearchForm = function(){
 	}else{
 		$search.outerHeight(28);
 		$submit.height(28);
-	}
-};
-/*
-MAKING SLIDES FLUID
-*/
-
-jQuery.fn.sliderheight = function() {
-	if($(this).data('sliderinit') == true){
-		$(this).each(function(){
-			o = $(this);
-			var maxHeight = 0;
-			el = o.children();
-			el.each(function(){
-				//$(this).css('height' , '');
-				if($(this).outerHeight(true) > maxHeight) {
-					maxHeight = $(this).outerHeight(true);
-				}
-				//$(this).css('height' , '90%');
-			});
-			o.height(maxHeight);
-		});
-	}
-};
-
-jQuery.fn.latestheight = function() {
-	if($(this).data('sliderinit') == true){
-		$(this).children().each(function(){
-			height = $(this).height();
-			width = $(this).width();
-			ratio = height / width;
-			$(this).data('ratio', ratio);
-		});
-		$(this)
-			.css({'position' : 'absolute' , 'top' : '0', 'left' : '0', 'width' : '100%'});
-		$(this)
-			.parent('.slider-wrap')
-			.css('padding-top', ($(this).children().first().data('ratio')* 100) + "%");
 	}
 };
 
@@ -353,22 +419,14 @@ $container.isotope();
 $(document).ready(function() {
 
 	$( "#social-tabs" ).tabs();
-	$(".slider").sliderinit();
-	//Tooltips
-	/*$("a").tooltip({
-		showURL: false
-	});*/
+	$("#latest .slider").latestSliderInit();
+	//$(".slider").sliderinit();
 	$(window).smartresize(function(){  
-		//$(".slider").sliderheight();
 		$(".expanded .show-slider").sliderheight();
 		$('.sc-controls a').scPlayerHeight();
 		$('form[role="search"]').fluidSearchForm();
 	});	
-    //navigation
-    /*$("#access a").click(function(event){
-    	$(this).loadURL();
-    	event.preventDefault();
-	});*/
+
 	$('.media-thumb').fancybox({
 		fitToView	: false,
 		width 		: '80%',
@@ -376,27 +434,6 @@ $(document).ready(function() {
 		autoSize	: false,
 		arrows		: true
 	});
-	
-	/*$('#general-form').contactable({
-		url: templateDir +'/library/mail.php',
-		name: 'Name',
-		email: 'Email',
-		message : 'Message',
-		subject : 'MESSAGE: stolenrecordings.co.uk',
-		recievedMsg : 'Thank you for your message',
-		notRecievedMsg : 'Sorry, your message could not be sent, try again later',
-		disclaimer: ''
-	});
-	$('#press-form').contactable({
-		url: templateDir +'/library/mail.php',
-		name: 'Name',
-		email: 'Email',
-		message : 'Message',
-		subject : 'PRESS LOGIN REQUEST: stolenrecordings.co.uk',
-		recievedMsg : 'Thanks for your message!',
-		notRecievedMsg : 'Sorry, your message could not be sent, try again later',
-		disclaimer: ''
-	});*/
 	
 	$(document).bind('onPlayerInit.scPlayer', function(event){
 		$('.sc-player').prepend($('.sc-scrubber , .sc-controls'), function(){
@@ -434,12 +471,6 @@ $(document).ready(function() {
 		}
 	});
 	
-	/*$(".slider").each(function(){
-		$(this).sliderheight();
-	})*/
-	
-	//$(".vert-cent").vertCent();
-	
 	$('.post-type-archive-show #shows article').each(function() {            
         shows.push(this.offsetTop);        
     });
@@ -462,41 +493,6 @@ $(document).ready(function() {
 	});
 	
 	$(".post").fitVids();
-	
-	/*$.address.init(function(event) {
-
-		// Initializes the plugin
-		$('#access a').address();
-		
-	}).change(function(event) {
-
-		var value = $.address.state().replace(/^\/$/, '') + event.value;
-		
-		// Selects the proper navigation link
-		$('.nav a').each(function() {
-			if ($(this).attr('href') == value) {
-				$(this).addClass('selected').focus();
-			} else {
-				$(this).removeClass('selected');
-			}
-		});
-
-		// Loads and populates the page data
-		$.ajax({
-			cache: false,
-			complete: function(XMLHttpRequest, textStatus) {
-				var data = XMLHttpRequest.responseText;
-				$.address.title(data.title);
-				$('#content').html(data.content);
-				$('#main').show();
-			},
-			url: value
-		});
-	});*/
-
-	// Hides the page during initialization
-	//document.write('<style type="text/css"> #main { display: none; } </style>');
-            
         
 });
 

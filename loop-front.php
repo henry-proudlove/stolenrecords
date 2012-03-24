@@ -14,116 +14,116 @@ $dont_copy = array();
 if($the_query->have_posts() ):?>
 	<section id="latest" class="twelvecol">
 	<h2 class="section-header">Latest</h2>
-	<div class="slider-wrap" style="position: relative;">
-	<div class="slider"> <?php
-while ( $the_query->have_posts() ) : $the_query->the_post();?>
-	
-	<article id="post-<?php the_ID(); ?>" <?php post_class('nested clearfix'); ?> role="article">		
-		<div class="sixcol left">
-			<div>
-			<?php
-			/* 
-			POST
-			*/
-			if('post' == get_post_type()): 
-				array_push($dont_copy, $post->ID);?>
-				<header class="entry-header">
-					<time class="entry-date"><?php echo get_the_date(); ?></time>
-					<?php _sr_post_header(); ?>
-				</header><!-- .entry-header -->
-				
-				<div class="entry-summary big-center">
-					<?php no_more_excerpt($post->ID); ?>
-				</div><!-- .entry-summary -->
-				<?php echo '<a href="'. get_permalink($post->ID) . '" class="read-more button button-large">read more</a>'; ?>
-				
-			<?php
-			/* 
-			ARTIST
-			*/
-			elseif('artist' == get_post_type()): ?>
-				<header class="entry-header">
-					<?php _sr_post_header(); ?>
-				</header><!-- .entry-header -->
-				<div class="entry-summary big-center">
-					<?php no_more_excerpt($post->ID); ?>
-				</div><!-- .entry-summary -->
-				<?php echo '<a href="'. get_permalink($post->ID) . '" class="read-more button button-large">read more</a>'; ?>
-			<?php 
-			/* 
-			RELEASE
-			*/
-			elseif('release' == get_post_type()): ?>
-				<header class="entry-header">
-					<?php _sr_post_header(); ?>
-					<?php sr_get_rels_artist(get_the_ID()); ?>
-				</header><!-- .entry-header -->
-				<div class="entry-summary big-center">
-				<?php no_more_excerpt($post->ID); ?>
-				</div><!-- .entry-summary -->
-				<?php 
-					$buy_link = get_post_meta( $post->ID , '_sr_release-buy-link', true);
-					if ($buy_link):
-						echo '<a class="button buy-now button-large" href="' . $buy_link . '" title="Buy ' . get_the_title() . '" rel="bookmark">Buy Now</a>';
-					endif;
-				?>
-			<?php
-			/* 
-			SHOW
-			*/
-			elseif('show' == get_post_type()):
-				$show_meta = sr_shows_meta($post->ID); ?>
-				<header class="entry-header">
-					<time class="show-date"><?php echo $show_meta['date']; ?></time>
-					<h1 class="entry-title">
-					<?php if($show_meta['buy_tix']): ?>
-						<a href="<?php echo $show_meta['buy_tix']; ?>" title="Buy Tickets" rel="bookmark">
-						<?php the_title(); ?></a>
-					<?php else: ?>
-						<?php the_title(); ?>
-					<?php endif; ?>
-					</h1>
-					<h2>
-					<?php foreach($show_meta['artists'] as $artist):?>
-						<span class="entry-artist">
-							<a href="<?php echo $artist['guid'];?>" title= "More about <?php echo $artist['title']; ?>"><?php echo $artist['title']; ?></a>
-						</span>
-					<?php endforeach; ?>
-					</h2>
-					<div class="entry-meta big-center">
-						<time class="show-time"><?php echo $show_meta['time']; ?></time>
-						<?php if($show_meta['venue_link'] && $show_meta['venue']):?>
-							<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" title="More info" rel="bookmark"><?php echo $show_meta['venue']; ?></a></span>
-						<?php elseif($show_meta['venue']): ?>
-							<span class="venue"><?php echo $show_meta['venue']; ?></span>
-						<?php elseif($show_meta['venue_link']):?>
-							<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" title="More info" rel="bookmark"></span>
-							<?php echo $show_meta['venue_link']; ?></a>
+	<div class="slider-wrap">
+		<div class="slider"> <?php
+			while ( $the_query->have_posts() ) : $the_query->the_post();?>
+			
+			<article id="post-<?php the_ID(); ?>" <?php post_class('nested clearfix'); ?> role="article">		
+				<div class="sixcol left">
+					<div>
+					<?php
+					/* 
+					POST
+					*/
+					if('post' == get_post_type()): 
+						array_push($dont_copy, $post->ID);?>
+						<header class="entry-header">
+							<time class="entry-date"><?php echo get_the_date(); ?></time>
+							<?php _sr_post_header(); ?>
+						</header><!-- .entry-header -->
+						
+						<div class="entry-summary big-center">
+							<?php no_more_excerpt($post->ID); ?>
+						</div><!-- .entry-summary -->
+						<?php echo '<a href="'. get_permalink($post->ID) . '" class="read-more button button-large">read more</a>'; ?>
+						
+					<?php
+					/* 
+					ARTIST
+					*/
+					elseif('artist' == get_post_type()): ?>
+						<header class="entry-header">
+							<?php _sr_post_header(); ?>
+						</header><!-- .entry-header -->
+						<div class="entry-summary big-center">
+							<?php no_more_excerpt($post->ID); ?>
+						</div><!-- .entry-summary -->
+						<?php echo '<a href="'. get_permalink($post->ID) . '" class="read-more button button-large">read more</a>'; ?>
+					<?php 
+					/* 
+					RELEASE
+					*/
+					elseif('release' == get_post_type()): ?>
+						<header class="entry-header">
+							<?php _sr_post_header(); ?>
+							<?php sr_get_rels_artist(get_the_ID()); ?>
+						</header><!-- .entry-header -->
+						<div class="entry-summary big-center">
+						<?php no_more_excerpt($post->ID); ?>
+						</div><!-- .entry-summary -->
+						<?php 
+							$buy_link = get_post_meta( $post->ID , '_sr_release-buy-link', true);
+							if ($buy_link):
+								echo '<a class="button buy-now button-large" href="' . $buy_link . '" title="Buy ' . get_the_title() . '" rel="bookmark">Buy Now</a>';
+							endif;
+						?>
+					<?php
+					/* 
+					SHOW
+					*/
+					elseif('show' == get_post_type()):
+						$show_meta = sr_shows_meta($post->ID); ?>
+						<header class="entry-header">
+							<time class="show-date"><?php echo $show_meta['date']; ?></time>
+							<h1 class="entry-title">
+							<?php if($show_meta['buy_tix']): ?>
+								<a href="<?php echo $show_meta['buy_tix']; ?>" title="Buy Tickets" rel="bookmark">
+								<?php the_title(); ?></a>
+							<?php else: ?>
+								<?php the_title(); ?>
+							<?php endif; ?>
+							</h1>
+							<h2>
+							<?php foreach($show_meta['artists'] as $artist):?>
+								<span class="entry-artist">
+									<a href="<?php echo $artist['guid'];?>" title= "More about <?php echo $artist['title']; ?>"><?php echo $artist['title']; ?></a>
+								</span>
+							<?php endforeach; ?>
+							</h2>
+							<div class="entry-meta big-center">
+								<time class="show-time"><?php echo $show_meta['time']; ?></time>
+								<?php if($show_meta['venue_link'] && $show_meta['venue']):?>
+									<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" title="More info" rel="bookmark"><?php echo $show_meta['venue']; ?></a></span>
+								<?php elseif($show_meta['venue']): ?>
+									<span class="venue"><?php echo $show_meta['venue']; ?></span>
+								<?php elseif($show_meta['venue_link']):?>
+									<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" title="More info" rel="bookmark"></span>
+									<?php echo $show_meta['venue_link']; ?></a>
+								<?php endif; ?>
+							</div>
+						</header><!-- .entry-header -->
+						
+						<div class="entry-summary big-center">
+							<?php no_more_excerpt($post->ID); ?>
+						</div><!-- .entry-summary -->
+						
+						<?php if($show_meta['buy_tix']): ?>
+							<a class="button button-large buy-tickets" href="<?php echo $show_meta['buy_tix']; ?>" title="Buy Tickets" rel="bookmark">Buy Tickets</a>
 						<?php endif; ?>
+							
+					<?php endif; //END post type switcher ?>
 					</div>
-				</header><!-- .entry-header -->
-				
-				<div class="entry-summary big-center">
-					<?php no_more_excerpt($post->ID); ?>
-				</div><!-- .entry-summary -->
-				
-				<?php if($show_meta['buy_tix']): ?>
-					<a class="button button-large buy-tickets" href="<?php echo $show_meta['buy_tix']; ?>" title="Buy Tickets" rel="bookmark">Buy Tickets</a>
-				<?php endif; ?>
-					
-			<?php endif; //END post type switcher ?>
+				</div><!--.left -->
+				<div class="sixcol right">
+					<?php sr_post_thumbnail('sr-sixcol' , true, 'parent');?>
+				</div><!--.right-->
+		
+			</article><!-- #post-<?php the_ID(); ?> -->
+		
+			<?php endwhile;?>
 			</div>
-		</div><!--.left -->
-		<div class="sixcol right">
-			<?php sr_post_thumbnail('sr-sixcol' , true, 'parent');?>
-		</div><!--.right-->
-
-	</article><!-- #post-<?php the_ID(); ?> -->
-
-<?php endwhile;?>
-</div>
-</div>
-</section><!--#latest-->
+		</div>
+	</section><!--#latest-->
 <?php endif; ?>
 
 <section id="news-feed" class="eightcol shim-right nested">

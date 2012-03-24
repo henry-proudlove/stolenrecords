@@ -1327,6 +1327,7 @@ width: 100% !important;
 }
 
 #latest .slider-wrap{
+	position: relative;
 	transition: padding 0.5s;
 	-moz-transition: padding 0.5s;
 	-webkit-transition: padding 0.5s;
