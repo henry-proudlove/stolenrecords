@@ -15,15 +15,17 @@ get_header(); ?>
 
 		<article id="post-<?php the_ID(); ?>" <?php post_class('twelvecol'); ?> role="article">
 			<header class="entry-header">
-				<h1 class="entry-title">Stolen Recordings</h1>
+				<h1 class="entry-title big-h">Stolen Recordings</h1>
 			</header><!-- .entry-header -->
 			<div class="entry-gallery">
 					<?php sr_artist_gallery(); ?>
 				</div><!-- .entry-gallery -->
-			<div class="entry-content big-center">
-				<?php the_content(); ?>
-				<?php sr_social_links(true, false); ?>
-			</div><!-- .entry-content -->
+			<div id="content-holder">
+					<div class="entry-content big-center expander">
+						<?php the_content(); ?>
+					</div><!-- .entry-content -->
+					<?php sr_social_links(false, false); ?>
+				</div>
 		</article><!-- #post-<?php the_ID(); ?> -->
 		
 		<?php 

@@ -11,7 +11,7 @@
 				<header class="entry-header">
 					<time class="entry-date"><?php echo get_the_date(); ?></time>
 					
-					<? _sr_post_header(); ?>
+					<? _sr_post_header('h1' , 'medium-h'); ?>
 						<?php sr_post_thumbnail('sr-eightcol' , true, 'parent'); ?>
 				</header><!-- .entry-header -->
 				
@@ -23,7 +23,7 @@
 		<?php endwhile; else:?>
 			<article id="no-posts" <?php post_class(); ?> role="article">
 				<header class="entry-header">
-					<h1 class="entry-title">Sorry, no posts!</h1>
+					<h1 class="entry-title medium-h">Sorry, no posts!</h1>
 				</header><!-- .entry-header -->
 				
 				<div class="entry-summary">

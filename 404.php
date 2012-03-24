@@ -10,7 +10,7 @@ get_header(); ?>
 
 	<article id="post-0" class="post error404 not-found" role="article">
 		<header class="entry-header">
-			<h1 class="entry-title"><?php _e( 'This is somewhat embarrassing, isn&rsquo;t it?', 'themename' ); ?></h1>
+			<h1 class="entry-title big-h"><?php _e( 'This is somewhat embarrassing, isn&rsquo;t it?', 'themename' ); ?></h1>
 		</header>
 
 		<div class="entry-content">

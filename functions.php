@@ -601,15 +601,15 @@ function sr_relart_loop_markup(){
 		$meta_blob = date_format($meta_blob, 'Y');
 		$meta_blob = '<span class="artist-status">'. $meta_blob . '</span>';
 	}
-	$sr_post_class .= ' fourcol';
+	$sr_post_class .= ' fourcol fancy-roll';
 	?>
-	<article id="post-<?php the_ID(); ?>" <?php post_class($sr_post_class); ?> role="article">
-	<a href="<?php the_permalink(); ?>" class="fancy-roll" title="<?php printf( esc_attr__( 'Permalink to %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark">
+	
+	<a href="<?php the_permalink(); ?>" <?php post_class($sr_post_class);?> title="<?php printf( esc_attr__( 'Permalink to %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark">
 		<?php sr_post_thumbnail('sr-art-fourcol' , false, 'null'); ?>
 		<div class="info">
 			<div class="wrap">
 				<header class="entry-header">
-					<?php the_title('<h1 class="entry-title">' , '</h1>');?>
+					<h1 class="entry-title small-h"><?php the_title();?></h1>
 					<?php echo $meta_blob; ?>
 				</header><!-- .entry-header -->
 				<div class="entry-summary">
@@ -623,8 +623,6 @@ function sr_relart_loop_markup(){
 			</div>
 		</div>
 	</a>
-	</article><!-- #post-<?php the_ID(); ?> -->
-
 <?php }
 
 /* END Releases + artists landing page
@@ -688,7 +686,7 @@ function sr_shows_markup(){
 			<div>
 				<header class="entry-header">
 					<time class="show-date"><?php echo $show_meta['date']; ?></time>
-					<h1 class="entry-title">
+					<h1 class="entry-title big-h">
 					<?php if($show_meta['buy_tix']): ?>
 						<a href="<?php echo $show_meta['buy_tix']; ?>" title="Buy Tickets" rel="bookmark">
 						<?php the_title(); ?></a>
@@ -997,7 +995,8 @@ function sr_rels_by_artist($args = array())
 function sr_get_reivews($reviews)
 {	
 	foreach($reviews as $review)
-	{
+	{	
+		sr_truncate($review['review-text'], 250, ' ');
 		if($review['review-link']){
 			$reviewlnk_o = '<a href="' . $review['review-link'] . '" rel="bookmark">';
 			$reviewlnk_c = '</a>';
@@ -1353,16 +1352,16 @@ function sr_media_videos(&$dont_copy)
 					<a href="<?php echo $video['embed'] ?>" class="fancy-roll lightbox fancybox.iframe <?php echo $video['vendor'] ?> fourcol" rel="gallery-media">
 						<img src="<?php echo $video['thumbnail_large']?>" class="<?php echo $video['vendor'] ?>" />
 						<div class="info">
-							<div>
-							<header class="entry-header">
-								<h1 class="entry-title"><?php echo $video['title'] ?></h1>
-							</header>
-							<?php if($video['description'] != '_empty_'):?>
-								<div class="entry-summary">
-									<p><?php echo $video['description'] ?></p>
-								</div>
-							<?php endif; ?>
-							<div class="read-more button button-large">Click to watch</div>
+							<div class="wrap">
+								<header class="entry-header">
+									<h1 class="entry-title small-h"><?php echo $video['title'] ?></h1>
+								</header>
+								<?php if($video['description'] != '_empty_'):?>
+									<div class="entry-summary">
+										<p><?php echo $video['description'] ?></p>
+									</div>
+								<?php endif; ?>
+								<div class="read-more button button-large">Click to watch</div>
 							</div>
 						</div>
 					</a>
@@ -1610,18 +1609,16 @@ function sr_get_images( $args = array() ) {
 			<img class="<?php echo $img_class;?>" src="<?php echo $img_src[0]; ?>" alt="<?php echo $img_alt; ?>" title="<?php echo $img_title; ?>" />
 			<?php if($link == 'self'):?>
 				<div class="info">
-				<?php if ($img_caption != '') : ?>
-					<div class="attachment-caption"><?php echo $img_caption; ?></div>
-				<?php endif; ?>
-				<?php if ($img_description != '') : ?>
-					<div class="attachment-description"><?php echo $img_description; ?></div>
-				<?php endif; ?>
-					<span class="click-prompt zoom">Click to zoom</span>
+					<div class="wrap">
+						<span class="click-prompt zoom">Click to zoom</span>
+					</div>
 				</div>
 				</a>
 			<?php elseif($link == 'parent'): ?>
 				<div class="info">
-					<span class="click-prompt read"><?php echo get_the_title(); ?></span>
+					<div class="wrap">
+						<span class="click-prompt read"><?php echo get_the_title(); ?></span>
+					</div>
 				</div>
 				</a>
 			<?php endif; ?>

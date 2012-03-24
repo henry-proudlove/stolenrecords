@@ -9,12 +9,11 @@ get_header(); ?>
 		<section id="single-release" class="twelvecol">
 		<header class="results-header"><a href="<?php echo get_post_type_archive_link( 'release' ); ?>" class="content-close">All Releases</a></header>
 		<article id="post-<?php the_ID(); ?>" <?php post_class('clearfix nested'); ?> role="article">
-			<div id="release-info" class="sixcol left box-pack">
-				<div>
+			<div id="release-info" class="sixcol left">
 					<header class="entry-header">
 						<?php 
 						// Release title ?>
-						<h1 class="entry-title"><?php the_title(); ?></h1>
+						<h1 class="entry-title medium-h"><?php the_title(); ?></h1>
 						
 						<?php // Artists name
 						sr_get_rels_artist($post->ID);
@@ -44,7 +43,6 @@ get_header(); ?>
 							echo '<a class="button buy-now button-large" href="' . $buy_link . '" title="Buy ' . get_the_title() . '" rel="bookmark">Buy Now</a>';
 						endif;
 					?>
-				</div>
 			</div><!--#release-info-->
 			<div class="entry-gallery sixcol right">
 				<?php sr_post_thumbnail('sr-sixcol' , false, 'null') ?>

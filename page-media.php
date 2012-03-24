@@ -64,7 +64,7 @@ get_header(); ?>
 			}
 		endwhile;?>
 
-		<div id="flickr-images"><header class="reulsts-header"><a href="http://www.flickr.com/photos/stolenrecordings" title="Stolen Records on Flickr" rel="bookmark"><h2 class="section-header twelvecol hidden">Stolen Flickr</h3></a></header><div id="photos"></div></div>
+		<!--<div id="flickr-images"><header class="reulsts-header"><a href="http://www.flickr.com/photos/stolenrecordings" title="Stolen Records on Flickr" rel="bookmark"><h2 class="section-header twelvecol hidden">Stolen Flickr</h3></a></header><div id="photos"></div></div>-->
 	
 	</div><!-- #content -->
 

@@ -29,7 +29,7 @@ if($the_query->have_posts() ):?>
 						array_push($dont_copy, $post->ID);?>
 						<header class="entry-header">
 							<time class="entry-date"><?php echo get_the_date(); ?></time>
-							<?php _sr_post_header(); ?>
+							<?php _sr_post_header('h1' , 'medium-h'); ?>
 						</header><!-- .entry-header -->
 						
 						<div class="entry-summary big-center">
@@ -43,7 +43,7 @@ if($the_query->have_posts() ):?>
 					*/
 					elseif('artist' == get_post_type()): ?>
 						<header class="entry-header">
-							<?php _sr_post_header(); ?>
+							<?php _sr_post_header('h1' , 'medium-h'); ?>
 						</header><!-- .entry-header -->
 						<div class="entry-summary big-center">
 							<?php no_more_excerpt($post->ID); ?>
@@ -55,7 +55,7 @@ if($the_query->have_posts() ):?>
 					*/
 					elseif('release' == get_post_type()): ?>
 						<header class="entry-header">
-							<?php _sr_post_header(); ?>
+							<?php _sr_post_header('h1' , 'medium-h'); ?>
 							<?php sr_get_rels_artist(get_the_ID()); ?>
 						</header><!-- .entry-header -->
 						<div class="entry-summary big-center">
@@ -75,7 +75,7 @@ if($the_query->have_posts() ):?>
 						$show_meta = sr_shows_meta($post->ID); ?>
 						<header class="entry-header">
 							<time class="show-date"><?php echo $show_meta['date']; ?></time>
-							<h1 class="entry-title">
+							<h1 class="entry-title medium-h">
 							<?php if($show_meta['buy_tix']): ?>
 								<a href="<?php echo $show_meta['buy_tix']; ?>" title="Buy Tickets" rel="bookmark">
 								<?php the_title(); ?></a>

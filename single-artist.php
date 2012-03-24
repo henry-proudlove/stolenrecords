@@ -8,9 +8,8 @@ get_header(); ?>
 
 	<div id="content">
 		<article id="post-<?php the_ID(); ?>" <?php post_class('twelvecol'); ?> role="article">
-			<header class="results-header"><a href="<?php echo get_post_type_archive_link( 'artist' ); ?>" class="content-close">All Artists</a></header>
 				<header class="entry-header">
-					<h1 class="entry-title"><?php the_title(); ?></h1>
+					<h1 class="entry-title big-h"><?php the_title(); ?></h1>
 					<?php 
 					$artist = get_the_title();
 					$artist_status = get_post_meta(get_the_ID(),'_sr_present-past',TRUE);
@@ -23,10 +22,12 @@ get_header(); ?>
 						<?php sr_artist_gallery(); ?>
 					</div><!-- .entry-gallery -->
 				</div><!--.slider-wrap-->
-				<div class="entry-content big-center">
-					<?php the_excerpt(); ?>
+				<div id="content-holder">
+					<div class="entry-content big-center expander">
+						<?php the_content(); ?>
+					</div><!-- .entry-content -->
 					<?php sr_social_links(false, false); ?>
-				</div><!-- .entry-content -->
+				</div>
 		</article><!-- #post-<?php the_ID(); ?> -->
 		<?php
 		$artist_term = get_term_by( 'name', $artist, 'artist');

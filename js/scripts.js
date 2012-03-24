@@ -149,7 +149,7 @@ jQuery.fn.gallerySliderInit = function(){
 		$(this).before(slidernav);
 		$(this).cycle({ 
 			fx:     'fade', 
-			speed:  1500,
+			speed:  'slow',
 			timeout: 4000, 
 			pager:  $('.pager', p),
 			next:   $('.next', p),
@@ -240,6 +240,7 @@ jQuery.fn.padSliderHeight = function() {
 
 $.fn.cycle.transitions.fadeOutWaitFadeIn = function($cont, $slides, opts) {
     opts.fxFn = function(curr, next, opts, after) {
+    	//$(next).find('.left').vertCenter();
     	cH = $(curr).height();
 		cW = $(curr).width();
 		cR = cH/cW;
@@ -291,14 +292,28 @@ jQuery.fn.vertCenter = function(){
 		o = $(this);
 		oH = o.height();
 		sH = o.siblings().height();
-		if(oH < sH){
-		 shim = (sH - oH) / 2;
-		 o.css({'margin-top' : shim , 'margin-bottom' : '0'});
+		shim = (sH - oH) / 2;
+		if(shim > 0){
+		 	o.css('margin-top' , shim);
 		}else{
-			o.removeAttr('style');
-		};
-	});
-	
+			o.css('margin-top' , '0');
+		}
+	});	
+}
+
+jQuery.fn.fancyRollCenter = function(){
+	$(this).each(function(){
+		o = $(this);
+		//alert('fuck');
+		oH = o.height();
+		sH = o.parent().height();
+		shim = (sH - oH) / 2;
+		if(shim > 0){
+		 	o.css({'margin-top' : shim});
+		}else{
+			//o.css('margin-top' , '0');
+		}
+	});	
 }
 
 /*jQuery.fn.loadURL = function(){
@@ -402,19 +417,23 @@ $('.lightbox').fancybox({
 		height		: '60%',
 		autoSize	: false,
 		arrows		: true
-	});
+});
 $(document).ready(function() {
 
-	$( "#social-tabs" ).tabs();
+	$("#social-tabs" ).tabs();
 	$("#latest-slider").latestSliderInit();
 	$("#artist-slider").gallerySliderInit();
 	$(".slider").sliderInit();
-	
+	$('.single-release article .left').vertCenter();
+	$(".fancy-roll").hover(function(){
+		$(this).find('.wrap').fancyRollCenter();
+	});	
 	$(window).smartresize(function(){  
 		$(".slider").sliderheight();
 		$('.sc-controls a').scPlayerHeight();
 		$('form[role="search"]').fluidSearchForm();
-		$('.post-type-archive-show .expanded .info, #latest article .left').vertCenter();
+		$('.post-type-archive-show .expanded .info, #latest article .left, .single-release article .left').vertCenter();
+		//$(".fancy-roll .info .wrap").fancyRollCenter();
 	});	
 
 	/*$('.lightbox').fancybox({
@@ -450,6 +469,9 @@ $(document).ready(function() {
 	
 	$('form[role="search"]').fluidSearchForm();
 	
+	$('.expander').expander({
+		slicePoint: 250
+	});
 	
 	/*$('.releases-divider').each(function(){
 			$(this).remove();

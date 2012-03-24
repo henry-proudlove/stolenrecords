@@ -64,7 +64,7 @@ get_header(); ?>
 		endwhile; else: ?>
 		
 			<article id="no-shows" role="article">
-				<header class="entry-header"><h1 class="entry-title">Sorry, no gigs coming up</h1></header>
+				<header class="entry-header"><h1 class="entry-title big-h">Sorry, no gigs coming up</h1></header>
 				<span class="no-shows-msg">Check back soon or <?php get_twitter_link(); ?> for incessant updates </span>
 			</article><!-- #no-shows -->
 			

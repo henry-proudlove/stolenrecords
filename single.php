@@ -13,7 +13,7 @@ get_header(); ?>
 			<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
 				<header class="entry-header">
 					<time class="entry-date"><?php echo get_the_date(); ?></time>
-					<h1 class="entry-title"><?php the_title(); ?></h1>
+					<h1 class="entry-title medium-h"><?php the_title(); ?></h1>
 				</header><!-- .entry-header -->
 	
 				<div class="entry-content">

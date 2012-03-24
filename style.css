@@ -118,7 +118,7 @@ input, select { vertical-align:middle; }
 
 body 
 { 
-font:12px/1.45 StolenBody, Georgia, sans-serif; *font-size:small;
+font:11px/1.45 StolenBody, Georgia, sans-serif; *font-size:small;
 }
 
 select, input, textarea, button 
@@ -167,18 +167,50 @@ aside h1, aside h2, aside h3, aside h4, aside h5, aside h6
 h1
 {
 	font-weight: normal;
-	font-size: 2.5em;
 	line-height: 1em;
 	margin-bottom: 0.2em;
 }
 
-h2
-{
-	font-size: 1.8em;
+.big-h{
+	font-size: 3em;
+}
+
+
+.medium-h{
+	font-size: 2.5em;
+}
+
+.small-h{
+	font-size: 2em;
+}
+
+h2{
+	font-size: 1.3em;
 	line-height: 1.2em;
 	margin-bottom: 0.3em;
 	margin-top: -0.1em;
 }
+
+.big-center{
+	max-width: 95%;
+	text-align: center;
+	font-weight: normal;
+	font-size: 1.15em;
+	margin: 0 auto;
+}
+
+.big-center blockquote{
+display: inline-block;
+}
+.big-center cite{
+display:block;
+}
+
+.big-center p, .big-center blockquote{
+	text-align: center;
+	color: #777;
+}
+
 #access a, .section-header, .aside-header, .widget-title, .button, .results-title
 {
 	font-family: 'StolenSans';
@@ -724,14 +756,15 @@ body
 #page, #branding, body, html
 {
 height:100%;
+min-width: 960px;
 }
 
 #branding
 {
 position:fixed;
 max-width: 225px;
-width: 22.66%;
-min-width: 155px;
+width: 18.75%;
+min-width: 180px;
 }
 
 #main
@@ -786,6 +819,11 @@ width: 46.25%;
 .fourcol
 {
 width: 30%;
+}
+
+.fourcol.fancy-roll
+{
+width: 46.25%;
 }
 
 .twocol
@@ -874,20 +912,7 @@ float:right;
 	clear: both;
 }
 
-
-/* Making nav fluid below 1000px */
-
-@media handheld, only screen and (max-width: 993px)
-{
-
-	#main
-	{
-	margin-left: 22.66%
-	}
-
-}
-
-@media handheld, only screen and (max-width: 693px)
+/*@media handheld, only screen and (max-width: 693px)
 {
 
 	#main
@@ -900,7 +925,7 @@ float:right;
 	margin: 7px;
 	}
 
-}
+}*/
 
 /* Increase the size of the content area for templates without sidebars */
 .full-width #content,
@@ -1755,12 +1780,12 @@ position: relative;
 }
 
 .sc-scrubber .sc-time-span{
-  height: 30px;
+  height: 25px;
   position: relative;
 }
 
 .sc-scrubber .sc-buffer, .sc-scrubber .sc-played{
-  height: 30px;
+  height: 25px;
   position: absolute;
   top: 0;
   width: 0;
@@ -2226,7 +2251,7 @@ background: #e14e49;
 {
 text-transform:none;
 display:block;
-max-height: 4.35em;
+max-height: 4.2em;
 overflow: hidden;
 }
 
@@ -2269,14 +2294,8 @@ overflow: hidden;
 	float: right;
 }
 
-#latest .entry-header {
-	width: 90%;
-	margin: 0 auto;
-}
-
 #latest .entry-summary {
 display: block;
-width: 70%;
 margin: 0 auto;
 padding: 1.45em 0 2.1em 0;
 background: url('images/wiggly-line-dark.png') no-repeat bottom center;
@@ -2541,7 +2560,7 @@ cite{
 	font-style: normal;
 }
 
-.entry-content{
+#content-holder{
 	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
 	padding-bottom: 2em;
 
@@ -2644,12 +2663,14 @@ wp-caption-text{
 .fancy-roll img{
 	display: block;
 	margin: 0 auto;
+	width: 100%;
+	height: auto;
 }
 
 .fancy-roll .info
 {
 	opacity: 0;
-	display:none;
+	/*display:none;*/
 	position: absolute;
 	background: rgba(41,48,52,0.7);
 	width: 100%;
@@ -2661,27 +2682,40 @@ wp-caption-text{
 	-moz-transition: opacity 0.5s; /* Firefox 4 */
 	-webkit-transition: opacity 0.5s; /* Safari and Chrome */
 	-o-transition: opacity 0.5s; /* Opera */
+	overflow: hidden;
 	/* Firefox */
-	display:-moz-box;
+	/*display:-moz-box;
 	-moz-box-orient:horizontal;
 	-moz-box-pack:center;
-	-moz-box-align:center;
+	-moz-box-align:center;*/
 	
 	/* Safari and Chrome */
-	display:-webkit-box;
+	/*display:-webkit-box;
 	-webkit-box-orient:horizontal;
 	-webkit-box-pack:center;
-	-webkit-box-align:center;
+	-webkit-box-align:center;*/
 	
 	/* W3C */
-	display:box;
+	/*display:box;
 	box-orient:horizontal;
 	box-pack:center;
-	box-align:center;
+	box-align:center;*/
+}
+
+/*.fancy-roll .info{
+	opacity: 1;
+	width: 100%;
+	height: 100%;
+}*/
+
+.fancy-roll:hover .info{
+	opacity: 1;
+	width: 100%
+	height: 100%;
 }
 
 .fancy-roll .info > div{
-	margin: 3.4%;
+	margin: 3.4% 3.4% 0 3.4%;
 	text-align: center;
 }
 
@@ -2706,13 +2740,18 @@ wp-caption-text{
 	background-position: center 100%;
 }
 
+/*.fancy-roll .info .entry-header{
+	top: 0;
+	background-position: center 100%;
+}*/
+
 
 .fancy-roll .info .entry-summary p, .fancy-roll time{
 	color: rgba(255, 255, 255, 0.6);
 	/*max-height: 3.5em;
 	overflow-y: hidden;*/
 	display:inline-block;
-	width: 80%;
+	width: 100%;
 	margin-bottom: 0.6em;
 }
 
@@ -2732,7 +2771,8 @@ wp-caption-text{
 }
 
 .fancy-roll .info .read-more{
-	padding-top: 1.8em;
+	padding: 1.8em 0 0.5em;
+	width: 100%;
 	background-position: center top;
 	background: url('images/wiggly-line-light.png') no-repeat top center;
 	position: relative;
@@ -2747,16 +2787,16 @@ wp-caption-text{
 	bottom: 0;
 }
 
+/*.fancy-roll .info .read-more{
+	bottom: 0;
+}*/
+
 .fancy-roll .info .zoom{
 	background: url('images/magnifyer.png') no-repeat top center;
 	padding-top: 26px;
 }
 
-.fancy-roll:hover .info{
-	opacity: 1;
-	width: 100%
-	height: 100%;
-}
+
 
 /*
  *
@@ -2764,12 +2804,11 @@ wp-caption-text{
  *
  */
 
-.single-artist article h1, .page-template-page-about-php article h1, .page-template-page-publishing-php .page h1,.post-type-archive-show article h1, .page-template-default article h1
+/*.single-artist article h1, .page-template-page-about-php article h1, .page-template-page-publishing-php .page h1,.post-type-archive-show article h1, .page-template-default article h1
 {
 	font-size: 4.2em;
 	margin-bottom: 0.2em;
-}
-
+}*/
 .single-artist .artist-status
 {
 	font-size: 1.45em;
@@ -2782,7 +2821,7 @@ wp-caption-text{
 	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
 	padding-bottom: 2em;
 	margin-bottom: 2.5em;
-	margin-top: 2em;
+	/*margin-top: 2em;*/
 }
 
 .single-artist article, .page-template-page-about-php article, .page-template-page-publishing-php .page, .page-template-default .page
@@ -2794,31 +2833,13 @@ wp-caption-text{
 	margin: 1.4% 1.4% 0;
 }
 
-.single-artist .entry-content, .page-template-page-about-php .entry-content {
+.single-artist #content-holder, .page-template-page-about-php #content-holder {
 margin: 0.2em auto;
 padding-bottom: 1.45em;
 }
 
-.big-center{
-	max-width: 70%;
-}
-.big-center{
-	text-align: center;
-	font-weight: normal;
-	font-size: 1.15em;
-	margin: 0 auto;
-}
-
-.big-center blockquote{
-display: inline-block;
-}
-.big-center cite{
-display:block;
-}
-
-.big-center p, .big-center blockquote{
-	text-align: center;
-	color: #777;
+#content-holder .details{
+	padding-bottom: 0.5em;
 }
 
 .entry-content{
@@ -3172,14 +3193,11 @@ font-size: 1em;
 }
 
 .fancy-roll h1{
-	font-size: 2em;
 	max-height: 2em;
-	max-width: 90%;
 	margin: 0 auto;
 	overflow: hidden;
 	margin-top: -0.25em;
 }
-
 .fancy-roll h3{
 	padding: 0.3em 0;
 }
@@ -3323,3 +3341,125 @@ background: transparent;
 }
 
 
+/*
+*
+* MEDIA QUERIES
+*
+*/
+
+/* Making nav fluid below 1200px */
+
+@media screen and (max-width: 1200px)
+{
+
+	#main
+	{
+	margin-left: 18.75%
+	}
+	
+
+}
+
+@media screen and (min-width: 1099px) 
+{
+	.fourcol.fancy-roll{
+		width: 30%;
+	}
+	
+	/*.fancy-roll .info .entry-summary p, .fancy-roll time{
+		width: 80% !important;
+	}*/
+}
+
+@media screen and (min-width: 1100px) and (max-width: 1199px)
+{
+	.fancy-roll .info .entry-summary p, .fancy-roll time{
+		width: 100%;
+	}
+}
+
+@media screen and (min-width: 1200px) and (max-width: 1299px)
+{
+	.fancy-roll .info .entry-summary p, .fancy-roll time{
+		width: 100%;
+	}
+}
+
+
+
+@media screen and (min-width: 1300px) and (max-width: 1399px)
+{	
+	
+	body{ 
+		font:12px/1.45 StolenBody, Georgia, sans-serif; *font-size:small;
+	}
+	
+	.big-h{
+	font-size: 4.2em;
+	}
+	
+	
+	.medium-h{
+		font-size: 3em;
+	}
+	
+	.small-h{
+		font-size: 2em;
+	}
+	
+	h2{
+		font-size: 1.8em;
+	}
+	
+	.big-center{
+		max-width: 70%;
+		text-align: center;
+		font-size: 1.15em;
+	}
+	
+	.fancy-roll .info .entry-summary p, .fancy-roll time{
+		width: 80%;
+	}
+	
+	.img-list li .info p{
+		height: 2.9em;
+	}
+
+}
+
+@media screen and (min-width: 1400px)
+{	
+	
+	body{ 
+		font:12px/1.45 StolenBody, Georgia, sans-serif; *font-size:small;
+	}
+	
+	.big-h{
+	font-size: 4.2em;
+	}
+	
+	
+	.medium-h{
+		font-size: 3.8em;
+	}
+	
+	.small-h{
+		font-size: 2.5em;
+	}
+	
+	h2{
+		font-size: 2em;
+	}
+	
+	.big-center{
+		max-width: 70%;
+		font-size: 1.3em;
+	}
+	
+	.img-list li .info p{
+		height: 2.9em;
+	}
+
+	
+
+}
