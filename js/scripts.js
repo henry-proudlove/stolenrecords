@@ -107,12 +107,12 @@ jQuery.fn.borderScroll = function(currentPos) {
             if(closestArrPos > 0){
             	$articles.eq(closestArrPos -1 ).addClass('invisible');
             }
-            images = $('.expanded .show-slider').children().length;
-            $('post-type-archive-show .expanded .show-slider').showSliderInit();
+            //images = $('.expanded .show-slider').children().length;
+            //$('.post-type-archive-show .expanded .show-slider').showSliderInit();
 			
-			if( images > 0 ){
+			//if( images > 0 ){
 				$('.expanded .info').addClass('box-pack');
-			}
+			//}
         }               
         if (closest != currentBubble) {
             changeSection();
@@ -124,11 +124,13 @@ jQuery.fn.borderScroll = function(currentPos) {
 INITIALISING CYCLE PLUGIN
 */
 
-jQuery.fn.reviewSliderInit = function(){
-	slidernav = '<nav class="slider-nav"><a class="prev">Previous</a><div class="pager"></div><a class="next">Next</a></nav><!--#slider-nav-->';
+slidernav = '<nav class="slider-nav"><a class="prev">Previous</a><div class="pager"></div><a class="next">Next</a></nav><!--#slider-nav-->';
+
+jQuery.fn.sliderInit = function(){
 	$this = $(this[0]);
 	var c = $this.children().length;
-	if(c > 1){
+	p = $this.parent();
+	//if(c > 1){
 		$this.after(slidernav);	
 		$this.cycle({ 
 			fx:     'fade', 
@@ -141,21 +143,21 @@ jQuery.fn.reviewSliderInit = function(){
 			slideResize: false,
 			fit: 1
 		}).data('sliderinit' , true).sliderheight();
-	}else{
+	/*}else{
 		$this.data('sliderinit' , false);
-	}
+	}*/
 };
 
 jQuery.fn.gallerySliderInit = function(){
-	slidernav = '<nav class="slider-nav"><a class="prev">Previous</a><div class="pager"></div><a class="next">Next</a></nav><!--#slider-nav-->';
 	$this = $(this[0]);
 	var c = $this.children().length;
+	var p = $this.parent().parent();
 	if(c > 1){
-		$this.after(slidernav);
-		$this.cycle({ 
+		$(this).before(slidernav);
+		$(this).cycle({ 
 			fx:     'fade', 
-			speed:  'fast',
-			timeout: 0, 
+			speed:  1500,
+			timeout: 4000, 
 			pager:  $('.pager', p),
 			next:   $('.next', p),
 			prev:   $('.prev', p),
@@ -164,11 +166,11 @@ jQuery.fn.gallerySliderInit = function(){
 			fit: 1
 		}).data('sliderinit' , true).padSliderHeight();
 	} else {
-		$this.data('sliderinit' , false);
+		$(this).data('sliderinit' , false);
 	}
 };
 
-jQuery.fn.showSliderInit = function(){
+/*jQuery.fn.showSliderInit = function(){
 	var c = $(this).children().length;
 	if(c > 1){
 		$(this).cycle({ 
@@ -178,37 +180,36 @@ jQuery.fn.showSliderInit = function(){
 			containerResize: false,
 			slideResize: false,
 			fit: 1,
-		}).data('sliderinit' , true).padSliderHeight();
+		}).data('sliderinit' , true).sliderheight();
 	}
-}
+}*/
 
 
 jQuery.fn.latestSliderInit = function(){
-	slidernav = '<nav class="slider-nav"><a class="prev">Previous</a><div class="pager"></div><a class="next">Next</a></nav><!--#slider-nav-->';
 	$this = $(this[0]);
-		var c = $this.children().length;
-		var p = $this.parent().parent();
-		if(c > 1){
-			$(this).before(slidernav);
-			slideimage = $(this).find('.right').children().length;
-			if(slideimage > 0){
-				$(this).find('.left').addClass('box-pack');
-			}
-			$(this).cycle({ 
-				fx:     'fadeOutWaitFadeIn', 
-				speed:  500,
-				delayBetweenFades: 300,
-				timeout: 0, 
-				pager:  $('.pager', p),
-				next:   $('.next', p),
-				prev:   $('.prev', p),
-				containerResize: false,
-				slideResize: false,
-				fit: 1
-			}).data('sliderinit' , true).padSliderHeight();
-		} else {
-			$(this).data('sliderinit' , false);
+	var c = $this.children().length;
+	var p = $this.parent().parent();
+	if(c > 1){
+		$(this).before(slidernav);
+		slideimage = $(this).find('.right').children().length;
+		if(slideimage > 0){
+			$(this).find('.left').addClass('box-pack');
 		}
+		$(this).cycle({ 
+			fx:     'fadeOutWaitFadeIn', 
+			speed:  500,
+			delayBetweenFades: 300,
+			timeout: 0, 
+			pager:  $('.pager', p),
+			next:   $('.next', p),
+			prev:   $('.prev', p),
+			containerResize: false,
+			slideResize: false,
+			fit: 1
+		}).data('sliderinit' , true).padSliderHeight();
+	} else {
+		$(this).data('sliderinit' , false);
+	}
 };
 
 /*
@@ -236,22 +237,12 @@ jQuery.fn.sliderheight = function() {
 
 jQuery.fn.padSliderHeight = function() {
 	if($(this).data('sliderinit') == true){
-		/*$(this).children().each(function(){
-			height = $(this).height();
-			width = $(this).width();
-			ratio = height / width;
-			$(this).data('ratio', ratio);
-		});*/
 		$this = $(this).children().first();
-		/*height = $(this).children().first().height();
-		width = $(this).width();*/
 		ratio = $this.height() / $this.width();
 		$(this)
 			.css({'position' : 'absolute' , 'top' : '0', 'left' : '0', 'width' : '100%'})
-			//.wrap('<div class="slider-wrap"></div>');
 		$(this)
 			.parent('.slider-wrap')
-			//.css('padding-top', ($(this).children().first().data('ratio')* 100) + "%");
 			.css('padding-top', (ratio * 100) + "%");
 	}
 };
@@ -419,10 +410,11 @@ $container.isotope();
 $(document).ready(function() {
 
 	$( "#social-tabs" ).tabs();
-	$("#latest .slider").latestSliderInit();
-	//$(".slider").sliderinit();
+	$("#latest-slider").latestSliderInit();
+	$("#artist-slider").gallerySliderInit();
+	$(".slider").sliderInit();
 	$(window).smartresize(function(){  
-		$(".expanded .show-slider").sliderheight();
+		$(".slider").sliderheight();
 		$('.sc-controls a').scPlayerHeight();
 		$('form[role="search"]').fluidSearchForm();
 	});	

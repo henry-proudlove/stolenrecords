@@ -15,7 +15,7 @@ if($the_query->have_posts() ):?>
 	<section id="latest" class="twelvecol">
 	<h2 class="section-header">Latest</h2>
 	<div class="slider-wrap">
-		<div class="slider"> <?php
+		<div id="latest-slider"> <?php
 			while ( $the_query->have_posts() ) : $the_query->the_post();?>
 			
 			<article id="post-<?php the_ID(); ?>" <?php post_class('nested clearfix'); ?> role="article">		

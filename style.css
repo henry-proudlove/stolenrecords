@@ -1334,6 +1334,10 @@ width: 100% !important;
 	-o-transition: padding 0.5s;
 }
 
+.single-artist .slider-wrap, .post-type-archive-show .slider-wrap{
+	position: relative;
+}
+
 /*
  *
  * Loader
@@ -2151,7 +2155,7 @@ overflow: hidden;
 	border-bottom: 1px solid #d8d8d4;
 	border-bottom: 1px solid rgba(41, 48, 53, 0.2);
 	/*padding-bottom: 0.4em;*/
-	padding: 0 0 1.85em;
+	padding: 0 0 2.3em;
 }
 
 #latest .section-header{

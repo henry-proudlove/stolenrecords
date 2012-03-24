@@ -1707,16 +1707,15 @@ function sr_artist_gallery(){
 //Shows image. Post thumb/flyer if not all artists
 function sr_shows_images($artists )
 {	
+	$artist_count = count($artists);
+	$rand_artist = rand(1, $artist_count);
+	$artist_id = $artists[$rand_artist]['ID'];
 	global $post;
-	echo '<div class="show-slider">';
-	if (has_post_thumbnail()){
-		the_post_thumbnail('sr-show-fivecol');
-	}else{
-		$args = array('size' => 'sr-art-fivecol');
-		$artist_count = count($artists);
-		foreach($artists as $artist)
-		{	
-			$artist_id = $artist['ID'];
+	//echo '<div class="show-slider">';
+		if (has_post_thumbnail()){
+			the_post_thumbnail('sr-show-fivecol');
+		}elseif ($artist_count > 0){
+			//$args = array('size' => 'sr-art-fivecol');
 			if(has_post_thumbnail($artist_id)){
 				echo get_the_post_thumbnail( $artist_id, 'sr-art-fivecol' );
 			}else{
@@ -1730,8 +1729,7 @@ function sr_shows_images($artists )
 				sr_get_images($options);
 			}
 		}
-	}
-	echo '</div><!--.show-slider-->';
+	//echo '</div><!--.show-slider-->';
 }
 /*
 End Image display

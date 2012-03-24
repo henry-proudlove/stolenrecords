@@ -18,9 +18,11 @@ get_header(); ?>
 						echo '<h2 class="artist-status">Past Artist</h2>'; 
 					}?>
 				</header><!-- .entry-header -->
-				<div class="entry-gallery slider">
-					<?php sr_artist_gallery(); ?>
-				</div><!-- .entry-gallery -->
+				<div class="slider-wrap">
+					<div id="artist-slider" class="entry-gallery">
+						<?php sr_artist_gallery(); ?>
+					</div><!-- .entry-gallery -->
+				</div><!--.slider-wrap-->
 				<div class="entry-content big-center">
 					<?php the_excerpt(); ?>
 					<?php sr_social_links(false, false); ?>
