@@ -58,6 +58,6 @@ get_header(); ?>
 				sr_rels_by_artist($args);
 			?>
 		</footer>
-		<?php sr_single_post_navigation(); ?>
+		<?php // sr_single_post_navigation(); ?>
 	</div><!-- #content -->
 <?php get_footer(); ?>

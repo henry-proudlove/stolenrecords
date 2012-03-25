@@ -8,6 +8,7 @@ get_header(); ?>
 
 	<div id="content">
 		<article id="post-<?php the_ID(); ?>" <?php post_class('twelvecol'); ?> role="article">
+		<header class="results-header"><a href="<?php echo get_post_type_archive_link( 'artist' ); ?>" class="content-close">All Artists</a></header>
 				<header class="entry-header">
 					<h1 class="entry-title big-h"><?php the_title(); ?></h1>
 					<?php 
@@ -51,7 +52,7 @@ get_header(); ?>
 			<?php sr_artist_tracks($artist); ?>
 		</footer><!--#artist-asides-->
 		
-		<?php sr_single_post_navigation(); ?>
+		<?php // sr_single_post_navigation(); ?>
 		
 	</div><!-- #content -->
 <?php get_footer(); ?>

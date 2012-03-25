@@ -207,8 +207,11 @@ display:block;
 }
 
 .big-center p, .big-center blockquote{
-	text-align: center;
 	color: #777;
+}
+
+.big-center *{
+	text-align:center !important;
 }
 
 #access a, .section-header, .aside-header, .widget-title, .button, .results-title
@@ -2891,6 +2894,12 @@ wp-caption-text{
 	/*margin-top: 2em;*/
 }
 
+.single-artist article .results-header + .entry-header
+{
+	margin-top: 2em;
+}
+
+
 .single-artist article, .page-template-page-about-php article, .page-template-page-publishing-php .page, .page-template-default .page
 {
 	text-align: center;
@@ -2929,7 +2938,11 @@ padding-bottom: 1.45em;
 	font-size: 2.5em;
 }
 .review blockquote:before{
-	top: -0.35em;
+	top: -0.3em;
+}
+
+.review blockquote:after{
+	bottom: -0.7em;
 }
 
 .review cite{
