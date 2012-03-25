@@ -10,7 +10,6 @@
 			<article id="post-<?php the_ID(); ?>" <?php post_class($video); ?> role="article">
 				<header class="entry-header">
 					<time class="entry-date"><?php echo get_the_date(); ?></time>
-					
 					<? _sr_post_header('h1' , 'medium-h'); ?>
 						<?php sr_post_thumbnail('sr-eightcol' , true, 'parent'); ?>
 				</header><!-- .entry-header -->
@@ -29,6 +28,6 @@
 				<div class="entry-summary">
 					<p>Try the <a title="Home Page Link" rel="bookmark" href="<?php get_home_url(); ?>">home page</a></p>
 				</div><!-- .entry-summary -->
-			</article><!-- #post-<?php the_ID(); ?> -->
 			<div class="divider"></div>
+			</article><!-- #post-<?php the_ID(); ?> -->
 <?php endif; ?>
