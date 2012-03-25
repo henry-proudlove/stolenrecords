@@ -219,7 +219,7 @@ jQuery.fn.sliderheight = function() {
 				}
 			});
 			o.height(maxHeight);
-		});
+		}).resize();
 	}
 };
 
@@ -227,13 +227,15 @@ jQuery.fn.sliderheight = function() {
 
 jQuery.fn.padSliderHeight = function() {
 	if($(this).data('sliderinit') == true){
-		$this = $(this).children().first();
-		ratio = $this.height() / $this.width();
-		$(this)
-			.css({'position' : 'absolute' , 'top' : '0', 'left' : '0', 'width' : '100%'})
-		$(this)
-			.parent('.slider-wrap')
-			.css('padding-top', (ratio * 100) + "%");
+		$(this).imagesLoaded(function(){
+			$this = $(this).children().first();
+			ratio = $this.height() / $this.width();
+			$(this)
+				.css({'position' : 'absolute' , 'top' : '0', 'left' : '0', 'width' : '100%'})
+			$(this)
+				.parent('.slider-wrap')
+				.css('padding-top', (ratio * 100) + "%");
+		});
 	}
 };
 
@@ -288,17 +290,20 @@ RELEASE INFO LATEST POST VERT CENTRED
 */
 
 jQuery.fn.vertCenter = function(){
-	$(this).each(function(){
-		o = $(this);
-		oH = o.height();
-		sH = o.siblings().height();
-		shim = (sH - oH) / 2;
-		if(shim > 0){
-		 	o.css('margin-top' , shim);
-		}else{
-			o.css('margin-top' , '0');
-		}
-	});	
+	$(this).imagesLoaded(function(){
+		 console.log( 'all images has finished with loading, do some stuff...' );
+		$(this).each(function(){
+			o = $(this);
+			oH = o.height();
+			sH = o.siblings().height();
+			shim = (sH - oH) / 2;
+			if(shim > 0){
+				o.css('margin-top' , shim);
+			}else{
+				o.css('margin-top' , '0');
+			}
+		}).resize();
+	});
 }
 
 jQuery.fn.fancyRollCenter = function(){
