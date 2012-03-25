@@ -192,10 +192,10 @@ function sr_excerpt_more($more) {
 add_filter('excerpt_more', 'sr_excerpt_more');
 
 
-function no_more_excerpt($postID){
+function no_more_excerpt($postID, $class = ''){
 	$excerpt = get_the_content($postID);
 	$excerpt = sr_truncate($excerpt, 250, ' ');
-	echo '<p>' . $excerpt . '</p>' ;
+	echo '<p class="' . $class . '">' . $excerpt . '</p>' ;
 }
 
 function sr_excerpt_length($length) {
@@ -1146,12 +1146,13 @@ function sr_release_tracks()
 		$tracks = array_slice($tracks, 0, 7);
 	}
 	if(!empty($tracks)){
-		echo '<aside id="tracks"><h2 class="aside-header">Listen</h2><ul>';
+		echo '<aside id="tracks" class="fourcol"><h2 class="aside-header">Listen</h2>';
+		echo '<div class="sc-player">';
 		foreach ($tracks as $track)
 		{	
-			echo '<li><a href="' . $track . '" class="sample-track">' . $track . '</a></li>';
+			echo '<a href="' . $track . '" class="sample-track">' . $track . '</a>';
 		}
-		echo '</ul></aside><!--#tracks-->';
+		echo '</div></aside><!--#tracks-->';
 	}
 }
 
@@ -1701,7 +1702,7 @@ function sr_artist_gallery(){
 			'wrapper' => false ,
 			'a_rel' => 'gallery-artist'
 	);
-	if(has_post_thumbnail())
+	/*if(has_post_thumbnail())
 	{	
 		$options['include'] = $post_thumb;
 		$post_thumb = get_post_thumbnail_id();
@@ -1711,26 +1712,27 @@ function sr_artist_gallery(){
 		$post_thumb = '';
 	}
 	$options['include'] = '';
-	$options['exclude'] = $post_thumb;
+	$options['exclude'] = $post_thumb;*/
 	sr_get_images($options);
 	wp_reset_query();
 }
 
 //Shows image. Post thumb/flyer if not all artists
-function sr_shows_images($artists )
+function sr_shows_images($artists)
 {	
 	$artist_count = count($artists);
-	$rand_artist = rand(1, $artist_count);
-	$artist_id = $artists[$rand_artist]['ID'];
+	//$rand_artist = rand(1, $artist_count);
+	$artist_id = $artists[0]['ID'];
+	//echo '<p>' . $artist_id . '</p>';
 	global $post;
 	//echo '<div class="show-slider">';
 		if (has_post_thumbnail()){
 			the_post_thumbnail('sr-show-fivecol');
-		}elseif ($artist_count > 0){
+		}else{
 			//$args = array('size' => 'sr-art-fivecol');
-			if(has_post_thumbnail($artist_id)){
+			//if(has_post_thumbnail($artist_id)){
 				echo get_the_post_thumbnail( $artist_id, 'sr-art-fivecol' );
-			}else{
+			/*}else{
 				$options = array(
 					'size' => 'sr-art-fivecol',
 					'wrapper' => false ,
@@ -1739,7 +1741,7 @@ function sr_shows_images($artists )
 					'post_id' => $artist_id
 				);
 				sr_get_images($options);
-			}
+			}*/
 		}
 	//echo '</div><!--.show-slider-->';
 }

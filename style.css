@@ -1501,6 +1501,10 @@ width: 100% !important;
 	-o-transition: padding 0.5s;
 }
 
+#latest .type-show img{
+	margin: 0 auto;
+}
+
 .single-artist .slider-wrap, .post-type-archive-show .slider-wrap{
 	position: relative;
 }
@@ -2490,7 +2494,8 @@ margin-top: -0.3em;
 }
 
 #primary .results-header{
-	margin-bottom: 1.45em;
+	margin-bottom: 2.9em;
+	text-align: left;
 }
 
 #primary article .fancy-roll{
@@ -2512,6 +2517,11 @@ margin: 1em auto 3.2em;
 }
 
 /* Single Post */
+
+#primary #post-0 p{
+	font-size: 1.25em !important	;
+	text-align: center !important;
+}
 
 .single-post .entry-content{
 	font-size: 1.15em;
@@ -2955,6 +2965,10 @@ padding-bottom: 1.45em;
 	background: url('images/wiggly-line-dark.png') no-repeat top center;
 }
 
+.read-less, .read-more{
+	font-size 0.8;
+}
+
 /*
 *
 * Single Release
@@ -3057,7 +3071,7 @@ clear: both;
 /* Single Artist, Release Asides */
 
 #artist-asides, #release-asides{
-	margin-top: 1.45em;
+	margin-top: 2.9em;
 }
 
 /* Single Artist, Release Asides */
@@ -3569,6 +3583,10 @@ background: transparent;
 	
 	.img-list li .info p{
 		height: 2.9em;
+	}
+	
+	.fancy-roll .info .entry-summary p, .fancy-roll time{
+		width: 80%;
 	}
 
 	

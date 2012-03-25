@@ -50,7 +50,7 @@ get_header(); ?>
 							<div class="wrap">
 								<header class="entry-header">
 									<time class="show-date"><?php echo $show_meta['date']; ?></time>
-									<h1 class="entry-title">
+									<h1 class="entry-title small-h">
 									<?php if($show_meta['buy_tix']): ?>
 										<?php the_title(); ?>
 									<?php else: ?>

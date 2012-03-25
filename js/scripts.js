@@ -146,7 +146,8 @@ jQuery.fn.gallerySliderInit = function(){
 	var c = $this.children().length;
 	var p = $this.parent().parent();
 	if(c > 1){
-		$(this).before(slidernav);
+		//$(this).after(slidernav);
+		$(slidernav).insertAfter('.slider-wrap');
 		$(this).cycle({ 
 			fx:     'fade', 
 			speed:  'slow',

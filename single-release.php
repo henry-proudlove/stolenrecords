@@ -22,10 +22,7 @@ get_header(); ?>
 					<div id="entry-content">
 						<div class="slider">
 							<div>
-								<?php 
-									$excerpt = get_the_excerpt();
-									echo '<p class="big-center">' . $excerpt . '</p>';
-								?> 
+								<?php no_more_excerpt($post->ID, 'big-center');?> 
 							</div>
 							<?php
 							global $review_mb;
@@ -39,8 +36,16 @@ get_header(); ?>
 					</div><!--#entry-content-->
 					<?php
 						$buy_link = get_post_meta( $post->ID , '_sr_release-buy-link', true);
-						if ($buy_link):
-							echo '<a class="button buy-now button-large" href="' . $buy_link . '" title="Buy ' . get_the_title() . '" rel="bookmark">Buy Now</a>';
+							if ($buy_link):
+								$curr_date = date('U');
+								$release_date = strtotime($release_date);
+								if ($curr_date <= $release_date)
+								{
+									echo '<a href="'.$buy_now_link .'" class="buy-link preorder button button-large">Preorder now</a>';
+								}else
+								{
+									echo '<a href="'.$buy_now_link .'" class="buy-link buy-now button button-large">Buy Now</a>';
+								}
 						endif;
 					?>
 			</div><!--#release-info-->

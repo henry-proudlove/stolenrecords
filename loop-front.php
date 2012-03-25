@@ -64,7 +64,15 @@ if($the_query->have_posts() ):?>
 						<?php 
 							$buy_link = get_post_meta( $post->ID , '_sr_release-buy-link', true);
 							if ($buy_link):
-								echo '<a class="button buy-now button-large" href="' . $buy_link . '" title="Buy ' . get_the_title() . '" rel="bookmark">Buy Now</a>';
+								$curr_date = date('U');
+								$release_date = strtotime($release_date);
+								if ($curr_date <= $release_date)
+								{
+									echo '<a href="'.$buy_now_link .'" class="buy-link preorder button button-large">Preorder now</a>';
+								}else
+								{
+									echo '<a href="'.$buy_now_link .'" class="buy-link buy-now button button-large">Buy Now</a>';
+								}
 							endif;
 						?>
 					<?php
@@ -115,7 +123,12 @@ if($the_query->have_posts() ):?>
 					</div>
 				</div><!--.left -->
 				<div class="sixcol right">
-					<?php sr_post_thumbnail('sr-sixcol' , true, 'parent');?>
+					<?php 
+					if('show' == get_post_type()): 
+						sr_post_thumbnail('sr-show-fivecol' , true, 'null');
+					else:
+						sr_post_thumbnail('sr-sixcol' , true, 'parent');
+					endif;?>
 				</div><!--.right-->
 		
 			</article><!-- #post-<?php the_ID(); ?> -->
