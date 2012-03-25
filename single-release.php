@@ -7,7 +7,12 @@
 get_header(); ?>
 	<div id="content">
 		<section id="single-release" class="twelvecol">
-		<header class="results-header"><a href="<?php echo get_post_type_archive_link( 'release' ); ?>" class="content-close">All Releases</a></header>
+		<header class="results-header">
+		<?php 
+			$link =  get_post_type_archive_link( 'release' );
+			sr_content_close($link , 'Releases');
+		?>
+		</header>
 		<article id="post-<?php the_ID(); ?>" <?php post_class('clearfix nested'); ?> role="article">
 			<div id="release-info" class="sixcol left">
 					<header class="entry-header">

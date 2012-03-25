@@ -1965,7 +1965,7 @@ return $relative;
 
 function sr_get_news_page_link(){
 	$news_page = get_page_by_title( 'News' );
-	echo '<a href="' . $news_page->guid . '" class="content-close" title="Go back to the news page" rel="Bookmark">Back to The News Page</a>';
+	sr_content_close($news_page->guid, 'News');	
 }
 
 //Tag Cloud
@@ -1980,6 +1980,11 @@ function my_widget_tag_cloud_args( $args ) {
 	return $args;
 }
 
+// Content close
+
+function sr_content_close($link, $title){ ?>
+	<a href="<?php echo $link; ?>" title="All <?php echo $title; ?>" class="content-close" rel="index"><span class="text"><span>All <?php echo $title; ?></span></span><span class="close-icon"></span></a>
+<?php }
 
 //END MISC
 ?>

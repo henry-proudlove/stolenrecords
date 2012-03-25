@@ -8,7 +8,12 @@ get_header(); ?>
 
 	<div id="content">
 		<article id="post-<?php the_ID(); ?>" <?php post_class('twelvecol'); ?> role="article">
-		<header class="results-header"><a href="<?php echo get_post_type_archive_link( 'artist' ); ?>" class="content-close">All Artists</a></header>
+		<header class="results-header">
+		<?php 
+			$link =  get_post_type_archive_link( 'artist' );
+			sr_content_close($link , 'Artists');
+		?>
+		</header>
 				<header class="entry-header">
 					<h1 class="entry-title big-h"><?php the_title(); ?></h1>
 					<?php 
