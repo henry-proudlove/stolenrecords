@@ -506,10 +506,10 @@ $(document).ready(function() {
 	
 	$(".post").fitVids();
 	
-	relLength = $('aside#releases .txt-list *').length;
+	/*relLength = $('aside#releases .txt-list *').length;
 	if(relLength < 1){
 		$('aside#releases').remove();
-	}
+	}*/
 	
 });
 

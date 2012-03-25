@@ -16,7 +16,7 @@ get_header(); ?>
 						<h1 class="entry-title medium-h"><?php the_title(); ?></h1>
 						
 						<?php // Artists name
-						sr_get_rels_artist($post->ID);
+						$artists = sr_get_rels_artist($post->ID);
 						?>
 				</header><!-- .entry-header -->
 					<div id="entry-content">
@@ -54,7 +54,7 @@ get_header(); ?>
 			<?php sr_release_tracks(); ?>
 				<?php sr_release_videos(); ?>
 				<?php
-				$args = array('artist' => $artists, 'exclude' => $post->ID, 'limit' => '4', 'buy_now' => false , 'aside' => 'true' );
+				$args = array('artist' => $artists, 'exclude' => $post->ID, 'limit' => '4', 'buy_now' => false , 'aside' => true );
 				sr_rels_by_artist($args);
 			?>
 		</footer>

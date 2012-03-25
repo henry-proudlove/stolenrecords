@@ -935,6 +935,7 @@ function sr_rels_by_artist($args = array())
 			)
 		)
 	);
+	$rel_query = new WP_query($query_args);
 	$aside = $options['aside'];
 	if($aside == false)
 	{
@@ -943,47 +944,59 @@ function sr_rels_by_artist($args = array())
 		$article_tag_o = '<article class="release twocol">';
 		$article_tag_c = '</article>';
 	}else{
-		$wrapper_o = '<aside id="releases" class="fourcol"><h2 class="aside-header">More Releases</h2><ul class="artist-releases txt-list">';
+		$wrapper_o = '<aside id="releases" class="fourcol"><h2 class="aside-header">More Releases</h2><ul class="artist-releases img-list">';
 		$wrapper_c = '</ul></aside><!--#releases-->';
-		$article_tag_o = '<li class="release red-roll">';
+		$article_tag_o = '<li class="release">';
 		$article_tag_c = '</li>';
 		
 	}
-	$rel_query = new WP_query($query_args);
 	if( have_posts() ):
 		echo $wrapper_o;
 		while ($rel_query->have_posts() ): $rel_query->the_post(); ?>
 				<?php echo $article_tag_o;?>
 				<?php $rel_id = get_the_ID(); ?>
-				<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'View %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark">
+				<a href="<?php the_permalink(); ?>" <?php if($aside == true){echo 'class="red-roll "'; }?>  title="<?php printf( esc_attr__( 'View %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark">
 				<div class="img-holder">
 					<?php sr_post_thumbnail($options['thumb_size'] , false, 'null');?>
 				</div>
-				<h3 class="entry-title <?php echo $class; ?> "><?php the_title(); ?></h3> <?php
-				$release_date = get_post_meta( $rel_id , '_sr_release-date', true);
-				
-				if ($release_date)
-				{	
-					$release_date = date_create($release_date);
-					$release_date = date_format($release_date, 'Y');
-					echo '<time class="release-date">' . $release_date . '</time>';
-				}?>
-				</a>
-				<?php
-				$buy_now_link = get_post_meta ( $rel_id , '_sr_release-buy-link' , true);
-				
-				if ($buy_now_link && $options['buy_now'])
-				{
-					$curr_date = date('U');
-					$release_date = strtotime($release_date);
-					if ($curr_date <= $release_date)
+				<?php if($aside == true): ?>
+				<div class="info">
+				<?php endif; ?>
+					<h3 class="entry-title <?php echo $class; ?> "><?php the_title(); ?> <?php
+					$release_date = get_post_meta( $rel_id , '_sr_release-date', true);
+					
+					if ($release_date)
+					{	
+						$release_date = date_create($release_date);
+						$release_date = date_format($release_date, 'Y');
+						echo '<time class="release-date faint">' . $release_date . '</time>';
+					}?>
+					</h3>
+					<?php if($aside == true):?>
+						<p class="faint">
+						<?php
+						$excerpt = get_the_content();
+						$excerpt = sr_truncate($excerpt, 75, ' ');
+						echo $excerpt; ?>
+						</p>
+					</div><!--.info-->
+					<?php endif; ?>
+					</a>
+					<?php
+					$buy_now_link = get_post_meta ( $rel_id , '_sr_release-buy-link' , true);
+					
+					if ($buy_now_link && $options['buy_now'])
 					{
-						echo '<a href="'.$buy_now_link .'" class="buy-link preorder button button-small">Preorder now</a>';
-					}else
-					{
-						echo '<a href="'.$buy_now_link .'" class="buy-link buy-now button button-small">Buy Now</a>';
-					}
-				}?>
+						$curr_date = date('U');
+						$release_date = strtotime($release_date);
+						if ($curr_date <= $release_date)
+						{
+							echo '<a href="'.$buy_now_link .'" class="buy-link preorder button button-small">Preorder now</a>';
+						}else
+						{
+							echo '<a href="'.$buy_now_link .'" class="buy-link buy-now button button-small">Buy Now</a>';
+						}
+					}?>
 			<?php echo $article_tag_c; ?>
 		<?php endwhile; 
 		echo $wrapper_c;
@@ -1180,7 +1193,7 @@ function sr_get_rels_artist($postID){
 		<span class"entry-artist">Various Artists</span>
 	<?php endif; //wp_reset_query();
 	echo '</h2>';
-	
+	return $artists;
 }
 
 /* END Asides
