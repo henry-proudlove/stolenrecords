@@ -196,7 +196,7 @@ jQuery.fn.latestSliderInit = function(){
 			containerResize: false,
 			slideResize: false,
 			fit: 1
-		}).data('sliderinit' , true).imagesLoaded( padSliderHeight );
+		}).data('sliderinit' , true).padSliderHeight();
 	} else {
 		$(this).data('sliderinit' , false);
 	}
