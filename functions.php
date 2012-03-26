@@ -422,6 +422,7 @@ if ( function_exists( 'add_image_size' ) ) {
 	add_image_size( 'sr-fivecol', 487, 650, false );
 	add_image_size( 'sr-art-fivecol', 487, 487, true );
 	add_image_size( 'sr-fourcol', 384, 288, true );
+	add_image_size( 'sr-media-fourcol', 384, 544, false );
 	add_image_size( 'sr-art-fourcol', 384, 384, true );
 	add_image_size( 'sr-show-fourcol', 384, 543, true );
 	add_image_size( 'sr-show-fivecol', 487, 688, true );
@@ -1249,7 +1250,7 @@ function sr_get_videos($videos){
 		{
 			$video_id = substr($video_link , 17);
 			$videos[$i]['id'] = $video_id;
-			$videos[$i]['endpoint'] = 'http://vimeo.com/api/v2/video/' . $video_id  . '/videos.xml';
+			$videos[$i]['endpoint'] = 'http://vimeo.com/api/v2/video/' . $video_id  . '.xml';
 			$videos[$i]['vendor'] = 'vimeo';
 			$videos[$i]['embed'] = 'http://player.vimeo.com/video/' . $video_id . '?autoplay=1';
 			$videos[$i]['is_valid'] = 'true';
@@ -1298,33 +1299,30 @@ function sr_get_videos($videos){
 	for($i = 0; $i < $videos_count; $i++)
 	{	
 		$vid_data = simplexml_load_string(curl_multi_getcontent  ( $curl_arr[$i]  ));
-		if( strlen($vid_data->title) > 0){ 
-			if($videos[$i]['vendor'] == 'vimeo')
-			{
-				$vid_data = $vid_data->video;
-				$videos[$i]['title'] = (string) $vid_data->title;
-				$videos[$i]['thumbnail_large'] = (string) $vid_data->thumbnail_large;
-				$videos[$i]['thumbnail_small'] = (string) $vid_data->thumbnail_small;
-				if(strlen($vid_data->description) > 0){
-					$videos[$i]['description'] = (string) strip_tags($vid_data->description);
-					$videos[$i]['description'] = sr_truncate($videos[$i]['description'], 250, ' ');
-				}else{
-					$videos[$i]['description'] = '_empty_';
-				}
-			}elseif($videos[$i]['vendor'] == 'youtube')
-			{
-				$videos[$i]['title'] = (string) $vid_data->title;
-				$videos[$i]['thumbnail_large'] = (string) 'http://img.youtube.com/vi/'. $videos[$i]['id'] .'/0.jpg';
-				$videos[$i]['thumbnail_small'] = (string) 'http://img.youtube.com/vi/'. $videos[$i]['id'] .'/1.jpg';
-				if(strlen($vid_data->content) > 0){
-					$videos[$i]['description'] = (string) strip_tags($vid_data->content);
-					$videos[$i]['description'] = sr_truncate($videos[$i]['description'], 100, ' ');
-				}else{
-					$videos[$i]['description'] = '_empty_';
-				}
+		//print_r($vid_data);
+		if($videos[$i]['vendor'] == 'vimeo')
+		{
+			$vid_data = $vid_data->video;
+			$videos[$i]['title'] = (string) $vid_data->title;
+			$videos[$i]['thumbnail_large'] = (string) $vid_data->thumbnail_large;
+			$videos[$i]['thumbnail_small'] = (string) $vid_data->thumbnail_small;
+			if(strlen($vid_data->description) > 0){
+				$videos[$i]['description'] = (string) strip_tags($vid_data->description);
+				$videos[$i]['description'] = sr_truncate($videos[$i]['description'], 100, ' ');
+			}else{
+				$videos[$i]['description'] = '_empty_';
 			}
-		}else{
-			$videos[$i]['is_valid'] = 'false';
+		}elseif($videos[$i]['vendor'] == 'youtube')
+		{
+			$videos[$i]['title'] = (string) $vid_data->title;
+			$videos[$i]['thumbnail_large'] = (string) 'http://img.youtube.com/vi/'. $videos[$i]['id'] .'/0.jpg';
+			$videos[$i]['thumbnail_small'] = (string) 'http://img.youtube.com/vi/'. $videos[$i]['id'] .'/1.jpg';
+			if(strlen($vid_data->content) > 0){
+				$videos[$i]['description'] = (string) strip_tags($vid_data->content);
+				$videos[$i]['description'] = sr_truncate($videos[$i]['description'], 100, ' ');
+			}else{
+				$videos[$i]['description'] = '_empty_';
+			}
 		}
 	}
 	return $videos;
@@ -1338,11 +1336,11 @@ function sr_get_videos($videos){
 Media Page videos
 */
 
-function sr_media_videos(&$dont_copy)
+function sr_media_videos(&$dont_copy , $artist)
 {
 	global $post;
 	global $video_mb;
-
+	//echo $artist;
 	$meta = $video_mb->the_meta();
 	if($meta['videos'])
 	{	
@@ -1359,11 +1357,12 @@ function sr_media_videos(&$dont_copy)
 			}
 		}
 		$videos = sr_get_videos($videos);
+		//print_r($videos);
 		foreach($videos as $video)
 		{
 			if($video['is_valid'] == 'true')
 			{?>
-					<a href="<?php echo $video['embed'] ?>" class="fancy-roll lightbox fancybox.iframe <?php echo $video['vendor'] ?> fourcol" rel="gallery-media">
+					<a href="<?php echo $video['embed'] ?>" class="fancy-roll fourcol lightbox fancybox.iframe <?php echo $video['vendor'] . ' ' . $artist; ?>" rel="gallery-media">
 						<img src="<?php echo $video['thumbnail_large']?>" class="<?php echo $video['vendor'] ?>" />
 						<div class="info">
 							<div class="wrap">
@@ -1985,6 +1984,23 @@ function my_widget_tag_cloud_args( $args ) {
 function sr_content_close($link, $title){ ?>
 	<a href="<?php echo $link; ?>" title="All <?php echo $title; ?>" class="content-close" rel="index"><span class="text"><span>All <?php echo $title; ?></span></span><span class="close-icon"></span></a>
 <?php }
+
+// String to CSS class name
+
+function sr_make_class($string){
+	//$string = "This is the string to be made SEO friendly!" 
+
+	$class = preg_replace('/\%/',' percentage',$string); 
+	$class = preg_replace('/\@/',' at ',$class); 
+	$class = preg_replace('/\&/',' and ',$class); 
+	$class = preg_replace('/\s[\s]+/','-',$class);    // Strip off multiple spaces 
+	$class = preg_replace('/[\s\W]+/','-',$class);    // Strip off spaces and non-alpha-numeric 
+	$class = preg_replace('/^[\-]+/','',$class); // Strip off the starting hyphens 
+	$class = preg_replace('/[\-]+$/','',$class); // // Strip off the ending hyphens 
+	$class = strtolower($class); 
+	
+	return $class; 
+}
 
 //END MISC
 ?>

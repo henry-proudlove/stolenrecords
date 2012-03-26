@@ -73,6 +73,4 @@
 			<?php sr_global_nav(); ?>
 			<?php sr_social_links(true, true); ?>
 		</header><!-- #branding -->
-	
-	
 		<div id="main" class="clearfix">

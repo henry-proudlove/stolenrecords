@@ -290,6 +290,10 @@ jQuery.fn.fluidSearchForm = function(){
 RELEASE INFO LATEST POST VERT CENTRED
 */
 
+/*
+ISOTOPE
+*/
+
 jQuery.fn.vertCenter = function(){
 	$(this).imagesLoaded(function(){
 		 console.log( 'all images has finished with loading, do some stuff...' );
@@ -375,17 +379,6 @@ function setupGallery(videos) {
 	$('#latest-videos ul').append(link);
 }
 
-/*
-GET FLICKR FOR MEDIA PAGE 
-*/
-
-$.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?id=8546357@N03&lang=en-us&format=json&jsoncallback=?", function(data){
-  $.each(data.items, function(i,item){
-    $("<img/>").attr("src", item.media.m).appendTo("#flickr-images #photos")
-      .wrap("<div class='flickr-photo'><a href='" + item.link + "'></a></div>");
-      if ( i == 10 ) return false;
-  });
-});
 
 jQuery.fn.scPlayerHeight = function(){
 	o = $(this[0]);
@@ -402,15 +395,6 @@ jQuery.fn.scPlayerHeight = function(){
 		"background-position-y" : "40%"
 	});
 }
-
-/*
-ISOTOPE
-*/
-
-var $container = $('#flickr-images #photos')
-$container.isotope({
-	  itemSelector : '.flickr-photo',
-});
 
 
 /*$(function(){
@@ -519,5 +503,35 @@ $(document).ready(function() {
 		$('aside#releases').remove();
 	}
 	
+	/*$('.page-template-page-media-php #content').imagesLoaded(function(){
+	var $container = $(this);
+		$container.isotope({
+			  itemSelector : '.fancy-roll',
+		});
+	});*/
+	
+		
+	/*
+	GET FLICKR FOR MEDIA PAGE 
+	*/
+	$.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?id=8546357@N03&lang=en-us&format=json&jsoncallback=?", function(data){
+	var newelems = '';
+	$.each(data.items, function(i,item){
+		newelems += '<a class="fancy-roll fourcol flickr" href="' + item.link + '">';
+		newelems += '<img src="' +  item.media.m + '" />';
+		newelems += '</a>';
+		if ( i == 20 ) return false;
+	});
+	$newelems = $(newelems);
+	$('.page-template-page-media-php #content').append( $newelems );
+	//.isotope( 'addItems', $newelems );
+	//$('.page-template-page-media-php #content').isotope( 'insert', $newelems );
+	$('.page-template-page-media-php #content').imagesLoaded(function(){
+		var $container = $(this);
+			$container.isotope({
+				  itemSelector : '.fancy-roll',
+			});
+		});
+	});
+	
 });
-

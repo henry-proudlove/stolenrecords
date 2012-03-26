@@ -801,9 +801,9 @@ min-width: 180px;
 #main
 {
 margin-left: 225px;
-height:100%;
 max-width: 1300px;
 min-width: 535px;
+height: 100%:
 }
 
 #content
@@ -3319,12 +3319,6 @@ font-size: 1em;
 	margin-top: -1em;
 }
 
-/*
- *
- * Media Page
- *
- */
-
 /*.page-template-page-media-php .entry-title{
 	max-height: 1em;
 	overflow: hidden;
@@ -3361,8 +3355,27 @@ font-size: 1em;
 
 .flickr-photo{
 	float: left;
-	margin: 1.4%;
+	margin: 18px;
 }
+
+/*
+ *
+ * Media Page
+ *
+ */
+ 
+.page-template-page-media-php #content, .page-template-page-media-php #main{
+	max-width: none;
+	width: auto;
+}
+
+.page-template-page-media-php .fourcol.fancy-roll{
+	width: 384px;
+	margin: 18px;
+}
+
+
+
 
 /*
  *
@@ -3501,6 +3514,29 @@ background: transparent;
 
 /*
 *
+*
+* 404
+*
+*/
+.error404 #content, .error404 #main{
+	max-width: none;
+	width: auto;
+}
+
+.error404 #content{
+	margin: 0;
+}
+
+.error404 .entry-title{
+	font-size: 28em;
+	text-align: center;
+	font-weight: bold;
+	margin-bottom: 0.05em;
+	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
+}
+
+/*
+*
 * MEDIA QUERIES
 *
 */
@@ -3513,6 +3549,10 @@ background: transparent;
 	#main
 	{
 	margin-left: 18.75%
+	}
+	.page-template-page-media-php .fourcol.fancy-roll{
+	width: 280px;
+	margin: 18px;
 	}
 	
 
@@ -3527,6 +3567,7 @@ background: transparent;
 	/*.fancy-roll .info .entry-summary p, .fancy-roll time{
 		width: 80% !important;
 	}*/
+	
 }
 
 @media screen and (min-width: 1100px) and (max-width: 1199px)
@@ -3534,6 +3575,7 @@ background: transparent;
 	.fancy-roll .info .entry-summary p, .fancy-roll time{
 		width: 100%;
 	}
+	
 }
 
 @media screen and (min-width: 1200px) and (max-width: 1299px)
@@ -3621,7 +3663,4 @@ background: transparent;
 	.fancy-roll .info .entry-summary p, .fancy-roll time{
 		width: 80%;
 	}
-
-	
-
 }
