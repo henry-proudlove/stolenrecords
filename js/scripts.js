@@ -379,13 +379,13 @@ function setupGallery(videos) {
 GET FLICKR FOR MEDIA PAGE 
 */
 
-/*$.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?id=8546357@N03&lang=en-us&format=json&jsoncallback=?", function(data){
+$.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?id=8546357@N03&lang=en-us&format=json&jsoncallback=?", function(data){
   $.each(data.items, function(i,item){
     $("<img/>").attr("src", item.media.m).appendTo("#flickr-images #photos")
       .wrap("<div class='flickr-photo'><a href='" + item.link + "'></a></div>");
       if ( i == 10 ) return false;
   });
-});*/
+});
 
 jQuery.fn.scPlayerHeight = function(){
 	o = $(this[0]);
@@ -408,7 +408,9 @@ ISOTOPE
 */
 
 var $container = $('#flickr-images #photos')
-$container.isotope();
+$container.isotope({
+	  itemSelector : '.flickr-photo',
+});
 
 
 /*$(function(){
