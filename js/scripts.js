@@ -286,6 +286,24 @@ jQuery.fn.fluidSearchForm = function(){
 	}
 };
 
+
+/*
+FILTERING 
+*/
+
+jQuery.fn.filteritems = function(selector){
+	//hiddenElems = $('.filter-hidden').filter(selector);
+	//elemstoShow = $(this).filter(selector);
+	elemstoHide = $(this).not(selector);
+	console.log(elemstoHide.length);
+	//hiddenElems.removeClass('filter-hidden').addClass('filter-anim' , function(){
+		elemstoHide.fadeOut('fast', function(){
+			elemstoHide.addClass('filter-hidden');
+		});
+	//});
+}
+
+
 /*
 RELEASE INFO LATEST POST VERT CENTRED
 */
@@ -532,6 +550,13 @@ $(document).ready(function() {
 				  itemSelector : '.fancy-roll',
 			});
 		});
+	});
+	
+	$('.filter a').click(function(){
+	  var selector = $(this).attr('data-filter');
+	  $('.post-type-archive-release #content').filteritems(selector);
+	  console.log(selector);
+	  return false;
 	});
 	
 });

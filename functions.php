@@ -585,8 +585,9 @@ MARKUP
 Releases + artists landing page
 */
 
-function sr_relart_loop_markup(){
+function sr_relart_loop_markup(&$artists = array()){
 	global $post;
+	$sr_post_class = '';
 	if('artist' == get_post_type()){
 		$sr_post_class = get_post_meta(get_the_ID(),'_sr_present-past',TRUE);
 		if ($sr_post_class == 'past'){
@@ -596,7 +597,15 @@ function sr_relart_loop_markup(){
 			$meta_blob = null;
 		}
 	}else{
-		$sr_post_class = null;
+		$artist_tax = get_the_terms( $post->ID, 'artist' );
+		foreach($artist_tax as $artist){
+			$artist = array('title' => $artist->name , 'class' => $artist->slug);
+			$sr_post_class .= $artist['class'] . ' ';
+			if(!in_array($artist , $artists)){
+				array_push($artists, $artist);	
+			}
+		}
+		//$sr_post_class = $artists;
 		$meta_blob = get_post_meta( $rel_id , '_sr_release-date', true);
 		$meta_blob = date_create($meta_blob);
 		$meta_blob = date_format($meta_blob, 'Y');

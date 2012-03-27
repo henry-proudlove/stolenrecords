@@ -3511,6 +3511,27 @@ bottom: 1.4em;
 background: transparent;
 }
 
+/*
+*
+* Flitering
+*
+*/
+
+.filter{
+	/*transition: opacity 0.2s;
+	-moz-transition: opacity 0.2s;
+	-webkit-transition: opacity 0.2s;
+	-o-transition: opacity 0.2s;*/
+}
+
+.filter-anim{
+	opacity: 0;
+	width: 100px;
+	height: 100px;
+}
+.filter-hidden{
+	display: none;
+}
 
 /*
 *
