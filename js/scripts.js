@@ -292,15 +292,26 @@ FILTERING
 */
 
 jQuery.fn.filteritems = function(selector){
-	//hiddenElems = $('.filter-hidden').filter(selector);
-	//elemstoShow = $(this).filter(selector);
+	if(selector == '*'){
+		//$(this).removeClass('filter-hidden').addClass('filter-show');
+		$(this).each(function(){
+			$(this).fadeIn('fast');
+		});
+	}else{
+	
+	hiddenElems = $(this).filter(selector + ':hidden');
+	elemstoShow = $(this).filter(selector);
 	elemstoHide = $(this).not(selector);
 	console.log(elemstoHide.length);
-	//hiddenElems.removeClass('filter-hidden').addClass('filter-anim' , function(){
-		elemstoHide.fadeOut('fast', function(){
-			elemstoHide.addClass('filter-hidden');
-		});
+	console.log(elemstoShow.length);
+	//hiddenElems.removeClass('filter-hidden').addClass('filter-show' );, function(){
+	/*elemstoHide.removeClass('filter-show').addClass('filter-hidden');
+	hiddenElems.removeClass('filter-hidden').addClass('filter-show');*/
+	elemstoHide.fadeOut('slow' , function(){
+		hiddenElems.fadeIn('fast');
+	});
 	//});
+	}
 }
 
 
@@ -438,13 +449,6 @@ $(document).ready(function() {
 	$(".fancy-roll").hover(function(){
 		$(this).find('.wrap').fancyRollCenter();
 	});	
-	$(window).smartresize(function(){  
-		$(".slider").sliderheight();
-		$('.sc-controls a').scPlayerHeight();
-		$('form[role="search"]').fluidSearchForm();
-		$('.post-type-archive-show .expanded .info, #latest article .left, .single-release article .left').vertCenter();
-		//$(".fancy-roll .info .wrap").fancyRollCenter();
-	});	
 
 	/*$('.lightbox').fancybox({
 		fitToView	: false,
@@ -520,14 +524,6 @@ $(document).ready(function() {
 	if(relLength < 1){
 		$('aside#releases').remove();
 	}
-	
-	/*$('.page-template-page-media-php #content').imagesLoaded(function(){
-	var $container = $(this);
-		$container.isotope({
-			  itemSelector : '.fancy-roll',
-		});
-	});*/
-	
 		
 	/*
 	GET FLICKR FOR MEDIA PAGE 
@@ -541,10 +537,8 @@ $(document).ready(function() {
 		if ( i == 20 ) return false;
 	});
 	$newelems = $(newelems);
-	$('.page-template-page-media-php #content').append( $newelems );
-	//.isotope( 'addItems', $newelems );
-	//$('.page-template-page-media-php #content').isotope( 'insert', $newelems );
-	$('.page-template-page-media-php #content').imagesLoaded(function(){
+	$('.page-template-page-media-php #isotope-wrap').append( $newelems );
+	$('#isotope-wrap').imagesLoaded(function(){
 		var $container = $(this);
 			$container.isotope({
 				  itemSelector : '.fancy-roll',
@@ -552,11 +546,32 @@ $(document).ready(function() {
 		});
 	});
 	
-	$('.filter a').click(function(){
-	  var selector = $(this).attr('data-filter');
-	  $('.post-type-archive-release #content').filteritems(selector);
-	  console.log(selector);
-	  return false;
+	$container = $('.post-type-archive-release #isotope-wrap');
+	$container.isotope({
+		itemSelector : '.fancy-roll',
 	});
+	
+	var isotopeFilter = '<div class="isotope-filter"><header class="filter-header"><h1 class="filter-title">Filter<h1></header><ul class="artist-list"><li class="filter-item artist"><a href="#" data-filter="*">Everything</a></li>' + filterString + '</ul></div><!--.isotope-filter-->';
+	
+	$('.post-type-archive-release #content, .page-template-page-media-php #content').prepend(isotopeFilter);
+	
+	$('.isotope-filter a').click(function(){
+		$(this).parents('.isotope-filter').find('.selected').removeClass('selected');
+		$(this).addClass('selected');
+		var selector = $(this).attr('data-filter');
+		$container = $('#isotope-wrap');
+		$container.isotope({
+			filter: selector,
+			itemSelector : '.fancy-roll',
+		});
+		return false;
+	});
+	
+	$(window).smartresize(function(){  
+		$(".slider").sliderheight();
+		$('.sc-controls a').scPlayerHeight();
+		$('form[role="search"]').fluidSearchForm();
+		$('.post-type-archive-show .expanded .info, #latest article .left, .single-release article .left').vertCenter();
+	});	
 	
 });
