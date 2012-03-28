@@ -522,25 +522,66 @@ $(document).ready(function() {
 		itemSelector : '.fancy-roll',
 	});
 	
-	var isotopeFilter = '<div class="isotope-filter twelvecol"><header class="filter-header"><h1 class="filter-title"><span class="arrow-icon"></span>Filter</h1></header><ul class="filter-list"><li class="filter-item artist"><a href="#" data-filter="*">Everything</a></li>' + filterString + '</ul></div><!--.isotope-filter-->';
+	var isotopeFilter = '<div class="isotope-filter"><header class="filter-header collapse"><h1 class="filter-title"><span class="arrow-icon"></span>Filter</h1></header><nav class="filters"><ul class="artist-list filter-list"><li class="filter-item artist"><a href="#" data-filter="*" class="selected">All Artists</a></li>' + filterString + '</ul></nav></div><!--.isotope-filter-->';
 	
 	$('.post-type-archive-release #content, .page-template-page-media-php #content').prepend(isotopeFilter);
 	
-	$('.isotope-filter a').click(function(){
-		$(this).parents('.isotope-filter').find('.selected').removeClass('selected');
+	$('.isotope-filter .filter-header').click(function(){
+		if($(this).hasClass('collapse')){
+			$(this).removeClass('collapse');
+		}else{
+			$(this).addClass('collapse');
+		}
+		return false;
+	});
+	
+	$('.post-type-archive-release .filter-list a').click(function(){
+		$(this).parents('.filter-list').find('.selected').removeClass('selected');
 		$(this).addClass('selected');
 		var selector = $(this).attr('data-filter');
-		$container = $('#isotope-wrap');
-		$container.isotope({
+		$('#isotope-wrap').isotope({
 			filter: selector,
 			itemSelector : '.fancy-roll',
 		});
 		return false;
 	});
-
-	filtercount = $('.isotope-filter ul').length
-	filtermodulus = filtercount % 3;
-	alert(filtermodulus);
+	
+	$('.page-template-page-media-php .filter-list a').click(function(){
+	
+		$sib = $(this).parents('.filter-list').siblings();
+		$sibselected = $sib.find('.selected')
+		sibselect = $sibselected.attr('data-filter');
+		var selector = $(this).attr('data-filter');
+		$selected = $(this).parents('.filter-list').find('.selected');
+		
+		if(selector == '.flickr' || sibselect == '.flickr'){
+			$sibselected.removeClass('selected');
+			$sib.find('a[data-filter="*"]').addClass('selected');
+			$selected.removeClass('selected');
+			$(this).addClass('selected');
+			
+		}else if(selector == sibselect) {
+			$selected.removeClass('selected');
+			$(this).addClass('selected');
+		}else{
+			selector += sibselect;
+			$selected.removeClass('selected');
+			$(this).addClass('selected');
+		}
+		$('#isotope-wrap').isotope({
+			filter: selector,
+			itemSelector : '.fancy-roll',
+		});
+		return false;
+	});
+	
+	$filters = $('.post-type-archive-release .isotope-filter li');
+	filtercount = $filters.length;
+	filtermodulus = filtercount % 4;
+	start = filtercount - filtermodulus;
+	end = filtercount;
+	$filters.slice(start, end).addClass('filter-no-border');
+	console.log(filtermodulus);
 	
 	
 	$(window).smartresize(function(){  
@@ -548,6 +589,9 @@ $(document).ready(function() {
 		$('.sc-controls a').scPlayerHeight();
 		$('form[role="search"]').fluidSearchForm();
 		$('.post-type-archive-show .expanded .info, #latest article .left, .single-release article .left').vertCenter();
+	filtercount = $('.post-type-archive-release .isotope-filter li').length
+	filtermodulus = filtercount % 4;
+	console.log(filtermodulus);
 	});	
 	
 });

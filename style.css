@@ -783,11 +783,14 @@ body
  * Structure
  *
  */
+ 
+body{
+	min-width: 960px;
+}
 
 #page, #branding, body, html
 {
 height:100%;
-min-width: 960px;
 }
 
 #branding
@@ -3364,10 +3367,10 @@ font-size: 1em;
  *
  */
  
-.page-template-page-media-php #content, .page-template-page-media-php #main{
+/*.page-template-page-media-php #content, .page-template-page-media-php #main{
 	max-width: none;
 	width: auto;
-}
+}*/
 
 .page-template-page-media-php .fourcol.fancy-roll{
 	width: 384px;
@@ -3533,10 +3536,21 @@ background: transparent;
 *
 */
 
+.isotope-filter{
+	margin: 18px;
+	position: relative;
+}
+
 .filters{
 	background: white;
 	/*padding-bottom: 0.65em;*/
 }
+
+.filter-header{
+	position: relative;
+	overflow: hidden;
+}
+
 .filter-title{
 	background-color: #e14e49;
 	font-family: 'StolenSans';
@@ -3546,15 +3560,24 @@ background: transparent;
 	color: white;
 	padding: 0.65em 1.5%;
 	margin-bottom: 0;
+	transition: background-color 0.3s;
+	-webkit-transition: background-color 0.3s;
+	-moz-transition: background-color 0.3s;
+	-o-transition: background-color 0.3s;
+}
+
+.filter-title:hover{
+	background-color: #293034;
+	cursor: pointer;
 }
 
 .filter-title span{
 	background: url('images/sprite.png');
 	width: 14px;
-	margin-right: 0.3em;
+	margin-right: 0.5em;
 	height: 9px;
 	display: inline-block;
-	background-position: -164px 0;
+	background-position: -178px 0;
 }
 
 .isotope-filter ul{
@@ -3573,20 +3596,46 @@ background: transparent;
 	-webkit-transition: color 0.3s;
 	-o-transition: color 0.3s;
 	-moz-transition: color 0.3s;
-	
+	width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;		
 }
 
 .isotope-filter li {
 	margin: 0 1.5%;
 	display: inline-block;
-	width: 30%;
+	width: 22%;
 	border-bottom: 1px solid #ddd;
-	
+	overflow-x:hidden;
+	text-overflow: ellipsis;
 }
 
 .isotope-filter a:hover, .isotope-filter a.selected {
-	color: #e14e49;
-	
+	color: #e14e49;	
+}
+
+.media-list li{
+	border:none;
+}
+
+.filter-no-border{
+	border: none !important;
+}
+
+.filter-header + nav {
+	height: 100%;
+	transition: height 0.5s;
+	position: relative;
+}
+
+.filter-header.collapse + nav {
+	height: 0;
+	overflow: hidden;
+}
+
+.filter-header.collapse .filter-title span{
+	background-position: -164px 0;
 }
 
 
@@ -3679,7 +3728,7 @@ background: transparent;
 	{
 	margin-left: 18.75%
 	}
-	.page-template-page-media-php .fourcol.fancy-roll{
+	.isobar-wrap .fourcol.fancy-roll{
 	width: 280px;
 	margin: 18px;
 	}
@@ -3687,20 +3736,18 @@ background: transparent;
 
 }
 
-@media screen and (min-width: 1099px) 
-{
+@media screen and (max-width: 1099px){
+		.fourcol.fancy-roll{
+		width: 30%;
+	}
+}
+
+@media screen and (min-width: 1100px) and (max-width: 1199px)
+{	
 	.fourcol.fancy-roll{
 		width: 30%;
 	}
 	
-	/*.fancy-roll .info .entry-summary p, .fancy-roll time{
-		width: 80% !important;
-	}*/
-	
-}
-
-@media screen and (min-width: 1100px) and (max-width: 1199px)
-{
 	.fancy-roll .info .entry-summary p, .fancy-roll time{
 		width: 100%;
 	}
@@ -3709,9 +3756,7 @@ background: transparent;
 
 @media screen and (min-width: 1200px) and (max-width: 1299px)
 {
-	.fancy-roll .info .entry-summary p, .fancy-roll time{
-		width: 100%;
-	}
+
 }
 
 

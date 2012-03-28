@@ -85,7 +85,7 @@ $filter_string = '';
 foreach($artists as $artist){
 	$filter_string .= '<li class="filter-item artist"><a href="#" data-filter=".' . $artist['class'] . '">' . $artist['title'] . '</a></li>';
 }
-$filter_string .= '<li class="filter-item media"><a href="#" data-filter="*">All media</a></li><li class="filter-item media"><a href="#" data-filter=".video">Videos</a></li><li class="filter-item media"><a href="#" data-filter=".photo">Photos</a></li><li class="filter-item media"><a href="#" data-filter=".flickr">Flickr</a></li></ul>';
+$filter_string .= '</ul><ul class="media-list filter-list"><li class="filter-item media"><a href="#" data-filter="*" class="selected">All media</a></li><li class="filter-item media"><a href="#" data-filter=".video">Videos</a></li><li class="filter-item media"><a href="#" data-filter=".photo">Photos</a></li><li class="filter-item media"><a href="#" data-filter=".flickr">Flickr</a></li></ul>';
 ?>
 <script type="text/javascript"> var filterString = '<?php echo $filter_string; ?>'</script> 
 		</ul>
