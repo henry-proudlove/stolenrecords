@@ -286,35 +286,6 @@ jQuery.fn.fluidSearchForm = function(){
 	}
 };
 
-
-/*
-FILTERING 
-*/
-
-jQuery.fn.filteritems = function(selector){
-	if(selector == '*'){
-		//$(this).removeClass('filter-hidden').addClass('filter-show');
-		$(this).each(function(){
-			$(this).fadeIn('fast');
-		});
-	}else{
-	
-	hiddenElems = $(this).filter(selector + ':hidden');
-	elemstoShow = $(this).filter(selector);
-	elemstoHide = $(this).not(selector);
-	console.log(elemstoHide.length);
-	console.log(elemstoShow.length);
-	//hiddenElems.removeClass('filter-hidden').addClass('filter-show' );, function(){
-	/*elemstoHide.removeClass('filter-show').addClass('filter-hidden');
-	hiddenElems.removeClass('filter-hidden').addClass('filter-show');*/
-	elemstoHide.fadeOut('slow' , function(){
-		hiddenElems.fadeIn('fast');
-	});
-	//});
-	}
-}
-
-
 /*
 RELEASE INFO LATEST POST VERT CENTRED
 */
@@ -551,7 +522,7 @@ $(document).ready(function() {
 		itemSelector : '.fancy-roll',
 	});
 	
-	var isotopeFilter = '<div class="isotope-filter"><header class="filter-header"><h1 class="filter-title">Filter<h1></header><ul class="artist-list"><li class="filter-item artist"><a href="#" data-filter="*">Everything</a></li>' + filterString + '</ul></div><!--.isotope-filter-->';
+	var isotopeFilter = '<div class="isotope-filter twelvecol"><header class="filter-header"><h1 class="filter-title"><span class="arrow-icon"></span>Filter</h1></header><ul class="filter-list"><li class="filter-item artist"><a href="#" data-filter="*">Everything</a></li>' + filterString + '</ul></div><!--.isotope-filter-->';
 	
 	$('.post-type-archive-release #content, .page-template-page-media-php #content').prepend(isotopeFilter);
 	
@@ -566,6 +537,11 @@ $(document).ready(function() {
 		});
 		return false;
 	});
+
+	filtercount = $('.isotope-filter ul').length
+	filtermodulus = filtercount % 3;
+	alert(filtermodulus);
+	
 	
 	$(window).smartresize(function(){  
 		$(".slider").sliderheight();
