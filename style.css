@@ -3372,10 +3372,10 @@ font-size: 1em;
 	width: auto;
 }*/
 
-.page-template-page-media-php .fourcol.fancy-roll{
+/*.page-template-page-media-php .fourcol.fancy-roll{
 	width: 384px;
 	margin: 18px;
-}
+}*/
 
 /*
 *
@@ -3539,6 +3539,19 @@ background: transparent;
 .isotope-filter{
 	margin: 18px;
 	position: relative;
+}
+
+#isotope-wrap .fancy-roll{
+	float:left;
+	margin: 11px;
+}
+
+#isotope-wrap .photo, #isotope-wrap .video {
+	width: 339px;
+}
+
+#isotope-wrap .flickr {
+	width: 150px;
 }
 
 .filters{
@@ -3728,17 +3741,22 @@ background: transparent;
 	{
 	margin-left: 18.75%
 	}
-	.isobar-wrap .fourcol.fancy-roll{
-	width: 280px;
-	margin: 18px;
-	}
 	
 
 }
 
 @media screen and (max-width: 1099px){
-		.fourcol.fancy-roll{
+	.fourcol.fancy-roll{
 		width: 30%;
+	}
+	
+	.isotope-filter {
+		margin: 11px;
+		width: 700px;
+	}
+	.isobar-wrap .fancy-roll{
+	width: 339px;
+	margin: 11px;
 	}
 }
 

@@ -1371,7 +1371,7 @@ function sr_media_videos(&$dont_copy , $artist)
 		{
 			if($video['is_valid'] == 'true')
 			{?>
-					<a href="<?php echo $video['embed'] ?>" class="fancy-roll fourcol lightbox fancybox.iframe video <?php echo $video['vendor'] . ' ' . $artist; ?>" rel="gallery-media">
+					<a href="<?php echo $video['embed'] ?>" class="fancy-roll lightbox fancybox.iframe video <?php echo $video['vendor'] . ' ' . $artist; ?>" rel="gallery-media">
 						<img src="<?php echo $video['thumbnail_large']?>" class="<?php echo $video['vendor'] ?>" />
 						<div class="info">
 							<div class="wrap">
