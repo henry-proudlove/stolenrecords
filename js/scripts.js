@@ -296,7 +296,7 @@ ISOTOPE
 
 jQuery.fn.vertCenter = function(){
 	$(this).imagesLoaded(function(){
-		 console.log( 'all images has finished with loading, do some stuff...' );
+		 //console.log( 'all images has finished with loading, do some stuff...' );
 		$(this).each(function(){
 			o = $(this);
 			oH = o.height();
@@ -581,7 +581,7 @@ $(document).ready(function() {
 	start = filtercount - filtermodulus;
 	end = filtercount;
 	$filters.slice(start, end).addClass('filter-no-border');
-	console.log(filtermodulus);
+	//console.log(filtermodulus);
 	
 	
 	$(window).smartresize(function(){  
@@ -589,9 +589,18 @@ $(document).ready(function() {
 		$('.sc-controls a').scPlayerHeight();
 		$('form[role="search"]').fluidSearchForm();
 		$('.post-type-archive-show .expanded .info, #latest article .left, .single-release article .left').vertCenter();
-	filtercount = $('.post-type-archive-release .isotope-filter li').length
-	filtermodulus = filtercount % 4;
-	console.log(filtermodulus);
+		
+		//Media and releases Media query pairings
+		screenWidth = $(this).width();
+		
+		if (screenWidth <= 1099 ) {
+			console.log('FIRE!!!!!!!!!!!!!!!!');
+			$('#isotope-wrap').isotope({
+				//filter: selector,
+				itemSelector : '.fancy-roll'
+			});
+		}
 	});	
+	
 	
 });

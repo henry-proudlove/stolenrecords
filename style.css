@@ -3544,14 +3544,19 @@ background: transparent;
 #isotope-wrap .fancy-roll{
 	float:left;
 	margin: 11px;
+	width: 339px;
 }
 
-#isotope-wrap .photo, #isotope-wrap .video {
+/*#isotope-wrap .photo, #isotope-wrap .video {
 	width: 339px;
 }
 
 #isotope-wrap .flickr {
 	width: 150px;
+}*/
+.isotope-filter {
+		margin: 11px;
+		width: 700px;
 }
 
 .filters{
@@ -3754,7 +3759,7 @@ background: transparent;
 		margin: 11px;
 		width: 700px;
 	}
-	.isobar-wrap .fancy-roll{
+	#isotope-wrap .fancy-roll{
 	width: 339px;
 	margin: 11px;
 	}
@@ -3768,6 +3773,15 @@ background: transparent;
 	
 	.fancy-roll .info .entry-summary p, .fancy-roll time{
 		width: 100%;
+	}
+	
+	.isotope-filter {
+		margin: 13px;
+		width: 900px;
+	}
+	#isotope-wrap .fancy-roll{
+		width: 282px;
+		margin: 13px;
 	}
 	
 }
