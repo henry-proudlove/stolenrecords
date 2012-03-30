@@ -27,5 +27,8 @@ get_header(); ?>
 		$filter_string .= '<li class="filter-item artist"><a href="#" data-filter=".' . $artist['class'] . '">' . $artist['title'] . '</a></li>';
 	}
 ?>
-<script type="text/javascript"> var filterString = '<?php echo $filter_string; ?>'</script> 
+<script type="text/javascript">
+	var filterString = '<?php echo $filter_string; ?>';
+	filtrationUnits(filterString);
+</script> 
 <?php get_footer(); ?>

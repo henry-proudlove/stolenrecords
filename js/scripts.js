@@ -69,6 +69,10 @@ DEBOUNCED SCROLL
  
 })(jQuery,'smartscroll');
 
+/*
+SHOWS PAGE
+*/
+
 var shows = []; //global array of section offsetTops for the page.
 
 jQuery.fn.borderScroll = function(currentPos) {
@@ -286,12 +290,9 @@ jQuery.fn.fluidSearchForm = function(){
 	}
 };
 
-/*
-RELEASE INFO LATEST POST VERT CENTRED
-*/
 
 /*
-ISOTOPE
+RELEASE INFO LATEST POST VERT CENTRED
 */
 
 jQuery.fn.vertCenter = function(){
@@ -326,28 +327,21 @@ jQuery.fn.fancyRollCenter = function(){
 	});	
 }
 
-/*jQuery.fn.loadURL = function(){
+jQuery.fn.scPlayerHeight = function(){
 	o = $(this[0]);
-	target = o.attr('href');
-	$("#main").fadeTo(200 , 0.2, function(){ 
-		$("#page").append('<div id="loader-holder"><div id="loader"></div></div>').fadeIn(100);
-		$("#main").load(target+" #main > *", function() {
-			$(".slider").sliderinit();
-			$(".slider").sliderheight();
-			$('a.sc-player, div.sc-player').scPlayer();
-			$("#main").fadeTo(200 , 1, function(){
-				$("#loader-holder").fadeOut(500 , function(){
-					$(this).remove();
-					//hash = target.replace($.address.baseURL(), '');
-					//$.address.value(hash);
-					//console.log(hash);
-				});
-			}); 
-		});
+	playWidth = o.outerWidth();
+		$('.sc-controls a , .sc-played, .sc-buffer, .sc-scrubber, .sc-time-span img').each(function(){
+			$(this).outerHeight(playWidth);
 	});
-};*/
-	
-
+	$('.sc-scrubber').width($('.sc-player').outerWidth() - playWidth);
+	//$('.sc-artwork-list .active').height($('.sc-info').outerHeight());
+	activeScr = $('.sc-artwork-list .active img').attr('src');	
+	$('.sc-info').css({
+		"background-image" : "url('" + templateDir + "/images/info-bg.png') , url('"+activeScr+"')",
+		"background-size" : "auto , cover",
+		"background-position-y" : "40%"
+	});
+}
 
 /*
 GET LATEST FROM STOLENRECS VIMEO
@@ -366,57 +360,75 @@ function setupGallery(videos) {
 
 	// Add the videos to the gallery
 	for (var i = 0; i < 4; i++) {
-		var html = '<li class="video vimeo"><a href="http://player.vimeo.com/video/' + videos[i].id + '?autoplay=1"' ;
-		html += 'class="lightbox fancybox.iframe vimeo red-roll" rel="gallery-vid-aside">';
+		var html = '<li class="vimeo"><a href="http://player.vimeo.com/video/' + videos[i].id + '?autoplay=1"' ;
+		html += 'class="lightbox video vimeo red-roll">';
 		html += '<img src="' + videos[i].thumbnail_small + '" class="media-img" />';
 		html += '<div class="info"><h3 class="vid-title">' + videos[i].title + '</h3>';
 		html += '<p class="vid-decription faint">' + videos[i].description + '</p></li></div></a>';
-		
+
 		$('#latest-videos ul').append(html);
 	}
-	
+
 	link = '<li><a href="http://vimeo.com/user3362379" class="block red-roll" title="Stolen Recordings on Vimeo" rel="bookmark">Stolen Records on Vimeo</a></li>';
-	$('#latest-videos ul').append(link);
-}
-
-
-jQuery.fn.scPlayerHeight = function(){
-	o = $(this[0]);
-	playWidth = o.outerWidth();
-		$('.sc-controls a , .sc-played, .sc-buffer, .sc-scrubber, .sc-time-span img').each(function(){
-			$(this).outerHeight(playWidth);
-	});
-	$('.sc-scrubber').width($('.sc-player').outerWidth() - playWidth);
-	//$('.sc-artwork-list .active').height($('.sc-info').outerHeight());
-	activeScr = $('.sc-artwork-list .active img').attr('src');	
-	$('.sc-info').css({
-		"background-image" : "url('" + templateDir + "/images/info-bg.png') , url('"+activeScr+"')",
-		"background-size" : "auto , cover",
-		"background-position-y" : "40%"
+	$('#latest-videos ul').append(link).find('.lightbox').colorbox({
+		iframe:true,
+		width:"80%",
+		height:"60%",
+		returnFocus : false
 	});
 }
 
-
-/*$(function(){
- $('#slider').anythingSlider({
- 	expand : true,
- 	resizeContents: true
- });
-});*/
-$('.lightbox').fancybox({
-		fitToView	: false,
-		width 		: '80%',
-		height		: '60%',
-		autoSize	: false,
-		arrows		: true
+/*
+GET FLICKR FOR MEDIA PAGE 
+*/
+$.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?id=8546357@N03&lang=en-us&format=json&jsoncallback=?", function(data){
+	var newelems = '';
+		$.each(data.items, function(i,item){
+			newelems += '<a class="fancy-roll fourcol flickr" href="' + item.link + '">';
+			newelems += '<img src="' +  item.media.m + '" />';
+			newelems += '</a>';
+			if ( i == 20 ) return false;
+	});
+	$newelems = $(newelems);
+$('.page-template-page-media-php #isotope-wrap').append( $newelems );
+$('#isotope-wrap').imagesLoaded(function(){
+	var $container = $(this);
+		$container.isotope({
+			  itemSelector : '.fancy-roll',
+		});
+	});
 });
-$(document).ready(function() {
 
+/*
+FILTER BUILDER
+*/
+
+function filtrationUnits(filterString){
+	if (filterString !== undefined){
+		var isotopeFilter = '<div class="isotope-filter"><header class="filter-header collapse"><h1 class="filter-title"><span class="arrow-icon"></span>Filter</h1></header><nav class="filters"><ul class="artist-list filter-list"><li class="filter-item artist"><a href="#" data-filter="*" class="selected">All Artists</a></li>' + filterString + '</ul></nav></div><!--.isotope-filter-->';
+		
+		$('.post-type-archive-release #content, .page-template-page-media-php #content').prepend(isotopeFilter);
+	}else{
+		filterString = '';
+		alert('fuck');
+	}
+}
+
+$(document).ready(function() {
+	$('a.lightbox.video').colorbox({iframe:true, width:"80%", height:"60%", returnFocus : false});
+	
+	$('a.lightbox.photo').colorbox({opacity	: 0.85 , returnFocus : false});
+	
 	$("#social-tabs" ).tabs();
+	
 	$("#latest-slider").latestSliderInit();
+	
 	$("#artist-slider").gallerySliderInit();
+	
 	$(".slider").sliderInit();
+	
 	$('.single-release article .left').vertCenter();
+	
 	$(".fancy-roll").hover(function(){
 		$(this).find('.wrap').fancyRollCenter();
 	});	
@@ -495,36 +507,13 @@ $(document).ready(function() {
 	if(relLength < 1){
 		$('aside#releases').remove();
 	}
-		
-	/*
-	GET FLICKR FOR MEDIA PAGE 
-	*/
-	$.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?id=8546357@N03&lang=en-us&format=json&jsoncallback=?", function(data){
-	var newelems = '';
-	$.each(data.items, function(i,item){
-		newelems += '<a class="fancy-roll fourcol flickr" href="' + item.link + '">';
-		newelems += '<img src="' +  item.media.m + '" />';
-		newelems += '</a>';
-		if ( i == 20 ) return false;
-	});
-	$newelems = $(newelems);
-	$('.page-template-page-media-php #isotope-wrap').append( $newelems );
-	$('#isotope-wrap').imagesLoaded(function(){
-		var $container = $(this);
-			$container.isotope({
-				  itemSelector : '.fancy-roll',
-			});
-		});
-	});
 	
-	$container = $('.post-type-archive-release #isotope-wrap');
+	$container = $('.post-type-archive release #isotope-wrap');
 	$container.isotope({
 		itemSelector : '.fancy-roll',
 	});
 	
-	var isotopeFilter = '<div class="isotope-filter"><header class="filter-header collapse"><h1 class="filter-title"><span class="arrow-icon"></span>Filter</h1></header><nav class="filters"><ul class="artist-list filter-list"><li class="filter-item artist"><a href="#" data-filter="*" class="selected">All Artists</a></li>' + filterString + '</ul></nav></div><!--.isotope-filter-->';
-	
-	$('.post-type-archive-release #content, .page-template-page-media-php #content').prepend(isotopeFilter);
+	//Filtering
 	
 	$('.isotope-filter .filter-header').click(function(){
 		if($(this).hasClass('collapse')){
@@ -590,17 +579,7 @@ $(document).ready(function() {
 		$('form[role="search"]').fluidSearchForm();
 		$('.post-type-archive-show .expanded .info, #latest article .left, .single-release article .left').vertCenter();
 		
-		//Media and releases Media query pairings
-		screenWidth = $(this).width();
-		
-		if (screenWidth <= 1099 ) {
-			console.log('FIRE!!!!!!!!!!!!!!!!');
-			$('#isotope-wrap').isotope({
-				//filter: selector,
-				itemSelector : '.fancy-roll'
-			});
-		}
-	});	
-	
+		$('#isotope-wrap').isotope('reLayout');
+	});
 	
 });

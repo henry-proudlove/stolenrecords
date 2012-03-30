@@ -14,8 +14,10 @@ get_header(); ?>
 	$the_query = new WP_Query($args);
 	
 	while ( $the_query->have_posts() ) : $the_query->the_post();
-	
-		sr_relart_loop_markup(); 
+		
+		if(has_post_thumbnail()){	
+			sr_relart_loop_markup(); 
+		}
 	
 	endwhile;
 	
@@ -25,7 +27,9 @@ get_header(); ?>
 
 	while ( $the_query->have_posts() ) : $the_query->the_post();
 	
-		sr_relart_loop_markup(); 
+		if(has_post_thumbnail()){	
+			sr_relart_loop_markup(); 
+		}
 	
 	endwhile; ?>
 	 

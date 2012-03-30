@@ -10,7 +10,12 @@
 get_header(); ?>
 
 	<div id="content">
-		<header class="results-header twelvecol"><a href="<?php echo get_post_type_archive_link( 'show' ); ?>" class="content-close">Back to Shows</a></header>
+		<header class="results-header twelvecol">
+		<?php 
+			$link =  get_post_type_archive_link( 'show' );
+			sr_content_close($link , 'Shows');
+		?>
+		</header>
 		
 		<?php /* Shows loop */
 		

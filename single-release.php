@@ -55,7 +55,30 @@ get_header(); ?>
 					?>
 			</div><!--#release-info-->
 			<div class="entry-gallery sixcol right">
-				<?php sr_post_thumbnail('sr-sixcol' , false, 'null') ?>
+				<?php if (has_post_thumbnail()):
+					$post_thumb = get_post_thumbnail_id();
+					$options = array(	
+						'size' => 'sr-sixcol',
+						'big' => 'full' ,
+						'img_class' => 'post-thumb',
+						'wrapper' => false ,
+						'include' => $post_thumb,
+						'link' => 'self',
+						'a_class' => 'lightbox photo fancy-roll'
+					);
+					sr_get_images($options);
+				else:
+					$options = array(
+						'size' => 'sr-sixcol',
+						'big' => 'full' ,
+						'img_class' => 'post-thumb',
+						'wrapper' => false ,
+						'limit' => '1',
+						'link' => 'self',
+						'a_class' => 'lightbox photo fancy-roll'
+					);
+					sr_get_images($options);
+				endif; ?>
 			</div><!-- .entry-gallery -->
 		</article><!-- #post-<?php the_ID(); ?> -->
 		</section><!--#release-->

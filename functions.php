@@ -1513,8 +1513,8 @@ function video_aside_markup($videos)
 	{
 		if($video['is_valid'] == 'true')
 		{?>
-			<li class="video <?php echo $video['vendor'] ?>">
-				<a href="<?php echo $video['embed'] ?>" class="red-roll lightbox fancybox.iframe <?php echo $video['vendor'] ?>" rel="gallery-vid-aside">
+			<li class="<?php echo $video['vendor'] ?>">
+				<a href="<?php echo $video['embed'] ?>" class="red-roll lightbox video fancybox.iframe <?php echo $video['vendor'] ?>" rel="gallery-vid-aside">
 					<img src="<?php echo $video['thumbnail_small']?>" class="media-img" />
 					<div class="info">
 						<h3><?php echo $video['title'] ?></h3>
@@ -1705,7 +1705,7 @@ function sr_artist_gallery(){
 	$options = array(
 			'size' => 'sr-twelvecol',
 			//'a_class' => 'lightbox fancybox.image fancy-roll',
-			'a_class' => 'lightbox fancy-roll',
+			'a_class' => 'lightbox fancy-roll photo',
 			'img_class' => 'artist-header attachment-image',
 			'wrapper' => false ,
 			'a_rel' => 'gallery-artist'
@@ -2010,6 +2010,17 @@ function sr_make_class($string){
 	
 	return $class; 
 }
+
+
+//jQuery
+
+function my_scripts_method() {
+    wp_deregister_script( 'jquery' );
+    wp_register_script( 'jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js');
+    wp_enqueue_script( 'jquery' );
+}    
+ 
+add_action('wp_enqueue_scripts', 'my_scripts_method');
 
 //END MISC
 ?>

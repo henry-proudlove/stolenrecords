@@ -29,7 +29,13 @@ get_header(); ?>
 				</ul>
 				<?php sr_index_fb(); ?>
 				<?php sr_latest_tweets(); ?>
-				<?php sr_latest_videos(); ?>
+				<div id="latest-videos">
+					<div id="thumbs">
+						<ul class="img-list clearfix"></ul>
+					</div>
+				</div><!--#latest-videos-->
+				<script type="text/javascript">
+				</script>
 			</div><!--#social-tabs-->
 		</aside><!--#follow-->
 	</div><!--#sidebar-->

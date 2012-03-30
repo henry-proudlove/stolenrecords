@@ -255,10 +255,10 @@ display:block;
 
 .content-close .text span{
 	opacity: 0;
-	transition: opacity 0.6s, left 0.3s;
-	-moz-transition: opacity 0.6s, left 0.3s;
-	-webkit-transition: opacity 0.6s, left 0.3s;
-	-o-transition: opacity 0.6s, left 0.3s;
+	transition: opacity 0.6s linear, left 0.3s;
+	-moz-transition: opacity 0.6s linear, left 0.3s;
+	-webkit-transition: opacity 0.6s linear, left 0.3s;
+	-o-transition: opacity 0.6s linear, left 0.3s;
 	top: -0.1em;
 	position: relative;
 	top: -0.1em;
@@ -803,7 +803,7 @@ min-width: 180px;
 
 #main
 {
-margin-left: 225px;
+margin-left: 18.75%;
 max-width: 1300px;
 min-width: 535px;
 height: 100%:
@@ -2997,7 +2997,7 @@ padding-bottom: 1.45em;
 }
 
 .read-less, .read-more{
-	font-size 0.8;
+	font-size 0.9em;
 }
 
 /*
@@ -3384,8 +3384,8 @@ font-size: 1em;
 *
 */
 
-.post-type-archive-release #content, .page-template-page-media-php #main{
-	max-width: none;
+.post-type-archive-release #content, .page-template-page-media-php #content{
+	max-width: 1270px;
 	width: auto;
 }
 
@@ -3539,6 +3539,10 @@ background: transparent;
 .isotope-filter{
 	margin: 18px;
 	position: relative;
+	transition: width 0.8s;
+	-moz-transition: width 0.8s;
+	-webkit-transition: width 0.8s;
+	-o-transition: width 0.8s;
 }
 
 #isotope-wrap .fancy-roll{
@@ -3547,13 +3551,14 @@ background: transparent;
 	width: 339px;
 }
 
-/*#isotope-wrap .photo, #isotope-wrap .video {
+#isotope-wrap .photo, #isotope-wrap .video {
 	width: 339px;
 }
 
 #isotope-wrap .flickr {
 	width: 150px;
-}*/
+}
+
 .isotope-filter {
 		margin: 11px;
 		width: 700px;
@@ -3710,10 +3715,168 @@ background: transparent;
 
 /*
 *
+* Colorbox
+*
+*/
+
+/*
+    ColorBox Core Style:
+    The following CSS is consistent between example themes and should not be altered.
+*/
+#colorbox, #cboxOverlay, #cboxWrapper{position:absolute; top:0; left:0; z-index:9999; }
+#cboxOverlay{position:fixed; width:100%; height:100%;}
+#cboxMiddleLeft, #cboxBottomLeft{clear:left;}
+#cboxContent{position:relative;}
+#cboxLoadedContent{overflow:auto;}
+#cboxTitle{margin:0;}
+#cboxLoadingOverlay, #cboxLoadingGraphic{position:absolute; top:0; left:0; width:100%; height:100%;}
+#cboxPrevious, #cboxNext, #cboxClose, #cboxSlideshow{cursor:pointer;}
+.cboxPhoto{float:left; margin:auto; border:0; display:block;}
+.cboxIframe{width:100%; height:100%; display:block; border:0;}
+
+/* 
+    User Style:
+    Change the following styles to modify the appearance of ColorBox.  They are
+    ordered & tabbed in a way that represents the nesting of the generated HTML.
+*/
+#cboxOverlay{background:url(images/overlay.png) repeat 0 0;}
+#colorbox{}
+    #cboxTopLeft{}
+    #cboxTopRight{}
+    #cboxBottomLeft{}
+    #cboxBottomRight{}
+    #cboxMiddleLeft{}
+    #cboxMiddleRight{}
+    #cboxTopCenter{}
+    #cboxBottomCenter{}
+    #cboxContent{background:#293034; overflow:hidden;}
+        .cboxIframe{background:#fff;}
+        #cboxError{padding:50px; border:1px solid #ccc;}
+        #cboxLoadedContent{margin-bottom:28px;}
+        #cboxTitle {
+			position: absolute;
+			bottom: 4px;
+			left: 15px;
+			color: #eee;
+		}
+		#cboxCurrent {
+			position: absolute;
+			bottom: 4px;
+			right: 15px;
+			color: #949494;
+		}
+		#cboxSlideshow{position:absolute; bottom:4px; right:30px; color:#0092ef;}
+        #cboxPrevious{
+			background: url(images/controls.png) no-repeat 0 0;
+			width: 18px;
+			height: 31px;
+			text-indent: -9999px;
+			position: fixed;
+			top: 50%;
+			left: 3%;
+			z-index: 999;
+        }
+        #cboxPrevious:hover{background-position: 0 -32px;}
+        #cboxNext{
+			background: url(images/controls.png) no-repeat -18px 0;
+			width: 18px;
+			height: 31px;
+			text-indent: -9999px;
+			position: fixed;
+			top: 50%;
+			right: 3%;
+			z-index: 999;
+        }
+        #cboxNext:hover{
+        	background-position: -18px -32px;
+        }
+        #cboxLoadingOverlay{
+        	position: fixed !important;
+			top: 50%;
+			left: 50%;
+			width: 69px;
+			height: 69px;
+		}
+        #cboxLoadingGraphic{
+        	position: fixed;
+			top: 50%;
+			left: 50%;
+			width: 69px;
+			height: 69px;
+			background: url(images/loader.png) no-repeat center center;
+			-webkit-animation-name: spin;
+			-webkit-animation-duration: 700ms;
+			-webkit-animation-iteration-count: infinite;
+			-webkit-animation-timing-function: linear;
+			-moz-animation-name: spin;
+			-moz-animation-duration: 700ms;
+			-moz-animation-iteration-count: infinite;
+			-moz-animation-timing-function: linear;
+			-ms-animation-name: spin;
+			-ms-animation-duration: 700ms;
+			-ms-animation-iteration-count: infinite;
+			-ms-animation-timing-function: linear;
+			-o-transition: rotate(3600deg);
+			margin: -35px 0 0 -35px;
+		}
+        #cboxClose{
+				position:fixed;
+				top:3%;
+				right:3%;
+				background:url(images/controls.png) no-repeat -36px 0;
+				width:32px;
+				height:31px;
+				text-indent:-9999px;
+        	}
+        #cboxClose:hover{background-position:-36px -32px;}
+
+/*
+  The following fixes a problem where IE7 and IE8 replace a PNG's alpha transparency with a black fill
+  when an alpha filter (opacity change) is set on the element or ancestor element.  This style is not applied to or needed in IE9.
+  See: http://jacklmoore.com/notes/ie-transparency-problems/
+*/
+.cboxIE #cboxTopLeft,
+.cboxIE #cboxTopCenter,
+.cboxIE #cboxTopRight,
+.cboxIE #cboxBottomLeft,
+.cboxIE #cboxBottomCenter,
+.cboxIE #cboxBottomRight,
+.cboxIE #cboxMiddleLeft,
+.cboxIE #cboxMiddleRight {
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF);
+}
+
+/*
+  The following provides PNG transparency support for IE6
+  Feel free to remove this and the /ie6/ directory if you have dropped IE6 support.
+*/
+.cboxIE6 #cboxTopLeft{background:url(images/ie6/borderTopLeft.png);}
+.cboxIE6 #cboxTopCenter{background:url(images/ie6/borderTopCenter.png);}
+.cboxIE6 #cboxTopRight{background:url(images/ie6/borderTopRight.png);}
+.cboxIE6 #cboxBottomLeft{background:url(images/ie6/borderBottomLeft.png);}
+.cboxIE6 #cboxBottomCenter{background:url(images/ie6/borderBottomCenter.png);}
+.cboxIE6 #cboxBottomRight{background:url(images/ie6/borderBottomRight.png);}
+.cboxIE6 #cboxMiddleLeft{background:url(images/ie6/borderMiddleLeft.png);}
+.cboxIE6 #cboxMiddleRight{background:url(images/ie6/borderMiddleRight.png);}
+
+.cboxIE6 #cboxTopLeft,
+.cboxIE6 #cboxTopCenter,
+.cboxIE6 #cboxTopRight,
+.cboxIE6 #cboxBottomLeft,
+.cboxIE6 #cboxBottomCenter,
+.cboxIE6 #cboxBottomRight,
+.cboxIE6 #cboxMiddleLeft,
+.cboxIE6 #cboxMiddleRight {
+    _behavior: expression(this.src = this.src ? this.src : this.currentStyle.backgroundImage.split('"')[1], this.style.background = "none", this.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src=" + this.src + ", sizingMethod='scale')");
+}
+
+
+/*
 *
 * 404
 *
 */
+
 .error404 #content, .error404 #main{
 	max-width: none;
 	width: auto;
@@ -3739,20 +3902,14 @@ background: transparent;
 
 /* Making nav fluid below 1200px */
 
-@media screen and (max-width: 1200px)
-{
-
-	#main
-	{
-	margin-left: 18.75%
-	}
-	
+@media screen and (min-width: 1200px){
 
 }
 
 @media screen and (max-width: 1099px){
+
 	.fourcol.fancy-roll{
-		width: 30%;
+			width: 46.25%;
 	}
 	
 	.isotope-filter {
@@ -3760,12 +3917,20 @@ background: transparent;
 		width: 700px;
 	}
 	#isotope-wrap .fancy-roll{
-	width: 339px;
-	margin: 11px;
+		/*width: 339px;*/
+		margin: 11px;
+	}
+	
+	#isotope-wrap .photo, #isotope-wrap .video {
+		width: 339px;
+	}
+
+	#isotope-wrap .flickr {
+		width: 75px;
 	}
 }
 
-@media screen and (min-width: 1100px) and (max-width: 1199px)
+@media screen and (min-width: 1100px)
 {	
 	.fourcol.fancy-roll{
 		width: 30%;
@@ -3787,7 +3952,7 @@ background: transparent;
 	
 }
 
-@media screen and (min-width: 1200px) and (max-width: 1299px)
+@media screen and (min-width: 1200px)
 {
 	.isotope-filter {
 		margin: 13px;
@@ -3798,11 +3963,15 @@ background: transparent;
 		margin: 13px;
 		font-size: 0.9em;
 	}
+	
+	#main{
+		margin-left: 225px;
+	}
 }
 
 
 
-@media screen and (min-width: 1300px) and (max-width: 1399px)
+@media screen and (min-width: 1300px)
 {	
 	
 	body{ 
@@ -3908,5 +4077,9 @@ background: transparent;
 	#isotope-wrap .fancy-roll{
 		width: 384px;
 		margin: 18px;
+	}
+	
+	#isobar-wrap{
+		max-width: 1270px;
 	}
 }
