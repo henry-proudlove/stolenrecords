@@ -3776,19 +3776,28 @@ background: transparent;
 	}
 	
 	.isotope-filter {
-		margin: 13px;
-		width: 900px;
+		margin: 11px;
+		width: 845px;
 	}
 	#isotope-wrap .fancy-roll{
-		width: 282px;
-		margin: 13px;
+		width: 267px;
+		margin: 11px;
+		font-size: 0.9em;
 	}
 	
 }
 
 @media screen and (min-width: 1200px) and (max-width: 1299px)
 {
-
+	.isotope-filter {
+		margin: 13px;
+		width: 920px;
+	}
+	#isotope-wrap .fancy-roll{
+		width: 289px;
+		margin: 13px;
+		font-size: 0.9em;
+	}
 }
 
 
@@ -3830,6 +3839,15 @@ background: transparent;
 	.img-list li .info p{
 		height: 2.9em;
 	}
+	
+	.isotope-filter {
+		margin: 15px;
+		width: 1020px;
+	}
+	#isotope-wrap .fancy-roll{
+		width: 320px;
+		margin: 15px;
+	}
 
 }
 
@@ -3868,5 +3886,27 @@ background: transparent;
 	
 	.fancy-roll .info .entry-summary p, .fancy-roll time{
 		width: 80%;
+	}
+	
+	.isotope-filter {
+		margin: 18px;
+		width: 1120px;
+	}
+	#isotope-wrap .fancy-roll{
+		width: 350px;
+		margin: 18px;
+	}
+	
+}
+
+@media screen and (min-width: 1500px)
+{	
+	.isotope-filter {
+		margin: 18px;
+		width: 1224px;
+	}
+	#isotope-wrap .fancy-roll{
+		width: 384px;
+		margin: 18px;
 	}
 }
