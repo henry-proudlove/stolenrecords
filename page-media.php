@@ -89,7 +89,6 @@ $filter_string .= '</ul><ul class="media-list filter-list"><li class="filter-ite
 ?>
 <script type="text/javascript"> 
 	var filterString = '<?php echo $filter_string; ?>';
-	filtrationUnits(filterString);
 </script> 
 		</ul>
 	</div>

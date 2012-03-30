@@ -29,6 +29,5 @@ get_header(); ?>
 ?>
 <script type="text/javascript">
 	var filterString = '<?php echo $filter_string; ?>';
-	filtrationUnits(filterString);
 </script> 
 <?php get_footer(); ?>

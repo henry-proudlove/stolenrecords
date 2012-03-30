@@ -65,7 +65,7 @@ get_header(); ?>
 						'include' => $post_thumb,
 						'link' => 'self',
 						'a_class' => 'lightbox photo fancy-roll'
-					);
+					);	
 					sr_get_images($options);
 				else:
 					$options = array(

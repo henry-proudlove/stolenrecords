@@ -567,9 +567,13 @@ $(document).ready(function() {
 	$filters = $('.post-type-archive-release .isotope-filter li');
 	filtercount = $filters.length;
 	filtermodulus = filtercount % 4;
-	start = filtercount - filtermodulus;
-	end = filtercount;
-	$filters.slice(start, end).addClass('filter-no-border');
+	if(filtermodulus == 0 || filtercount < 4){
+		$filters.addClass('filter-no-border');
+	}else{
+		start = filtercount - filtermodulus;
+		end = filtercount;
+		$filters.slice(start, end).addClass('filter-no-border');
+	}
 	//console.log(filtermodulus);
 	
 	
