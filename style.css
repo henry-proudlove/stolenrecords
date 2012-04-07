@@ -316,7 +316,7 @@ display:block;
 .button, .wpcf7 input[type="submit"]{
 	display: inline-block;
 	border: none !important;
-	background-color: #e14e49;
+	background-color: #da342e;
 	color: white !important;
 }
 
@@ -391,7 +391,7 @@ border-bottom: none !important;
 .red-roll:hover, .red-roll:hover > *, .sc-trackslist li a:hover
 {
 	color: white !important;
-	background: #e14e49;
+	background: #da342e;
 }
 
 .red-roll:hover .faint, .sc-trackslist li a:hover span
@@ -480,7 +480,7 @@ font-size: 0.9em;
 }
 
 .widget li:hover{
-	background: #e14e49;
+	background: #da342e;
 	color:white;
 }
 .widget li:hover a{
@@ -499,7 +499,7 @@ transition: none;
 .widget_search #searchsubmit {
 width: 10%;
 margin: 0;
-background: #E14E49 url('images/magnifyer.png') no-repeat center center;
+background: #da342e url('images/magnifyer.png') no-repeat center center;
 border: none;
 color: white;
 text-indent: -9000px;
@@ -537,7 +537,7 @@ a:hover, a:active
 	outline: none;
 }
 a, a:active, a:visited {
-	color: #e14e49; 
+	color: #da342e; 
 	text-decoration: none;
 	border-bottom: 1px solid;
 	border-color: rgba(255,78,73,0);
@@ -556,7 +556,7 @@ h1 a, h1 a :active, h1 a:visited, h2 a, h2 a:active, h2 a:visited, h3 a, a h3:ac
 }
 
 h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover {
-	color: #e14e49; 
+	color: #da342e; 
 }
 
 .entry-title a{
@@ -1262,7 +1262,7 @@ background-position: -4px -42px;
 }
 
 #nav-below a:hover{
-	color: #e14e49;
+	color: #da342e;
 	border:none !important;
 	
 }
@@ -1917,12 +1917,12 @@ Colours
 }
 
 .sc-scrubber .sc-buffer, .sc-scrubber .sc-played {
-  background-color: #e14e49;
+  background-color: #da342e;
   opacity: 0.15;
 }
 
 .sc-scrubber .sc-played {
-  background-color: #e14e49;
+  background-color: #da342e;
   opacity: 0.6;
 }
 
@@ -1956,7 +1956,7 @@ Colours
 }
 
 .sc-volume-status{
-  background-color: #e14e49;
+  background-color: #da342e;
   
 }
 
@@ -1999,7 +1999,7 @@ Colours
 	width: 3%;
 	height: 3%;
 	padding: 4%;
-	background: #E14E49 url('images/sc-play.png') no-repeat center center;
+	background: #da342e url('images/sc-play.png') no-repeat center center;
 	text-indent: -9000px;
 	border:none;
 	position: relative;
@@ -2011,7 +2011,7 @@ border-bottom: 12px solid;
 }
 
 .playing .sc-controls a {
-	background: #E14E49 url('images/sc-pause.png') no-repeat center center;
+	background: #da342e url('images/sc-pause.png') no-repeat center center;
 }
 
 .sc-controls a:hover {
@@ -2268,12 +2268,12 @@ border:none !important;
 #follow .ui-state-hover
 {
 	font-weight: normal;
-	background-color: #e14e49;
+	background-color: #da342e;
 }
 
 #follow .ui-widget-content a
 {
-color: #e14e49;
+color: #da342e;
 }
 
 #follow .ui-state-default{
@@ -2282,7 +2282,7 @@ color: #e14e49;
 }
 
 #follow .ui-tabs-selected {
-background: #e14e49;
+background: #da342e;
 }
 
 #follow .ui-tabs-nav li
@@ -2299,7 +2299,7 @@ background: #e14e49;
 
 #follow .ui-tabs-nav li:hover
 {
-	background: #e14e49;
+	background: #da342e;
 }
 
 
@@ -2689,7 +2689,7 @@ cite{
 }
 
 .single-post .entry-meta a:hover{
-	color: #e14e49;
+	color: #da342e;
 }
 
 .single-post .entry-content li{
@@ -3087,7 +3087,7 @@ clear: both;
 
 
 .single-artist section .release a:hover h3{
-	color: #e14e49;
+	color: #da342e;
 }
 
 .single-artist section .release a:hover img{
@@ -3184,7 +3184,7 @@ font-weight: normal;
 }
 
 .post-type-archive-show .artists li a:hover, .post-type-archive-show .venue a:hover{
-	color: #e14e49;
+	color: #da342e;
 	border:none ;
 }
 
@@ -3575,7 +3575,7 @@ background: transparent;
 }
 
 .filter-title{
-	background-color: #e14e49;
+	background-color: #da342e;
 	font-family: 'StolenSans';
 	font-size: 1.2em;
 	letter-spacing: 0.15em;
@@ -3635,7 +3635,7 @@ background: transparent;
 }
 
 .isotope-filter a:hover, .isotope-filter a.selected {
-	color: #e14e49;	
+	color: #da342e;	
 }
 
 .media-list li{
