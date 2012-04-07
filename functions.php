@@ -415,6 +415,7 @@ add_action('puslish_artist', 'delete_artist_term');*/
 IMAGE SIZES
 =======================================================
 */
+
 if ( function_exists( 'add_image_size' ) ) { 
 	add_image_size( 'sr-twelvecol', 1217, 500, true );
 	add_image_size( 'sr-eightcol', 801, 600, false );

@@ -63,17 +63,6 @@ input, select { vertical-align:middle; }
 
 @font-face {
     font-family: 'StolenBody';
-    src: url('fonts/stolen-body-bold.eot');
-    src: url('fonts/stolen-body-bold.eot?#iefix') format('embedded-opentype'),
-         url('fonts/stolen-body-bold.woff') format('woff'),
-         url('fonts/stolen-body-bold.ttf') format('truetype'),
-         url('fonts/stolen-body-bold.svg#stolen-body-bold') format('svg');
-    font-weight: bold;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'StolenBody';
     src: url('fonts/stolen-body-italic.eot');
     src: url('fonts/stolen-body-italic.eot?#iefix') format('embedded-opentype'),
          url('fonts/stolen-body-italic.woff') format('woff'),
@@ -182,6 +171,7 @@ h1
 
 .small-h{
 	font-size: 2em;
+	line-height: 1em;
 }
 
 h2{
@@ -396,7 +386,7 @@ border-bottom: none !important;
 
 .red-roll:hover .faint, .sc-trackslist li a:hover span
 {
-	color: rgba(255,255,255,0.5);
+	color: rgba(255,255,255,0.6);
 }
 
 .img-list li > a, .sc-trackslist li a, .latest-shows a
@@ -1022,7 +1012,7 @@ float:right;
 }
 #access li {
 	position: relative;
-	border-top: 1px solid rgba(255,255,255,0.5);
+	border-top: 1px solid rgba(255,255,255,0.6);
 }
 #access a {
 	display: block;
@@ -2007,7 +1997,7 @@ Colours
 }
 
 .sc-controls{
-border-bottom: 12px solid;
+	border-bottom: 12px solid;
 }
 
 .playing .sc-controls a {
@@ -3902,8 +3892,11 @@ background: transparent;
 
 /* Making nav fluid below 1200px */
 
-@media screen and (min-width: 1200px){
+@media screen and (min-width: 1100px){
 
+	body{ 
+		font:12px/1.45 StolenBody, Georgia, sans-serif; *font-size:small;
+	}
 }
 
 @media screen and (max-width: 1099px){
@@ -3973,10 +3966,6 @@ background: transparent;
 
 @media screen and (min-width: 1300px)
 {	
-	
-	body{ 
-		font:12px/1.45 StolenBody, Georgia, sans-serif; *font-size:small;
-	}
 	
 	.big-h{
 	font-size: 4.2em;

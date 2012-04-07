@@ -160,7 +160,7 @@ if($the_query->have_posts() ):?>
 				
 					<time class="entry-date"><?php echo get_the_date(); ?></time>
 					
-					<?php _sr_post_header('h2'); ?>
+					<?php _sr_post_header('h2' , 'small-h'); ?>
 				
 				</header><!-- .entry-header -->
 				
@@ -185,7 +185,7 @@ if($the_query->have_posts() ):?>
 				
 				<time class="entry-date twocol"><?php echo get_the_date(); ?></time>
 				
-				<?php _sr_post_header('h2' , 'sixcol'); ?>
+				<?php _sr_post_header('h2' , 'sixcol small-h'); ?>
 				
 			</header><!-- .entry-header -->
 		
