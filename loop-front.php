@@ -64,10 +64,14 @@ if($the_query->have_posts() ):?>
 						<?php 
 							$buy_link = get_post_meta( $post->ID , '_sr_release-buy-link', true);
 							if ($buy_link):
-								$curr_date = date('U');
-								$release_date = strtotime($release_date);
-								if ($curr_date <= $release_date)
+								$curr_date = date('Y-m-d');
+								$release_date = get_post_meta( $post->ID , '_sr_release-date', true);
+								
+								if ($curr_date < $release_date)
 								{
+									echo '<div class="entry-meta"><time class="release date"> Out ';
+									echo date('l j<\s\u\p>S</\s\u\p> F Y' , strtotime($release_date));
+									echo '</time></div>';
 									echo '<a href="'.$buy_now_link .'" class="buy-link preorder button button-large">Preorder now</a>';
 								}else
 								{
@@ -82,7 +86,6 @@ if($the_query->have_posts() ):?>
 					elseif('show' == get_post_type()):
 						$show_meta = sr_shows_meta($post->ID); ?>
 						<header class="entry-header">
-							<time class="show-date"><?php echo $show_meta['date']; ?></time>
 							<h1 class="entry-title medium-h">
 							<?php if($show_meta['buy_tix']): ?>
 								<a href="<?php echo $show_meta['buy_tix']; ?>" title="Buy Tickets" rel="bookmark">
@@ -98,8 +101,16 @@ if($the_query->have_posts() ):?>
 								</span>
 							<?php endforeach; ?>
 							</h2>
-							<div class="entry-meta">
-								<time class="show-time"><?php echo $show_meta['time']; ?></time>
+						</header><!-- .entry-header -->
+						
+						<div class="entry-summary big-center">
+							<?php no_more_excerpt($post->ID); ?>
+						</div><!-- .entry-summary -->
+						<div class="entry-meta">
+								<time class="show-date">
+									<?php echo $show_meta['date']; ?>
+									<?php echo $show_meta['time']; ?>
+								</time>
 								<?php if($show_meta['venue_link'] && $show_meta['venue']):?>
 									<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" title="More info" rel="bookmark"><?php echo $show_meta['venue']; ?></a></span>
 								<?php elseif($show_meta['venue']): ?>
@@ -108,12 +119,7 @@ if($the_query->have_posts() ):?>
 									<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" title="More info" rel="bookmark"></span>
 									<?php echo $show_meta['venue_link']; ?></a>
 								<?php endif; ?>
-							</div>
-						</header><!-- .entry-header -->
-						
-						<div class="entry-summary big-center">
-							<?php no_more_excerpt($post->ID); ?>
-						</div><!-- .entry-summary -->
+						</div>
 						
 						<?php if($show_meta['buy_tix']): ?>
 							<a class="button button-large buy-tickets" href="<?php echo $show_meta['buy_tix']; ?>" title="Buy Tickets" rel="bookmark">Buy Tickets</a>
@@ -124,7 +130,7 @@ if($the_query->have_posts() ):?>
 				</div><!--.left -->
 				<div class="sixcol right">
 					<?php 
-					if('show' == get_post_type()): 
+					if('show' == get_post_type() && get_post_meta($post->ID , '_sr_stolen-show' , true)): 
 						sr_post_thumbnail('sr-show-sixcol' , true, 'null');
 					else:
 						sr_post_thumbnail('sr-sixcol' , true, 'parent');
@@ -165,7 +171,11 @@ if($the_query->have_posts() ):?>
 				</header><!-- .entry-header -->
 				
 				<div class="entry-summary">
-					<?php the_excerpt(); ?>
+					<?php //the_excerpt(); ?>
+					<?php
+						no_more_excerpt($post->ID , '', 180);
+						echo '<span class="read-more"> <a href="'. get_permalink($post->ID) . '">read more</a></span>';
+					?>
 				</div><!-- .entry-summary -->
 			</div>
 		</article><!-- #post-<?php the_ID(); ?> -->

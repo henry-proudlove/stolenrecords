@@ -1,6 +1,6 @@
 <div class="my_meta_control">
  	
- 	<?php $options = array('length' => 1, 'limit' => 5); ?>
+ 	<?php $options = array('length' => 1); ?>
 	<?php while($mb->have_fields_and_multi('artist_soc_links', $options)): ?>
 	<?php $mb->the_group_open(); ?>
 	

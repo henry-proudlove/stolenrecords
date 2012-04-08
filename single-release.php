@@ -39,18 +39,22 @@ get_header(); ?>
 							?>
 						</div><!--#slider-->
 					</div><!--#entry-content-->
-					<?php
+					<?php 
 						$buy_link = get_post_meta( $post->ID , '_sr_release-buy-link', true);
-							if ($buy_link):
-								$curr_date = date('U');
-								$release_date = strtotime($release_date);
-								if ($curr_date <= $release_date)
-								{
-									echo '<a href="'.$buy_now_link .'" class="buy-link preorder button button-large">Preorder now</a>';
-								}else
-								{
-									echo '<a href="'.$buy_now_link .'" class="buy-link buy-now button button-large">Buy Now</a>';
-								}
+						if ($buy_link):
+							$curr_date = date('Y-m-d');
+							$release_date = get_post_meta( $post->ID , '_sr_release-date', true);
+							
+							if ($curr_date < $release_date)
+							{
+								echo '<div class="entry-meta"><time class="release date"> Out ';
+								echo date('l j<\s\u\p>S</\s\u\p> F Y' , strtotime($release_date));
+								echo '</time></div>';
+								echo '<a href="'.$buy_now_link .'" class="buy-link preorder button button-large">Preorder now</a>';
+							}else
+							{
+								echo '<a href="'.$buy_now_link .'" class="buy-link buy-now button button-large">Buy Now</a>';
+							}
 						endif;
 					?>
 			</div><!--#release-info-->

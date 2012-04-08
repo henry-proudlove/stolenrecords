@@ -192,9 +192,9 @@ function sr_excerpt_more($more) {
 add_filter('excerpt_more', 'sr_excerpt_more');
 
 
-function no_more_excerpt($postID, $class = ''){
+function no_more_excerpt($postID, $class = '', $length = '250'){
 	$excerpt = get_the_content($postID);
-	$excerpt = sr_truncate($excerpt, 250, ' ');
+	$excerpt = sr_truncate($excerpt, $length, ' ');
 	echo '<p class="' . $class . '">' . $excerpt . '</p>' ;
 }
 
@@ -697,7 +697,10 @@ function sr_shows_markup(){
 		<div class="info sevencol">
 			<div>
 				<header class="entry-header">
-					<time class="show-date"><?php echo $show_meta['date']; ?></time>
+					<time class="show-date">
+						<?php echo $show_meta['date']; ?>
+						<?php echo $show_meta['time']; ?>
+					</time>
 					<h1 class="entry-title big-h">
 					<?php if($show_meta['buy_tix']): ?>
 						<a href="<?php echo $show_meta['buy_tix']; ?>" title="Buy Tickets" rel="bookmark">
@@ -718,7 +721,6 @@ function sr_shows_markup(){
 						</li>
 					<?php endforeach; ?>
 					</ul>
-					<time class="show-time"><?php echo $show_meta['time']; ?></time>
 					<?php if($show_meta['venue_link'] && $show_meta['venue']):?>
 						<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" title="More info" rel="bookmark"><?php echo $show_meta['venue']; ?></a></span>
 					<?php elseif($show_meta['venue']): ?>
@@ -999,9 +1001,9 @@ function sr_rels_by_artist($args = array())
 					
 					if ($buy_now_link && $options['buy_now'])
 					{
-						$curr_date = date('U');
-						$release_date = strtotime($release_date);
-						if ($curr_date <= $release_date)
+						$curr_date = date('Y-m-d');
+						$release_date = get_post_meta( $rel_id , '_sr_release-date', true);
+						if ($curr_date < $release_date)
 						{
 							echo '<a href="'.$buy_now_link .'" class="buy-link preorder button button-small">Preorder now</a>';
 						}else
@@ -1038,6 +1040,7 @@ function sr_get_reivews($reviews)
 }
 
 //Get 4 Shows by artist
+
 function sr_aside_shows($artist, $home)
 {
 	$current_datetime = date('Y-m-d H:i');
@@ -1138,6 +1141,7 @@ function sr_artist_tracks($artist)
 }
 
 //Release page sample tracks
+
 function sr_release_tracks()
 {	
 	$tracks = array();
