@@ -750,7 +750,7 @@ body{
 }
 
 .twocol{
-	width: 13.59%;
+	width: 13.8%;
 }
 
 .onecol{
@@ -2370,7 +2370,7 @@ wp-caption-text{
 
 #reviews{
 	text-align: center;
-	margin-top: 2.9em;
+	margin-top: 2.5em;
 }
 
 .review{
@@ -2392,9 +2392,9 @@ wp-caption-text{
 	padding-top: 0.5em;
 }
 
-.releases-divider + #reviews 
+#releases + #reviews 
 {
-	padding-top: 3.9em;
+	padding-top: 3.3em;
 	background: url('images/wiggly-line-dark.png') no-repeat top center;
 }
 
@@ -2434,12 +2434,23 @@ aside#releases .img-holder img{
 /* Releases inline */
 
 section#releases{
-	margin: 0.5em 0;
-	width: 100%;
-	margin-left: -1.4%;
+	/*margin: 0.5em 0;*/
+	width: 95%;
+	margin: 2.9em 1.4%;
+	/*margin-left: -1.4%;*/
 	text-align: center;
 	display: block;
 	clear: both;
+	border-top: 1px solid rgba(41, 48, 53, 0.1);
+	border-bottom: 1px solid rgba(41, 48, 53, 0.1);
+	padding: 1em 0;
+
+}
+
+.releases-wrap{
+	width: 102.8%;
+margin-left: -1.6%;
+margin-right: 0;
 }
 
 .releases-divider{

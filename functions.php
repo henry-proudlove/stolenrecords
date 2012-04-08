@@ -940,21 +940,23 @@ function sr_rels_by_artist($args = array())
 		'post_type' => 'release' ,
 		'post_status' => 'publish',
 		'posts_per_page' => $options['limit'] ,
-		'post__not_in' => array($options['exclude']),
-		'tax_query' => array(
+		'post__not_in' => array($options['exclude'])
+	);
+	if ($options['artist'] != ''){
+		$query_args['tax_query'] = array(
 			array(
 				'taxonomy' => 'artist',
 				'field' => 'id',
 				'terms' => $options['artist']
 			)
-		)
-	);
+		);
+	}
 	$rel_query = new WP_query($query_args);
 	$aside = $options['aside'];
 	if($aside == false)
 	{
-		$wrapper_o = '<div class="releases-divider"></div><section id="releases" class="clearfix">';
-		$wrapper_c = '</section><!--#releases--><div class="releases-divider"></div>';
+		$wrapper_o = '<section id="releases" class="clearfix"><div class="releases-wrap">';
+		$wrapper_c = '</div><!--.releases-wrap--></section><!--#releases-->';
 		$article_tag_o = '<article class="release twocol">';
 		$article_tag_c = '</article>';
 	}else{
@@ -967,7 +969,7 @@ function sr_rels_by_artist($args = array())
 	if( have_posts() ):
 		echo $wrapper_o;
 		while ($rel_query->have_posts() ): $rel_query->the_post(); ?>
-				<?php echo $article_tag_o;?>
+			<?php echo $article_tag_o;?>
 				<?php $rel_id = get_the_ID(); ?>
 				<a href="<?php the_permalink(); ?>" <?php if($aside == true){echo 'class="red-roll "'; }?>  title="<?php printf( esc_attr__( 'View %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark">
 				<div class="img-holder">
