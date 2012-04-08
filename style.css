@@ -652,61 +652,6 @@ button {width: auto; overflow: visible;}
   h2, h3{ page-break-after: avoid; }
 }
 
-.box-pack{
-	/* Firefox */
-	display:-moz-box;
-	-moz-box-orient:horizontal;
-	-moz-box-pack:left;
-	-moz-box-align:center;
-	
-	/* Safari and Chrome */
-	display:-webkit-box;
-	-webkit-box-orient:horizontal;
-	-webkit-box-pack:left;
-	-webkit-box-align:center;
-	
-	/* W3C */
-	display:box;
-	box-orient:horizontal;
-	box-pack:left;
-	box-align:center;
-	
-	height: 100%;
-	position: absolute;
-}
-
-.box-pack > div{
-	width: 100%;
-}
-
-.show-pack.expanded{
-	/* Firefox */
-	display:-moz-box;
-	-moz-box-orient:horizontal;
-	-moz-box-pack:left;
-	-moz-box-align:center;
-	
-	/* Safari and Chrome */
-	display:-webkit-box;
-	-webkit-box-orient:horizontal;
-	-webkit-box-pack:left;
-	-webkit-box-align:center;
-	
-	/* W3C */
-	display:box;
-	box-orient:horizontal;
-	box-pack:left;
-	box-align:center;
-	
-	height: 100%;
-}
-
-.show-pack.expanded > div{
-	float: none !important;
-	display: block !important;
-}
-
-
 /*
  *
  * Backgrounds
@@ -2731,10 +2676,6 @@ section#single-release{
 
 .post-type-archive-show .results-header{
 	text-align: right;
-}
-
-.post-type-archive-show .box-pack .wrap{
-	margin-top: -1em;
 }
 
 .fancy-roll .info .entry-header + .read-more{
