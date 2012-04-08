@@ -379,27 +379,6 @@ function setupGallery(videos) {
 }
 
 /*
-GET FLICKR FOR MEDIA PAGE 
-*/
-$.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?id=8546357@N03&lang=en-us&format=json&jsoncallback=?", function(data){
-	var newelems = '';
-		$.each(data.items, function(i,item){
-			newelems += '<a class="fancy-roll fourcol flickr" href="' + item.link + '">';
-			newelems += '<img src="' +  item.media.m + '" />';
-			newelems += '</a>';
-			if ( i == 20 ) return false;
-	});
-	$newelems = $(newelems);
-$('.page-template-page-media-php #isotope-wrap').append( $newelems );
-$('#isotope-wrap').imagesLoaded(function(){
-	var $container = $(this);
-		$container.isotope({
-			  itemSelector : '.fancy-roll',
-		});
-	});
-});
-
-/*
 FILTER BUILDER
 */
 
@@ -417,7 +396,7 @@ function filtrationUnits(filterString){
 $(document).ready(function() {
 	$('a.lightbox.video').colorbox({iframe:true, width:"80%", height:"60%", returnFocus : false});
 	
-	$('a.lightbox.photo').colorbox({opacity	: 0.85 , returnFocus : false});
+	$('a.lightbox.photo, a.lightbox.flickr').colorbox({opacity	: 0.85 , returnFocus : false});
 	
 	$("#social-tabs" ).tabs();
 	
@@ -508,9 +487,11 @@ $(document).ready(function() {
 		$('aside#releases').remove();
 	}
 	
-	$container = $('.post-type-archive release #isotope-wrap');
-	$container.isotope({
-		itemSelector : '.fancy-roll',
+	$container = $('#isotope-wrap');
+	$container.imagesLoaded(function(){
+		$(this).isotope({
+			itemSelector : '.fancy-roll',
+		});
 	});
 	
 	//Filtering

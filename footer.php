@@ -33,7 +33,7 @@ var templateDir = "<?php bloginfo('template_directory') ?>";
 	<script type="text/javascript">
 		/*
 		GET FLICKR FOR MEDIA PAGE 
-		*/
+		
 		$(document).ready(function(){
 			$.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?id=8546357@N03&lang=en-us&format=json&jsoncallback=?", function(data){
 			var newelems = '';
@@ -57,7 +57,7 @@ var templateDir = "<?php bloginfo('template_directory') ?>";
 			$container.isotope({
 				itemSelector : '.fancy-roll',
 			});
-		});
+		});*/
 		
 		filtrationUnits(filterString);
 	</script>
