@@ -2276,7 +2276,7 @@ wp-caption-text{
 }
 
 .fancy-roll .info .entry-summary p, .fancy-roll time{
-	color: rgba(255, 255, 255, 0.6);
+	color: rgba(255, 255, 255, 0.8);
 	display:inline-block;
 	width: 100%;
 	margin-bottom: 0.6em;
