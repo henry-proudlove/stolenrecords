@@ -98,7 +98,7 @@ if($the_query->have_posts() ):?>
 								</span>
 							<?php endforeach; ?>
 							</h2>
-							<div class="entry-meta big-center">
+							<div class="entry-meta">
 								<time class="show-time"><?php echo $show_meta['time']; ?></time>
 								<?php if($show_meta['venue_link'] && $show_meta['venue']):?>
 									<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" title="More info" rel="bookmark"><?php echo $show_meta['venue']; ?></a></span>
@@ -125,7 +125,7 @@ if($the_query->have_posts() ):?>
 				<div class="sixcol right">
 					<?php 
 					if('show' == get_post_type()): 
-						sr_post_thumbnail('sr-show-fivecol' , true, 'null');
+						sr_post_thumbnail('sr-show-sixcol' , true, 'null');
 					else:
 						sr_post_thumbnail('sr-sixcol' , true, 'parent');
 					endif;?>

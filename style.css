@@ -1394,7 +1394,7 @@ article.comment {
 #latest .slider-nav{
 	float: right;
 	/*position: relative;*/
-	top: -4.1em;
+	top: -3.8em;
 	position: absolute;
 	right: 0;
 	margin: 0;
@@ -1889,6 +1889,10 @@ background: #da342e;
 
 #latest .left{
 	height: 100%;
+}
+
+#latest time, #latest .entry-meta{
+	font-size: 1em;
 }
 
 
@@ -3445,7 +3449,7 @@ div.wpcf7 img.ajax-loader {
 	
 	.isotope-filter {
 		margin: 18px;
-		width: 1120px;
+		width: 1122px;
 	}
 	
 	#isotope-wrap .fancy-roll{

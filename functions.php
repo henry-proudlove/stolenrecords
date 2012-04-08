@@ -420,6 +420,7 @@ if ( function_exists( 'add_image_size' ) ) {
 	add_image_size( 'sr-twelvecol', 1217, 500, true );
 	add_image_size( 'sr-eightcol', 801, 600, false );
 	add_image_size( 'sr-sixcol', 592, 592, true );
+	add_image_size( 'sr-show-sixcol', 592, 837, true );
 	add_image_size( 'sr-fivecol', 487, 650, false );
 	add_image_size( 'sr-art-fivecol', 487, 487, true );
 	add_image_size( 'sr-fourcol', 384, 288, true );
