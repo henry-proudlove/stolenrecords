@@ -30,35 +30,7 @@ var templateDir = "<?php bloginfo('template_directory') ?>";
 <?php //Page conditional Scripts ?>
 
 <?php if(is_page('videosphotos')): ?>
-	<script type="text/javascript">
-		/*
-		GET FLICKR FOR MEDIA PAGE 
-		
-		$(document).ready(function(){
-			$.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?id=8546357@N03&lang=en-us&format=json&jsoncallback=?", function(data){
-			var newelems = '';
-			$.each(data.items, function(i,item){
-				newelems += '<a class="fancy-roll fourcol flickr" href="' + item.link + '">';
-				newelems += '<img src="' +  item.media.m + '" />';
-				newelems += '</a>';
-				if ( i == 20 ) return false;
-			});
-			$newelems = $(newelems);
-			$('.page-template-page-media-php #isotope-wrap').append( $newelems );
-			$('#isotope-wrap').imagesLoaded(function(){
-				var $container = $(this);
-					$container.isotope({
-						  itemSelector : '.fancy-roll',
-					});
-				});
-			});
-		
-			$container = $('.post-type-archive-release #isotope-wrap');
-			$container.isotope({
-				itemSelector : '.fancy-roll',
-			});
-		});*/
-		
+	<script type="text/javascript">	
 		filtrationUnits(filterString);
 	</script>
 <?php endif;?>

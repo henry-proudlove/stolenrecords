@@ -2321,8 +2321,8 @@ wp-caption-text{
 .fancy-roll .info .zoom{
 	background: url('images/magnifyer.png') no-repeat top center;
 	padding-top: 26px;
+	display: block;
 }
-
 
 /*
  *
@@ -2573,15 +2573,12 @@ section#single-release{
 	padding: 1em 0 1.5em;
 	margin: 5px 0 5px 5%;
 	width: 19%;
+	text-align: center;
 }
 
 .home section#releases .releases-wrap{
 	margin-left: -5.5%;
 	width: 110%;
-}
-
-
-.home section#releases .release:nth-child(4){
 }
 
 /*
@@ -3038,6 +3035,37 @@ div.wpcf7 img.ajax-loader {
 	background-position: -164px 0;
 }
 
+.isotope-filter li.flickr{
+	position: relative;
+	z-index: 1;
+}
+
+.isotope-filter a.flickr-link{
+	display: block;
+	width: 19px;
+	height: 8px;
+	background-image: url('images/sprite.png');
+	background-position: -269px -13px;
+	text-indent: -9000px;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	right: 0;
+	top: 1em;
+	z-index: 2;
+}
+
+.isotope-filter a.flickr-link:hover{
+	background-position: -250px -13px;
+}
+
+.isotope-filter .flickr-filter{
+	width: 85%;
+}
+
+
+
+
 
 
 /**** Isotope Filtering ****/
@@ -3298,15 +3326,13 @@ div.wpcf7 img.ajax-loader {
 	}
 	#isotope-wrap .fancy-roll{
 		margin: 11px;
+		width: 339px;
+		font-size: 1.1em;
+	}
+	#isotope-wrap .fancy-roll .info .entry-summary p, #isotope-wrap .fancy-roll time{
+		width: 80%;
 	}
 	
-	#isotope-wrap .photo, #isotope-wrap .video {
-		width: 339px;
-	}
-
-	#isotope-wrap .flickr {
-		width: 75px;
-	}
 }
 
 @media screen and (min-width: 1100px)
@@ -3338,7 +3364,6 @@ div.wpcf7 img.ajax-loader {
 	#isotope-wrap .fancy-roll{
 		width: 412px;
 		margin: 11px;
-		font-size: 0.9em;
 	}
 	
 }
@@ -3354,6 +3379,9 @@ div.wpcf7 img.ajax-loader {
 		width: 289px;
 		margin: 13px;
 		font-size: 0.9em;
+	}
+	#isotope-wrap .fancy-roll .info .entry-summary p, #isotope-wrap .fancy-roll time{
+		width: 100%;
 	}
 	
 	#main{
@@ -3411,6 +3439,11 @@ div.wpcf7 img.ajax-loader {
 	#isotope-wrap .fancy-roll{
 		width: 320px;
 		margin: 15px;
+		font-size: 1em;
+	}
+	
+	#isotope-wrap .fancy-roll .info .entry-summary p, #isotope-wrap .fancy-roll time{
+		width: 80%;
 	}
 	
 	#isotope-wrap .fancy-roll.vimeo img{
@@ -3472,6 +3505,7 @@ div.wpcf7 img.ajax-loader {
 	#latest .entry-meta{
 		font-size: 1.5em;
 	}
+	
 	#latest .big-center{
 		max-width: 70%;
 		text-align: center;

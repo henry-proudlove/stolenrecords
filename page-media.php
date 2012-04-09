@@ -95,14 +95,13 @@ get_header(); ?>
 			foreach ($flickritems as $flickritem){
 			
 				$img_m = $flickritem['media']['m'];
-				$img = str_replace('_m.jpg' , '' , $img_m);
-				$html = '<a class="fancy-roll lightbox flickr" href="' . $img . '_b.jpg" rel="bookmark">';
-				$html .=  '<img src="' . $img . '_n.jpg" />';
-				$html .= '<div class="info"><div class="wrap">';
-				$html .= '<span class="click-prompt zoom">Click to zoom</span>';
-				$html .= '</div></div>';
-				
-				echo $html;
+				$img = str_replace('_m.jpg' , '' , $img_m); ?>
+				<a class="fancy-roll lightbox flickr" href="<?php echo $img; ?>_b.jpg" rel="fuckface">
+					<img src="<?php echo $img; ?>_n.jpg" />
+					<div class="info"><div class="wrap">
+						<span class="click-prompt zoom">Click to zoom</span>
+					</div></div>
+				</a> <?php
 			}			
 			?>
 		</div><!--#isotope-wrap-->
@@ -115,7 +114,7 @@ $filter_string = '';
 foreach($artists as $artist){
 	$filter_string .= '<li class="filter-item artist"><a href="#" data-filter=".' . $artist['class'] . '">' . $artist['title'] . '</a></li>';
 }
-$filter_string .= '</ul><ul class="media-list filter-list"><li class="filter-item media"><a href="#" data-filter="*" class="selected">All media</a></li><li class="filter-item media"><a href="#" data-filter=".video">Videos</a></li><li class="filter-item media"><a href="#" data-filter=".photo">Photos</a></li><li class="filter-item media"><a href="#" data-filter=".flickr">Flickr</a></li></ul>';
+$filter_string .= '</ul><ul class="media-list filter-list"><li class="filter-item media"><a href="#" data-filter="*" class="selected">All media</a></li><li class="filter-item media"><a href="#" data-filter=".video">Videos</a></li><li class="filter-item media"><a href="#" data-filter=".photo">Photos</a></li><li class="filter-item media flickr"><a href="#" data-filter=".flickr" class="flickr-filter">Flickr</a><a class="flickr-link" href="http://www.flickr.com/photos/stolenrecordings" target="_blank" title="Go to Stolen Recordings Flickr" >Stolenrecs on Flickr</a></li></ul>';
 ?>
 <script type="text/javascript"> 
 	var filterString = '<?php echo $filter_string; ?>';

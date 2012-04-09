@@ -516,7 +516,7 @@ $(document).ready(function() {
 		return false;
 	});
 	
-	$('.page-template-page-media-php .filter-list a').click(function(){
+	$('.page-template-page-media-php .filter-list a:not(.flickr-link)').click(function(){
 	
 		$sib = $(this).parents('.filter-list').siblings();
 		$sibselected = $sib.find('.selected')
