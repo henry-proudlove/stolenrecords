@@ -325,7 +325,7 @@ display:block;
  */
  
 aside{
-	margin-bottom: 8%;
+	margin-bottom: 10%;
 }
 aside > div, aside > ul{
 	background: white;
@@ -719,7 +719,7 @@ body{
 	float: left;
 }
 
-.twocol{
+.single-artist .twocol{
 	margin: 1.25%;
 	display: inline-block;
 	position: relative;
@@ -816,10 +816,10 @@ body{
 	float:right;
 }
 
-.nested article
+/*.nested article
 {
 	clear: both;
-}
+}*/
 
 /* Increase the size of the content area for templates without sidebars */
 .full-width #content, .image-attachment #content, .error404 #content {
@@ -1885,6 +1885,10 @@ background: #da342e;
 	margin-top: -0.3em;
 }
 
+#news-feed{
+	margin-bottom: 5%;
+}
+
 
 /*
  *
@@ -2402,6 +2406,10 @@ wp-caption-text{
 	font-size 0.9em;
 }
 
+.single-artist .slider-nav + #content-holder > .entry-content{
+	padding-top: 0;
+}
+
 /*
 *
 * Single Release
@@ -2433,11 +2441,9 @@ aside#releases .img-holder img{
 
 /* Releases inline */
 
-section#releases{
-	/*margin: 0.5em 0;*/
+.single-artist section#releases{
 	width: 95%;
 	margin: 2.9em 1.4%;
-	/*margin-left: -1.4%;*/
 	text-align: center;
 	display: block;
 	clear: both;
@@ -2447,10 +2453,10 @@ section#releases{
 
 }
 
-.releases-wrap{
+.single-artist .releases-wrap{
 	width: 102.8%;
-margin-left: -1.6%;
-margin-right: 0;
+	margin-left: -1.6%;
+	margin-right: 0;
 }
 
 .releases-divider{
@@ -2467,45 +2473,47 @@ margin-right: 0;
 	margin: 0.2em 1.4% 2.9em;
 }
 
-.single-artist section .release *{
+section#releases .release *{
 	transition: 0.3s;
 	-moz-transition: 0.3s;
 	-webkit-transition: 0.3s;
 	-o-transition: 0.3s;
 }
 
-.single-artist section .release{
+section#releases .release{
 	line-height: 1.2em;
 	vertical-align: top;
 }
 
-.single-artist section .release a{
+section#releases .release a{
 	border: none;
 }
 
-.single-artist section .release img{
+section#releases .release img{
 	margin-bottom: 0.8em;
 	display: block;
 }
 
-.single-artist section .release .img-holder{
+section#releases .release .img-holder{
 	background: #293034;
 }
 
-.single-artist section .release h3{
+section#releases .release h3{
 	color: #293034;
 	font-family: 'StolenBody';
+	overflow: hidden;
+	font-weight: normal;
 }
 
-.single-artist section .release a:hover h3{
+section#releases .release a:hover h3{
 	color: #da342e;
 }
 
-.single-artist section .release a:hover img{
+section#releases .release a:hover img{
 	opacity: 0.6;
 }
 
-.single-artist section .release time{
+section#releases .release time{
 	display: block;
 	font-size: 1em;
 }
@@ -2555,6 +2563,25 @@ section#single-release{
 .release .entry-artist:nth-child(2)::before {
 	content: "& ";
 	font-weight: normal;
+}
+
+.home section#releases{
+	border-bottom: 1px solid rgba(41, 48, 53, 0.2);
+}
+
+.home section#releases .release{
+	padding: 1em 0 1.5em;
+	margin: 5px 0 5px 5%;
+	width: 19%;
+}
+
+.home section#releases .releases-wrap{
+	margin-left: -5.5%;
+	width: 110%;
+}
+
+
+.home section#releases .release:nth-child(4){
 }
 
 /*

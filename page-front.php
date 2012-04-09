@@ -12,9 +12,10 @@ get_header(); ?>
 <div id="content" class="clearfix offset">
 	<?php get_template_part('loop' , 'front');?>
 	<?php 
-		$args = array('thumb_size' => 'sr-twocol', 'limit' => '4' );
+		$args = array('thumb_size' => 'sr-twocol', 'limit' => '4' , 'title' => true );
 		sr_rels_by_artist($args);
 	?>
+	</div><!--#wrapper-->
 	<div id="sidebar" class="fourcol shim-left">
 		<aside id="stolen-listen" class="listen">
 			<h2 class="aside-header">Listen</h2>

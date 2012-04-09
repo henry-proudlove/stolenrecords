@@ -932,7 +932,8 @@ function sr_rels_by_artist($args = array())
 		'limit' => '6',
 		'buy_now' => true,
 		'exclude' => '',
-		'aside' => false
+		'aside' => false,
+		'title' => false
 	);
 	
 	$options = array_merge($defaults , $args);
@@ -955,7 +956,12 @@ function sr_rels_by_artist($args = array())
 	$aside = $options['aside'];
 	if($aside == false)
 	{
-		$wrapper_o = '<section id="releases" class="clearfix"><div class="releases-wrap">';
+		if ($options['title'] == true){
+			$wrapper_o = '<section id="releases" class="nested"><h2 class="section-header">Latest Releases</h2>';
+		}else{
+			$wrapper_o = '<section id="releases" class="clearfix">';
+		}
+		$wrapper_o .= '<div class="releases-wrap clearfix">';
 		$wrapper_c = '</div><!--.releases-wrap--></section><!--#releases-->';
 		$article_tag_o = '<article class="release twocol">';
 		$article_tag_c = '</article>';
