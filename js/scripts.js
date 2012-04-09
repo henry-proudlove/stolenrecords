@@ -567,4 +567,8 @@ $(document).ready(function() {
 		$('#isotope-wrap').isotope('reLayout');
 	});
 	
+	/*$('.fancy-roll img').lazyload({
+		effect : 'fadeIn'
+	});*/
+	
 });

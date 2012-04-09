@@ -1568,13 +1568,13 @@ function sr_get_images( $args = array() ) {
 		'post_id' => $post->ID,
 		'link' => 'self',
 		'img_class' => 'attachment-image',
-		//'a_class' => 'lightbox fancybox.image fancy-roll',
 		'a_class' => 'lightbox fancy-roll',
 		'a_rel' => '',
 		'wrapper' => true,
 		'wrapper_class' => 'attachment-image-wrapper',
 		'include' => '',
-		'exclude' => ''
+		'exclude' => '',
+		'lazy' => false
 	);
 	
 	$options = array_merge( $defaults, $args );
@@ -1589,6 +1589,7 @@ function sr_get_images( $args = array() ) {
 	$img_class = $options['img_class'];
 	$wrapper = $options['wrapper'];
 	$wrapper_class = $options['wrapper_class'];
+	$lazy = $options['lazy'];
 	
 	$images = get_children( array(
 		'post_parent' => $options['post_id'],
@@ -1642,7 +1643,11 @@ function sr_get_images( $args = array() ) {
 			<?php elseif($link == 'parent'):?>
 			<a href="<?php the_permalink(); ?>" class="fancy-roll" title="<?php printf( esc_attr__( 'Permalink to %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark">
 			<?php endif; ?>
-			<img class="<?php echo $img_class;?>" src="<?php echo $img_src[0]; ?>" alt="<?php echo $img_alt; ?>" title="<?php echo $img_title; ?>" />
+			<?php if(!$lazy): ?>
+				<img class="<?php echo $img_class;?>" src="<?php echo $img_src[0]; ?>" alt="<?php echo $img_alt; ?>" title="<?php echo $img_title; ?>" />
+			<?php else: ?>
+				<img class="<?php echo $img_class;?>" src="<?php echo get_template_directory_uri(); ?>/images/dark-grey.png" data-original="<?php echo $img_src[0]; ?>" width="<?php echo $img_src[1]; ?>" height="<?php echo $img_src[2]; ?>" alt="<?php echo $img_alt; ?>" title="<?php echo $img_title; ?>" />
+			<?php endif; ?>
 			<?php if($link == 'self'):?>
 				<div class="info">
 					<div class="wrap">
