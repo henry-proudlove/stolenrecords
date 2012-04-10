@@ -972,7 +972,7 @@ function sr_rels_by_artist($args = array())
 		$article_tag_c = '</li>';
 		
 	}
-	if( have_posts() ):
+	if( $rel_query->have_posts() ):
 		echo $wrapper_o;
 		while ($rel_query->have_posts() ): $rel_query->the_post(); ?>
 			<?php echo $article_tag_o;?>

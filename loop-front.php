@@ -146,42 +146,43 @@ if($the_query->have_posts() ):?>
 <?php endif; ?>
 	<div id="wrapper" class="eightcol shim-right"> 
 		<section id="news-feed" class="nested">
-			<h2 class="section-header">News</h2>
-			<div id="news-long">
-			
 			<?php /* Index 'News' section 3 posts with image */
 			
 				$args = array('posts_per_page' => '4' , 'post__not_in' => $dont_copy);
 				$the_query = new WP_Query($args);
-				while ( $the_query->have_posts() ) : $the_query->the_post();?>
-				
-				<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">		
+				if( $the_query->have_posts() ): ?>
+					<h2 class="section-header">News</h2>
+					<div id="news-long">
+					<?php while ( $the_query->have_posts() ) : $the_query->the_post();?>
 					
-					<div class="twocol">
-						<?php sr_post_thumbnail('sr-twocol' , false, 'null');
-						array_push($dont_copy, $post->ID); ?>
-					</div>
-					<div class="sixcol">
-						<header class="entry-header">
+					<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">		
 						
-							<time class="entry-date"><?php echo get_the_date(); ?></time>
+						<div class="twocol">
+							<?php sr_post_thumbnail('sr-twocol' , false, 'null');
+							array_push($dont_copy, $post->ID); ?>
+						</div>
+						<div class="sixcol">
+							<header class="entry-header">
 							
-							<?php _sr_post_header('h2' , 'small-h'); ?>
-						
-						</header><!-- .entry-header -->
-						
-						<div class="entry-summary">
-							<?php //the_excerpt(); ?>
-							<?php
-								no_more_excerpt($post->ID , '', 180);
-								echo '<span class="read-more"> <a href="'. get_permalink($post->ID) . '">read more</a></span>';
-							?>
-						</div><!-- .entry-summary -->
-					</div>
-				</article><!-- #post-<?php the_ID(); ?> -->
-				<?php endwhile;?>
+								<time class="entry-date"><?php echo get_the_date(); ?></time>
+								
+								<?php _sr_post_header('h2' , 'small-h'); ?>
+							
+							</header><!-- .entry-header -->
+							
+							<div class="entry-summary">
+								<?php //the_excerpt(); ?>
+								<?php
+									no_more_excerpt($post->ID , '', 180);
+									echo '<span class="read-more"> <a href="'. get_permalink($post->ID) . '">read more</a></span>';
+								?>
+							</div><!-- .entry-summary -->
+						</div>
+					</article><!-- #post-<?php the_ID(); ?> -->
+					<?php endwhile;?>
 			
-			</div><!--#news-long-->
+				</div><!--#news-long-->
+			<?php endif; ?>
 			<div id="news-trunc">
 			
 			<?php /* 3 posts without image */
