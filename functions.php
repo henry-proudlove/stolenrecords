@@ -1644,9 +1644,11 @@ function sr_get_images( $args = array() ) {
 			<a href="<?php the_permalink(); ?>" class="fancy-roll" title="<?php printf( esc_attr__( 'Permalink to %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark">
 			<?php endif; ?>
 			<?php if(!$lazy): ?>
-				<img class="<?php echo $img_class;?>" src="<?php echo $img_src[0]; ?>" alt="<?php echo $img_alt; ?>" title="<?php echo $img_title; ?>" />
+					<img class="<?php echo $img_class;?>" src="<?php echo $img_src[0]; ?>" alt="<?php echo $img_alt; ?>" title="<?php echo $img_title; ?>" />
 			<?php else: ?>
-				<img class="<?php echo $img_class;?>" src="<?php echo get_template_directory_uri(); ?>/images/dark-grey.png" data-original="<?php echo $img_src[0]; ?>" width="<?php echo $img_src[1]; ?>" height="<?php echo $img_src[2]; ?>" alt="<?php echo $img_alt; ?>" title="<?php echo $img_title; ?>" />
+				<div class="lazy-wrapper">
+					<img class="<?php echo $img_class;?>" src="<?php echo get_template_directory_uri(); ?>/images/dark-grey.png" data-original="<?php echo $img_src[0]; ?>" width="<?php echo $img_src[1]; ?>" height="<?php echo $img_src[2]; ?>" alt="<?php echo $img_alt; ?>" title="<?php echo $img_title; ?>" />
+				</div>
 			<?php endif; ?>
 			<?php if($link == 'self'):?>
 				<div class="info">

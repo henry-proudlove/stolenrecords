@@ -118,6 +118,32 @@ jQuery.fn.borderScroll = function(currentPos) {
 };
 
 /*
+MEDIA PAGE HELL
+*/
+jQuery.fn.mediaPad = function(){
+	$(this[0]).find('.fancy-roll').each(function(){
+			if($(this).hasClass('photo') || $(this).hasClass('flickr')){
+				$img =  $(this).find('img');
+				height = $img.attr('height');
+				width = $img.attr('width');
+				ratio = height/width;
+				$(this).find('.lazy-wrapper').css('padding-top', (ratio * 100)+"%");
+				$img.removeAttr('width').removeAttr('height');
+			}else if($(this).hasClass('vimeo')){
+				ratio = 0.5625;
+				$(this).find('.lazy-wrapper').css('padding-top', (ratio * 100)+"%");
+				$img.removeAttr('width').removeAttr('height');
+			}else{
+				ratio = 0.75;
+				$(this).find('.lazy-wrapper').css('padding-top', (ratio * 100)+"%");
+				$img.removeAttr('width').removeAttr('height');
+			}		
+		});
+		
+		return $(this[0]);
+};
+
+/*
 INITIALISING CYCLE PLUGIN
 */
 
@@ -487,8 +513,7 @@ $(document).ready(function() {
 		$('aside#releases').remove();
 	}
 	
-	$container = $('#isotope-wrap');
-	$container.imagesLoaded(function(){
+	$('.post-type-archive-release #isotope-wrap').imagesLoaded(function(){
 		$(this).isotope({
 			itemSelector : '.fancy-roll',
 		});
@@ -554,9 +579,7 @@ $(document).ready(function() {
 		start = filtercount - filtermodulus;
 		end = filtercount;
 		$filters.slice(start, end).addClass('filter-no-border');
-	}
-	//console.log(filtermodulus);
-	
+	}	
 	
 	$(window).smartresize(function(){  
 		$(".slider").sliderheight();
@@ -570,5 +593,12 @@ $(document).ready(function() {
 	/*$('.fancy-roll img').lazyload({
 		effect : 'fadeIn'
 	});*/
+	
+	$('.page-template-page-media-php #isotope-wrap').mediaPad().isotope({
+			itemSelector : '.fancy-roll'
+		}).find('.fancy-roll img').lazyload({
+			effect : 'fadeIn',
+			 failure_limit : 10
+		});
 	
 });

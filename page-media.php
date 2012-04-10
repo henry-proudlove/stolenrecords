@@ -73,7 +73,7 @@ get_header(); ?>
 				foreach($post_nums as $post_num)
 				{	
 					$a_class = $artist_class . ' fancy-roll lightbox photo';
-					$options = array('size' => 'sr-media-fourcol', 'post_id' => $post_num, 'wrapper' => false, 'a_class' => $a_class, 'a_rel' => 'gallery-media' /*, 'lazy' => true*/ );
+					$options = array('size' => 'sr-media-fourcol', 'post_id' => $post_num, 'wrapper' => false, 'a_class' => $a_class, 'a_rel' => 'gallery-media' , 'lazy' => true );
 					sr_get_images($options);
 				}
 				
@@ -89,7 +89,9 @@ get_header(); ?>
 			  $photo = $phpFlickrObj->photos_getSizes($photo['id']);
 			  ?>
 				<a class="fancy-roll lightbox flickr" href="<?php echo $photo[6]['source']; ?>" rel="bookmark">
-					<img src="<?php echo $photo[4]['source']; ?>" width="<?php echo $photo[4]['width']; ?>" height="<?php echo $photo[4]['height']; ?>" />
+					<div class="lazy-wrapper">
+						<img src="<?php echo get_template_directory_uri(); ?>/images/dark-grey.png" data-original="<?php echo $photo[4]['source']; ?>" width="<?php echo $photo[4]['width']; ?>" height="<?php echo $photo[4]['height']; ?>" />
+					</div>
 					<div class="info"><div class="wrap">
 						<span class="click-prompt zoom">Click to zoom</span>
 					</div></div>
