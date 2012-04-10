@@ -1363,7 +1363,6 @@ function sr_media_videos(&$dont_copy , $artist)
 {
 	global $post;
 	global $video_mb;
-	//echo $artist;
 	$meta = $video_mb->the_meta();
 	if($meta['videos'])
 	{	
@@ -1386,7 +1385,9 @@ function sr_media_videos(&$dont_copy , $artist)
 			if($video['is_valid'] == 'true')
 			{?>
 					<a href="<?php echo $video['embed'] ?>" class="fancy-roll lightbox fancybox.iframe video <?php echo $video['vendor'] . ' ' . $artist; ?>" rel="gallery-media">
-						<img src="<?php echo $video['thumbnail_large']?>" class="<?php echo $video['vendor'] ?>" />
+						<div class="lazy-wrapper">
+							<img src="<?php echo get_template_directory_uri(); ?>/images/dark-grey.png" data-original="<?php echo $video['thumbnail_large']?>" class="<?php echo $video['vendor'] ?>" />
+						</div>
 						<div class="info">
 							<div class="wrap">
 								<header class="entry-header">

@@ -597,8 +597,7 @@ $(document).ready(function() {
 	$('.page-template-page-media-php #isotope-wrap').mediaPad().isotope({
 			itemSelector : '.fancy-roll'
 		}).find('.fancy-roll img').lazyload({
-			effect : 'fadeIn',
-			 failure_limit : 10
+			effect : 'fadeIn'
 		});
 	
 });
