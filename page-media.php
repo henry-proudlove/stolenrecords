@@ -76,33 +76,25 @@ get_header(); ?>
 					$options = array('size' => 'sr-media-fourcol', 'post_id' => $post_num, 'wrapper' => false, 'a_class' => $a_class, 'a_rel' => 'gallery-media' /*, 'lazy' => true*/ );
 					sr_get_images($options);
 				}
+				
 			endwhile;
 			
-			//Flickr
-			
-			$flickrrequest = 'http://api.flickr.com/services/feeds/photos_public.gne?id=8546357@N03&format=json';
-			$flickrci = curl_init($flickrrequest);
-			curl_setopt($flickrci,CURLOPT_RETURNTRANSFER, TRUE);
-			$flickrinput = curl_exec($flickrci);
-			curl_close($flickrci);
-						
-			$flickrinput = str_replace('jsonFlickrFeed(','',$flickrinput);
-			$flickrinput = str_replace('})','}',$flickrinput);
-						
-			$flickrvalue = json_decode($flickrinput,true);
-			$flickritems =  $flickrvalue['items'];
-			
-			foreach ($flickritems as $flickritem){
-			
-				$img_m = $flickritem['media']['m'];
-				$img = str_replace('_m.jpg' , '' , $img_m); ?>
-				<a class="fancy-roll lightbox flickr" href="<?php echo $img; ?>_b.jpg" rel="fuckface">
-					<img src="<?php echo $img; ?>_n.jpg" />
+			require_once("library/phpFlickr.php");
+			$phpFlickrObj = new phpFlickr('5513c9832db6522b7b01155508526edb');
+			$user_url = $phpFlickrObj->urls_getUserPhotos('8546357@N03');
+			$photos = $phpFlickrObj->people_getPublicPhotos('8546357@N03', NULL, NULL, 20);
+			//print_r($photos);
+			foreach ($photos['photos']['photo'] as $photo)
+			{
+			  $photo = $phpFlickrObj->photos_getSizes($photo['id']);
+			  ?>
+				<a class="fancy-roll lightbox flickr" href="<?php echo $photo[6]['source']; ?>" rel="bookmark">
+					<img src="<?php echo $photo[4]['source']; ?>" width="<?php echo $photo[4]['width']; ?>" height="<?php echo $photo[4]['height']; ?>" />
 					<div class="info"><div class="wrap">
 						<span class="click-prompt zoom">Click to zoom</span>
 					</div></div>
 				</a> <?php
-			}			
+			}
 			?>
 		</div><!--#isotope-wrap-->
 	</div><!-- #content -->
