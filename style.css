@@ -107,7 +107,7 @@ input, select { vertical-align:middle; }
 
 body 
 { 
-font:11px/1.45 StolenBody, Georgia, sans-serif; *font-size:small;
+font:11px/1.45 StolenBody, Georgia, serif; *font-size:small;
 }
 
 select, input, textarea, button 
@@ -142,14 +142,14 @@ time
 }
  
 h1,h2,h3,h4,h5,h6 {
-	font-family: 'StolenHeadline';
+	font-family: 'StolenHeadline', Georgia, serif;
 	text-transform: uppercase;
 	font-weight: bold;
 }
 
 aside h1, aside h2, aside h3, aside h4, aside h5, aside h6
 {
-	font-family: 'StolenBody';
+	font-family: 'StolenBody', Georgia, serif;
 	font-weight: normal;
 }
 
@@ -205,7 +205,7 @@ display:block;
 }
 
 #access a, .section-header, .aside-header, .widget-title, .button, .results-title{
-	font-family: 'StolenSans';
+	font-family: 'StolenSans', Arial, Helvetica, sans-serif;
 	font-size: 1.2em;
 	letter-spacing: 0.15em;
 	text-transform: uppercase;
@@ -218,7 +218,7 @@ display:block;
 }
 
 .content-close{
-	font-family: 'StolenSans';
+	font-family: 'StolenSans', Arial, Helvetica, sans-serif;
 	letter-spacing: 0.15em;
 	text-transform: uppercase;
 	float:right;
@@ -373,6 +373,7 @@ border-bottom: none !important;
 }
 
 .red-roll:hover .faint, .sc-trackslist li a:hover span{
+	color: white;
 	color: rgba(255,255,255,0.6);
 }
 
@@ -445,6 +446,7 @@ aside .venue {
 }
 
 .widget li:hover a{
+	color: white;
 	color: rgba(255, 255, 255, 0.6);
 }
 
@@ -505,6 +507,7 @@ a, a:active, a:visited {
 	color: #da342e; 
 	text-decoration: none;
 	border-bottom: 1px solid;
+	border-color: rgb(255,78,73);
 	border-color: rgba(255,78,73,0);
 	transition-duration: 0.3s;
 	-moz-transition-duration: 0.3s;
@@ -513,6 +516,7 @@ a, a:active, a:visited {
 }
 
 a:hover {
+	border-color: rgb(255,78,73);
 	border-color: rgba(255,78,73,0.8);
 }
 
@@ -841,7 +845,6 @@ body{
 	margin-left: auto;
 	margin-right: auto;
 }
-*/
 
 
 /*
@@ -877,11 +880,13 @@ body{
 	list-style: none;
 	margin: 0;
 	padding-left: 0;
+	border-bottom: 1px solid white;
 	border-bottom: 1px solid rgba(255,255,255,0.55);
 }
 
 #access li {
 	position: relative;
+	border-top: 1px solid white;
 	border-top: 1px solid rgba(255,255,255,0.6);
 }
 
@@ -925,7 +930,7 @@ body{
 }
 
 #access ul ul a {
-	font-family: 'StolenBody';
+	font-family: 'StolenBody', Georgia, serif;
 	text-transform: none;
 	letter-spacing: 0;
 	font-size: 1em;
@@ -937,6 +942,7 @@ body{
 }
 
 #access li > a:hover, #access .active {
+	background-color: #293034;
 	background-color: rgba(187, 123, 43, 0.1);;
 }
 
@@ -1604,22 +1610,26 @@ position: relative;
 
 .sc-info{
 	padding: 3.4%;
+	color: #293034;
 	background: rgba(41,48,52,0.7);
 	color: white;
 }
 .sc-info p
 {	
+	color: white;
 	color: rgba(255,255,255,0.6);
 	height: 2.9em;
 	overflow: hidden;
 }
 .sc-info a{
 	color: white;
+	border-color: white;
 	border-color: rgba(255,255,255,0);
 }
 
 .sc-info a:hover{
 	color: white;
+	border-color: white;
 	border-color: rgba(255,255,255,0.8);
 }
 
@@ -1637,7 +1647,7 @@ position: relative;
 }
 
 .sc-time-indicators, .sc-volume-status:before{
-	font-family: arial, sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 	font-size: 8px;
 	color: white;
 	position: absolute;
@@ -1828,7 +1838,7 @@ background: #da342e;
 }
 
 #latest .entry-meta, .single-release .entry-meta{
-	font-family: 'StolenSans';
+	font-family: 'StolenSans', Arial, Helvetica, sans-serif;
 	text-transform: uppercase;
 	color: #293034;
 	font-size: 1.2em;
@@ -1993,6 +2003,7 @@ margin: 0.8em 0;
 
 .divider{
 	width: 40%;
+	background-color: #293034;
 	background-color: rgba(41, 48, 53, 0.2);
 	height: 1px;
 	margin: 1em auto 3.2em;
@@ -2033,17 +2044,19 @@ margin: 0.8em 0;
 .single-post .entry-content h1{
 	font-size: 1.6em;
 	font-weight: bold;
+	border-bottom: 1px solid rgb(41, 48, 53);  
 	border-bottom: 1px solid rgba(41, 48, 53, 0.1);
 }
 
 .single-post .entry-content h2{
 	font-size: 1.4em;
 	font-weight: bold;
+	border-bottom: 1px solid rgb(41, 48, 53);
 	border-bottom: 1px solid rgba(41, 48, 53, 0.1);
 }
 
 .single-post .entry-content h3, .single-post .entry-content h4{
-	font-family: 'StolenBody';
+	font-family: 'StolenBody', Georgia, serif;
 	font-size: 1.25em;
 	margin: 0;
 	text-align: center;
@@ -2051,7 +2064,7 @@ margin: 0.8em 0;
 }
 
 .single-post .entry-content h5, .single-post .entry-content h6{
-	font-family: 'StolenBody';
+	font-family: 'StolenBody', Georgia, serif;
 	font-weight: bold;
 	font-size: 1em;
 	margin: 0;
@@ -2060,6 +2073,7 @@ margin: 0.8em 0;
 
 .single-post .entry-content ul, .single-post .entry-content ol {
 	text-align: left;
+	border-bottom: 1px solid rgb(41, 48, 53);
 	border-bottom: 1px solid rgba(41, 48, 53, 0.1);
 	margin: 0.9em 2em 1.45em;
 }
@@ -2092,7 +2106,7 @@ margin: 0.8em 0;
 
 blockquote:before, blockquote:after{
 	font-style: normal;
-	font-family: 'StolenSans';
+	font-family: 'StolenSans', Arial, Helvetica, sans-serif;
 	font-size: 2.7em;
 	color: #293034;
 	position: absolute;
@@ -2145,6 +2159,7 @@ cite{
 
 .single-post .entry-content li{
 	text-align: left;
+	border-top: 1px solid rgb(41, 48, 53);
 	border-top: 1px solid rgba(41, 48, 53, 0.1);
 	padding: 0.5em;
 	font-style: italic;
@@ -2154,11 +2169,13 @@ cite{
 
 .single-post table{
 	margin: 1em auto 1.45em;
+	background: rgb(255, 255, 255);
 	background: rgba(255, 255, 255, 0.6);
 }
 
 .single-post th, td {
 	padding: 0.7em 1.4em;
+	border: 1px solid rgb(41, 48, 53);
 	border: 1px solid rgba(41, 48, 53, 0.1);
 }
 
@@ -2173,12 +2190,14 @@ dl{
 	margin: 0.9em 2em 1.45em;
 	padding-bottom: 0.7em;
 	text-align: left;
+	border-top: 1px solid rgb(41, 48, 53);
 	border-top: 1px solid rgba(41, 48, 53, 0.1);
 }
 
 dd{
 	padding: 0 0.5em 0.7em 0.5em;
 	font-style: italic;
+	border-bottom: 1px solid rgb(41, 48, 53);
 	border-bottom: 1px solid rgba(41, 48, 53, 0.1);
 }
 
@@ -2234,6 +2253,7 @@ wp-caption-text{
 	opacity: 0;
 	/*display:none;*/
 	position: absolute;
+	background: rgb(41,48,52);
 	background: rgba(41,48,52,0.7);
 	width: 100%;
 	height: 100%;
@@ -2280,6 +2300,7 @@ wp-caption-text{
 }
 
 .fancy-roll .info .entry-summary p, .fancy-roll time{
+	color: rgb(255, 255, 255);
 	color: rgba(255, 255, 255, 0.8);
 	display:inline-block;
 	width: 100%;
@@ -2298,6 +2319,7 @@ wp-caption-text{
 	display: block;
 	text-transform: uppercase;
 	font-style: italic;
+	color: rgb(255, 255, 255);
 	color: rgba(255, 255, 255, 0.6);
 }
 
@@ -2447,7 +2469,9 @@ aside#releases .img-holder img{
 	text-align: center;
 	display: block;
 	clear: both;
+	border-top: 1px solid rgb(41, 48, 53);
 	border-top: 1px solid rgba(41, 48, 53, 0.1);
+	border-bottom: 1px solid rgb(41, 48, 53);
 	border-bottom: 1px solid rgba(41, 48, 53, 0.1);
 	padding: 1em 0;
 
@@ -2464,6 +2488,7 @@ aside#releases .img-holder img{
 	width: 95%;
 	margin: 2.9em 1.4% 0.2em;
 	height: 1px;
+	background: rgb(41, 48, 53);
 	background: rgba(41, 48, 53, 0.1);
 }
 
@@ -2500,7 +2525,7 @@ section#releases .release .img-holder{
 
 section#releases .release h3{
 	color: #293034;
-	font-family: 'StolenBody';
+	font-family: 'StolenBody', Georgia, serif;
 	overflow: hidden;
 	font-weight: normal;
 }
@@ -2527,6 +2552,7 @@ section#releases .release time{
 /* Single Artist, Release Asides */
 
 section#single-release{
+	border-bottom: 1px solid rgb(41, 48, 53);
 	border-bottom: 1px solid rgba(41, 48, 53, 0.2);
 }
 
@@ -2566,6 +2592,7 @@ section#single-release{
 }
 
 .home section#releases{
+	border-bottom: 1px solid rgb(41, 48, 53);
 	border-bottom: 1px solid rgba(41, 48, 53, 0.2);
 }
 
@@ -2648,6 +2675,7 @@ section#single-release{
 }
 
 .post-type-archive-show article{
+	border: 1px solid rgb(41, 48, 53);
 	border: 1px solid rgba(41, 48, 53, 0.2);
 	border-width: 1px 0;
 	padding: 1em 0;
@@ -2673,6 +2701,7 @@ section#single-release{
 }
 
 .post-type-archive-show article.expanded{
+	border: 1px solid rgb(41, 48, 53);
 	border: 1px solid rgba(41, 48, 53, 0.2);
 	border-width: 1px 0;
 	padding: 1.85em 0;
@@ -2738,6 +2767,7 @@ section#single-release{
 }
 
 .fancy-roll .venue{
+	color: rgb(255, 255, 255);
 	color: rgba(255, 255, 255, 0.6);
 }
 
@@ -2842,7 +2872,7 @@ section#single-release{
 	padding: 3%;
 	margin: 0.8em 0;
 	width: 94%;
-	font-family: sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 .wpcf7 .watermark{
@@ -2851,7 +2881,7 @@ section#single-release{
 }
 
 .wpcf7 input[type="submit"]{
-	font-family: 'stolenSans';
+	font-family: 'stolenSans', Arial, Helvetica, sans-serif;
 	text-transform: uppercase;
 	letter-spacing: 0.15em;
 	margin-bottom: 0.8em;
@@ -2876,10 +2906,12 @@ section#single-release{
 
 div.wpcf7-validation-errors{
 	border: none !important;
+	background: rgb(41,48,52);
 	background: rgba(41,48,52,0.1);
 }
 
 span.wpcf7-not-valid-tip {
+	background: rgb(41,48,52) !important;
 	background: rgba(41,48,52,0.1) !important;
 	padding: 0.6em 1em 0.5em !important;
 	margin: 10px 0;
@@ -2970,7 +3002,7 @@ div.wpcf7 img.ajax-loader {
 
 .filter-title{
 	background-color: #da342e;
-	font-family: 'StolenSans';
+	font-family: 'StolenSans', Arial, Helvetica, sans-serif;
 	font-size: 1.2em;
 	letter-spacing: 0.15em;
 	text-transform: uppercase;
