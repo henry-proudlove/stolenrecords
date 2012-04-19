@@ -2891,6 +2891,10 @@ section#single-release{
 	margin-top: 0.7em;
 }
 
+#demo-submissions .wpcf7 input[type="submit"]{
+	margin-top: 0.7em;
+}
+
 #general-contact .wpcf7 input[type="submit"]{
 	margin-top: 0.2em;
 }

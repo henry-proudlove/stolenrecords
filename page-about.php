@@ -59,9 +59,7 @@ get_header(); ?>
 					<div id="press-form"></div>
 				</div>-->
 			<div id="demo-submissions" class="fourcol">
-				<h2 class="aside-header">Demo Submissions</h2>
-				<p class="contact-label">Please Upload your demo to our Soundcloud dropbox</p>
-				<a href="http://soundcloud.com/stolen-recordings/dropbox/profile" class="soundcloud-dropbox button button-large" title="Go to our Soundcloud Dropbox" rel="bookmark"><span class="logo"></span><span class="label">Our Dropbox</span></a>
+				<?php echo do_shortcode('[contact-form-7 id="1706" title="Demo submissions"]'); ?>	
 			</div>
 		<div class="releases-divider"></div>
 		</section><!-- #contact -->
