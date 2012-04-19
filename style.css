@@ -2896,11 +2896,11 @@ section#single-release{
 }
 
 .wpcf7-response-output{
-	border: none;
+	border: none !important;
 	background: #293034;
 	padding: 0.8em 1em 0.5em !important;
 	margin: 0;
-	color: #777;
+	color: white;
 	margin: 0.8em 0 !important;
 }
 
