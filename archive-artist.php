@@ -5,7 +5,7 @@
  */
 get_header(); ?>
 
-<div id="content">
+<div id="content" class="clearfix">
 
 <?php /* Start the Loop */
 	
