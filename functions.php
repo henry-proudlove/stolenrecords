@@ -1722,7 +1722,7 @@ function sr_post_thumbnail($size , $show_video, $link, $wrapper = true)
 
 //Artist Page gallery. Thumbnail leads, if not set all images in menu order
 
-function sr_artist_gallery(){
+function sr_artist_gallery($link = 'self'){
 	global $post;
 	$options = array(
 			'size' => 'sr-twelvecol',
@@ -1730,19 +1730,17 @@ function sr_artist_gallery(){
 			'a_class' => 'lightbox fancy-roll photo',
 			'img_class' => 'artist-header attachment-image',
 			'wrapper' => false ,
-			'a_rel' => 'gallery-artist'
+			'a_rel' => 'gallery-artist',
+			'link' => $link
 	);
-	/*if(has_post_thumbnail())
+	if(has_post_thumbnail())
 	{	
-		$options['include'] = $post_thumb;
 		$post_thumb = get_post_thumbnail_id();
-		sr_get_images($options);
 	}else
 	{
 		$post_thumb = '';
 	}
-	$options['include'] = '';
-	$options['exclude'] = $post_thumb;*/
+	$options['exclude'] = $post_thumb;
 	sr_get_images($options);
 	wp_reset_query();
 }
