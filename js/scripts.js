@@ -570,11 +570,16 @@ $(document).ready(function() {
 		return false;
 	});
 	
-	$filters = $('.post-type-archive-release .isotope-filter li');
+	$filters = $('.isotope-filter li');
 	filtercount = $filters.length;
 	filtermodulus = filtercount % 4;
-	if(filtermodulus == 0 || filtercount < 4){
+	console.log(filtermodulus);
+	if(filtercount < 4){
 		$filters.addClass('filter-no-border');
+	}else if(filtermodulus == 0 ){
+		start = 4;
+		end = filtercount;
+		$filters.slice(start, end).addClass('filter-no-border');
 	}else{
 		start = filtercount - filtermodulus;
 		end = filtercount;

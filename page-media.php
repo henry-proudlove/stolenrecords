@@ -11,9 +11,6 @@ get_header(); ?>
 
 	<div id="content" class="clearfix">
 		<div id="isotope-wrap">
-
-			<?php /* Start the Loop */?>
-	
 			<?php
 			
 			//Array to rule out dulplicate vids
@@ -24,6 +21,7 @@ get_header(); ?>
 			
 			//Index for artists 
 			$j=0;
+			/* Start the Loop */
 			
 			//Get all vids attached to artist + all releases in artist tax
 			$art_args = array('post_type' => 'artist' , 'posts_per_page' => '-1' );
@@ -108,7 +106,7 @@ $filter_string = '';
 foreach($artists as $artist){
 	$filter_string .= '<li class="filter-item artist"><a href="#" data-filter=".' . $artist['class'] . '">' . $artist['title'] . '</a></li>';
 }
-$filter_string .= '</ul><ul class="media-list filter-list"><li class="filter-item media"><a href="#" data-filter="*" class="selected">All media</a></li><li class="filter-item media"><a href="#" data-filter=".video">Videos</a></li><li class="filter-item media"><a href="#" data-filter=".photo">Photos</a></li><li class="filter-item media flickr"><a href="#" data-filter=".flickr" class="flickr-filter">Flickr</a><a class="flickr-link" href="http://www.flickr.com/photos/stolenrecordings" target="_blank" title="Go to Stolen Recordings Flickr" >Stolenrecs on Flickr</a></li></ul>';
+$filter_string .= '<li class="filter-item media flickr"><a href="#" data-filter=".flickr" class="flickr-filter">Flickr</a><a class="flickr-link" href="http://www.flickr.com/photos/stolenrecordings" target="_blank" title="Go to Stolen Recordings Flickr" >Stolenrecs on Flickr</a></li></ul>';
 ?>
 <script type="text/javascript"> 
 	var filterString = '<?php echo $filter_string; ?>';

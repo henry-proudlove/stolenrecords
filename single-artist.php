@@ -53,7 +53,9 @@ get_header(); ?>
 			<?php endif; ?>
 		<footer id="artist-asides" class="clearfix">
 			<?php sr_artist_videos($artist); ?>
-			<?php sr_aside_shows($artist, false);?>	
+			<?php if ($artist_status != 'past'){
+						sr_aside_shows($artist, false);
+			}?>
 			<?php sr_artist_tracks($artist); ?>
 		</footer><!--#artist-asides-->
 		
