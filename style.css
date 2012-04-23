@@ -1821,11 +1821,11 @@ background: #da342e;
 	display: block;
 	margin: 0 auto;
 	padding: 1.45em 0 2.1em 0;
-	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
+	background: url('images/straight-line.png') no-repeat bottom center;
 }
 
 #latest .entry-header{
-	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
+	background: url('images/straight-line.png') no-repeat bottom center;
 	padding-bottom: 2em;
 }
 
@@ -1956,7 +1956,7 @@ background: #da342e;
 }
 
 #primary .entry-header{
-	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
+	background: url('images/straight-line.png') no-repeat bottom center;
 	margin-bottom: 0;
 	padding-bottom: 2em;
 }
@@ -1966,7 +1966,7 @@ background: #da342e;
 }
 
 #primary .entry-header{
-	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
+	background: url('images/straight-line.png') no-repeat bottom center;
 	padding-bottom: 2em;
 	margin-bottom: 2em;
 }
@@ -2028,7 +2028,7 @@ margin: 0.8em 0;
 
 .single-post #nav-below{
 	margin-bottom: 4.35em;
-	background: url('images/wiggly-line-dark.png') no-repeat top center;
+	background: url('images/straight-line.png') no-repeat top center;
 	padding-top: 3em;
 	margin-top: 1.45em;
 	clear: both;
@@ -2137,9 +2137,7 @@ cite{
 }
 
 #content-holder{
-	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
 	padding-bottom: 2em;
-
 }
 
 .single-post .entry-meta{
@@ -2359,15 +2357,12 @@ wp-caption-text{
 }
 
 .single-artist article .entry-header, .page-template-page-about-php article .entry-header, .page-template-page-publishing-php .page .entry-header, .page-template-default .page .entry-header{
-	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
-	padding-bottom: 2em;
-	margin-bottom: 2.5em;
+	padding-bottom: 1.45em;
 }
 
 .single-artist article .results-header + .entry-header{
 	margin-top: 2em;
 }
-
 
 .single-artist article, .page-template-page-about-php article, .page-template-page-publishing-php .page, .page-template-default .page{
 	text-align: center;
@@ -2379,7 +2374,7 @@ wp-caption-text{
 
 .single-artist #content-holder, .page-template-page-about-php #content-holder {
 	margin: 0.2em auto;
-	padding-bottom: 1.45em;
+	padding-bottom: 0;
 }
 
 #content-holder .details{
@@ -2420,8 +2415,6 @@ wp-caption-text{
 
 #releases + #reviews 
 {
-	padding-top: 3.3em;
-	background: url('images/wiggly-line-dark.png') no-repeat top center;
 }
 
 .read-less, .read-more{
@@ -2465,7 +2458,7 @@ aside#releases .img-holder img{
 
 .single-artist section#releases{
 	width: 95%;
-	margin: 2.9em 1.4%;
+	margin: 1em 1.4%;
 	text-align: center;
 	display: block;
 	clear: both;
@@ -2565,8 +2558,6 @@ section#single-release{
 
 .single-release .entry-header{
 	margin-bottom: 2em;
-	padding-bottom: 2em;
-	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
 }
 
 .single-release .slider-nav{
@@ -3352,7 +3343,7 @@ div.wpcf7 img.ajax-loader {
 	text-align: center;
 	font-weight: bold;
 	margin-bottom: 0.05em;
-	background: url('images/wiggly-line-dark.png') no-repeat bottom center;
+	background: url('images/straight-line.png') no-repeat bottom center;
 }
 
 /*

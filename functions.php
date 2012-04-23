@@ -626,10 +626,10 @@ function sr_relart_loop_markup(&$artists = array()){
 				</header><!-- .entry-header -->
 				<div class="entry-summary">
 					<?php
-					$excerpt = get_the_content();
-					$excerpt = sr_truncate($excerpt, 250, ' ');
-					echo '<p>' . $excerpt . '</p>' ;
-					echo '<footer class="read-more button button-large">read more</footer>';
+						$excerpt = get_the_content();
+						$excerpt = sr_truncate($excerpt, 250, ' ');
+						echo '<p>' . $excerpt . '</p>';
+						echo '<footer class="read-more button button-large">read more</footer>';
 					?>
 				</div>
 			</div>
@@ -1385,9 +1385,7 @@ function sr_media_videos(&$dont_copy , $artist)
 			if($video['is_valid'] == 'true')
 			{?>
 					<a href="<?php echo $video['embed'] ?>" class="fancy-roll lightbox fancybox.iframe video <?php echo $video['vendor'] . ' ' . $artist; ?>" rel="gallery-media">
-						<div class="lazy-wrapper">
-							<img src="<?php echo get_template_directory_uri(); ?>/images/dark-grey.png" data-original="<?php echo $video['thumbnail_large']?>" class="<?php echo $video['vendor'] ?>" />
-						</div>
+							<img src="<?php echo $video['thumbnail_large']?>" class="<?php echo $video['vendor'] ?>" />	
 						<div class="info">
 							<div class="wrap">
 								<header class="entry-header">

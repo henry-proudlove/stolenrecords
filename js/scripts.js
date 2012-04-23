@@ -120,7 +120,7 @@ jQuery.fn.borderScroll = function(currentPos) {
 /*
 MEDIA PAGE HELL
 */
-jQuery.fn.mediaPad = function(){
+/*jQuery.fn.mediaPad = function(){
 	$(this[0]).find('.fancy-roll').each(function(){
 			if($(this).hasClass('photo') || $(this).hasClass('flickr')){
 				$img =  $(this).find('img');
@@ -141,7 +141,7 @@ jQuery.fn.mediaPad = function(){
 		});
 		
 		return $(this[0]);
-};
+};*/
 
 /*
 INITIALISING CYCLE PLUGIN
@@ -513,7 +513,7 @@ $(document).ready(function() {
 		$('aside#releases').remove();
 	}
 	
-	$('.post-type-archive-release #isotope-wrap').imagesLoaded(function(){
+	$('#isotope-wrap').imagesLoaded(function(){
 		$(this).isotope({
 			itemSelector : '.fancy-roll',
 		});
@@ -597,12 +597,6 @@ $(document).ready(function() {
 	
 	/*$('.fancy-roll img').lazyload({
 		effect : 'fadeIn'
-	});*/
-	
-	$('.page-template-page-media-php #isotope-wrap').mediaPad().isotope({
-			itemSelector : '.fancy-roll'
-		}).find('.fancy-roll img').lazyload({
-			effect : 'fadeIn'
-		});
+	});*/	
 	
 });
