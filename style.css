@@ -1079,6 +1079,16 @@ padding-bottom: 1em;
 	background-position: -202px -42px;
 }
 
+.social-links .flickr{
+	background-position: 0 -63px;
+	width: 22px;
+}
+
+.social-links .flickr:hover{
+	background-position: -23px -63px;
+	width: 22px;
+}
+
 .social-links .generic{
 	background-position: -2px -21px;
 	width: 20px;

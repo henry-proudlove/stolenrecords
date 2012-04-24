@@ -851,6 +851,9 @@ function sr_social_links($stolen , $nav)
 			}elseif (strpos($artist_link , 'wordpress.com'))
 			{	
 				$art_link_source = 'Wordpress';
+			}elseif (strpos($artist_link , 'flickr.com'))
+			{	
+				$art_link_source = 'Flickr';
 			}else
 			{
 				$art_link_source = 'generic'; 
