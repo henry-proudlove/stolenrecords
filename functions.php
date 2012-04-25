@@ -757,12 +757,8 @@ function sr_show_aside_markup(){
 	$buy_tix = get_post_meta(get_the_ID(),'_sr_buy-tickets-link',TRUE);
 	
 	$h_tag = 'h3'; ?>
-		<?php if($buy_tix): ?>
 		<li id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
-			<a href="<?php echo $buy_tix; ?>" class="block red-roll" title="Buy Tickets" rel="bookmark">
-		<?php else: ?>
-			<li id="post-<?php the_ID(); ?>" <?php post_class(block); ?> role="article">
-		<?php endif; ?>
+			<a href="<?php echo get_post_type_archive_link( 'show' ) . '#post-' . get_the_ID() ?>" class="block red-roll" title="Buy Tickets" rel="bookmark">
 				<header class="entry-header">
 					<time class="show-date faint"><?php echo $date; ?></time>
 					<h3 class="entry-title">
@@ -776,9 +772,7 @@ function sr_show_aside_markup(){
 						<span class="venue"><?php echo $venue; ?></span>
 					<?php endif; ?>
 				</div>
-			<?php if($buy_tix): ?>
 			</a>
-			<?php endif; ?>
 		</li><!-- #post-<?php the_ID(); ?> -->
 <?php }
 
