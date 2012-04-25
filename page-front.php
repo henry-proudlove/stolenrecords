@@ -12,15 +12,16 @@ get_header(); ?>
 <div id="content" class="clearfix offset">
 	<?php get_template_part('loop' , 'front');?>
 	<?php 
-		$args = array('thumb_size' => 'sr-twocol', 'limit' => '4' , 'title' => true );
-		sr_rels_by_artist($args);
+		$args = array('thumb_size' => 'sr-twocol', 'limit' => '4' , 'title' => true);
+		sr_rels_by_artist($args , true);
 	?>
 	</div><!--#wrapper-->
 	<div id="sidebar" class="fourcol shim-left">
 		<aside id="stolen-listen" class="listen">
 			<h2 class="aside-header">Listen</h2>
 			<div class="sc-player">
-				<a href="http://soundcloud.com/cityshantyband">Stolen on Soundcloud</a>
+				<?php $soundcloud_set = get_post_meta($post->ID, '_sr_soundcloud-set', true);?>
+				<a href="<?php echo $soundcloud_set ?>">Stolen on Soundcloud</a>
 		</aside><!--#stolen-listen-->
 			
 		<?php sr_aside_shows('', true) ?>

@@ -555,6 +555,18 @@ $thumb_mb = new WPAlchemy_MetaBox(array
 	'template' => get_stylesheet_directory() . '/library/metaboxes/featured-video-meta.php'
 ));	
 
+$playlist_mb = new WPAlchemy_MetaBox(array
+(
+	'id' => '_stolen_playlist',
+	'title' => 'Home Page Soundcloud',
+	'context' => 'normal',
+	'priority' => 'high',
+	'mode' => WPALCHEMY_MODE_EXTRACT,
+	'prefix' => '_sr_',
+	'include_template' => 'page-front.php',
+	'template' => get_stylesheet_directory() . '/library/metaboxes/soundcloud-meta.php'
+));	
+
 //jquery date-time picker on admin
 
 function load_date_time_picker(){
@@ -921,7 +933,7 @@ Asides
 
 //get artist releases
 
-function sr_rels_by_artist($args = array())
+function sr_rels_by_artist($args = array() , $show_artist = false)
 {	
 	$defaults = array(
 		'artist' => '',
@@ -930,15 +942,18 @@ function sr_rels_by_artist($args = array())
 		'buy_now' => true,
 		'exclude' => '',
 		'aside' => false,
-		'title' => false
+		'title' => false,
 	);
 	
 	$options = array_merge($defaults , $args);
+	
 	$query_args = array(
 		'post_type' => 'release' ,
 		'post_status' => 'publish',
 		'posts_per_page' => $options['limit'] ,
-		'post__not_in' => array($options['exclude'])
+		'post__not_in' => array($options['exclude']),
+		'orderby' => 'meta_value',
+		'meta_key' => '_sr_release-date'
 	);
 	if ($options['artist'] != ''){
 		$query_args['tax_query'] = array(
@@ -978,19 +993,20 @@ function sr_rels_by_artist($args = array())
 				<div class="img-holder">
 					<?php sr_post_thumbnail($options['thumb_size'] , false, 'null');?>
 				</div>
-				<?php if($aside == true): ?>
+				<?php //if($aside == true): ?>
 				<div class="info">
-				<?php endif; ?>
-					<h3 class="entry-title <?php echo $class; ?> "><?php the_title(); ?> <?php
-					$release_date = get_post_meta( $rel_id , '_sr_release-date', true);
-					
-					if ($release_date)
-					{	
-						$release_date = date_create($release_date);
-						$release_date = date_format($release_date, 'Y');
-						echo '<time class="release-date faint">' . $release_date . '</time>';
-					}?>
-					</h3>
+				<?php //endif; ?>
+					<h3 class="entry-title <?php echo $class; ?> "><?php the_title(); ?></h3> <?php
+					if($show_artist == false):
+						$release_date = get_post_meta( $rel_id , '_sr_release-date', true);						
+						if ($release_date):
+							$release_date = date_create($release_date);
+							$release_date = date_format($release_date, 'Y');
+							echo '<time class="release-date faint">' . $release_date . '</time>';
+						endif;
+					elseif($show_artist == true):	
+							sr_get_rels_artist($post->ID, false, 'h3');
+					endif; ?>
 					<?php if($aside == true):?>
 						<p class="faint">
 						<?php
@@ -998,8 +1014,9 @@ function sr_rels_by_artist($args = array())
 						$excerpt = sr_truncate($excerpt, 75, ' ');
 						echo $excerpt; ?>
 						</p>
-					</div><!--.info-->
+					
 					<?php endif; ?>
+					</div><!--.info-->
 					</a>
 					<?php
 					$buy_now_link = get_post_meta ( $rel_id , '_sr_release-buy-link' , true);
@@ -1187,7 +1204,7 @@ function sr_index_fb(){ ?>
 
 // Get artist associated with release
 
-function sr_get_rels_artist($postID){
+function sr_get_rels_artist($postID , $link = true, $tag = 'h2'){
 
 	$artist_terms = get_the_terms( $postID, 'artist' );
 	$artists = array();
@@ -1204,17 +1221,22 @@ function sr_get_rels_artist($postID){
 	}
 	
 	$artists_titles_count = count($artists_titles);
-	echo '<h2>';
+	echo '<'. $tag .' class="entry-artists">';
 	if($artists_titles_count <= 2):
 		foreach($artists_titles as $artist_title): ?>
-			<span class="entry-artist">
-				<a href="<?php echo $artist_title['guid'];?>" title= "More about <?php echo $artist_title['title']; ?>"><?php echo $artist_title['title']; ?></a>
+			<span class="entry-artist faint">
+				<? if ($link == true): ?>
+					<a href="<?php echo $artist_title['guid'];?>" title= "More about <?php echo 
+					$artist_title['title']; ?>"><?php echo $artist_title['title']; ?></a>
+				<? else:
+					echo $artist_title['title'];
+				endif; ?>
 			</span> <?php
 		endforeach;
 	else: ?>
 		<span class"entry-artist">Various Artists</span>
 	<?php endif; //wp_reset_query();
-	echo '</h2>';
+	echo '</'. $tag .'>';
 	return $artists;
 }
 

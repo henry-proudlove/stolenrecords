@@ -254,6 +254,19 @@ jQuery.fn.sliderheight = function() {
 	}
 };
 
+jQuery.fn.releaseHeight = function() {
+		console.log($(this).length);
+		o = $(this);
+		var maxHeight = 0;
+		o.each(function(){
+			if($(this).outerHeight(true) > maxHeight) {
+				maxHeight = $(this).outerHeight(true);
+			}
+		});
+		o.height(maxHeight);
+};
+
+
 //latest
 
 jQuery.fn.padSliderHeight = function() {
@@ -562,12 +575,14 @@ $(document).ready(function() {
 		$('.sc-controls a').scPlayerHeight();
 		$('form[role="search"]').fluidSearchForm();
 		$('.post-type-archive-show .expanded .info, #latest article .left, .single-release article .left').vertCenter();
-		
+		$('section#releases .info').releaseHeight();
 		$('#isotope-wrap').isotope('reLayout');
 	});
 	
 	/*$('.fancy-roll img').lazyload({
 		effect : 'fadeIn'
 	});*/	
+	
+	$('section#releases .info').releaseHeight();
 	
 });

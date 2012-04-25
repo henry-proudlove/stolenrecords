@@ -2452,6 +2452,11 @@ aside#releases .info{
 	width: 70%;
 }
 
+aside#releases .entry-title {
+display: inline-block;
+padding-right: 0.2em;
+}
+
 
 aside#releases time{
 	font-size: 1em;
@@ -2544,6 +2549,11 @@ section#releases .release a:hover img{
 section#releases .release time{
 	display: block;
 	font-size: 1em;
+	padding-top: 0.2em;
+}
+
+section#releases .release .entry-artists{
+	padding-top: 0.2em;
 }
 
 /* Single Artist, Release Asides */
@@ -2607,6 +2617,11 @@ section#single-release{
 .home section#releases .releases-wrap{
 	margin-left: -5.5%;
 	width: 110%;
+}
+
+.home section#releases .entry-artist{
+	text-transform: none;
+	color: #777;
 }
 
 /*
