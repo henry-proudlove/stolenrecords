@@ -714,25 +714,16 @@ function sr_shows_markup(){
 						<?php echo $show_meta['time']; ?>
 					</time>
 					<h1 class="entry-title big-h">
-					<?php if($show_meta['buy_tix']): ?>
-						<a href="<?php echo $show_meta['buy_tix']; ?>" title="Buy Tickets" rel="bookmark">
-						<?php the_title(); ?></a>
-					<?php else: ?>
+						<?php foreach($show_meta['artists'] as $artist):?>
+							<a href="<?php echo $artist['guid']; ?>" title="More about <?php echo $artist['title'];?>" rel="bookmark">
+							<?php echo $artist['title'];?>
+							</a>
+						<?php endforeach; ?>:
 						<?php the_title(); ?>
-					<?php endif; ?>
 					</h1>
 				</header><!-- .entry-header -->
 			<div class="hide">	
 				<div class="entry-meta">
-					<ul class="artists">
-					<?php foreach($show_meta['artists'] as $artist):?>
-						<li>
-							<a href="<?php echo $artist['guid']; ?>" title="More about <?php echo $artist['title'];?>" rel="bookmark">
-							<?php echo $artist['title'];?>
-							</a>
-						</li>
-					<?php endforeach; ?>
-					</ul>
 					<?php if($show_meta['venue_link'] && $show_meta['venue']):?>
 						<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" title="More info" rel="bookmark"><?php echo $show_meta['venue']; ?></a></span>
 					<?php elseif($show_meta['venue']): ?>

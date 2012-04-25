@@ -2638,6 +2638,10 @@ section#single-release{
 	margin-bottom: 0;
 }
 
+.post-type-archive-show .entry-title a{
+	display: inline;
+}
+
 
 .post-type-archive-show time{
 	font-size: 1em;
