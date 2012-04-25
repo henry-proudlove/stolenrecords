@@ -530,39 +530,10 @@ $(document).ready(function() {
 		return false;
 	});
 	
-	$('.post-type-archive-release .filter-list a').click(function(){
+	$('.filter-list a:not(.flickr-link)').click(function(){
 		$(this).parents('.filter-list').find('.selected').removeClass('selected');
 		$(this).addClass('selected');
 		var selector = $(this).attr('data-filter');
-		$('#isotope-wrap').isotope({
-			filter: selector,
-			itemSelector : '.fancy-roll',
-		});
-		return false;
-	});
-	
-	$('.page-template-page-media-php .filter-list a:not(.flickr-link)').click(function(){
-	
-		$sib = $(this).parents('.filter-list').siblings();
-		$sibselected = $sib.find('.selected')
-		sibselect = $sibselected.attr('data-filter');
-		var selector = $(this).attr('data-filter');
-		$selected = $(this).parents('.filter-list').find('.selected');
-		
-		if(selector == '.flickr' || sibselect == '.flickr'){
-			$sibselected.removeClass('selected');
-			$sib.find('a[data-filter="*"]').addClass('selected');
-			$selected.removeClass('selected');
-			$(this).addClass('selected');
-			
-		}else if(selector == sibselect) {
-			$selected.removeClass('selected');
-			$(this).addClass('selected');
-		}else{
-			selector += sibselect;
-			$selected.removeClass('selected');
-			$(this).addClass('selected');
-		}
 		$('#isotope-wrap').isotope({
 			filter: selector,
 			itemSelector : '.fancy-roll',
