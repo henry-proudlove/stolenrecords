@@ -1809,7 +1809,8 @@ function sr_global_nav()
 					while ( $art_nav_query->have_posts() ) : $art_nav_query->the_post(); ?>
 						<li><a href="<?php the_permalink(); ?>" class="art-nav-link" title="<?php echo get_the_title() . ' profile'; ?>" rel="address:<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
 					<?php 
-					endwhile;
+					endwhile;?>
+					</ul><ul><?php
 					
 					$args['meta_value'] = 'past';
 					
