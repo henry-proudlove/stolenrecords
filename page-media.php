@@ -72,7 +72,7 @@ get_header(); ?>
 				{	
 					$a_class = $artist_class . ' fancy-roll lightbox photo';
 					$options = array('size' => 'sr-media-fourcol', 'post_id' => $post_num, 'wrapper' => false, 'a_class' => $a_class, 'a_rel' => 'gallery-media' );
-					sr_get_images($options);
+					//sr_get_images($options);
 				}
 				
 			endwhile;
