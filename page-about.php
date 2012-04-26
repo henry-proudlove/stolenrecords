@@ -65,7 +65,9 @@ get_header(); ?>
 		</section><!-- #contact -->
 		<footer id="about-links" class="twelvecol clearfix">
 			<span id="henry-link">site by <a href="http://www.henryproudlove.com" rel="bookmark" target="_blank">Henry Proudlove</a></span>
+			<div id="dist-aim-links">
 			<?php echo get_post_meta($post->ID, '_sr_footer_html', true); ?>
+			</div>
 		</footer>
 	</div><!-- #content -->
 	
