@@ -2488,6 +2488,25 @@ wp-caption-text{
 	padding-top: 0;
 }
 
+.booking-contact{
+	padding: 0.8em;
+	color: #777;
+	font-size: 0.9em;
+}
+
+.booking-contact a{
+	color: #777;
+	border:none;
+}
+
+.booking-contact a:hover{
+	color: #da342e; 
+}
+
+.bookings-text{
+	text-transform: uppercase;
+}
+
 /*
 *
 * Single Release

@@ -33,6 +33,12 @@ get_header(); ?>
 						<?php the_content(); ?>
 					</div><!-- .entry-content -->
 					<?php sr_social_links(false, false); ?>
+					<?php $booker = get_post_meta($post->ID , '_sr_booking-email' , true);
+					if ($booker): ?>
+						<footer class="booking-contact">
+							<span class="bookings-text">Bookings:</span><span class="bookings-link"> <?php echo make_clickable( esc_html( $booker ) ); ?></span>
+						</footer><!--.booking-contact-->
+					<?php endif; ?>
 				</div>
 		</article><!-- #post-<?php the_ID(); ?> -->
 		<?php
