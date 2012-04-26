@@ -63,6 +63,10 @@ get_header(); ?>
 			</div>
 		<div class="releases-divider"></div>
 		</section><!-- #contact -->
+		<footer id="about-links" class="twelvecol clearfix">
+			<span id="henry-link">site by <a href="http://www.henryproudlove.com" rel="bookmark" target="_blank">Henry Proudlove</a></span>
+			<?php echo get_post_meta($post->ID, '_sr_footer_html', true); ?>
+		</footer>
 	</div><!-- #content -->
 	
 <?php get_footer(); ?>

@@ -565,7 +565,19 @@ $playlist_mb = new WPAlchemy_MetaBox(array
 	'prefix' => '_sr_',
 	'include_template' => 'page-front.php',
 	'template' => get_stylesheet_directory() . '/library/metaboxes/soundcloud-meta.php'
-));	
+));
+
+$footer_mb = new WPAlchemy_MetaBox(array
+(
+	'id' => '_about_footer',
+	'title' => 'HTML For Page Footer',
+	'context' => 'normal',
+	'priority' => 'high',
+	'mode' => WPALCHEMY_MODE_EXTRACT,
+	'prefix' => '_sr_',
+	'include_template' => 'page-about.php',
+	'template' => get_stylesheet_directory() . '/library/metaboxes/footer-meta.php'
+));
 
 //jquery date-time picker on admin
 
@@ -681,7 +693,7 @@ function sr_shows_meta($post_ID){
 					'venue_link' => $venue_link ,
 					'buy_tix' => $buy_tix ,
 					'artists' => $artists ,
-					'artist_count' => $artist_count);
+					'artist_count' => $artists_count);
 					
 	return $show_meta;
 }
@@ -709,30 +721,39 @@ function sr_shows_markup(){
 		<div class="info sevencol">
 			<div>
 				<header class="entry-header">
+					<div class="entry-meta">
+					<?php if($show_meta['venue_link'] && $show_meta['venue']):?>
+						<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" title="More info" rel="bookmark"><?php echo $show_meta['venue']; ?></a>:  </span>
+					<?php elseif($show_meta['venue']): ?>
+						<span class="venue"><?php echo $show_meta['venue']; ?>: </span>
+					<?php elseif($show_meta['venue_link']):?>
+						<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" title="More info" rel="bookmark">
+						<?php echo $show_meta['venue_link']; ?></a>: </span>
+					<?php endif; ?>
 					<time class="show-date">
 						<?php echo $show_meta['date']; ?>
 						<?php echo $show_meta['time']; ?>
 					</time>
+					</div>
 					<h1 class="entry-title big-h">
-						<?php foreach($show_meta['artists'] as $artist):?>
-							<a href="<?php echo $artist['guid']; ?>" title="More about <?php echo $artist['title'];?>" rel="bookmark">
-							<?php echo $artist['title'];?>
-							</a>
-						<?php endforeach; ?>:
-						<?php the_title(); ?>
+						<?php 
+						$artists = $show_meta['artists'];
+						$artists_count = $show_meta['artist_count'];
+
+						for ($i=0; $i < $artists_count; $i++):
+							if($i < ($artists_count - 1)){ ?>
+								<a href="<?php echo $artists[$i]['guid']; ?>" title="More about <?php echo $artists[$i]['title'];?>" rel="bookmark">
+								<?php echo $artists[$i]['title'];?></a> + <?php
+							} else{ ?>
+								<a href="<?php echo $artists[$i]['guid']; ?>" title="More about <?php echo $artists[$i]['title'];?>" rel="bookmark">
+								<?php echo $artists[$i]['title'];?></a>: <?php
+							}
+						endfor;
+						
+						the_title(); ?>
 					</h1>
 				</header><!-- .entry-header -->
 			<div class="hide">	
-				<div class="entry-meta">
-					<?php if($show_meta['venue_link'] && $show_meta['venue']):?>
-						<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" title="More info" rel="bookmark"><?php echo $show_meta['venue']; ?></a></span>
-					<?php elseif($show_meta['venue']): ?>
-						<span class="venue"><?php echo $show_meta['venue']; ?></span>
-					<?php elseif($show_meta['venue_link']):?>
-						<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" title="More info" rel="bookmark"></span>
-						<?php echo $show_meta['venue_link']; ?></a>
-					<?php endif; ?>
-				</div>
 				<div class="entry-summary">
 					<?php no_more_excerpt($post->ID); ?>
 				</div><!-- .entry-content -->
@@ -750,31 +771,33 @@ function sr_shows_markup(){
 
 function sr_show_aside_markup(){
 	global $post;
-	
-	$datetime = get_post_meta(get_the_ID(),'_sr_show-date',TRUE);
-	$datetime = new DateTime($datetime);
-	$date = $datetime->format('l, j<\s\u\p>S</\s\u\p> F Y');
-	$time = $datetime->format('g:i<\s\u\p>A</\s\u\p> '); 
-	$venue = get_post_meta(get_the_ID(),'_sr_show-venue',TRUE);
-	$venue_link = get_post_meta(get_the_ID(),'_sr_show-venue-link',TRUE);
-	$buy_tix = get_post_meta(get_the_ID(),'_sr_buy-tickets-link',TRUE);
+	$show_meta = sr_shows_meta($post->ID);
 	
 	$h_tag = 'h3'; ?>
 		<li id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
 			<a href="<?php echo get_post_type_archive_link( 'show' ) . '#post-' . get_the_ID() ?>" class="block red-roll" title="Buy Tickets" rel="bookmark">
 				<header class="entry-header">
-					<time class="show-date faint"><?php echo $date; ?></time>
+					<div class="entry-meta">
+					<?php if($show_meta['venue']): ?>
+						<span class="venue faint"><?php echo $show_meta['venue']; ?>: </span>
+					<?php endif; ?>
+						<time class="show-date faint"><?php echo $show_meta['date']; ?></time>
+					</div>
 					<h3 class="entry-title">
-						<?php the_title(); ?>
+						<?php 
+						$artists = $show_meta['artists'];
+						$artists_count = $show_meta['artist_count'];
+						//print_r($artists);
+						for ($i=0; $i < $artists_count; $i++):
+							if($i < ($artists_count - 1)){ ?>
+								<?php echo $artists[$i]['title'];?> + <?php
+							} else{ ?>
+								<?php echo $artists[$i]['title'];?>: <?php
+							}
+						endfor;
+						the_title(); ?>
 					</h3>
 				</header><!-- .entry-header -->
-				
-				<div class="entry-meta">
-					<time class="show-time faint"><?php echo $time; ?></time>
-					<?php if($venue): ?>
-						<span class="venue"><?php echo $venue; ?></span>
-					<?php endif; ?>
-				</div>
 			</a>
 		</li><!-- #post-<?php the_ID(); ?> -->
 <?php }
@@ -1081,14 +1104,20 @@ function sr_aside_shows($artist, $home)
 	}else{
 		echo '<aside id="shows" class="fourcol"><h2 class="aside-header">Shows</h2><ul class="txt-list red-roll">';
 	}
-	?>
-	<?php if ( $the_query->have_posts() ) :
-	while ( $the_query->have_posts() ) : $the_query->the_post();?>
-		<?php //sr_shows_markup(true);
-			sr_show_aside_markup();
-		?>
-		
-	<?php endwhile; else: ?>
+	if ( $the_query->have_posts() ) :
+		while ( $the_query->have_posts() ) : $the_query->the_post();?>
+			<?php //sr_shows_markup(true);
+				sr_show_aside_markup();
+			?>
+			
+		<?php endwhile;
+		$post_count = $the_query->found_posts;
+		if($post_count > 4): ?>
+			 <li>
+				<a href="<?php echo get_post_type_archive_link( 'show' ); ?>" class="shows-page-link red-roll block" rel="bookmark" title="Stolen Records on Twitter">More Shows</a>
+			</li>
+		<?php endif;
+	else: ?>
 			
 		<li id="no-shows" role="article">
 			<a href="<?php echo get_twitter_link('false'); ?>" class="block red-roll" title="Follow us on twitter" rel="Bookmark">

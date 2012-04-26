@@ -411,6 +411,8 @@ display:block;
 
 aside .venue {
 	font-size: 0.9em;
+	text-transform: uppercase;
+	color: #777;
 }
 
 .no-border{
@@ -1372,6 +1374,57 @@ article.comment {
 .single-artist .slider-wrap, .post-type-archive-show .slider-wrap{
 	position: relative;
 }
+
+/*
+ *
+ * About Page
+ *
+ */
+ 
+#about-links{
+	color: #777;
+	font-size: 0.9em;
+}
+#about-links img{
+	background: transparent;
+	display: inline-block;
+}
+
+#about-links .about-img-link{
+	border:none !important;
+	padding-left: 0.5em;
+}
+
+#henry-link {
+width: 50%;
+float: left;
+display: inline-block;
+height: 32px;
+vertical-align: bottom;
+padding-top: 8px;
+}
+
+#dist-aim-links{
+	width: 50%;
+	float: right;
+	text-align: right;
+}
+
+#dist-aim-links > span{
+	margin-left: 2.9em;
+	display: inline-block;
+}
+
+.dist-aim-links-txt {
+position: relative;
+top: -9px;
+}
+
+#aim-link .about-img-link{
+	position: relative;
+	top: -3px;
+}
+
 
 
 /*
@@ -2647,7 +2700,7 @@ section#single-release{
 	font-size: 1em;
 }
 
-.post-type-archive-show .entry-meta, .post-type-archive-show .show-date{
+.post-type-archive-show .entry-meta{
 	font-size: 1.167em;
 }
 .post-type-archive-show ul.artists {
@@ -2683,11 +2736,23 @@ section#single-release{
 }
 
 .post-type-archive-show .entry-meta{
-	margin-bottom: 0.3em;
+	margin-bottom: -0.2em;
+}
+
+.post-type-archive-show .entry-header{
+	margin-bottom: 0.8em;
 }
 
 .post-type-archive-show .entry-summary{
-	margin: 0.3em 0 0.5em;
+	margin: 0.3em 0 0.8em;
+}
+
+.post-type-archive-show .venue{
+	text-transform: uppercase;
+}
+
+.post-type-archive-show time{
+	text-transform: none;
 }
 
 .post-type-archive-show .button{
