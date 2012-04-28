@@ -190,8 +190,8 @@ h2{
 }
 
 .big-center blockquote{
-display: inline-block;
-max-width: 90%;
+	display: inline-block;
+	max-width: 90%;
 }
 .big-center cite{
 display:block;

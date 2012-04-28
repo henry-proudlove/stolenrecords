@@ -652,9 +652,20 @@ function sr_relart_loop_markup(&$artists = array()){
 				<div class="entry-summary">
 					<?php
 						$excerpt = get_the_content();
-						$excerpt = sr_truncate($excerpt, 250, ' ');
-						echo '<p>' . $excerpt . '</p>';
-						echo '<footer class="read-more button button-large">read more</footer>';
+						if(strlen($excerpt) > 0):
+							$excerpt = sr_truncate($excerpt, 250, ' ');
+							echo '<p>' . $excerpt . '</p>';
+							echo '<footer class="read-more button button-large">read more</footer>';
+						else:
+							global $review_mb;
+							$meta = $review_mb->the_meta();
+							$reviews = $meta['reviews'];
+							if($reviews):
+								$review_text = sr_truncate($reviews[0]['review-text'], 250, ' ');
+								echo '<p>' . $review_text . '</p>';
+								echo '<footer class="read-more button button-large">read more</footer>';
+							endif;
+						endif;
 					?>
 				</div>
 			</div>
