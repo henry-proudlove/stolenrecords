@@ -1060,14 +1060,14 @@ function sr_get_reivews($reviews)
 {	
 	foreach($reviews as $review)
 	{	
-		sr_truncate($review['review-text'], 250, ' ');
+		$review_text = sr_truncate($review['review-text'], 250, ' ');
 		if($review['review-link']){
 			$reviewlnk_o = '<a href="' . $review['review-link'] . '" rel="bookmark">';
 			$reviewlnk_c = '</a>';
 		}?>
 		<div class="review">
 			<div class="big-center">
-				<blockquote><?php echo $review['review-text']; ?></blockquote>
+				<blockquote><?php echo $review_text; ?></blockquote>
 				<cite> <?php echo $reviewlnk_o ?>
 				<?php echo $review['review-attr']; ?>
 				<?php echo $reviewlnk_c; ?></cite>

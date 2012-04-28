@@ -26,10 +26,12 @@ get_header(); ?>
 				</header><!-- .entry-header -->
 					<div id="entry-content">
 						<div class="slider">
-							<div>
-								<?php no_more_excerpt($post->ID, 'big-center');?> 
-							</div>
-							<?php
+							<?php $excerpt = get_the_content();
+							if (strlen($excerpt) > 0): ?>
+								<div>
+									<?php no_more_excerpt($post->ID, 'big-center');?> 
+								</div>
+							<?php endif;
 							global $review_mb;
 							$meta = $review_mb->the_meta();
 							$reviews = $meta['reviews'];
@@ -67,7 +69,7 @@ get_header(); ?>
 						'img_class' => 'post-thumb',
 						'wrapper' => false ,
 						'include' => $post_thumb,
-						'link' => 'self',
+						'link' => 'null',
 						'a_class' => 'lightbox photo fancy-roll'
 					);	
 					sr_get_images($options);
@@ -78,7 +80,7 @@ get_header(); ?>
 						'img_class' => 'post-thumb',
 						'wrapper' => false ,
 						'limit' => '1',
-						'link' => 'self',
+						'link' => 'null',
 						'a_class' => 'lightbox photo fancy-roll'
 					);
 					sr_get_images($options);
