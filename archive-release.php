@@ -24,10 +24,10 @@ get_header(); ?>
 <?php 
 	$filter_string = '';
 	foreach($artists as $artist){
-		$filter_string .= '<li class="filter-item artist"><a href="#" data-filter=".' . $artist['class'] . '">' . $artist['title'] . '</a></li>';
+		$filter_string .= '<li class="filter-item artist"><a href="#" data-filter=".' . $artist['class'] . '">' . esc_html($artist['title']) . '</a></li>';
 	}
 ?>
-<script type="text/javascript">
+<script type="text/javascript"> 
 	var filterString = '<?php echo $filter_string; ?>';
 </script> 
 <?php get_footer(); ?>

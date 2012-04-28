@@ -615,7 +615,7 @@ function sr_relart_loop_markup(&$artists = array()){
 	global $post;
 	$sr_post_class = '';
 	if('artist' == get_post_type()){
-		$sr_post_class = get_post_meta(get_the_ID(),'_sr_present-past',TRUE);
+		$sr_post_class = get_post_meta($post->ID,'_sr_present-past',TRUE);
 		if ($sr_post_class == 'past'){
 			$meta_blob = '<span class="artist-status">Past Artist</span>'; 
 		}else{
@@ -632,10 +632,10 @@ function sr_relart_loop_markup(&$artists = array()){
 			}
 		}
 		//$sr_post_class = $artists;
-		$meta_blob = get_post_meta( $rel_id , '_sr_release-date', true);
+		$meta_blob = get_post_meta( $post->ID , '_sr_release-date', true);
 		$meta_blob = date_create($meta_blob);
 		$meta_blob = date_format($meta_blob, 'Y');
-		$meta_blob = '<span class="artist-status">'. $meta_blob . '</span>';
+		$meta_blob = '<span class="release-meta">'. $meta_blob . '</span>';
 	}
 	$sr_post_class .= ' fourcol fancy-roll';
 	?>

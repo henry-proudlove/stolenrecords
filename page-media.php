@@ -102,7 +102,9 @@ get_header(); ?>
 
 $filter_string = '';
 foreach($artists as $artist){
-	$filter_string .= '<li class="filter-item artist"><a href="#" data-filter=".' . $artist['class'] . '">' . $artist['title'] . '</a></li>';
+	$filter_string .= 'fuck';
+	//echo $artist_title;
+	//$filter_string .= '<li class="filter-item artist"><a href="#" data-filter=".' . $artist_title . '">' . $artist['title'] . '</a></li>';
 }
 $filter_string .= '<li class="filter-item media flickr"><a href="#" data-filter=".flickr" class="flickr-filter">Flickr</a><a class="flickr-link" href="http://www.flickr.com/photos/stolenrecordings" target="_blank" title="Go to Stolen Recordings Flickr" >Stolenrecs on Flickr</a></li></ul>';
 ?>
