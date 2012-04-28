@@ -2652,8 +2652,13 @@ section#single-release{
 }
 
 .entry-artist {
-	display: inline-block;
 	padding: 0 0.2em;
+	display: inline-block;
+}
+
+.post-type-archive-release .entry-artists{
+	font-size: 1.3em;
+	padding-top: 0.2em;
 }
 
 .release .entry-artist {
