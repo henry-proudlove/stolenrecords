@@ -42,7 +42,8 @@ get_header(); ?>
 				</div>
 		</article><!-- #post-<?php the_ID(); ?> -->
 		<?php
-		$artist_term = get_term_by( 'name', $artist, 'artist');
+		$artist_slug = basename(get_permalink());
+		$artist_term = get_term_by( 'slug', $artist_slug, 'artist');
 		$args = array( 'artist' => $artist_term->term_id, 'thumb_size' => 'sr-twocol', );
 		sr_rels_by_artist($args);
 		?>
