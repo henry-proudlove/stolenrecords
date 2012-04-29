@@ -1414,9 +1414,8 @@ function sr_get_videos($videos){
 		}
 	}
 	
-	print_r($videos);
 	$videos = array_values($videos);
-	print_r($videos);
+	$videos_count = count($videos);
 	
 	//Fetching the data
 	
