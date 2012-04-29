@@ -1351,6 +1351,7 @@ Main video fetcher
 function sr_get_videos($videos){
 	
 	$i=0;
+	$no_copy = array();
 	$videos_count = count($videos);
 	
 	for($i = 0; $i < $videos_count; $i++)
@@ -1358,42 +1359,64 @@ function sr_get_videos($videos){
 		$videos[$i] = array('video_link' => $videos[$i]);
 	}
 	
-		
+	
 	for($i = 0; $i < $videos_count; $i++)
 	{	
 
 		$video_link = $videos[$i]['video_link'];
 		if(strpos($video_link , 'vimeo.com'))
-		{
+		{	
 			$video_id = substr($video_link , 17);
-			$videos[$i]['id'] = $video_id;
-			$videos[$i]['endpoint'] = 'http://vimeo.com/api/v2/video/' . $video_id  . '.xml';
-			$videos[$i]['vendor'] = 'vimeo';
-			$videos[$i]['embed'] = 'http://player.vimeo.com/video/' . $video_id . '?autoplay=1';
-			$videos[$i]['is_valid'] = 'true';
+			if(!in_array($video_id , $no_copy)){
+				$videos[$i]['id'] = $video_id;
+				$videos[$i]['endpoint'] = 'http://vimeo.com/api/v2/video/' . $video_id  . '.xml';
+				$videos[$i]['vendor'] = 'vimeo';
+				$videos[$i]['embed'] = 'http://player.vimeo.com/video/' . $video_id . '?autoplay=1';
+				$videos[$i]['is_valid'] = 'true';
+				array_push($no_copy, $video_id);
+			}else{
+				//$videos[$i]['is_valid'] = 'false';
+				unset($videos[$i]);
+			}
 
 		}elseif (strpos($video_link , 'youtu.be'))
 		{	
-			$video_id = substr($video_link , 16);
-			$videos[$i]['id'] = $video_id;
-			$videos[$i]['endpoint'] = 'http://gdata.youtube.com/feeds/api/videos/' . $video_id;
-			$videos[$i]['vendor'] = 'youtube';
-			$videos[$i]['embed'] = 'http://www.youtube.com/embed/' . $video_id . '?autoplay=1&amp;wmode=transparent';
-			$videos[$i]['is_valid'] = 'true';
+			$video_id = substr($video_link , 16, 11);
+			if(!in_array($video_id , $no_copy)){
+				$videos[$i]['id'] = $video_id;
+				$videos[$i]['endpoint'] = 'http://gdata.youtube.com/feeds/api/videos/' . $video_id;
+				$videos[$i]['vendor'] = 'youtube';
+				$videos[$i]['embed'] = 'http://www.youtube.com/embed/' . $video_id . '?autoplay=1&amp;wmode=transparent';
+				$videos[$i]['is_valid'] = 'true';
+				array_push($no_copy, $video_id);
+			}else{
+				//$videos[$i]['is_valid'] = 'false';
+				unset($videos[$i]);
+			}
 		}elseif (strpos($video_link , 'youtube.com'))
 		{
 			$video_id = substr($video_link , 31 , 11);
-			$videos[$i]['id'] = $video_id;
-			$videos[$i]['endpoint'] = 'http://gdata.youtube.com/feeds/api/videos/' . $video_id ;
-			$videos[$i]['vendor'] = 'youtube';
-			$videos[$i]['embed'] = 'http://www.youtube.com/embed/' . $video_id . '?autoplay=1';
-			$videos[$i]['is_valid'] = 'true';
+			if(!in_array($video_id , $no_copy)){
+				$videos[$i]['id'] = $video_id;
+				$videos[$i]['endpoint'] = 'http://gdata.youtube.com/feeds/api/videos/' . $video_id ;
+				$videos[$i]['vendor'] = 'youtube';
+				$videos[$i]['embed'] = 'http://www.youtube.com/embed/' . $video_id . '?autoplay=1';
+				$videos[$i]['is_valid'] = 'true';
+				array_push($no_copy, $video_id);
+			}else{
+				//$videos[$i]['is_valid'] = 'false';
+				unset($videos[$i]);
+			}
 		}else
 		{
-			$videos[$i]['is_valid'] = 'false';
+			//$videos[$i]['is_valid'] = 'false';
+			unset($videos[$i]);
 		}
 	}
-
+	
+	print_r($videos);
+	$videos = array_values($videos);
+	print_r($videos);
 	
 	//Fetching the data
 	
