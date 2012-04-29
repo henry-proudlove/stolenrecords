@@ -97,7 +97,7 @@ get_header(); ?>
 			}
 				
 			
-			/*require_once("library/phpFlickr.php");
+			require_once("library/phpFlickr.php");
 			$phpFlickrObj = new phpFlickr('5513c9832db6522b7b01155508526edb');
 			$user_url = $phpFlickrObj->urls_getUserPhotos('8546357@N03');
 			$photos = $phpFlickrObj->people_getPublicPhotos('8546357@N03', NULL, NULL, 20);
@@ -112,7 +112,7 @@ get_header(); ?>
 						<span class="click-prompt zoom">Click to zoom</span>
 					</div></div>
 				</a> <?php
-			}*/
+			}
 			?>
 		</div><!--#isotope-wrap-->
 	</div><!-- #content -->

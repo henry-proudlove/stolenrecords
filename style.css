@@ -205,7 +205,7 @@ display:block;
 	text-align:center !important;
 }
 
-#access a, .section-header, .aside-header, .widget-title, .button, .results-title{
+#access a, .section-header, .aside-header, .widget-title, .button, .results-title, #subscribe-form h3{
 	font-family: 'StolenSans', Arial, Helvetica, sans-serif;
 	font-size: 1.2em;
 	letter-spacing: 0.15em;
@@ -3431,12 +3431,71 @@ div.wpcf7 img.ajax-loader {
     _behavior: expression(this.src = this.src ? this.src : this.currentStyle.backgroundImage.split('"')[1], this.style.background = "none", this.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src=" + this.src + ", sizingMethod='scale')");
 }
 
+/*
+ *
+ * Subscribe Form
+ *
+ */
+#subscribe-form{
+	margin: 1.45em auto;
+	padding: 0.8em 0;
+	border-top: 1px solid rgba(255, 255, 255, 0.6);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+#subscribe-form input[type="text"] {
+	border: none !important;
+	padding: 4%;
+	width: 74%;
+	font-family: Arial, Helvetica, sans-serif;
+	display:block;
+	float: left;
+	font-style: italic;
+	color: #777;
+}
+
+#subscribe-form input[type="text"]:focus {
+	font-style: normal;
+	color: #293034;
+}
+
+#subscribe-form form{
+	margin: 0.8em auto 0.8em;
+	width: 85%;
+}
+
+#subscribe-form input[type="submit"]{
+	font-family: 'stolenSans', Arial, Helvetica, sans-serif;
+	text-transform: uppercase;
+	letter-spacing: 0.15em;
+	border: none !important;
+	background-color: #DA342E;
+	color: white !important;
+	display: block;
+	float: left;
+	padding: 3.2% 3%;
+	width: 18%;
+	text-align: center;
+}
+
+#subscribe-form input[type="submit"]:hover{
+	background-color: #293034;
+}
+
+.button, .wpcf7 input[type="submit"] {
+display: inline-block;
+}
+
+#subscribe-form h3{
+	text-align: center;
+}
+
 
 /*
-*
-* 404
-*
-*/
+ *
+ * 404
+ *
+ */
 
 .error404 #content, .error404 #main{
 	max-width: none;

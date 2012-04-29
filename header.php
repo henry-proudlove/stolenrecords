@@ -72,5 +72,22 @@
 			
 			<?php sr_global_nav(); ?>
 			<?php sr_social_links(true, true); ?>
+			<!-- Subscibe form -->
+			
+			<script type="text/javascript">
+			function clearMe(formfield) {formfield.value = "";}
+			</script>
+			<div id="subscribe-form">
+				<h3>Subscribe</h3>
+				<form action="http://stolen.greedbag.com/subscribe/" method="post">
+					<fieldset>
+						<input type="hidden" name="form_action" value="create_account_minimal" />
+						<input type="hidden" name="mailservice_identifier" value="stolen-recording" />
+						<input type="hidden" name="add_free_gifts" value="1" /><input type="hidden" name="on_success" value="thanks.html" />
+						<input type="text" id="signup_email" name="email" value="Your email" size="25" maxlength="64" onfocus="clearMe(this)" />
+						<input type="submit" class="submit" name="send" value="Go" />
+					</fieldset>
+				</form>
+			</div><!-- #subscribe-form -->
 		</header><!-- #branding -->
 		<div id="main" class="clearfix">
