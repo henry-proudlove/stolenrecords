@@ -1511,42 +1511,16 @@ Artist Page videos
 
 function sr_artist_videos($artist)
 {
-	global $post;
-	global $video_mb;
-	
 	$videos = array();
-
-	$meta = $video_mb->the_meta();
-	$post_id = $post->ID;
-	if($meta['videos'])
-	{	
-		$videos_meta = $meta['videos'];
-		foreach ($videos_meta as $video)
-		{	
-			$video_link = $video['video-link'];
-			if(!in_array($video_link , $videos))
-			{
-				array_push($videos , $video_link);
-			}
-		}
-	}
+	$artist_title = get_the_title();
+	$artist_class = basename(get_permalink());
+	vid_arr_constructor($videos , $artist_class);
+	
 	$args = $rel_args = array('post_type' => 'release' , 'artist' => $artist , 'posts_per_page' => '-1');
 	$rel_query = new WP_query($rel_args);
 		
 	if(have_posts()): while ( $rel_query->have_posts() ) : $rel_query->the_post();
-		$meta = $video_mb->the_meta();
-		if($meta['videos'])
-		{	
-		$videos_meta = $meta['videos'];
-			foreach ($videos_meta as $video)
-			{	
-				$video_link = $video['video-link'];
-				if(!in_array($video_link , $videos))
-				{
-					array_push($videos , $video_link);
-				}
-			}
-		}
+		vid_arr_constructor($videos , $artist_class);
 	endwhile; endif; wp_reset_query();
 	
 	$videos_count = count($videos);
@@ -1572,25 +1546,8 @@ Release videos
 
 function sr_release_videos()
 {
-	global $post;
-	global $video_mb;
-	
 	$videos = array();
-
-	$meta = $video_mb->the_meta();
-	$post_id = $post->ID;
-	if($meta['videos'])
-	{	
-		$videos_meta = $meta['videos'];
-		foreach ($videos_meta as $video)
-		{	
-			$video_link = $video['video-link'];
-			if(!in_array($video_link , $videos))
-			{
-				array_push($videos , $video_link);
-			}
-		}
-	}
+	vid_arr_constructor($videos , $artist_class);
 	
 	$videos_count = count($videos);
 	if($videos_count > 4){

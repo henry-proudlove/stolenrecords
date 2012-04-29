@@ -30,7 +30,7 @@ get_header(); ?>
 			while ( $art_query->have_posts() ) : $art_query->the_post();
 								
 				$artist_title = get_the_title();
-				$artist_class = sr_make_class($artist_title);
+				$artist_class = basename(get_permalink());
 				$artists[$i] = array('title' => $artist_title , 'class' => $artist_class); 
 				vid_arr_constructor($videos , $artist_class);
 				//Release sub query
@@ -54,7 +54,7 @@ get_header(); ?>
 			while ( $art_query->have_posts() ) : $art_query->the_post();
 								
 				$artist_title = get_the_title();
-				$artist_class = sr_make_class($artist_title);
+				$artist_class = basename(get_permalink());
 				$artists[$i] = array('title' => $artist_title , 'class' => $artist_class); 
 				vid_arr_constructor($videos , $artist_class);
 				
