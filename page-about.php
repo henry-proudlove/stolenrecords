@@ -18,7 +18,8 @@ get_header(); ?>
 				<h1 class="entry-title big-h">Stolen Recordings</h1>
 			</header><!-- .entry-header -->
 			<div class="entry-gallery">
-					<?php sr_artist_gallery('null'); ?>
+					<?php //sr_artist_gallery('null'); ?>
+					<?php the_post_thumbnail($post->ID , 'sr-twelvecol'); ?>
 				</div><!-- .entry-gallery -->
 			<div id="content-holder">
 					<div class="entry-content big-center expander">

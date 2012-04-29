@@ -1237,6 +1237,10 @@ img{
 	height: auto;
 }
 
+img[src$=".png"]{
+	background: transparent;
+}
+
 
 /*
  *
@@ -3489,7 +3493,6 @@ display: inline-block;
 #subscribe-form h3{
 	text-align: center;
 }
-
 
 /*
  *
