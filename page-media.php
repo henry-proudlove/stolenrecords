@@ -14,68 +14,89 @@ get_header(); ?>
 			<?php
 			
 			//Array to rule out dulplicate vids
-			$dont_copy_vid = array();
+			$videos = array();
 			
 			//Array of artist names and css class name
 			$artists = array();
 			
 			//Index for artists 
-			$j=0;
-			/* Start the Loop */
+			$i=0;
 			
-			//Get all vids attached to artist + all releases in artist tax
+			/* Start the Loop */
 			$art_args = array('post_type' => 'artist' , 'posts_per_page' => '-1' );
 			$art_query = new WP_Query($art_args);
 			
 			while ( $art_query->have_posts() ) : $art_query->the_post();
-				//
-				//Reset index of postIDs
-				$i=0;
-				$post_ids = array();
-				
-				//Adding this post to post index
-				$this_post = get_the_ID();
-				$post_nums[$i] = $this_post;
-				
+								
 				$artist_title = get_the_title();
 				$artist_class = sr_make_class($artist_title);
-				$artists[$j] = array('title' => $artist_title , 'class' => $artist_class); 
+				$artists[$i] = array('title' => $artist_title , 'class' => $artist_class); 
 				
 				//get the videos
-				sr_media_videos($dont_copy_vid , $artist_class);
+				//sr_media_videos($dont_copy_vid , $artist_class);
 				
-				//increment post index
-				$i++;
-				//increment artist index
-				$j++;
+				global $video_mb;
+				$meta = $video_mb->the_meta();
+				if($meta['videos']){
+					$videos_meta = $meta['videos'];
+					foreach ($videos_meta as $video)
+					{	
+						$video_link = $video['video-link'];
+						array_push($videos , $video_link);
+					}
+				}
 				
-				//Release sub query
-				//$artist_tax = get_the_title();
+				/* Release sub query */
+				
 				$rel_args = array('post_type' => 'release' , 'artist' => $artist_title , 'posts_per_page' => '-1');
 				$rel_query = new WP_query($rel_args);
 				
 				if(have_posts()): while ( $rel_query->have_posts() ) : $rel_query->the_post();
-					
-					//Adding this post to post index
-					$this_post = get_the_ID();
-					$post_nums[$i] = $this_post;
-					
-					//get the videos		
-					sr_media_videos($dont_copy_vid , $artist_class);
-					
-					//increment post index
-					$i++;
+										
+						//sr_media_videos($dont_copy_vid , $artist_class);
+						
+						global $video_mb;
+						$meta = $video_mb->the_meta();
+						if($meta['videos']){
+							$videos_meta = $meta['videos'];
+							foreach ($videos_meta as $video)
+							{	
+								$video_link = $video['video-link'];
+								array_push($videos , $video_link);
+							}
+						}
 					
 				endwhile; endif;
 				
-				foreach($post_nums as $post_num)
-				{	
-					$a_class = $artist_class . ' fancy-roll lightbox photo';
-					$options = array('size' => 'sr-media-fourcol', 'post_id' => $post_num, 'wrapper' => false, 'a_class' => $a_class, 'a_rel' => 'gallery-media' );
-					//sr_get_images($options);
-				}
+				//increment artist index
+				$i++;
 				
 			endwhile;
+			
+			$videos_return = sr_get_videos($videos);
+			
+			foreach($videos_return as $video)
+			{
+			if($video['is_valid'] == 'true')
+			{?>
+					<a href="<?php echo $video['embed'] ?>" class="fancy-roll lightbox fancybox.iframe video <?php echo $video['vendor'] . ' ' . $artist; ?>" rel="gallery-media">
+							<img src="<?php echo $video['thumbnail_large']?>" class="<?php echo $video['vendor'] ?>" />	
+						<div class="info">
+							<div class="wrap">
+								<header class="entry-header">
+									<h1 class="entry-title small-h"><?php echo $video['title'] ?></h1>
+								</header>
+								<?php if($video['description'] != '_empty_'):?>
+									<div class="entry-summary">
+										<p><?php echo $video['description'] ?></p>
+									</div>
+								<?php endif; ?>
+								<div class="read-more button button-large">Click to watch</div>
+							</div>
+						</div>
+					</a>
+			<?php }
+			}
 			
 			require_once("library/phpFlickr.php");
 			$phpFlickrObj = new phpFlickr('5513c9832db6522b7b01155508526edb');
