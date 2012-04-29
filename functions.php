@@ -1361,33 +1361,39 @@ function sr_get_videos($videos){
 		
 	for($i = 0; $i < $videos_count; $i++)
 	{	
-		
+
 		$video_link = $videos[$i]['video_link'];
 		if(strpos($video_link , 'vimeo.com'))
 		{
-			if (0 === preg_match('/^http:\/\/(www\.)?vimeo\.com\/(clip\:)?(\d+).*$/', $videos[$i]['video_link'], $match)){
-				$error = 'the error';
-			}
-			else{
-				$videos[$i]['is_valid'] = 'false';
-			}
+			$video_id = substr($video_link , 17);
 			$videos[$i]['id'] = $video_id;
 			$videos[$i]['endpoint'] = 'http://vimeo.com/api/v2/video/' . $video_id  . '.xml';
 			$videos[$i]['vendor'] = 'vimeo';
 			$videos[$i]['embed'] = 'http://player.vimeo.com/video/' . $video_id . '?autoplay=1';
 			$videos[$i]['is_valid'] = 'true';
-			
-		}else
+
+		}elseif (strpos($video_link , 'youtu.be'))
 		{	
-			$video_id = youtube_id_from_url($videos[$i]['video_link']);
-			echo $video_id;
+			$video_id = substr($video_link , 16);
 			$videos[$i]['id'] = $video_id;
 			$videos[$i]['endpoint'] = 'http://gdata.youtube.com/feeds/api/videos/' . $video_id;
 			$videos[$i]['vendor'] = 'youtube';
 			$videos[$i]['embed'] = 'http://www.youtube.com/embed/' . $video_id . '?autoplay=1&amp;wmode=transparent';
 			$videos[$i]['is_valid'] = 'true';
+		}elseif (strpos($video_link , 'youtube.com'))
+		{
+			$video_id = substr($video_link , 31 , 11);
+			$videos[$i]['id'] = $video_id;
+			$videos[$i]['endpoint'] = 'http://gdata.youtube.com/feeds/api/videos/' . $video_id ;
+			$videos[$i]['vendor'] = 'youtube';
+			$videos[$i]['embed'] = 'http://www.youtube.com/embed/' . $video_id . '?autoplay=1';
+			$videos[$i]['is_valid'] = 'true';
+		}else
+		{
+			$videos[$i]['is_valid'] = 'false';
 		}
 	}
+
 	
 	//Fetching the data
 	
