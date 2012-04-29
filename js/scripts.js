@@ -255,7 +255,6 @@ jQuery.fn.sliderheight = function() {
 };
 
 jQuery.fn.releaseHeight = function() {
-		console.log($(this).length);
 		o = $(this);
 		var maxHeight = 0;
 		o.each(function(){
@@ -336,7 +335,6 @@ RELEASE INFO LATEST POST VERT CENTRED
 
 jQuery.fn.vertCenter = function(){
 	$(this).imagesLoaded(function(){
-		 //console.log( 'all images has finished with loading, do some stuff...' );
 		$(this).each(function(){
 			o = $(this);
 			oH = o.height();
@@ -556,7 +554,6 @@ $(document).ready(function() {
 	$filters = $('.isotope-filter li');
 	filtercount = $filters.length;
 	filtermodulus = filtercount % 4;
-	console.log(filtermodulus);
 	if(filtercount < 4){
 		$filters.addClass('filter-no-border');
 	}else if(filtermodulus == 0 ){
