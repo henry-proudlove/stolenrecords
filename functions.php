@@ -1525,7 +1525,7 @@ function sr_artist_videos($artist)
 	
 	$videos_count = count($videos);
 	if($videos_count > 4){
-		$videos = array_slice($videos, 0, 4);
+		$videos = array_slice($videos, 0, 5);
 	}
 	if(!empty($videos)){
 		echo '<aside id="videos" class="fourcol"><h2 class="aside-header">Videos</h2><ul class="img-list clearfix">';
@@ -1551,12 +1551,20 @@ function sr_release_videos()
 	
 	$videos_count = count($videos);
 	if($videos_count > 4){
-		$videos = array_slice($videos, 0, 4);
+		$videos = array_slice($videos, 0, 5);
+		$more_vids = true;
+	}else{
+		$more_vids = false;
 	}
 	if(!empty($videos)){
 		echo '<aside id="videos" class="fourcol"><h2 class="aside-header">Videos</h2><ul class="img-list clearfix">';
 		$videos = sr_get_videos($videos);
 		video_aside_markup($videos);
+		if($more_vids == true): ?>
+			<li>
+				<a href="<?php echo home_url( 'videosphotos' ); ?>" class="shows-page-link red-roll block" rel="bookmark" title="Stolen Records on Twitter">More Videos</a>
+			</li>
+		<?php endif;
 		echo '</ul></aside><!--#videos-->';
 	}
 	
@@ -1873,7 +1881,7 @@ function sr_global_nav()
 				$args = array('exclude' => $exclude_from_nav, 'title_li' => '' , 'sort_column' => 'menu_order , post_title', 'echo' => false);
 				$page_menu = get_pages($args);
 				foreach ($page_menu as $page)
-				{?> 
+				{ ?>
 					<li><a href="<?php echo $page->guid; ?>" title="Go to the <?php echo $page->post_title ?> Page" rel="address:<?php echo $page->guid; ?>"> 
 					<?php echo $page->post_title; ?></a></li>
 				<?php }
