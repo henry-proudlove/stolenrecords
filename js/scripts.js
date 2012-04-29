@@ -506,7 +506,7 @@ $(document).ready(function() {
         $('.smart').append('fire</br>');
     }).scroll();
 	
-	$('#primary').infinitescroll({
+	$('#primary:not(.single)').infinitescroll({
 		navSelector  : "#nav-below",            
 		nextSelector : ".nav-previous a",    
 		itemSelector : "#primary article.post",
