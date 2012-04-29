@@ -209,7 +209,7 @@ jQuery.fn.gallerySliderInit = function(){
 }*/
 
 
-jQuery.fn.latestSliderInit = function(){
+/*jQuery.fn.latestSliderInit = function(){
 	$this = $(this[0]);
 	var c = $this.children().length;
 	var p = $this.parent().parent();
@@ -231,7 +231,7 @@ jQuery.fn.latestSliderInit = function(){
 	} else {
 		$(this).data('sliderinit' , false);
 	}
-};
+};*/
 
 /*
 MAKING SLIDES FLUID
@@ -438,7 +438,7 @@ $(document).ready(function() {
 	
 	$("#social-tabs" ).tabs();
 	
-	$("#latest-slider").latestSliderInit();
+	//$("#latest-slider").latestSliderInit();
 	
 	$("#artist-slider").gallerySliderInit();
 	

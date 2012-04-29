@@ -4,7 +4,7 @@
  * @subpackage themename
  */
 
-$args = array( 'posts_per_page' => '5' , 'meta_key' => '_sr_featured-post' , 'post_type' => array( 'post', 'show', 'artist', 'release' ) );
+$args = array( 'posts_per_page' => '1' , 'meta_key' => '_sr_featured-post' , 'post_type' => array( 'post', 'show', 'artist', 'release' ) , 'post__not_in' => get_option( 'sticky_posts' ));
 
 $the_query = new WP_Query($args);
 $dont_copy = array();

@@ -1884,13 +1884,12 @@ background: #da342e;
 #latest .entry-summary {
 	display: block;
 	margin: 0 auto;
-	padding: 1.45em 0 2.1em 0;
+	padding: 0.2em 0 1.45em;
 	background: url('images/straight-line.png') no-repeat bottom center;
 }
 
 #latest .entry-header{
-	background: url('images/straight-line.png') no-repeat bottom center;
-	padding-bottom: 2em;
+	padding-bottom: 0.4em;
 }
 
 #latest .button{
@@ -2020,19 +2019,12 @@ background: #da342e;
 }
 
 #primary .entry-header{
-	background: url('images/straight-line.png') no-repeat bottom center;
 	margin-bottom: 0;
-	padding-bottom: 2em;
+	padding-bottom: 0.2em;
 }
 
 #primary .entry-header img{
 	margin-bottom: 0.5em;
-}
-
-#primary .entry-header{
-	background: url('images/straight-line.png') no-repeat bottom center;
-	padding-bottom: 2em;
-	margin-bottom: 2em;
 }
 
 #primary .video .entry-header{
@@ -2070,7 +2062,7 @@ margin: 0.8em 0;
 	background-color: #293034;
 	background-color: rgba(41, 48, 53, 0.2);
 	height: 1px;
-	margin: 1em auto 3.2em;
+	margin: 2.9em auto 3.2em;
 }
 
 /* Single Post */
@@ -2083,7 +2075,6 @@ margin: 0.8em 0;
 .single-post .entry-content{
 	font-size: 1.15em;
 	text-align: center;
-	padding-top: 0;
 }
 
 .single-post .video + .entry-content{
@@ -2092,9 +2083,6 @@ margin: 0.8em 0;
 
 .single-post #nav-below{
 	margin-bottom: 4.35em;
-	background: url('images/straight-line.png') no-repeat top center;
-	padding-top: 3em;
-	margin-top: 1.45em;
 	clear: both;
 }
 
@@ -2645,7 +2633,7 @@ section#single-release{
 }
 
 .single-release .slider-nav{
-	margin: 2em 0 0 0;
+	margin: 1em 0 0 0;
 }
 
 .single-release .button{
