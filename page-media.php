@@ -75,28 +75,25 @@ get_header(); ?>
 			
 			$videos_return = sr_get_videos($videos);
 			
-			foreach($videos_return as $video)
-			{
-			if($video['is_valid'] == 'true')
-			{?>
-					<a href="<?php echo $video['embed'] ?>" class="fancy-roll lightbox fancybox.iframe video <?php echo $video['vendor'] . ' ' . $artist; ?>" rel="gallery-media">
-							<img src="<?php echo $video['thumbnail_large']?>" class="<?php echo $video['vendor'] ?>" />	
-						<div class="info">
-							<div class="wrap">
-								<header class="entry-header">
-									<h1 class="entry-title small-h"><?php echo $video['title'] ?></h1>
-								</header>
-								<?php if($video['description'] != '_empty_'):?>
-									<div class="entry-summary">
-										<p><?php echo $video['description'] ?></p>
-									</div>
-								<?php endif; ?>
-								<div class="read-more button button-large">Click to watch</div>
+			foreach($videos_return as $video) : ?>
+						<a href="<?php echo $video['embed'] ?>" class="fancy-roll lightbox fancybox.iframe video <?php echo $video['vendor'] . ' ' . $artist; ?>" rel="gallery-media">
+								<img src="<?php echo $video['thumbnail_large']?>" class="<?php echo $video['vendor'] ?>" />	
+							<div class="info">
+								<div class="wrap">
+									<header class="entry-header">
+										<h1 class="entry-title small-h"><?php echo $video['title'] ?></h1>
+									</header>
+									<?php if($video['description'] != '_empty_'):?>
+										<div class="entry-summary">
+											<p><?php echo $video['description'] ?></p>
+										</div>
+									<?php endif; ?>
+									<div class="read-more button button-large">Click to watch</div>
+								</div>
 							</div>
-						</div>
-					</a>
-			<?php }
-			}
+						</a> 
+						
+			<?php endforeach;
 			
 			require_once("library/phpFlickr.php");
 			$phpFlickrObj = new phpFlickr('5513c9832db6522b7b01155508526edb');
