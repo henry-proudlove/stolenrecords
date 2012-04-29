@@ -428,7 +428,6 @@ function filtrationUnits(filterString){
 		$('.post-type-archive-release #content, .page-template-page-media-php #content').prepend(isotopeFilter);
 	}else{
 		filterString = '';
-		alert('fuck');
 	}
 }
 

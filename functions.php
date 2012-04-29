@@ -1069,16 +1069,31 @@ function sr_rels_by_artist($args = array() , $show_artist = false)
 
 function sr_get_reivews($reviews)
 {	
+	/*$max_length = max(array_map('strlen', $reviews));
+	print_r($max_length);*/
+	
+	/*foreach($reviews as $review)
+	{
+		$length = strlen($review['review-text']);
+		if($length > $max_length){
+			
+	}*/
+	function cmp($a, $b)
+	{
+		return strlen($b['review-text'])-strlen($a['review-text']);
+	}
+	usort($reviews, "cmp");
+	
 	foreach($reviews as $review)
 	{	
-		$review_text = sr_truncate($review['review-text'], 250, ' ');
+		$review['review-text'] = sr_truncate($review['review-text'], 250, ' ');
 		if($review['review-link']){
 			$reviewlnk_o = '<a href="' . $review['review-link'] . '" rel="bookmark">';
 			$reviewlnk_c = '</a>';
 		}?>
 		<div class="review">
 			<div class="big-center">
-				<blockquote><?php echo $review_text; ?></blockquote>
+				<blockquote><?php echo $review['review-text']; ?></blockquote>
 				<cite> <?php echo $reviewlnk_o ?>
 				<?php echo $review['review-attr']; ?>
 				<?php echo $reviewlnk_c; ?></cite>
