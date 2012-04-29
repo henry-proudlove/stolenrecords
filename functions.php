@@ -1315,34 +1315,19 @@ function sr_latest_videos(){ ?>
 /* END Home page latest videos
 ---------------------------------------------------*/
 
-/*
-Get youtube id from url
-*/
-
-function youtube_id_from_url($url) {
-    $pattern = 
-        '%^# Match any youtube URL
-        (?:https?://)?  # Optional scheme. Either http or https
-        (?:www\.)?      # Optional www subdomain
-        (?:             # Group host alternatives
-          youtu\.be/    # Either youtu.be,
-        | youtube\.com  # or youtube.com
-          (?:           # Group path alternatives
-            /embed/     # Either /embed/
-          | /v/         # or /v/
-          | /watch\?v=  # or /watch\?v=
-          )             # End path alternatives.
-        )               # End host alternatives.
-        ([\w-]{10,12})  # Allow 10-12 for 11 char youtube id.
-        $%x'
-        ;
-    $result = preg_match($pattern, $url, $matches);
-    if (false !== $result) {
-        return $matches[1];
-    }
-    return false;
+function vid_arr_constructor(&$videos, $artist){
+	global $post;
+	global $video_mb;
+		$meta = $video_mb->the_meta();
+		if($meta['videos']){
+			$post_vids = $meta['videos'];
+			//print_r($post_vids);
+			foreach($post_vids as $video_link){
+				$video = array('video_link' => $video_link['video-link'] , 'artist' => $artist);
+				array_push($videos, $video);
+			}
+	}
 }
-
 
 /*---------------------------------------------------
 Main video fetcher
@@ -1353,12 +1338,6 @@ function sr_get_videos($videos){
 	$i=0;
 	$no_copy = array();
 	$videos_count = count($videos);
-	
-	for($i = 0; $i < $videos_count; $i++)
-	{
-		$videos[$i] = array('video_link' => $videos[$i]);
-	}
-	
 	
 	for($i = 0; $i < $videos_count; $i++)
 	{	
@@ -1413,7 +1392,7 @@ function sr_get_videos($videos){
 			unset($videos[$i]);
 		}
 	}
-	
+		
 	$videos = array_values($videos);
 	$videos_count = count($videos);
 	
@@ -1483,17 +1462,12 @@ function sr_media_videos(&$dont_copy , $artist)
 	$meta = $video_mb->the_meta();
 	if($meta['videos'])
 	{	
-		$videos_meta = $meta['videos'];
-		$videos = array();
-		$i = 0;
-		foreach ($videos_meta as $video)
-		{	
-			$video_link = $video['video-link'];
-			if(!in_array($video_link , $dont_copy))
-			{
-				array_push($videos , $video_link);
-				array_push($dont_copy , $video_link);
-			}
+		$videos = $meta['videos'];
+		$videos_count = count($videos);
+	
+		for($i = 0; $i < $videos_count; $i++)
+		{
+			$videos[$i] = array('video_link' => $videos[$i] , 'artist' => $artist);
 		}
 		$videos = sr_get_videos($videos);
 		//print_r($videos);
@@ -1520,6 +1494,7 @@ function sr_media_videos(&$dont_copy , $artist)
 			<?php }
 		}
 		$video_count = count($videos);
+		//var_dump($video_count);
 		return $video_count;
 	}else{
 		return 0;

@@ -13,8 +13,8 @@ get_header(); ?>
 		<div id="isotope-wrap">
 			<?php
 			
-			//Array to rule out dulplicate vids
-			$dont_copy_vid = array();
+			//Array of videos
+			$videos = array();
 			
 			//Array of artist names and css class name
 			$artists = array();
@@ -32,21 +32,17 @@ get_header(); ?>
 				$artist_title = get_the_title();
 				$artist_class = sr_make_class($artist_title);
 				$artists[$i] = array('title' => $artist_title , 'class' => $artist_class); 
-				
-				//get the videos
-				sr_media_videos($dont_copy_vid , $artist_class);
-				
+				vid_arr_constructor($videos , $artist_class);
 				//Release sub query
-				
 				$rel_args = array('post_type' => 'release' , 'artist' => $artist_title , 'posts_per_page' => '-1');
 				$rel_query = new WP_query($rel_args);
 				
 				if(have_posts()): while ( $rel_query->have_posts() ) : $rel_query->the_post();
 										
-						sr_media_videos($dont_copy_vid , $artist_class);
+					vid_arr_constructor($videos , $artist_class);
 					
 				endwhile; endif;
-				
+								
 				//increment post index
 				$i++;
 				
@@ -60,27 +56,48 @@ get_header(); ?>
 				$artist_title = get_the_title();
 				$artist_class = sr_make_class($artist_title);
 				$artists[$i] = array('title' => $artist_title , 'class' => $artist_class); 
-				
-				//get the videos
-				sr_media_videos($dont_copy_vid , $artist_class);
+				vid_arr_constructor($videos , $artist_class);
 				
 				//Release sub query
-				
 				$rel_args = array('post_type' => 'release' , 'artist' => $artist_title , 'posts_per_page' => '-1');
 				$rel_query = new WP_query($rel_args);
 				
 				if(have_posts()): while ( $rel_query->have_posts() ) : $rel_query->the_post();
-										
-						sr_media_videos($dont_copy_vid , $artist_class);
+														
+					vid_arr_constructor($videos , $artist_class);
 					
 				endwhile; endif;
-				
-				//increment post index
-				$i++;
-				
+				//increment artist index
+				$i++;	
 			endwhile;
+						
+			$videos = sr_get_videos($videos);
 			
-			require_once("library/phpFlickr.php");
+			foreach($videos as $video)
+			{
+			if($video['is_valid'] == 'true')
+			{?>
+					<a href="<?php echo $video['embed'] ?>" class="fancy-roll lightbox fancybox.iframe video <?php echo $video['vendor'] . ' ' . $video['artist']; ?>" rel="gallery-media">
+							<img src="<?php echo $video['thumbnail_large']?>" class="<?php echo $video['vendor'] ?>" />	
+						<div class="info">
+							<div class="wrap">
+								<header class="entry-header">
+									<h1 class="entry-title small-h"><?php echo $video['title'] ?></h1>
+								</header>
+								<?php if($video['description'] != '_empty_'):?>
+									<div class="entry-summary">
+										<p><?php echo $video['description'] ?></p>
+									</div>
+								<?php endif; ?>
+								<div class="read-more button button-large">Click to watch</div>
+							</div>
+						</div>
+					</a>
+				<?php }
+			}
+				
+			
+			/*require_once("library/phpFlickr.php");
 			$phpFlickrObj = new phpFlickr('5513c9832db6522b7b01155508526edb');
 			$user_url = $phpFlickrObj->urls_getUserPhotos('8546357@N03');
 			$photos = $phpFlickrObj->people_getPublicPhotos('8546357@N03', NULL, NULL, 20);
@@ -95,7 +112,7 @@ get_header(); ?>
 						<span class="click-prompt zoom">Click to zoom</span>
 					</div></div>
 				</a> <?php
-			}
+			}*/
 			?>
 		</div><!--#isotope-wrap-->
 	</div><!-- #content -->
