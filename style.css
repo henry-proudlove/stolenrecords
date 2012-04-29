@@ -1905,7 +1905,7 @@ background: #da342e;
 	text-transform: uppercase;
 	color: #293034;
 	font-size: 1.2em;
-	margin: 1.2em 0;
+	margin: 1.2em 0 1.45em;
 	letter-spacing: 0.1em;
 }
 
@@ -2487,6 +2487,12 @@ wp-caption-text{
 	text-transform: uppercase;
 }
 
+.single-artist article + #reviews{
+	padding: 2em 0 0;
+	margin: 2em 0;
+	background: url('images/straight-line.png') no-repeat top center;
+}
+
 /*
 *
 * Single Release
@@ -2530,9 +2536,9 @@ aside#releases .img-holder img{
 	display: block;
 	clear: both;
 	border-top: 1px solid rgb(41, 48, 53);
-	border-top: 1px solid rgba(41, 48, 53, 0.1);
+	border-top: 1px solid rgba(41, 48, 53, 0.2);
 	border-bottom: 1px solid rgb(41, 48, 53);
-	border-bottom: 1px solid rgba(41, 48, 53, 0.1);
+	border-bottom: 1px solid rgba(41, 48, 53, 0.2);
 	padding: 1em 0;
 
 }
@@ -2629,15 +2635,20 @@ section#single-release{
 }
 
 .single-release .entry-header{
-	margin-bottom: 2em;
+	margin-bottom: 1.45em;
 }
 
 .single-release .slider-nav{
 	margin: 1em 0 0 0;
 }
 
+.single-release #entry-content{
+	padding: 0.2em 0 1.45em;
+	background: url('images/straight-line.png') no-repeat bottom center;
+}
+
 .single-release .button{
-	margin-top: 1.5em;
+	margin-top: 2em;
 }
 
 .entry-artist {
@@ -3496,8 +3507,8 @@ div.wpcf7 img.ajax-loader {
 		font-size: 1.15em;
 	}
 	
-	#latest .big-center{
-		max-width: 95%;
+	#latest .big-center, .single-release .big-center{
+		max-width: 80%;
 		text-align: center;
 		font-size: 1.15em;
 	}

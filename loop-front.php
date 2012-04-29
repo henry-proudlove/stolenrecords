@@ -72,10 +72,10 @@ if($the_query->have_posts() ):?>
 									echo '<div class="entry-meta"><time class="release date"> Out ';
 									echo date('l j<\s\u\p>S</\s\u\p> F Y' , strtotime($release_date));
 									echo '</time></div>';
-									echo '<a href="'.$buy_now_link .'" class="buy-link preorder button button-large">Preorder now</a>';
+									echo '<a href="'.$buy_link .'" class="buy-link preorder button button-large">Preorder now</a>';
 								}else
 								{
-									echo '<a href="'.$buy_now_link .'" class="buy-link buy-now button button-large">Buy Now</a>';
+									echo '<a href="'.$buy_link .'" class="buy-link buy-now button button-large" target="_blank">Buy Now</a>';
 								}
 							endif;
 						?>
