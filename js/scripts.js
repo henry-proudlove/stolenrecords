@@ -41,35 +41,6 @@ DEBOUNCED RESIZE
 })(jQuery,'smartresize');
 
 /*
-DEBOUNCED SCROLL
-*/
-
-(function($,sr){
- 
-  var debounce = function (func, threshold, execAsap) {
-      var timeout;
- 
-      return function debounced () {
-          var obj = this, args = arguments;
-          function delayed () {
-              if (!execAsap)
-                  func.apply(obj, args);
-              timeout = null; 
-          };
- 
-          if (timeout)
-              clearTimeout(timeout);
-          else if (execAsap)
-              func.apply(obj, args);
- 
-          timeout = setTimeout(delayed, threshold || 100); 
-      };
-  }
-	jQuery.fn[sr] = function(fn){  return fn ? this.bind('scroll', debounce(fn)) : this.trigger(sr); };
- 
-})(jQuery,'smartscroll');
-
-/*
 SHOWS PAGE
 */
 
@@ -116,32 +87,6 @@ jQuery.fn.borderScroll = function(currentPos) {
         }
                      
 };
-
-/*
-MEDIA PAGE HELL
-*/
-/*jQuery.fn.mediaPad = function(){
-	$(this[0]).find('.fancy-roll').each(function(){
-			if($(this).hasClass('photo') || $(this).hasClass('flickr')){
-				$img =  $(this).find('img');
-				height = $img.attr('height');
-				width = $img.attr('width');
-				ratio = height/width;
-				$(this).find('.lazy-wrapper').css('padding-top', (ratio * 100)+"%");
-				$img.removeAttr('width').removeAttr('height');
-			}else if($(this).hasClass('vimeo')){
-				ratio = 0.5625;
-				$(this).find('.lazy-wrapper').css('padding-top', (ratio * 100)+"%");
-				$img.removeAttr('width').removeAttr('height');
-			}else{
-				ratio = 0.75;
-				$(this).find('.lazy-wrapper').css('padding-top', (ratio * 100)+"%");
-				$img.removeAttr('width').removeAttr('height');
-			}		
-		});
-		
-		return $(this[0]);
-};*/
 
 /*
 INITIALISING CYCLE PLUGIN
@@ -194,45 +139,6 @@ jQuery.fn.gallerySliderInit = function(){
 	}
 };
 
-/*jQuery.fn.showSliderInit = function(){
-	var c = $(this).children().length;
-	if(c > 1){
-		$(this).cycle({ 
-			fx:     'fade', 
-			speed:  'slow', 
-			timeout: 2000,
-			containerResize: false,
-			slideResize: false,
-			fit: 1,
-		}).data('sliderinit' , true).sliderheight();
-	}
-}*/
-
-
-/*jQuery.fn.latestSliderInit = function(){
-	$this = $(this[0]);
-	var c = $this.children().length;
-	var p = $this.parent().parent();
-	$this.children().find('.left').vertCenter();
-	if(c > 1){
-		$(this).before(slidernav);
-		$(this).cycle({ 
-			fx:     'fadeOutWaitFadeIn', 
-			speed:  500,
-			delayBetweenFades: 300,
-			timeout: 0, 
-			pager:  $('.pager', p),
-			next:   $('.next', p),
-			prev:   $('.prev', p),
-			containerResize: false,
-			slideResize: false,
-			fit: 1
-		}).data('sliderinit' , true).padSliderHeight();
-	} else {
-		$(this).data('sliderinit' , false);
-	}
-};*/
-
 /*
 MAKING SLIDES FLUID
 */
@@ -265,7 +171,6 @@ jQuery.fn.releaseHeight = function() {
 		o.height(maxHeight);
 };
 
-
 //latest
 
 jQuery.fn.padSliderHeight = function() {
@@ -281,7 +186,6 @@ jQuery.fn.padSliderHeight = function() {
 		});
 	}
 };
-
 
 $.fn.cycle.transitions.fadeOutWaitFadeIn = function($cont, $slides, opts) {
     opts.fxFn = function(curr, next, opts, after) {
@@ -435,9 +339,7 @@ $(document).ready(function() {
 	$('a.lightbox.photo, a.lightbox.flickr').colorbox({opacity	: 0.85 , returnFocus : false});
 	
 	$("#social-tabs" ).tabs();
-	
-	//$("#latest-slider").latestSliderInit();
-	
+		
 	$("#artist-slider").gallerySliderInit();
 	
 	$(".slider").sliderInit();
@@ -447,14 +349,6 @@ $(document).ready(function() {
 	$(".fancy-roll").hover(function(){
 		$(this).find('.wrap').fancyRollCenter();
 	});	
-
-	/*$('.lightbox').fancybox({
-		fitToView	: false,
-		width 		: '80%',
-		height		: '60%',
-		autoSize	: false,
-		arrows		: true
-	});*/
 	
 	$(document).bind('onPlayerInit.scPlayer', function(event){
 		$('.sc-player').prepend($('.sc-scrubber , .sc-controls'), function(){
@@ -575,9 +469,6 @@ $(document).ready(function() {
 		$('#isotope-wrap').isotope('reLayout');
 	});
 	
-	/*$('.fancy-roll img').lazyload({
-		effect : 'fadeIn'
-	});*/	
 	
 	$('section#releases .info').releaseHeight();
 	
