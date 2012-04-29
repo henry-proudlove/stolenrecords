@@ -1315,6 +1315,34 @@ function sr_latest_videos(){ ?>
 /* END Home page latest videos
 ---------------------------------------------------*/
 
+/*
+Get youtube id from url
+*/
+
+function youtube_id_from_url($url) {
+    $pattern = 
+        '%^# Match any youtube URL
+        (?:https?://)?  # Optional scheme. Either http or https
+        (?:www\.)?      # Optional www subdomain
+        (?:             # Group host alternatives
+          youtu\.be/    # Either youtu.be,
+        | youtube\.com  # or youtube.com
+          (?:           # Group path alternatives
+            /embed/     # Either /embed/
+          | /v/         # or /v/
+          | /watch\?v=  # or /watch\?v=
+          )             # End path alternatives.
+        )               # End host alternatives.
+        ([\w-]{10,12})  # Allow 10-12 for 11 char youtube id.
+        $%x'
+        ;
+    $result = preg_match($pattern, $url, $matches);
+    if (false !== $result) {
+        return $matches[1];
+    }
+    return false;
+}
+
 
 /*---------------------------------------------------
 Main video fetcher
@@ -1337,32 +1365,27 @@ function sr_get_videos($videos){
 		$video_link = $videos[$i]['video_link'];
 		if(strpos($video_link , 'vimeo.com'))
 		{
-			$video_id = substr($video_link , 17);
+			if (0 === preg_match('/^http:\/\/(www\.)?vimeo\.com\/(clip\:)?(\d+).*$/', $videos[$i]['video_link'], $match)){
+				$error = 'the error';
+			}
+			else{
+				$videos[$i]['is_valid'] = 'false';
+			}
 			$videos[$i]['id'] = $video_id;
 			$videos[$i]['endpoint'] = 'http://vimeo.com/api/v2/video/' . $video_id  . '.xml';
 			$videos[$i]['vendor'] = 'vimeo';
 			$videos[$i]['embed'] = 'http://player.vimeo.com/video/' . $video_id . '?autoplay=1';
 			$videos[$i]['is_valid'] = 'true';
 			
-		}elseif (strpos($video_link , 'youtu.be'))
+		}else
 		{	
-			$video_id = substr($video_link , 16);
+			$video_id = youtube_id_from_url($videos[$i]['video_link']);
+			echo $video_id;
 			$videos[$i]['id'] = $video_id;
 			$videos[$i]['endpoint'] = 'http://gdata.youtube.com/feeds/api/videos/' . $video_id;
 			$videos[$i]['vendor'] = 'youtube';
 			$videos[$i]['embed'] = 'http://www.youtube.com/embed/' . $video_id . '?autoplay=1&amp;wmode=transparent';
 			$videos[$i]['is_valid'] = 'true';
-		}elseif (strpos($video_link , 'youtube.com'))
-		{
-			$video_id = substr($video_link , 31 , 11);
-			$videos[$i]['id'] = $video_id;
-			$videos[$i]['endpoint'] = 'http://gdata.youtube.com/feeds/api/videos/' . $video_id ;
-			$videos[$i]['vendor'] = 'youtube';
-			$videos[$i]['embed'] = 'http://www.youtube.com/embed/' . $video_id . '?autoplay=1';
-			$videos[$i]['is_valid'] = 'true';
-		}else
-		{
-			$videos[$i]['is_valid'] = 'false';
 		}
 	}
 	
