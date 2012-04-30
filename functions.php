@@ -1853,20 +1853,23 @@ function sr_global_nav()
 			
 					$art_nav_query = new WP_Query($args);
 					
-					while ( $art_nav_query->have_posts() ) : $art_nav_query->the_post(); ?>
+					if ( $art_nav_query->have_posts() ) : while ( $art_nav_query->have_posts() ) : 
+					$art_nav_query->the_post(); ?>
 						<li><a href="<?php the_permalink(); ?>" class="art-nav-link" title="<?php echo get_the_title() . ' profile'; ?>" rel="address:<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
 					<?php 
-					endwhile;?>
+					endwhile;
+					endif;?>
 					</ul><ul><?php
 					
 					$args['meta_value'] = 'past';
 					
 					$art_nav_query = new WP_Query($args);
-				
-					while ( $art_nav_query->have_posts() ) : $art_nav_query->the_post(); ?>
-					
+						
+					if ( $art_nav_query->have_posts() ) : ?>
+						<lh class="past-artist-header">past artists</lh>
+					<?php while ( $art_nav_query->have_posts() ) : $art_nav_query->the_post(); ?>
 						<li><a href="<?php the_permalink(); ?>" class="art-nav-link" title="<?php echo get_the_title() . ' profile'; ?>" rel="address:<?php the_permalink(); ?>"><?php the_title(); ?></a></li> 
-					<?php endwhile; wp_reset_query(); ?>
+					<?php endwhile;endif; wp_reset_query(); ?>
 				</ul>
 			</li>
 			<li><a href="<?php echo get_post_type_archive_link( 'release' ); ?>" rel="address:/<?php echo get_post_type_archive_link( 'release' ); ?>">Releases</a></li>
