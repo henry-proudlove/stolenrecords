@@ -377,6 +377,114 @@ function type_taxon_init() {
 
 /*
 =======================================================
+CUSTOM TYPE MANAGE PAGES
+=======================================================
+*/
+
+
+/*
+ * SHOWS
+ */
+ 
+add_filter("manage_edit-show_columns", "my_show_columns");
+ 
+function my_show_columns($columns) //this function display the columns headings
+{
+	$columns = array(
+		"cb" => "<input type=\"checkbox\" />",
+		"title" => "Title",
+		"artists" => "Artist",
+		"venue" => "Venue",
+		"show_date" => "Show Date"
+	);
+	return $columns;
+}
+ 
+/*
+ * Releases
+ */
+
+add_filter("manage_edit-release_columns", "my_release_columns");
+ 
+function my_release_columns($columns) //this function display the columns headings
+{
+	$columns = array(
+		"cb" => "<input type=\"checkbox\" />",
+		"title" => "Title",
+		"artists" => "Artists",
+		"release_date" => "Release Date"
+	);
+	return $columns;
+}
+
+/*
+ * Artist
+ */
+
+add_filter("manage_edit-artist_columns", "my_artist_columns");
+ 
+function my_artist_columns($columns) //this function display the columns headings
+{
+	$columns = array(
+		"cb" => "<input type=\"checkbox\" />",
+		"title" => "Title",
+		"status" => "Artist Status"
+	);
+	return $columns;
+}
+
+function my_custom_columns($column)
+{
+	global $post;
+	switch ($column){
+		case "ID": echo $post->ID; break;
+		case "artists": echo get_the_term_list( $post->ID, 'artist', '', ', ', '' ); break;
+		case "venue": echo get_post_meta($post->ID , '_sr_show-venue', true); break;
+		case "show_date": echo get_post_meta($post->ID , '_sr_show-date', true); break;
+		case "release_date" : echo get_post_meta($post->ID , '_sr_release-date', true); break;
+		//case "releases" : echo sr_get_releases_list($post->ID); break;
+		case "status" : sr_get_artist_status($post->ID); break;
+	}
+}
+
+add_action("manage_posts_custom_column", "my_custom_columns");
+
+//Get list of releases by artist
+
+function sr_get_releases_list($post_id){
+	$artist = basename(get_permalink($post_id));
+	$args = array(
+		'post_type' => 'release' ,
+		'tax_query' => array(
+			array(
+				'taxonomy' => 'artist',
+				'field' => 'slug',
+				'terms' => $artist
+			)
+		)
+	);
+
+	$query = new WP_query($args);
+	if( $query->have_posts() ): while ($query->have_posts() ): $query->the_post();
+		echo '<a href="' . get_permalink() . '">' . get_the_title() . '</a></br>';
+	endwhile; endif; wp_reset_postdata();
+}
+
+//Artist Status
+
+function sr_get_artist_status($post_ID){
+	$past = get_post_meta($post_ID , '_sr_present-past' , true); 
+	if($past == 'past'){
+		echo 'Past Artist</br>';
+	};
+	$publish = get_post_meta($post_ID, '_sr_publishing', true);
+	if($publish == 'publishing'){
+		echo 'Pusblished by Stolen';
+	}
+}
+
+/*
+=======================================================
 AUTO ADD ARTIST TERM ON ARTIST TYPE PUBLISH
 =======================================================
 */
