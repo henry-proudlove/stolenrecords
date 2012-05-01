@@ -16,7 +16,7 @@ get_header(); ?>
 		sr_rels_by_artist($args , true);
 	?>
 	</div><!--#wrapper-->
-	<div id="sidebar" class="fourcol shim-left">
+	<div id="sidebar" class="fourcol shim-left clearfix">
 		<aside id="stolen-listen" class="listen">
 			<h2 class="aside-header">Listen</h2>
 			<div class="sc-player">

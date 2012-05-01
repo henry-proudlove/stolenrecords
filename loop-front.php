@@ -144,7 +144,7 @@ if($the_query->have_posts() ):?>
 		</div>
 	</section><!--#latest-->
 <?php endif; ?>
-	<div id="wrapper" class="eightcol shim-right"> 
+	<div id="wrapper" class="eightcol shim-right clearfix"> 
 		<section id="news-feed" class="nested">
 			<?php /* Index 'News' section 3 posts with image */
 			

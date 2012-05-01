@@ -3431,9 +3431,15 @@ $(document).ready(function() {
 		start = filtercount - filtermodulus;
 		end = filtercount;
 		$filters.slice(start, end).addClass('filter-no-border');
-	}	
+	}
+	$('#branding').height($('#main').height());
+	$(window).bind('scrollstart', function(){
+        $('#branding').height($('#main').height());
+        console.log('FIRE!');
+    });
 	
-	$(window).smartresize(function(){  
+	$(window).smartresize(function(){ 
+		$('#branding').height($('#main').height());
 		$(".slider").sliderheight();
 		$('.sc-controls a').scPlayerHeight();
 		$('form[role="search"]').fluidSearchForm();
