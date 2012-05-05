@@ -3315,7 +3315,11 @@ div.wpcf7 img.ajax-loader {
     Change the following styles to modify the appearance of ColorBox.  They are
     ordered & tabbed in a way that represents the nesting of the generated HTML.
 */
-#cboxOverlay{background:url(images/overlay.png) repeat 0 0;}
+#cboxOverlay{
+	/*background:url(images/overlay.png) repeat 0 0;*/
+	background: rgb(41,48,52);
+	background: rgba(41,48,52,0.98);
+}
 #colorbox{}
     #cboxTopLeft{}
     #cboxTopRight{}
@@ -3325,20 +3329,25 @@ div.wpcf7 img.ajax-loader {
     #cboxMiddleRight{}
     #cboxTopCenter{}
     #cboxBottomCenter{}
-    #cboxContent{background:#293034; overflow:hidden;}
+    #cboxContent{
+    	background:rgb(0,0,0);
+    	background:rgba(0,0,0, 0.8);
+    	background: transparent;
+    	overflow:hidden;
+    }
         .cboxIframe{background:#fff;}
         #cboxError{padding:50px; border:1px solid #ccc;}
         #cboxLoadedContent{margin-bottom:28px;}
         #cboxTitle {
 			position: absolute;
 			bottom: 4px;
-			left: 15px;
+			left: 0;
 			color: #eee;
 		}
 		#cboxCurrent {
 			position: absolute;
 			bottom: 4px;
-			right: 15px;
+			right: 0;
 			color: #949494;
 		}
 		#cboxSlideshow{position:absolute; bottom:4px; right:30px; color:#0092ef;}
