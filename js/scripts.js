@@ -3025,7 +3025,7 @@ SHOWS PAGE
 
 var shows = []; //global array of section offsetTops for the page.
 
-jQuery.fn.borderScroll = function(currentPos) {
+/*jQuery.fn.borderScroll = function(currentPos) {
         var currentBubble = 1; //Init the current bubble var.
 		var $articles = $('.post-type-archive-show #shows article');
         if ($('.expanded').length > 0) {            
@@ -3065,7 +3065,19 @@ jQuery.fn.borderScroll = function(currentPos) {
             changeSection();
         }
                      
-};
+};*/
+
+jQuery.fn.showSwitch = function(){
+	//$shows = $(this);
+	$(this[0]).addClass('expanded');
+	$(this).click(function(){
+		console.log('clicked');
+		$(this).siblings().removeClass('expanded');
+		$(this).addClass('expanded');
+		
+	});
+	
+}
 
 /*
 INITIALISING CYCLE PLUGIN
@@ -3362,14 +3374,17 @@ $(document).ready(function() {
 		}
 	});
 	
-	$('.post-type-archive-show #shows article').each(function() {            
+	/*$('.post-type-archive-show #shows article').each(function() {            
         shows.push(this.offsetTop);        
-    });
-    
-    $(window).scroll(function(){
+    });*/
+	
+	$('.post-type-archive-show #shows article').showSwitch();
+        
+    /*$(window).scroll(function(){
         $(this).borderScroll($(this).scrollTop());
         $('.smart').append('fire</br>');
-    }).scroll();
+    }).scroll();*/
+    
 	
 	$('#primary:not(.single)').infinitescroll({
 		navSelector  : "#nav-below",            
@@ -3435,7 +3450,7 @@ $(document).ready(function() {
 	$('#branding').height($('#main').height());
 	$(window).bind('scrollstart', function(){
         $('#branding').height($('#main').height());
-        console.log('FIRE!');
+        /*console.log('FIRE!');*/
     });
 	
 	$(window).smartresize(function(){ 

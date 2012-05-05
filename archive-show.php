@@ -35,7 +35,8 @@ get_header(); ?>
 		$dont_copy = array();
 		$the_query = new WP_query($args);
 	?>
-		<?php if ( $the_query->have_posts() ) : ?>
+		<?php 
+		if ( $the_query->have_posts() ) : ?>
 		<?php while ( $the_query->have_posts() ) : $the_query->the_post();
 		array_push($dont_copy, $post->ID);
 			sr_shows_markup();
