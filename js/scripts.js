@@ -3447,10 +3447,13 @@ $(document).ready(function() {
 		end = filtercount;
 		$filters.slice(start, end).addClass('filter-no-border');
 	}
-	$('#branding').height($('#main').height());
+	$('#branding').height($('html').height());
 	$(window).bind('scrollstart', function(){
-        $('#branding').height($('#main').height());
-        /*console.log('FIRE!');*/
+		htmlHeight = $('html').height();
+		mainHeight = $('#main').height();
+		if(mainHeight > htmlHeight){
+			$('#branding').height($('#main').height());
+        }
     });
 	
 	$(window).smartresize(function(){ 
