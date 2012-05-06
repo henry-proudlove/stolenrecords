@@ -827,63 +827,65 @@ function sr_shows_markup(){
 	?>
 
 	<article id="post-<?php the_ID(); ?>" <?php post_class('clearfix contracted'); ?> role="article">
-		<?php if($show_meta['buy_tix']): ?>
-			<div class="show-img-gallery fivecol hide">
-				<a href="<?php echo $show_meta['buy_tix']; ?>" title="Buy Tickets" rel="bookmark">
+		<div class="show-wrapper clearfix">
+			<?php if($show_meta['buy_tix']): ?>
+				<div class="show-img-gallery fivecol hide">
+					<a href="<?php echo $show_meta['buy_tix']; ?>" title="Buy Tickets" rel="bookmark">
+					<?php sr_shows_images($show_meta['artists']); ?>
+					</a>
+				</div><!--.show-img-gallery-->
+			<?php else: ?>
+				<div class="show-img-gallery fivecol hide">
 				<?php sr_shows_images($show_meta['artists']); ?>
-				</a>
-			</div><!--.show-img-gallery-->
-		<?php else: ?>
-			<div class="show-img-gallery fivecol hide">
-			<?php sr_shows_images($show_meta['artists']); ?>
-			</div><!--.show-img-gallery-->
-		<?php endif; ?>
-		<div class="info sevencol">
-			<div>
-				<header class="entry-header">
-					<div class="entry-meta">
-					<?php if($show_meta['venue_link'] && $show_meta['venue']):?>
-						<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" title="More info" rel="bookmark"><?php echo $show_meta['venue']; ?></a>:  </span>
-					<?php elseif($show_meta['venue']): ?>
-						<span class="venue"><?php echo $show_meta['venue']; ?>: </span>
-					<?php elseif($show_meta['venue_link']):?>
-						<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" title="More info" rel="bookmark">
-						<?php echo $show_meta['venue_link']; ?></a>: </span>
+				</div><!--.show-img-gallery-->
+			<?php endif; ?>
+			<div class="info sevencol">
+				<div>
+					<header class="entry-header">
+						<div class="entry-meta">
+						<?php if($show_meta['venue_link'] && $show_meta['venue']):?>
+							<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" title="More info" rel="bookmark"><?php echo $show_meta['venue']; ?></a>:  </span>
+						<?php elseif($show_meta['venue']): ?>
+							<span class="venue"><?php echo $show_meta['venue']; ?>: </span>
+						<?php elseif($show_meta['venue_link']):?>
+							<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" title="More info" rel="bookmark">
+							<?php echo $show_meta['venue_link']; ?></a>: </span>
+						<?php endif; ?>
+						<time class="show-date">
+							<?php echo $show_meta['date']; ?>
+							<?php echo $show_meta['time']; ?>
+						</time>
+						</div>
+						<h1 class="entry-title big-h">
+							<?php 
+							$artists = $show_meta['artists'];
+							$artists_count = $show_meta['artist_count'];
+	
+							for ($i=0; $i < $artists_count; $i++):
+								if($i < ($artists_count - 1)){ ?>
+									<a href="<?php echo $artists[$i]['guid']; ?>" title="More about <?php echo $artists[$i]['title'];?>" rel="bookmark">
+									<?php echo $artists[$i]['title'];?></a> + <?php
+								} else{ ?>
+									<a href="<?php echo $artists[$i]['guid']; ?>" title="More about <?php echo $artists[$i]['title'];?>" rel="bookmark">
+									<?php echo $artists[$i]['title'];?></a>: <?php
+								}
+							endfor;
+							
+							the_title(); ?>
+						</h1>
+					</header><!-- .entry-header -->
+				<div class="hide">	
+					<div class="entry-summary">
+						<?php no_more_excerpt($post->ID); ?>
+					</div><!-- .entry-content -->
+					
+					<?php if($show_meta['buy_tix']): ?>
+						<a class="button button-large buy-tickets" href="<?php echo $show_meta['buy_tix']; ?>" title="Buy Tickets" rel="bookmark">Buy Tickets</a>
 					<?php endif; ?>
-					<time class="show-date">
-						<?php echo $show_meta['date']; ?>
-						<?php echo $show_meta['time']; ?>
-					</time>
-					</div>
-					<h1 class="entry-title big-h">
-						<?php 
-						$artists = $show_meta['artists'];
-						$artists_count = $show_meta['artist_count'];
-
-						for ($i=0; $i < $artists_count; $i++):
-							if($i < ($artists_count - 1)){ ?>
-								<a href="<?php echo $artists[$i]['guid']; ?>" title="More about <?php echo $artists[$i]['title'];?>" rel="bookmark">
-								<?php echo $artists[$i]['title'];?></a> + <?php
-							} else{ ?>
-								<a href="<?php echo $artists[$i]['guid']; ?>" title="More about <?php echo $artists[$i]['title'];?>" rel="bookmark">
-								<?php echo $artists[$i]['title'];?></a>: <?php
-							}
-						endfor;
-						
-						the_title(); ?>
-					</h1>
-				</header><!-- .entry-header -->
-			<div class="hide">	
-				<div class="entry-summary">
-					<?php no_more_excerpt($post->ID); ?>
-				</div><!-- .entry-content -->
-				
-				<?php if($show_meta['buy_tix']): ?>
-					<a class="button button-large buy-tickets" href="<?php echo $show_meta['buy_tix']; ?>" title="Buy Tickets" rel="bookmark">Buy Tickets</a>
-				<?php endif; ?>
+				</div>
 			</div>
-		</div>
-		</div><!--.info-->
+			</div><!--.info-->
+		</div><!--.show-wrapper-->
 	</article><!-- #post-<?php the_ID(); ?> -->
 <?php }
 

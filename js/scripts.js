@@ -3023,7 +3023,7 @@ DEBOUNCED RESIZE
 SHOWS PAGE
 */
 
-var shows = []; //global array of section offsetTops for the page.
+//var shows = []; //global array of section offsetTops for the page.
 
 /*jQuery.fn.borderScroll = function(currentPos) {
         var currentBubble = 1; //Init the current bubble var.
@@ -3068,17 +3068,30 @@ var shows = []; //global array of section offsetTops for the page.
 };*/
 
 jQuery.fn.showSwitch = function(){
-	//$shows = $(this);
-	$(this[0])
-		.removeClass('contracted')
-		.addClass('expanded')
-		.find('.info')
-		.vertCenter();
-		
+	//console.log(window.location.hash);
+	hash = window.location.hash
+	if(hash != ''){
+		console.log('I got a hash');
+		$(this)
+			.filter(hash)
+			.removeClass('contracted')
+			.addClass('expanded')
+			.find('.info')
+			.vertCenter();
+	}else{
+		console.log('I havent got a Hash YO!');
+		$(this[0])
+			.removeClass('contracted')
+			.addClass('expanded')
+			.find('.info')
+			.vertCenter();
+	}
+	
 	$(this).click(function(){
 		console.log('clicked');
 		$(this)
-			.siblings().filter('.expanded')
+			.siblings()
+			.filter('.expanded')
 			.removeClass('expanded')
 			.addClass('contracted')
 			.find('.info')
