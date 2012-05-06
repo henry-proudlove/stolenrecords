@@ -2388,7 +2388,6 @@ wp-caption-text{
 .fancy-roll .info .click-prompt{
 	display: block;
 	text-transform: uppercase;
-	font-style: italic;
 	color: rgb(255, 255, 255);
 	color: rgba(255, 255, 255, 0.6);
 }
@@ -2414,6 +2413,8 @@ wp-caption-text{
 	background: url('images/magnifyer.png') no-repeat top center;
 	padding-top: 26px;
 	display: block;
+	font-family: 'StolenSans', Arial, Helvetica, sans-serif;
+	color: white;
 }
 
 /*
@@ -2840,7 +2841,6 @@ section#single-release{
 .post-type-archive-show article:nth-child(2).expanded{
 	padding: 0 0 1em;
 }
-
 
 .post-type-archive-show .results-header{
 	margin: 0;
@@ -3538,7 +3538,7 @@ div.wpcf7 img.ajax-loader {
 	color: white !important;
 	display: block;
 	float: left;
-	padding: 3.2% 3%;
+	padding: 3.5% 3%;
 	width: 18%;
 	text-align: center;
 }

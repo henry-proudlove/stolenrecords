@@ -1239,7 +1239,7 @@ function sr_aside_shows($artist, $home)
 	if($home == true){
 		echo  '<aside id="shows"><h2 class="aside-header">Shows</h2><ul class="latest-shows txt-list ">';
 	}else{
-		echo '<aside id="shows" class="fourcol"><h2 class="aside-header">Shows</h2><ul class="txt-list red-roll">';
+		echo '<aside id="shows" class="fourcol"><h2 class="aside-header">Shows</h2><ul class="txt-list">';
 	}
 	if ( $the_query->have_posts() ) :
 		while ( $the_query->have_posts() ) : $the_query->the_post();?>
