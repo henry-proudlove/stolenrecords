@@ -3019,59 +3019,10 @@ DEBOUNCED RESIZE
  *
  */
 
-/*
-SHOWS PAGE
-*/
-
-//var shows = []; //global array of section offsetTops for the page.
-
-/*jQuery.fn.borderScroll = function(currentPos) {
-        var currentBubble = 1; //Init the current bubble var.
-		var $articles = $('.post-type-archive-show #shows article');
-        if ($('.expanded').length > 0) {            
-            currentBubble = $('.expanded').offsetTop;            
-        }
-        else {            
-            $articles.first().addClass('expanded');
-        }
-        function closestSection() {
-            yPos = currentPos;
-            var checks = [];
-            $.each(shows, function(){
-                checks.push(Math.abs(this - yPos));       
-            })
-            min = Math.min.apply( Math, checks );
-            return $.inArray(min, checks);
-        }
-        var  closestArrPos = closestSection();
-        var closest = shows[closestArrPos];
-        function changeSection() {
-        	$articles.removeClass('invisible')
-        		
-            $('.expanded')
-            	.removeClass('expanded')
-            	.find('.info').removeAttr('style');
-	
-            $articles
-            	.eq(closestArrPos)
-            	.addClass('expanded')
-            	.find('.info').vertCenter();
-            	
-            if(closestArrPos > 0){
-            	$articles.eq(closestArrPos -1 ).addClass('invisible');
-            }
-        }               
-        if (closest != currentBubble) {
-            changeSection();
-        }
-                     
-};*/
-
 jQuery.fn.showSwitch = function(){
 	//console.log(window.location.hash);
 	hash = window.location.hash
 	if(hash != ''){
-		console.log('I got a hash');
 		$(this)
 			.filter(hash)
 			.removeClass('contracted')
@@ -3079,7 +3030,6 @@ jQuery.fn.showSwitch = function(){
 			.find('.info')
 			.vertCenter();
 	}else{
-		console.log('I havent got a Hash YO!');
 		$(this[0])
 			.removeClass('contracted')
 			.addClass('expanded')
@@ -3101,6 +3051,9 @@ jQuery.fn.showSwitch = function(){
 			.addClass('expanded')
 			.find('.info')
 			.vertCenter();
+		$("html, body").animate(
+			{ scrollTop: $(this).offset().top },
+			500);
 		
 	});
 	

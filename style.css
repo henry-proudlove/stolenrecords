@@ -3536,7 +3536,6 @@ div.wpcf7 img.ajax-loader {
 #subscribe-form input[type="submit"]{
 	font-family: 'stolenSans', Arial, Helvetica, sans-serif;
 	text-transform: uppercase;
-	letter-spacing: 0.15em;
 	border: none !important;
 	background-color: #DA342E;
 	color: white !important;
