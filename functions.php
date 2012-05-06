@@ -826,7 +826,7 @@ function sr_shows_markup(){
 	$show_meta = sr_shows_meta($post->ID);
 	?>
 
-	<article id="post-<?php the_ID(); ?>" <?php post_class('clearfix'); ?> role="article">
+	<article id="post-<?php the_ID(); ?>" <?php post_class('clearfix contracted'); ?> role="article">
 		<?php if($show_meta['buy_tix']): ?>
 			<div class="show-img-gallery fivecol hide">
 				<a href="<?php echo $show_meta['buy_tix']; ?>" title="Buy Tickets" rel="bookmark">

@@ -3069,11 +3069,25 @@ var shows = []; //global array of section offsetTops for the page.
 
 jQuery.fn.showSwitch = function(){
 	//$shows = $(this);
-	$(this[0]).addClass('expanded');
+	$(this[0])
+		.removeClass('contracted')
+		.addClass('expanded')
+		.find('.info')
+		.vertCenter();
+		
 	$(this).click(function(){
 		console.log('clicked');
-		$(this).siblings().removeClass('expanded');
-		$(this).addClass('expanded');
+		$(this)
+			.siblings().filter('.expanded')
+			.removeClass('expanded')
+			.addClass('contracted')
+			.find('.info')
+			.removeAttr('style');
+		$(this)
+			.removeClass('contracted')
+			.addClass('expanded')
+			.find('.info')
+			.vertCenter();
 		
 	});
 	

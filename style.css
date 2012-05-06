@@ -2725,7 +2725,7 @@ section#single-release{
 	-o-transition: height 0.3s;
 }
 
-.post-type-archive-show article:hover{
+.post-type-archive-show article.contracted:hover{
 	cursor: pointer;
 }
 .post-type-archive-show article h1, .post-type-archive-show article h1 a{
@@ -2734,9 +2734,18 @@ section#single-release{
 	-webkit-transition: color 0.3s;
 	-o-transition: color 0.3s;
 }
-.post-type-archive-show article:hover h1, .post-type-archive-show article:hover h1 a{
+.post-type-archive-show article.contracted:hover h1, .post-type-archive-show article.contracted:hover h1 a{
 	color: #DA342E;
 }
+
+.post-type-archive-show article.contracted a{
+	pointer-events: none;
+}
+
+.post-type-archive-show article.expanded{
+	pointer-events: auto;
+}
+
 
 
 
