@@ -378,6 +378,10 @@ border-bottom: none !important;
 	color: rgba(255,255,255,0.6);
 }
 
+a.red-roll h3:active {
+	color: white;
+}
+
 .img-list li > a
 {
 display:block;
