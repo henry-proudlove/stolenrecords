@@ -228,6 +228,12 @@ display:block;
 	border: none !important;
 	border-bottom: none;
 	font-size: 1.2em;
+	position: relative;
+	top: -0.4em;
+}
+
+.content-close, .content-close span{
+	vertical-align: middle;
 }
 
 .content-close .close-icon{
@@ -240,27 +246,25 @@ display:block;
 
 .content-close .text{
 	margin-right: 0.4em;
-	overflow: hidden;
 	display: inline-block;
 }
 
-.content-close .text span{
+.content-close .text{
+	filter:alpha(opacity=0);
 	opacity: 0;
-	transition: opacity 0.6s linear, left 0.3s;
-	-moz-transition: opacity 0.6s linear, left 0.3s;
-	-webkit-transition: opacity 0.6s linear, left 0.3s;
-	-o-transition: opacity 0.6s linear, left 0.3s;
-	top: -0.1em;
+	transition: opacity 0.3s;
+	-moz-transition: opacity 0.3s;
+	-webkit-transition: opacity 0.3s;
+	-o-transition: opacity 0.3s;
 	position: relative;
-	top: -0.1em;
-	left: 100%;
 }
 
 .content-close:hover .close-icon{
 	background-position: -223px 0;
 }
 
-.content-close:hover .text span{
+.content-close:hover .text{
+	filter:alpha(opacity=100);
 	opacity: 1;
 	left: 0;
 }
@@ -353,6 +357,15 @@ aside li:nth-child(1) {
 	border-top: none !important;
 }
 
+aside .entry-meta {
+	line-height: 1em;
+	padding-bottom: 0.2em;
+}
+
+aside .entry-meta > *{
+	display: inline-block;
+}
+
 
 .sc-trackslist li a{
 	padding: 3% 3.4% 2.1%;
@@ -400,13 +413,15 @@ display:block;
 }
 
 .img-list li > a:hover img{
+	filter:alpha(opacity=60);
 	opacity: 0.6;
 }
 
 .img-list li .info{
-	width: 65%;
-	display: inline-block;
-	padding: 3% 3% 0 3%;
+	 display: block;
+    float: right;
+    padding: 3% 3% 0 0;
+    width: 65%;
 }
 
 .img-list li .info h3, .img-list li .info p{
@@ -954,7 +969,7 @@ body{
 }
 
 #access li > a:hover, #access .active {
-	background-color: #293034;
+	background-color: #e6cda7;
 	background-color: rgba(187, 123, 43, 0.1);;
 }
 
@@ -1173,6 +1188,7 @@ padding-bottom: 1em;
 	-o-transition: none;
 	position: relative;
 	top: 0.1em;
+	text-indent: -9000px;
 }
 
 .nav-previous .meta-nav {
@@ -1596,11 +1612,13 @@ position: relative;
 
 .sc-scrubber .sc-buffer, .sc-scrubber .sc-played {
   background-color: #da342e;
+  filter:alpha(opacity=15);
   opacity: 0.15;
 }
 
 .sc-scrubber .sc-played {
   background-color: #da342e;
+  filter:alpha(opacity=60);
   opacity: 0.6;
 }
 
@@ -1829,11 +1847,11 @@ background: #da342e;
 
 
 #follow .ui-tabs-nav a{
-	background: url('images/sprite.png') no-repeat;
 	background-clip:content-box;
 	-webkit-background-clip:content-box;
 	background-origin:content-box;
 	height: 21px;
+	width: 30px;
 	padding: 3px 0 4px 0;
 	text-indent: -9000px;
 	transition: none;
@@ -1843,24 +1861,15 @@ background: #da342e;
 }
 
 #follow .ui-state-default #facebook-tab{
-	background-position: -145px 0;
-	width: 10px;
-	padding-left: 10px;
-	padding-right: 10px;
+	background: url('images/facebook-f.png') no-repeat center center;
 }
 
 #follow .ui-state-default #twitter-tab{
-	background-position: -113px 0;
-	width: 26px;
-	padding-left: 2px;
-	padding-right: 2px;
+	background: url('images/twitter-bird.png') no-repeat center center;
 }
 
 #follow .ui-state-default #vimeo-tab{
-	background-position: -88px 0;
-	width: 20px;
-	padding-left: 5px;
-	padding-right: 5px;
+	background: url('images/vimeo-v.png') no-repeat center center;
 }
 
 .tweet-text, .twitter-link{
@@ -2028,6 +2037,13 @@ background: #da342e;
 	text-align: center;
 }
 
+#primary article{
+	padding-bottom: 2.6em;
+	margin-bottom: 3.4em;
+	background: url('images/straight-line.png') no-repeat bottom center;
+}
+}
+
 #primary .entry-header{
 	text-align: center;
 	padding-bottom: 1.9em;
@@ -2108,6 +2124,16 @@ margin: 0.8em 0;
 .single-post #nav-below{
 	margin-bottom: 4.35em;
 	clear: both;
+}
+.nav-next a, .nav-previous a {
+	transition: none !important;
+	-webkit-tranisition: none !important;
+	-moz-transition: none !important;
+	-o-transition: none !important;
+}
+
+.nav-next:hover a, .nav-previous:hover a {
+	color: #DA342E !important;
 }
 
 .single-post .entry-content h1, .single-post .entry-content h2, .single-post .entry-content h3, .single-post .entry-content h4, .single-post .entry-content h5, .single-post .entry-content h6{
@@ -2324,8 +2350,8 @@ wp-caption-text{
 
 .fancy-roll .info
 {
+	filter:alpha(opacity=0);
 	opacity: 0;
-	/*display:none;*/
 	position: absolute;
 	background: rgb(41,48,52);
 	background: rgba(41,48,52,0.7);
@@ -2342,6 +2368,7 @@ wp-caption-text{
 }
 
 .fancy-roll:hover .info{
+	filter:alpha(opacity=100);
 	opacity: 1;
 	width: 100%;
 	height: 100%;
@@ -2390,10 +2417,11 @@ wp-caption-text{
 }
 
 .fancy-roll .info .click-prompt{
+	font-family: 'StolenSans', Arial, Helvetica, sans-serif;
 	display: block;
 	text-transform: uppercase;
-	color: rgb(255, 255, 255);
-	color: rgba(255, 255, 255, 0.6);
+	color: white;
+	letter-spacing: 0.15em;
 }
 
 .fancy-roll .info .read-more{
@@ -2543,6 +2571,7 @@ padding-right: 0.2em;
 
 aside#releases time{
 	font-size: 1em;
+	vertical-align: top;
 }
 
 aside#releases .img-holder img{
@@ -2626,6 +2655,7 @@ section#releases .release a:hover h3{
 }
 
 section#releases .release a:hover img{
+	filter:alpha(opacity=60);
 	opacity: 0.6;
 }
 
@@ -2648,7 +2678,7 @@ section#releases .release .entry-artists{
 /* Single Artist, Release Asides */
 
 section#single-release{
-	border-bottom: 1px solid rgb(41, 48, 53);
+	border-bottom: 1px solid #D8D8D4;
 	border-bottom: 1px solid rgba(41, 48, 53, 0.2);
 }
 
@@ -2696,7 +2726,7 @@ section#single-release{
 }
 
 .home section#releases{
-	border-bottom: 1px solid rgb(41, 48, 53);
+	border-bottom: 1px solid #D8D8D4;
 	border-bottom: 1px solid rgba(41, 48, 53, 0.2);
 }
 
@@ -2861,7 +2891,7 @@ section#single-release{
 }
 
 .post-type-archive-show article.expanded .show-wrapper{
-	border: 1px solid rgb(41, 48, 53);
+	border: 1px solid #D8D8D4;
 	border: 1px solid rgba(41, 48, 53, 0.2);
 	border-width: 1px 0;
 	padding: 1.85em 0;

@@ -3376,6 +3376,8 @@ $(document).ready(function() {
 					img: templateDir + "/images/loader.png",
 					msgText: ""
 					}
+	}, function(arrayOfNewElems){
+		$(arrayOfNewElems).fitVids();
 	});
 	
 	$(".post").fitVids();

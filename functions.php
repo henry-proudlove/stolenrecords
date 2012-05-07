@@ -1391,7 +1391,7 @@ function sr_get_rels_artist($postID , $link = true, $tag = 'h2'){
 			</span> <?php
 		endforeach;
 	else: ?>
-		<span class"entry-artist">Various Artists</span>
+		<span class"entry-artist faint">Various Artists</span>
 	<?php endif; //wp_reset_query();
 	echo '</'. $tag .'>';
 	return $artists;
@@ -1728,8 +1728,8 @@ function sr_get_images( $args = array() ) {
 	
 	$defaults = array(
 		'size' => 'thumbnail', 
-		'limit' => '0',
-		'offset' => '0',
+		'limit' => 0,
+		'offset' => 0,
 		'big' => 'large',
 		'post_id' => $post->ID,
 		'link' => 'self',
@@ -1878,7 +1878,7 @@ function sr_post_thumbnail($size , $show_video, $link, $wrapper = true)
 			'big' => 'full' ,
 			'img_class' => 'post-thumb',
 			'wrapper' => false ,
-			'limit' => '1',
+			'limit' => 1,
 			'link' => $link
 		);
 		sr_get_images($options);
@@ -1900,12 +1900,15 @@ function sr_artist_gallery($link = 'self'){
 	);
 	if(has_post_thumbnail())
 	{	
-		$post_thumb = get_post_thumbnail_id();
-	}else
-	{
-		$post_thumb = '';
+		$options['exclude'] = $post_thumb;
 	}
-	$options['exclude'] = $post_thumb;
+	
+	require_once('library/Browser.php');
+	$browser = new Browser();
+	if( $browser->getBrowser() == Browser::BROWSER_IE && $browser->getVersion() < 9 ) {	
+		$options['limit'] = '1';
+	}
+	
 	sr_get_images($options);
 	wp_reset_query();
 }
@@ -2180,7 +2183,7 @@ function my_widget_tag_cloud_args( $args ) {
 // Content close
 
 function sr_content_close($link, $title){ ?>
-	<a href="<?php echo $link; ?>" title="All <?php echo $title; ?>" class="content-close" rel="index"><span class="text"><span>All <?php echo $title; ?></span></span><span class="close-icon"></span></a>
+	<a href="<?php echo $link; ?>" title="All <?php echo $title; ?>" class="content-close" rel="index"><span class="text">All <?php echo $title; ?></span><span class="close-icon"></span></a>
 <?php }
 
 // String to CSS class name
@@ -2210,6 +2213,33 @@ function my_scripts_method() {
 }    
  
 add_action('wp_enqueue_scripts', 'my_scripts_method');
+
+// Adding Browser and version to body class
+
+function mytheme_body_class( $class ) {
+ $arr = array(
+ 'msie',
+ 'firefox',
+ 'webkit',
+ 'opera'
+ );
+ $agent = strtolower( $_SERVER['HTTP_USER_AGENT'] );
+
+ foreach( $arr as $name ) {
+ if( strpos( $agent, $name ) > -1 ) {
+ $class[] = $name;
+
+ preg_match( '/' . $name . '[\/|\s](\d)/i', $agent, $matches );
+ if ( $matches[1] )
+ $class[] = $name . '-' . $matches[1];
+
+ return $class;
+ }
+ }
+
+ return $class;
+}
+add_filter( 'body_class', 'mytheme_body_class' );
 
 //END MISC
 ?>

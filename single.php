@@ -29,7 +29,7 @@ get_header(); ?>
 			<div class="divider"></div>
 			<nav id="nav-below" role="article">
 				<h1 class="section-heading visuallyhidden"><?php _e( 'Post navigation', 'themename' ); ?></h1>
-				<div class="nav-previous"><?php previous_post_link( '%link', '<span class="meta-nav">' . _x( '', 'Previous post link', 'themename' ) . '</span> %title' ); ?></div>
+				<div class="nav-previous"><?php previous_post_link( '%link', '<span class="meta-nav">' . _x( '', 'Previous post link', 'themename' ) . '</span> Previous Post' ); ?></div>
 				<footer class="entry-meta">
 					<?php
 						$tag_list = get_the_tag_list( '', ', ' );
@@ -40,7 +40,7 @@ get_header(); ?>
 	
 					<?php edit_post_link( __( 'Edit', 'themename' ), '<div class="edit-link">', '</div>' ); ?>
 				</footer><!-- .entry-meta -->
-				<div class="nav-next"><?php next_post_link( '%link', '%title <span class="meta-nav">' . _x( '', 'Next post link', 'themename' ) . '</span>' ); ?></div>
+				<div class="nav-next"><?php next_post_link( '%link', 'Next Post <span class="meta-nav">' . _x( '', 'Next post link', 'themename' ) . '</span>' ); ?></div>
 			</nav><!-- #nav-below -->
 	
 			<?php //comments_template( '', true ); ?>

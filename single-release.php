@@ -79,7 +79,7 @@ get_header(); ?>
 						'big' => 'full' ,
 						'img_class' => 'post-thumb',
 						'wrapper' => false ,
-						'limit' => '1',
+						'limit' => 1,
 						'link' => 'null',
 						'a_class' => 'lightbox photo fancy-roll'
 					);

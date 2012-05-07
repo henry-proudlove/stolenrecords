@@ -18,7 +18,6 @@
 					<?php the_excerpt(); ?>
 				</div><!-- .entry-summary -->
 			</article><!-- #post-<?php the_ID(); ?> -->
-			<div class="divider"></div>
 		<?php endwhile; else:?>
 			<article id="no-posts" <?php post_class(); ?> role="article">
 				<header class="entry-header">
