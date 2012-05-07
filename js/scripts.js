@@ -3052,7 +3052,7 @@ jQuery.fn.showSwitch = function(){
 			.find('.info')
 			.vertCenter();
 		$("html, body").animate(
-			{ scrollTop: $(this).offset().top },
+			{ scrollTop: $(this).offset().top - 20 },
 			500);
 		
 	});

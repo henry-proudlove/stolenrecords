@@ -1900,6 +1900,7 @@ function sr_artist_gallery($link = 'self'){
 	);
 	if(has_post_thumbnail())
 	{	
+		$post_thumb = get_post_thumbnail_id();
 		$options['exclude'] = $post_thumb;
 	}
 	
@@ -1923,11 +1924,11 @@ function sr_shows_images($artists)
 	global $post;
 	//echo '<div class="show-slider">';
 		if (has_post_thumbnail()){
-			the_post_thumbnail('sr-show-fivecol');
+			the_post_thumbnail('sr-show-fourcol');
 		}else{
 			//$args = array('size' => 'sr-art-fivecol');
 			//if(has_post_thumbnail($artist_id)){
-				echo get_the_post_thumbnail( $artist_id, 'sr-art-fivecol' );
+				echo get_the_post_thumbnail( $artist_id, 'sr-art-fourcol' );
 			/*}else{
 				$options = array(
 					'size' => 'sr-art-fivecol',
