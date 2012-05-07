@@ -3020,43 +3020,47 @@ DEBOUNCED RESIZE
  */
 
 jQuery.fn.showSwitch = function(){
-	//console.log(window.location.hash);
-	hash = window.location.hash
-	if(hash != ''){
-		$(this)
-			.filter(hash)
-			.removeClass('contracted')
-			.addClass('expanded')
-			.find('.info')
-			.vertCenter();
+	if ($.browser.msie){
+		$(this).each(function(){
+			$(this).removeClass('contracted').addClass('expanded');
+		});
 	}else{
-		$(this[0])
-			.removeClass('contracted')
-			.addClass('expanded')
-			.find('.info')
-			.vertCenter();
-	}
-	
-	$(this).click(function(){
-		console.log('clicked');
-		$(this)
-			.siblings()
-			.filter('.expanded')
-			.removeClass('expanded')
-			.addClass('contracted')
-			.find('.info')
-			.removeAttr('style');
-		$(this)
-			.removeClass('contracted')
-			.addClass('expanded')
-			.find('.info')
-			.vertCenter();
-		$("html, body").animate(
-			{ scrollTop: $(this).offset().top - 20 },
-			500);
+		hash = window.location.hash
+		if(hash != ''){
+			$(this)
+				.filter(hash)
+				.removeClass('contracted')
+				.addClass('expanded')
+				.find('.info')
+				.vertCenter();
+		}else{
+			$(this[0])
+				.removeClass('contracted')
+				.addClass('expanded')
+				.find('.info')
+				.vertCenter();
+		}
 		
-	});
-	
+		$(this).click(function(){
+			console.log('clicked');
+			$(this)
+				.siblings()
+				.filter('.expanded')
+				.removeClass('expanded')
+				.addClass('contracted')
+				.find('.info')
+				.removeAttr('style');
+			$(this)
+				.removeClass('contracted')
+				.addClass('expanded')
+				.find('.info')
+				.vertCenter();
+			$("html, body").animate(
+				{ scrollTop: $(this).offset().top - 20 },
+				500);
+			
+		});
+	}
 }
 
 /*

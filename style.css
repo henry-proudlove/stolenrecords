@@ -2208,7 +2208,6 @@ margin: 0.8em 0;
 blockquote:before, blockquote:after{
 	font-style: normal;
 	font-family: 'StolenSans', Arial, Helvetica, sans-serif;
-	font-size: 2.7em;
 	color: #293034;
 	position: absolute;
 }
@@ -2219,14 +2218,14 @@ blockquote{
 
 blockquote::before {
 	content: '\201C';
-	top: -0.28em;
-	left: -0.7em;
+	top: -0.3rem;
+	left: -0.6rem;
 }
 
 blockquote::after {
 	content: '\201D';
-	bottom: -0.54em;
-	right: -0.7em;
+	bottom: -0.55rem;
+	right: -0.6rem;
 }
 
 cite{
@@ -2353,7 +2352,7 @@ wp-caption-text{
 	opacity: 0;
 	position: absolute;
 	background: rgb(41,48,52);
-	background: rgba(41,48,52,0.7);
+	background: rgba(41,48,52,0.9);
 	width: 100%;
 	height: 100%;
 	top: 0;
@@ -2411,8 +2410,13 @@ wp-caption-text{
 	padding-top: 0.9em;
 }
 
-.fancy-roll .info .wrap{
-	position: relative;
+.fancy-roll .info .wrap *{
+	filter:alpha(opacity=0)\9;
+}
+
+.fancy-roll:hover .info .wrap *{
+	filter:alpha(opacity=100)\9;
+	background: transparent\9;
 }
 
 .fancy-roll .info .click-prompt{
@@ -2502,23 +2506,8 @@ wp-caption-text{
 	width: 100%;
 }
 
-.review blockquote:before, .review blockquote:after{
-	font-size: 2.5em;
-}
-.review blockquote:before{
-	top: -0.3em;
-}
-
-.review blockquote:after{
-	bottom: -0.7em;
-}
-
 .review cite{
 	padding-top: 0.5em;
-}
-
-#releases + #reviews 
-{
 }
 
 .read-less, .read-more{
@@ -2688,6 +2677,10 @@ section#single-release{
 	height: 100%;
 }
 
+.single-artist .entry-title{
+	margin-bottom: 0.4em;
+}
+
 .single-release .entry-header{
 	margin-bottom: 1.45em;
 }
@@ -2788,7 +2781,7 @@ section#single-release{
 
 
 .post-type-archive-show #content{
-	padding-bottom: 2000px;
+	padding-bottom: 1500px;
 }
 
 .post-type-archive-show h1{
@@ -3586,6 +3579,24 @@ display: inline-block;
 }
 
 /*
+ *
+ * IE9 BLOCKQUOTE FIX
+ *
+ */
+ 
+.review blockquote:before, .review blockquote:after, blockquote:before, blockquote:after{
+	font-size: 2.2rem;
+}
+
+.review blockquote:before{
+	top: -0.3rem;
+}
+
+.review blockquote:before {
+	bottom: -1.5rem;
+}
+
+/*
 *
 * MEDIA QUERIES
 *
@@ -3616,7 +3627,7 @@ display: inline-block;
 		font-size: 1.1em;
 	}
 	#isotope-wrap .fancy-roll .info .entry-summary p, #isotope-wrap .fancy-roll time{
-		width: 80%;
+		width: 90%;
 	}
 	
 }
@@ -3652,6 +3663,10 @@ display: inline-block;
 		margin: 11px;
 	}
 	
+	#isotope-wrap .fancy-roll .info .entry-summary p, #isotope-wrap .fancy-roll time{
+		width: 80%;
+	}
+	
 	#branding{
 		width: 18%;
 	}
@@ -3674,7 +3689,7 @@ display: inline-block;
 		font-size: 0.9em;
 	}
 	#isotope-wrap .fancy-roll .info .entry-summary p, #isotope-wrap .fancy-roll time{
-		width: 100%;
+		width: 95%;
 	}
 	
 	/*#main{
@@ -3743,7 +3758,7 @@ display: inline-block;
 	}
 	
 	#isotope-wrap .fancy-roll .info .entry-summary p, #isotope-wrap .fancy-roll time{
-		width: 80%;
+		width: 90%;
 	}
 	
 	#isotope-wrap .fancy-roll.vimeo img{
