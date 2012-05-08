@@ -2992,9 +2992,11 @@ section#single-release{
  
 .page-template-page-publishing-php .entry-content, .page-template-default .entry-content{
 	padding-top: 0;
-	padding-bottom: 2.9em;
 	max-width: 70%;
 	margin: 0 auto;
+}
+.page-template-default .entry-content{
+	padding-bottom: 2.9em;
 }
 
 .page-template-page-publishing-php .entry-content p, .page-template-default .entry-content p{
@@ -3002,14 +3004,17 @@ section#single-release{
 	text-align: left;
 }
 
-.page-template-page-publishing-php .entry-content img, .page-template-default .entry-content img{
+.page-template-default .entry-content img{
 	float: right;
 	margin: 0.76em 0 1em 1.45em;
 }
 
+.page-template-page-publishing-php .entry-content img{
+	margin: 1.2em auto 0;
+}
 
 .page-template-page-publishing-php article{
-	margin-bottom: 3.8em;
+	margin-bottom: 2.9em;
 }
 
 .page #content, .page #content{
