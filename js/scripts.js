@@ -3213,19 +3213,22 @@ RELEASE INFO LATEST POST VERT CENTRED
 */
 
 jQuery.fn.vertCenter = function(){
-	$(this).imagesLoaded(function(){
-		$(this).each(function(){
-			o = $(this);
-			oH = o.height();
-			sH = o.siblings().height();
-			shim = (sH - oH) / 2;
-			if(shim > 0){
-				o.css('margin-top' , shim);
-			}else{
-				o.css('margin-top' , '0');
-			}
-		})
-	});
+	video = $(this).siblings().find('.video').length;
+	if(video < 1){
+		$(this).imagesLoaded(function(){
+			$(this).each(function(){
+				o = $(this);
+				oH = o.height();
+				sH = o.siblings().height();
+				shim = (sH - oH) / 2;
+				if(shim > 0){
+					o.css('margin-top' , shim);
+				}else{
+					o.css('margin-top' , '0');
+				}
+			})
+		});
+	}
 }
 
 jQuery.fn.fancyRollCenter = function(){
@@ -3308,6 +3311,20 @@ function filtrationUnits(filterString){
 	}
 }
 
+/*
+BRANDING HEIGHT
+*/
+function brandingHeight(){
+		htmlHeight = $('html').height();
+		mainHeight = $('#main').height();
+		if(mainHeight > htmlHeight){
+			$('#branding').height($('#main').height());
+        }else{
+        	$('#branding').height($('html').height());
+        }
+}
+
+
 $(document).ready(function() {
 	$('a.lightbox.video').colorbox({iframe:true, width:"80%", height:"60%", returnFocus : false});
 	$('a.lightbox.photo, a.lightbox.flickr').colorbox({opacity	: 0.85 , returnFocus : false});
@@ -3315,6 +3332,7 @@ $(document).ready(function() {
 	$("#artist-slider").gallerySliderInit();
 	$(".slider").sliderInit();
 	$('.single-release article .left, #latest article .left').vertCenter();
+	
 	$(".fancy-roll").hover(function(){
 		$(this).find('.wrap').fancyRollCenter();
 	});	
@@ -3434,16 +3452,13 @@ $(document).ready(function() {
 		$filters.slice(start, end).addClass('filter-no-border');
 	}
 	$('#branding').height($('html').height());
+	
 	$(window).bind('scrollstart', function(){
-		htmlHeight = $('html').height();
-		mainHeight = $('#main').height();
-		if(mainHeight > htmlHeight){
-			$('#branding').height($('#main').height());
-        }
+		brandingHeight();
     });
 	
 	$(window).smartresize(function(){ 
-		$('#branding').height($('#main').height());
+		brandingHeight();
 		$(".slider").sliderheight();
 		$('.sc-controls a').scPlayerHeight();
 		$('form[role="search"]').fluidSearchForm();
