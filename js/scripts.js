@@ -4,6 +4,124 @@
  *
 */
 
+/**
+ * Jquery Scroll Events 1.0.0 - jQuery plugin for special events related to
+ * the scrolling action
+ * 
+ * Require: jQuery 1.3.x
+ * Author: Filipi Zimermann / James Padolsey
+ * Email:  filipiz at gmail dot com
+ * Licensed under the MIT license:
+ *   http://www.opensource.org/licenses/mit-license.php
+*/
+
+var uid1 = 'D' + (+new Date());
+var uid2 = 'D' + (+new Date() + 1);
+var uid3 = 'D' + (+new Date() + 2);
+var uid4 = 'D' + (+new Date() + 3);
+
+jQuery.event.special.scrollstart = {
+	setup: function() {
+		var timer;
+		var handler =  function(evt) {
+
+			var _self = this;
+			var _args = arguments;
+
+			if (timer) {
+				clearTimeout(timer);
+			} else {
+				evt.type = 'scrollstart';
+				jQuery.event.handle.apply(_self, _args);
+			}
+
+			timer = setTimeout( function(){
+					timer = null;
+			}, jQuery.event.special.scrollstop.latency);
+
+		};
+
+		jQuery(this).bind('scroll', handler).data(uid1, handler);
+
+	},
+
+    teardown: function(namespaces) {
+       jQuery(this).unbind('scroll', jQuery(this).data(uid1) );
+    } 
+};
+
+
+
+jQuery.event.special.scrollstop = {
+	latency: 300,
+	setup: function() {
+		var timer;
+		var handler = function(evt) {
+
+			var _self = this;
+			var _args = arguments;
+
+			if (timer) {
+				clearTimeout(timer);
+			}				
+			
+			timer = setTimeout( function(){
+					timer = null;
+					evt.type = 'scrollstop';
+
+					jQuery.event.handle.apply(_self, _args);
+			}, jQuery.event.special.scrollstop.latency);
+
+		};
+
+		jQuery(this).bind('scroll', handler).data(uid2, handler);
+
+	},
+	
+	teardown: function() {
+		jQuery(this).unbind('scroll', jQuery(this).data(uid2) );
+	}
+};
+
+
+
+jQuery.event.special.scrollreachtop = {
+    setup: function(data, namespaces) {
+    	jQuery(this).bind('scroll', jQuery.event.special.scrollreachtop.handler)
+    			.data(uid3, jQuery.event.special.scrollreachtop.handler);
+    },
+
+    teardown: function(namespaces) {
+        jQuery(this).unbind('scroll', jQuery(this).data(uid3) );
+    },
+
+    handler: function(evt) {
+    	evt.type = 'scrollreachtop';
+        if (parseInt(jQuery(this).scrollTop()) == 0 )
+        	jQuery.event.handle.apply(this, arguments);
+    } 
+};
+
+
+
+jQuery.event.special.scrollreachbottom = {
+    setup: function(data, namespaces) {
+    	jQuery(this).bind('scroll', jQuery.event.special.scrollreachbottom.handler)
+    			.data(uid4, jQuery.event.special.scrollreachbottom.handler);
+    },
+
+    teardown: function(namespaces) {
+        jQuery(this).unbind('scroll', jQuery(this).data(uid4) );
+    },
+
+    handler: function(evt) {
+		evt.type = 'scrollreachbottom';
+        var scrollMaxTop = parseInt(jQuery(this).attr('scrollHeight')) - parseInt(jQuery(this).innerHeight()) - 1;
+    	if (parseInt(jQuery(this).scrollTop()) >= scrollMaxTop )
+        	jQuery.event.handle.apply(this, arguments);
+    } 
+};
+
 // TIMEPICKER
 
 /*
@@ -3213,19 +3331,22 @@ RELEASE INFO LATEST POST VERT CENTRED
 */
 
 jQuery.fn.vertCenter = function(){
-	$(this).imagesLoaded(function(){
-		$(this).each(function(){
-			o = $(this);
-			oH = o.height();
-			sH = o.siblings().height();
-			shim = (sH - oH) / 2;
-			if(shim > 0){
-				o.css('margin-top' , shim);
-			}else{
-				o.css('margin-top' , '0');
-			}
-		})
-	});
+	video = $(this).siblings().find('.video').length;
+	if(video < 1){
+		$(this).imagesLoaded(function(){
+			$(this).each(function(){
+				o = $(this);
+				oH = o.height();
+				sH = o.siblings().height();
+				shim = (sH - oH) / 2;
+				if(shim > 0){
+					o.css('margin-top' , shim);
+				}else{
+					o.css('margin-top' , '0');
+				}
+			})
+		});
+	}
 }
 
 jQuery.fn.fancyRollCenter = function(){
@@ -3308,6 +3429,20 @@ function filtrationUnits(filterString){
 	}
 }
 
+/*
+BRANDING HEIGHT
+*/
+function brandingHeight(){
+		htmlHeight = $('html').height();
+		mainHeight = $('#main').height();
+		if(mainHeight > htmlHeight){
+			$('#branding').height($('#main').height());
+        }else{
+        	$('#branding').height($('html').height());
+        }
+}
+
+
 $(document).ready(function() {
 	$('a.lightbox.video').colorbox({iframe:true, width:"80%", height:"60%", returnFocus : false});
 	$('a.lightbox.photo, a.lightbox.flickr').colorbox({opacity	: 0.85 , returnFocus : false});
@@ -3315,6 +3450,7 @@ $(document).ready(function() {
 	$("#artist-slider").gallerySliderInit();
 	$(".slider").sliderInit();
 	$('.single-release article .left, #latest article .left').vertCenter();
+	
 	$(".fancy-roll").hover(function(){
 		$(this).find('.wrap').fancyRollCenter();
 	});	
@@ -3433,17 +3569,15 @@ $(document).ready(function() {
 		end = filtercount;
 		$filters.slice(start, end).addClass('filter-no-border');
 	}
+	
 	$('#branding').height($('html').height());
+	
 	$(window).bind('scrollstart', function(){
-		htmlHeight = $('html').height();
-		mainHeight = $('#main').height();
-		if(mainHeight > htmlHeight){
-			$('#branding').height($('#main').height());
-        }
+		brandingHeight();
     });
 	
 	$(window).smartresize(function(){ 
-		$('#branding').height($('#main').height());
+		brandingHeight();
 		$(".slider").sliderheight();
 		$('.sc-controls a').scPlayerHeight();
 		$('form[role="search"]').fluidSearchForm();
