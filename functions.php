@@ -1198,11 +1198,11 @@ function sr_get_reivews($reviews)
 		return strlen($b['review-text'])-strlen($a['review-text']);
 	}
 	usort($reviews, "cmp");
-	
+	$reviews_count = count($reviews);
 	foreach($reviews as $review)
 	{	
 		$review['review-text'] = sr_truncate($review['review-text'], 250, ' ');
-		if($review['review-link']){
+		if(isset($review['review-link'])){
 			$reviewlnk_o = '<a href="' . $review['review-link'] . '" rel="bookmark">';
 			$reviewlnk_c = '</a>';
 		}?>
@@ -1214,7 +1214,8 @@ function sr_get_reivews($reviews)
 				<?php echo $reviewlnk_c; ?></cite>
 			</div>
 		</div>
-	<?php }
+		<?php unset($reviewlnk_o, $reviewlnk_c);
+	}
 }
 
 //Get 4 Shows by artist

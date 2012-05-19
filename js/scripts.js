@@ -3150,13 +3150,13 @@ jQuery.fn.showSwitch = function(){
 				.removeClass('contracted')
 				.addClass('expanded')
 				.find('.info')
-				.vertCenter();
+				//.vertCenter();
 		}else{
 			$(this[0])
 				.removeClass('contracted')
 				.addClass('expanded')
 				.find('.info')
-				.vertCenter();
+				//.vertCenter();
 		}
 		
 		$(this).click(function(){
@@ -3172,7 +3172,7 @@ jQuery.fn.showSwitch = function(){
 				.removeClass('contracted')
 				.addClass('expanded')
 				.find('.info')
-				.vertCenter();
+				//.vertCenter();
 			$("html, body").animate(
 				{ scrollTop: $(this).offset().top - 20 },
 				500);
@@ -3450,7 +3450,7 @@ $(document).ready(function() {
 	$("#social-tabs" ).tabs();
 	$("#artist-slider").gallerySliderInit();
 	$(".slider").sliderInit();
-	$('.single-release article .left, #latest article .left').vertCenter();
+	$('.single-release article .left, #latest article .left')/*.vertCenter()*/;
 	
 	$(".fancy-roll").hover(function(){
 		$(this).find('.wrap').fancyRollCenter();
@@ -3582,7 +3582,7 @@ $(document).ready(function() {
 		$(".slider").sliderheight();
 		$('.sc-controls a').scPlayerHeight();
 		$('form[role="search"]').fluidSearchForm();
-		$('.post-type-archive-show .expanded .info, #latest article .left, .single-release article .left').vertCenter();
+		$('.post-type-archive-show .expanded .info, #latest article .left, .single-release article .left')/*.vertCenter()*/;
 		$('section#releases .info').releaseHeight();
 		$('#isotope-wrap').isotope('reLayout');
 	});
