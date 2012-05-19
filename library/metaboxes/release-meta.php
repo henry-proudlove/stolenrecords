@@ -8,6 +8,10 @@
 	
 	<input type="text" name="<?php $metabox->the_name('release-buy-link'); ?>" value="<?php $metabox->the_value('release-buy-link'); ?>"/>
 	<span>Must be full URL http://www.example.com</span>
+	
+	<?php $mb->the_field('free-download'); ?>
+	<p><input type="checkbox" name="<?php $mb->the_name(); ?>" value="free-download"<?php $mb->the_checkbox_state('free-download'); ?>/> Free Download <br/></p>
+
 
 	<script>
 		jQuery(document).ready(function($) {

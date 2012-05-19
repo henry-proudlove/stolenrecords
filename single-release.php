@@ -46,16 +46,21 @@ get_header(); ?>
 						if ($buy_link):
 							$curr_date = date('Y-m-d');
 							$release_date = get_post_meta( $post->ID , '_sr_release-date', true);
+							$free_download = get_post_meta($post->ID , '_sr_free-download', true);
 							
-							if ($curr_date < $release_date)
+							if($free_download)
+							{
+								echo '<a href="'.$buy_link .'" class="buy-link buy-now button button-large" target="_blank">Free Download</a>';
+							}
+							elseif ($curr_date < $release_date)
 							{
 								echo '<div class="entry-meta"><time class="release date"> Out ';
 								echo date('l j<\s\u\p>S</\s\u\p> F Y' , strtotime($release_date));
 								echo '</time></div>';
-								echo '<a href="'.$buy_link .'" class="buy-link preorder button button-large">Preorder now</a>';
+								echo '<a href="'.$buy_link .'" class="buy-link preorder button button-large" target="_blank">Preorder now</a>';
 							}else
 							{
-								echo '<a href="'.$buy_link .'" class="buy-link buy-now button button-large">Buy Now</a>';
+								echo '<a href="'.$buy_link .'" class="buy-link buy-now button button-large" target="_blank">Buy Now</a>';
 							}
 						endif;
 					?>
