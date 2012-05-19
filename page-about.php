@@ -44,10 +44,10 @@ get_header(); ?>
 		<section id="contact" class="clearfix">
 		<div class="releases-divider"></div>
 			<div id="general-contact" class="fourcol">
-				<?php echo do_shortcode('[contact-form-7 id="1263" title="Contact"]'); ?>
+				<?php echo do_shortcode('[contact-form-7 id="15" title="Contact"]'); ?>
 			</div><!--#general-contact-->
 			<div id="press-contact" class="fourcol">
-				<?php echo do_shortcode('[contact-form-7 id="1264" title="Press request"]'); ?>
+				<?php echo do_shortcode('[contact-form-7 id="16" title="Press request"]'); ?>
 			</div><!--#general-contact-->
 				<!--<div id="general-contact" class="fourcol">
 					<h2 class="aside-header">Contact</h2>
@@ -60,7 +60,7 @@ get_header(); ?>
 					<div id="press-form"></div>
 				</div>-->
 			<div id="demo-submissions" class="fourcol">
-				<?php echo do_shortcode('[contact-form-7 id="1706" title="Demo submissions"]'); ?>	
+				<?php echo do_shortcode('[contact-form-7 id="49" title="Demo submissions"]'); ?>	
 			</div>
 		<div class="releases-divider"></div>
 		</section><!-- #contact -->

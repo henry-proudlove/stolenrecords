@@ -169,19 +169,22 @@ if (!current_user_can('manage_options')) {
 ?>
 <?php // asynchronous google analytics: mathiasbynens.be/notes/async-analytics-snippet
 //	 change the UA-XXXXX-X to be your site's ID
-/*add_action('wp_footer', 'async_google_analytics');
+add_action('wp_footer', 'async_google_analytics');
 function async_google_analytics() { ?>
-	<script>
-	var _gaq = [['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']];
-		(function(d, t) {
-			var g = d.createElement(t),
-				s = d.getElementsByTagName(t)[0];
-			g.async = true;
-			g.src = ('https:' == location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-			s.parentNode.insertBefore(g, s);
-		})(document, 'script');
-	</script>
-<?php }*/ 
+	<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-31597426-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<?php } 
 
 //Read more link
 
@@ -491,12 +494,12 @@ AUTO ADD ARTIST TERM ON ARTIST TYPE PUBLISH
 
 //Create term on publish
 
-function create_artist_term($post_ID) {
+/*function create_artist_term($post_ID) {
 	$this_post = get_post($post_ID); 
 	$title = $this_post->post_title;
 	
 	wp_insert_term($title, 'artist');
-}
+}*/
 
 add_action('publish_artist', 'create_artist_term');
 
@@ -939,7 +942,7 @@ function sr_social_links($stolen , $nav)
 		global $artist_lnks_mb;
 		$meta = $artist_lnks_mb->the_meta();
 	}else{
-		$meta = get_post_meta( 1614, _artist_lnks);
+		$meta = get_post_meta( 484, _artist_lnks);
 		$meta = $meta[0];
 	}
 	if($meta['artist_soc_links']){
@@ -1147,8 +1150,19 @@ function sr_rels_by_artist($args = array() , $show_artist = false)
 						<p class="faint">
 						<?php
 						$excerpt = get_the_content();
-						$excerpt = sr_truncate($excerpt, 75, ' ');
-						echo $excerpt; ?>
+						if(strlen($excerpt) > 0):
+							$excerpt = sr_truncate($excerpt, 75, ' ');
+							echo $excerpt;
+						else:
+							global $review_mb;
+							$meta = $review_mb->the_meta();
+							$reviews = $meta['reviews'];
+							if($reviews):
+								$review_text = sr_truncate($reviews[0]['review-text'], 75, ' ');
+								echo $review_text;
+							endif;
+						endif;
+					?>
 						</p>
 					
 					<?php endif; ?>
@@ -1257,9 +1271,9 @@ function sr_aside_shows($artist, $home)
 	else: ?>
 			
 		<li id="no-shows" role="article">
-			<a href="<?php echo get_twitter_link('false'); ?>" class="block red-roll" title="Follow us on twitter" rel="Bookmark">
+			<a href="<?php echo get_post_type_archive_link( 'show' ); ?>" class="block red-roll" title="Follow us on twitter" rel="Bookmark">
 				<header class="entry-header"><h3 class="entry-title">Sorry, no gigs coming up</h3></header>
-				<p id="no-shows-msg" class="faint">Check back soon or follow us on Twitter for incessant updates</p>
+				<p id="no-shows-msg" class="faint">Check back soon</p>
 			</a>
 		</li>
 		
@@ -1988,6 +2002,7 @@ function sr_global_nav()
 			</li>
 			<li><a href="<?php echo get_post_type_archive_link( 'release' ); ?>" rel="address:/<?php echo get_post_type_archive_link( 'release' ); ?>">Releases</a></li>
 			<li><a href="<?php echo get_post_type_archive_link( 'show' ); ?>" rel="address:<?php echo get_post_type_archive_link( 'show' ); ?>">Shows</a></li>
+			<li><a href="http://stolen.greedbag.com/" title="Go to the Shop" target="_blank">Shop</a></li>
 			<?php
 				$args = array('meta_key' => '_sr_page', 'meta_value' => 'exclude');
 				$exclude_pages = get_pages($args);

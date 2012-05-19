@@ -3521,7 +3521,7 @@ div.wpcf7 img.ajax-loader {
  *
  */
 #subscribe-form{
-	margin: 1.45em auto;
+	margin: 1.45em auto 4em;
 	padding: 0.8em 0;
 	border-top: 1px solid rgba(255, 255, 255, 0.6);
 	border-bottom: 1px solid rgba(255, 255, 255, 0.6);
@@ -3571,6 +3571,10 @@ display: inline-block;
 
 #subscribe-form h3{
 	text-align: center;
+}
+
+#isotope-wrap .fancy-roll.vimeo{
+		background-color: black;
 }
 
 /*

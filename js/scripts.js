@@ -3433,13 +3433,14 @@ function filtrationUnits(filterString){
 BRANDING HEIGHT
 */
 function brandingHeight(){
+		brandHeight = $('#branding').height();
 		htmlHeight = $('html').height();
 		mainHeight = $('#main').height();
 		if(mainHeight > htmlHeight){
 			$('#branding').height($('#main').height());
-        }else{
-        	$('#branding').height($('html').height());
-        }
+		}else{
+			$('#branding').height($('html').height());
+		}
 }
 
 
@@ -3570,7 +3571,7 @@ $(document).ready(function() {
 		$filters.slice(start, end).addClass('filter-no-border');
 	}
 	
-	$('#branding').height($('html').height());
+	brandingHeight();
 	
 	$(window).bind('scrollstart', function(){
 		brandingHeight();

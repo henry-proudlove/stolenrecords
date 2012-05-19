@@ -15,7 +15,6 @@ get_header(); ?>
 
 		<div class="entry-content big-center">
 			<p>Sorry, can't find the page your looking for.</p>
-			<p>Why not try the <a title="Home Page Link" rel="bookmark" href="<?php get_home_url(); ?>">home page</a>. There should be plenty to feast you eyes upon there</p>
 		</div><!-- .entry-content -->
 	</article><!-- #post-0 -->
 
