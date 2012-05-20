@@ -339,6 +339,7 @@ aside{
 }
 aside > div, aside > ul{
 	background: white;
+	background: rgba(255, 255, 255, 0.75);
 }
 
 aside ul, aside ol{
@@ -2575,8 +2576,17 @@ aside#releases .info{
 	width: 70%;
 }
 
+aside .title-date-holder {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+
+
 aside#releases .entry-title {
-display: inline-block;
+display: inline;
 padding-right: 0.2em;
 }
 

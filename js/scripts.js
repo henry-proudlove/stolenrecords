@@ -3435,9 +3435,9 @@ BRANDING HEIGHT
 function brandingHeight(){
 		brandHeight = $('#branding').height();
 		htmlHeight = $('html').height();
-		mainHeight = $('#main').height();
-		if(mainHeight > htmlHeight){
-			$('#branding').height($('#main').height());
+		pageHeight = $('#page').height();
+		if(pageHeight > htmlHeight){
+			$('#branding').height($('#page').height());
 		}else{
 			$('#branding').height($('html').height());
 		}

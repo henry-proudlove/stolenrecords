@@ -1135,17 +1135,19 @@ function sr_rels_by_artist($args = array() , $show_artist = false)
 				<?php //if($aside == true): ?>
 				<div class="info">
 				<?php //endif; ?>
-					<h3 class="entry-title <?php echo $class; ?> "><?php the_title(); ?></h3> <?php
-					if($show_artist == false):
-						$release_date = get_post_meta( $rel_id , '_sr_release-date', true);						
-						if ($release_date):
-							$release_date = date_create($release_date);
-							$release_date = date_format($release_date, 'Y');
-							echo '<time class="release-date faint">' . $release_date . '</time>';
-						endif;
-					elseif($show_artist == true):	
-							sr_get_rels_artist($post->ID, false, 'h3');
-					endif; ?>
+					<span class="title-date-holder">
+						<h3 class="entry-title <?php echo $class; ?> "><?php the_title(); ?></h3> <?php
+							if($show_artist == false):
+								$release_date = get_post_meta( $rel_id , '_sr_release-date', true);						
+								if ($release_date):
+									$release_date = date_create($release_date);
+									$release_date = date_format($release_date, 'Y');
+									echo '<time class="release-date faint">' . $release_date . '</time>';
+								endif;
+							elseif($show_artist == true):	
+									sr_get_rels_artist($post->ID, false, 'h3');
+							endif; ?>
+					</span><!--.title-date-holder -->
 					<?php if($aside == true):?>
 						<p class="faint">
 						<?php
@@ -1360,7 +1362,7 @@ function sr_release_tracks()
 //Like button and facepile on home page
 function sr_index_fb(){ ?>
 	<div id="facebook">
-		<iframe src="//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FSTOLEN-RECORDINGS%2F66626039279&amp;width=292&amp;height=395&amp;colorscheme=light&amp;show_faces=false&amp;border_color=%23ffffff&amp;stream=true&amp;header=false" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:395px;" allowTransparency="true"></iframe>
+		<iframe src="//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fen-gb.facebook.com%2FStolen.Recordings.Ltd%3Fsk%3Dapp_2309869772&amp;width=223&amp;height=395&amp;colorscheme=light&amp;show_faces=false&amp;border_color=%23ffffff&amp;stream=true&amp;header=false" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:223px; height:395px;" allowTransparency="true"></iframe>
 	</div><!--#facebook-->
 	<?php
 }
@@ -1397,7 +1399,7 @@ function sr_get_rels_artist($postID , $link = true, $tag = 'h2'){
 			</span> <?php
 		endforeach;
 	else: ?>
-		<span class"entry-artist faint">Various Artists</span>
+		<span class="entry-artist faint">Various Artists</span>
 	<?php endif; //wp_reset_query();
 	echo '</'. $tag .'>';
 	return $artists;
