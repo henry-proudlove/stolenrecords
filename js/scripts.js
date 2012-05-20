@@ -3149,14 +3149,12 @@ jQuery.fn.showSwitch = function(){
 				.filter(hash)
 				.removeClass('contracted')
 				.addClass('expanded')
-				.find('.info')
-				/*.vertCenter()*/;
+				.find('.info');
 		}else{
 			$(this[0])
 				.removeClass('contracted')
 				.addClass('expanded')
-				.find('.info')
-				/*.vertCenter()*/;
+				.find('.info');
 		}
 		
 		$(this).click(function(){
@@ -3171,8 +3169,7 @@ jQuery.fn.showSwitch = function(){
 			$(this)
 				.removeClass('contracted')
 				.addClass('expanded')
-				.find('.info')
-				/*.vertCenter()*/;
+				.find('.info');
 			$("html, body").animate(
 				{ scrollTop: $(this).offset().top - 20 },
 				500);
@@ -3282,7 +3279,6 @@ jQuery.fn.padSliderHeight = function() {
 
 $.fn.cycle.transitions.fadeOutWaitFadeIn = function($cont, $slides, opts) {
     opts.fxFn = function(curr, next, opts, after) {
-    	//$(next).find('.left').vertCenter();
     	cH = $(curr).height();
 		cW = $(curr).width();
 		cR = cH/cW;
@@ -3329,25 +3325,6 @@ jQuery.fn.fluidSearchForm = function(){
 /*
 RELEASE INFO LATEST POST VERT CENTRED
 */
-
-jQuery.fn.vertCenter = function(){
-	video = $(this).siblings().find('.video').length;
-	if(video < 1){
-		$(this).imagesLoaded(function(){
-			$(this).each(function(){
-				o = $(this);
-				oH = o.height();
-				sH = o.siblings().height();
-				shim = (sH - oH) / 2;
-				if(shim > 0){
-					o.css('margin-top' , shim);
-				}else{
-					o.css('margin-top' , '0');
-				}
-			})
-		});
-	}
-}
 
 jQuery.fn.fancyRollCenter = function(){
 	$(this).each(function(){
@@ -3450,7 +3427,7 @@ $(document).ready(function() {
 	$("#social-tabs" ).tabs();
 	$("#artist-slider").gallerySliderInit();
 	$(".slider").sliderInit();
-	$('.single-release article .left, #latest article .left')/*.vertCenter()*/;
+	$('.single-release article .left, #latest article .left');
 	
 	$(".fancy-roll").hover(function(){
 		$(this).find('.wrap').fancyRollCenter();
@@ -3582,7 +3559,7 @@ $(document).ready(function() {
 		$(".slider").sliderheight();
 		$('.sc-controls a').scPlayerHeight();
 		$('form[role="search"]').fluidSearchForm();
-		$('.post-type-archive-show .expanded .info, #latest article .left, .single-release article .left')/*.vertCenter()*/;
+		$('.post-type-archive-show .expanded .info, #latest article .left, .single-release article .left');
 		$('section#releases .info').releaseHeight();
 		$('#isotope-wrap').isotope('reLayout');
 	});
