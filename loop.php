@@ -27,6 +27,5 @@
 				<div class="entry-summary">
 					<p>Try the <a title="Home Page Link" rel="bookmark" href="<?php get_home_url(); ?>">home page</a></p>
 				</div><!-- .entry-summary -->
-			<div class="divider"></div>
 			</article><!-- #post-<?php the_ID(); ?> -->
 <?php endif; ?>

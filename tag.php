@@ -18,7 +18,7 @@ get_header(); ?>
 					<?php rewind_posts(); ?>
 					<?php get_template_part( 'loop', 'tag' ); ?>
 		</div><!-- #primary -->
-	</div><!-- #content -->
 
 <?php get_sidebar(); ?>
+</div><!-- #content -->
 <?php get_footer(); ?>

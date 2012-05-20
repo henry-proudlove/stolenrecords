@@ -205,7 +205,7 @@ display:block;
 	text-align:center !important;
 }
 
-#access a, .section-header, .aside-header, .widget-title, .button, .results-title, #subscribe-form h3, .past-artist-header{
+#access a, .section-header, .aside-header, .widget-title, .button, .results-header, #subscribe-form h3, .past-artist-header{
 	font-family: 'StolenSans', Arial, Helvetica, sans-serif;
 	font-size: 1.2em;
 	letter-spacing: 0.15em;
@@ -216,6 +216,7 @@ display:block;
 
 .results-title{
 	display: inline-block;
+	font-family: inherit;
 }
 
 .content-close{
@@ -227,7 +228,6 @@ display:block;
 	background-position: -236px 0;
 	border: none !important;
 	border-bottom: none;
-	font-size: 1.2em;
 	position: relative;
 	top: -0.4em;
 }
@@ -270,8 +270,12 @@ display:block;
 }
 
 
-.section-header, .aside-header, .widget-title, .results-header{
+.section-header, .aside-header, .widget-title{
 	padding-bottom: 0.4em;
+}
+
+.results-header{
+	padding-bottom: 0.2em;
 }
 
 .aside-header, .widget-title{
@@ -282,6 +286,7 @@ display:block;
 	border-bottom: 1px solid #d8d8d4;
 	border-bottom: 1px solid rgba(41, 48, 53, 0.2);
 	margin-bottom: 0.4em;
+	font-size: 1.2em;
 }
 
 .results-header{
@@ -1890,11 +1895,11 @@ background: #da342e;
 	padding: 0 0 1.85em;
 }
 
-#latest .section-header{
+#latest .section-header, .single-release .results-header{
 	margin-bottom: 1.65em
 }
 
-#latest article{
+#latest article, .single-release article{
 	width: 100%;
 	text-align: center;
 	margin: 0;
@@ -1906,11 +1911,17 @@ background: #da342e;
 }
 
 .nested .left{
-	float: left;
+	float: none;
+	padding-right: 1.6%;
+	display:table-cell;
+	vertical-align:middle;
 }
 
 .nested .right{
-	float: right;
+	padding-left: 1.6%;
+	float: none;
+	display:table-cell;
+	vertical-align:middle;
 }
 
 #latest .entry-summary {
@@ -2681,14 +2692,15 @@ section#releases .release .entry-artists{
 section#single-release{
 	border-bottom: 1px solid #D8D8D4;
 	border-bottom: 1px solid rgba(41, 48, 53, 0.2);
+	padding-bottom: 1.85em;
 }
 
-.single-release article{
+/*.single-release article{
 	text-align: center;
 	position: relative;
 	margin: 1.85em 0;
 	height: 100%;
-}
+}*/
 
 .single-artist .entry-title{
 	margin-bottom: 0.4em;
@@ -2878,7 +2890,7 @@ section#single-release{
 }
 
 .post-type-archive-show .expanded .hide{
-	display: inherit;
+	/*display: inherit;*/
 }
 
 .post-type-archive-show .sevencol{
@@ -2890,21 +2902,25 @@ section#single-release{
 }
 
 .post-type-archive-show .expanded .fivecol{
-	float: left;
+	float: none;
 	width: 32%;
 	margin: 0;
-	display: block;
+	display: table-cell;
+	vertical-align: middle;
+	padding-right: 1.4%;
 }
 
 .post-type-archive-show .expanded .sevencol{
-	float: right;
+	float: none;
 	width: 65%;
 	margin: 0;
-	vertical-align: top;
+	display: table-cell;
+	vertical-align: middle;
+	padding-left: 1.4%;
 }
 
-.post-type-archive-show .expanded .hide{
-	display: inherit;
+.post-type-archive-show .expanded .info .hide{
+	display: block;
 }
 
 .post-type-archive-show .results-header{

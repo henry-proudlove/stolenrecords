@@ -26,7 +26,6 @@ get_header(); ?>
 				</div><!-- .entry-content -->
 	
 			</article><!-- #post-<?php the_ID(); ?> -->
-			<div class="divider"></div>
 			<nav id="nav-below" role="article">
 				<h1 class="section-heading visuallyhidden"><?php _e( 'Post navigation', 'themename' ); ?></h1>
 				<div class="nav-previous"><?php previous_post_link( '%link', '<span class="meta-nav">' . _x( '', 'Previous post link', 'themename' ) . '</span> Previous Post' ); ?></div>

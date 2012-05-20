@@ -17,7 +17,6 @@ get_header(); ?>
 
 	<?php get_template_part( 'loop', 'category' ); ?>
 
-</div><!-- #content -->
-
 <?php get_sidebar(); ?>
+</div><!-- #content -->
 <?php get_footer(); ?>

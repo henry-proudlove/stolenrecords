@@ -3150,13 +3150,13 @@ jQuery.fn.showSwitch = function(){
 				.removeClass('contracted')
 				.addClass('expanded')
 				.find('.info')
-				//.vertCenter();
+				/*.vertCenter()*/;
 		}else{
 			$(this[0])
 				.removeClass('contracted')
 				.addClass('expanded')
 				.find('.info')
-				//.vertCenter();
+				/*.vertCenter()*/;
 		}
 		
 		$(this).click(function(){
@@ -3172,7 +3172,7 @@ jQuery.fn.showSwitch = function(){
 				.removeClass('contracted')
 				.addClass('expanded')
 				.find('.info')
-				//.vertCenter();
+				/*.vertCenter()*/;
 			$("html, body").animate(
 				{ scrollTop: $(this).offset().top - 20 },
 				500);
