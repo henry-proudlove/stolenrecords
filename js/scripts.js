@@ -3409,6 +3409,7 @@ function filtrationUnits(filterString){
 /*
 BRANDING HEIGHT
 */
+
 function brandingHeight(){
 		brandHeight = $('#branding').height();
 		htmlHeight = $('html').height();
@@ -3420,6 +3421,35 @@ function brandingHeight(){
 		}
 }
 
+/*
+FLUID LIKE BOX
+*/
+
+jQuery.fn.fluidLikeBox = function(){
+	o = $(this[0]).find('iframe');
+	oH = o.height();
+	o.css('background' , 'red');
+	
+	o.removeAttr('style').css({'height' : oH , 'width' : '100%'})
+}
+
+
+function brandingHeight(){
+		brandHeight = $('#branding').height();
+		htmlHeight = $('html').height();
+		pageHeight = $('#page').height();
+		if(pageHeight > htmlHeight){
+			$('#branding').height($('#page').height());
+		}else{
+			$('#branding').height($('html').height());
+		}
+}
+
+/*
+ *
+ * ON READIES
+ *
+ */
 
 $(document).ready(function() {
 	$('a.lightbox.video').colorbox({iframe:true, width:"80%", height:"60%", returnFocus : false});
@@ -3428,6 +3458,8 @@ $(document).ready(function() {
 	$("#artist-slider").gallerySliderInit();
 	$(".slider").sliderInit();
 	$('.single-release article .left, #latest article .left');
+	
+	$('#social-tabs #facebook').fluidLikeBox();
 	
 	$(".fancy-roll").hover(function(){
 		$(this).find('.wrap').fancyRollCenter();
