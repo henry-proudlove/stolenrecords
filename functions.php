@@ -752,7 +752,7 @@ function sr_relart_loop_markup(&$artists = array()){
 	$sr_post_class .= ' fourcol fancy-roll';
 	?>
 	
-	<a href="<?php the_permalink(); ?>" <?php post_class($sr_post_class);?> title="<?php printf( esc_attr__( 'Permalink to %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark">
+	<a href="<?php the_permalink(); ?>" <?php post_class($sr_post_class);?> rel="bookmark">
 		<?php sr_post_thumbnail('sr-art-fourcol' , false, 'null'); ?>
 		<div class="info">
 			<div class="wrap">
@@ -847,11 +847,11 @@ function sr_shows_markup(){
 					<header class="entry-header">
 						<div class="entry-meta">
 						<?php if($show_meta['venue_link'] && $show_meta['venue']):?>
-							<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" title="More info" rel="bookmark"><?php echo $show_meta['venue']; ?></a>:  </span>
+							<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" rel="bookmark"><?php echo $show_meta['venue']; ?></a>:  </span>
 						<?php elseif($show_meta['venue']): ?>
 							<span class="venue"><?php echo $show_meta['venue']; ?>: </span>
 						<?php elseif($show_meta['venue_link']):?>
-							<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" title="More info" rel="bookmark">
+							<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" rel="bookmark">
 							<?php echo $show_meta['venue_link']; ?></a>: </span>
 						<?php endif; ?>
 						<time class="show-date">
@@ -883,7 +883,7 @@ function sr_shows_markup(){
 					</div><!-- .entry-content -->
 					
 					<?php if($show_meta['buy_tix']): ?>
-						<a class="button button-large buy-tickets" href="<?php echo $show_meta['buy_tix']; ?>" title="Buy Tickets" rel="bookmark">Buy Tickets</a>
+						<a class="button button-large buy-tickets" href="<?php echo $show_meta['buy_tix']; ?>" rel="bookmark">Buy Tickets</a>
 					<?php endif; ?>
 				</div>
 			</div>
@@ -1058,7 +1058,7 @@ Post Header
 
 function _sr_post_header($tag = "h1" , $class = ''){
 	global $post;?>
-	<<?php echo $tag; ?>  class="entry-title <?php echo $class; ?> "><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'View %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></<?php echo $tag; ?> >
+	<<?php echo $tag; ?>  class="entry-title <?php echo $class; ?> "><a href="<?php the_permalink(); ?>" rel="bookmark"><?php the_title(); ?></a></<?php echo $tag; ?> >
 <?php }
 
 /* END Post Header
@@ -1128,7 +1128,7 @@ function sr_rels_by_artist($args = array() , $show_artist = false)
 		while ($rel_query->have_posts() ): $rel_query->the_post(); ?>
 			<?php echo $article_tag_o;?>
 				<?php $rel_id = get_the_ID(); ?>
-				<a href="<?php the_permalink(); ?>" <?php if($aside == true){echo 'class="red-roll "'; }?>  title="<?php printf( esc_attr__( 'View %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark">
+				<a href="<?php the_permalink(); ?>" <?php if($aside == true){echo 'class="red-roll "'; }?> rel="bookmark">
 				<div class="img-holder">
 					<?php sr_post_thumbnail($options['thumb_size'] , false, 'null');?>
 				</div>
@@ -1259,13 +1259,13 @@ function sr_aside_shows($artist, $home)
 		$post_count = $the_query->found_posts;
 		if($post_count > 4): ?>
 			 <li>
-				<a href="<?php echo get_post_type_archive_link( 'show' ); ?>" class="shows-page-link red-roll block" rel="bookmark" title="Stolen Records on Twitter">More Shows</a>
+				<a href="<?php echo get_post_type_archive_link( 'show' ); ?>" class="shows-page-link red-roll block" rel="bookmark">More Shows</a>
 			</li>
 		<?php endif;
 	else: ?>
 			
 		<li id="no-shows" role="article">
-			<a href="<?php echo get_post_type_archive_link( 'show' ); ?>" class="block red-roll" title="Follow us on twitter" rel="Bookmark">
+			<a href="<?php echo get_post_type_archive_link( 'show' ); ?>" class="block red-roll" rel="Bookmark">
 				<header class="entry-header"><h3 class="entry-title">Sorry, no gigs coming up</h3></header>
 				<p id="no-shows-msg" class="faint">Check back soon</p>
 			</a>
@@ -1680,7 +1680,7 @@ function sr_release_videos()
 		video_aside_markup($videos);
 		if($more_vids == true): ?>
 			<li>
-				<a href="<?php echo home_url( 'videosphotos' ); ?>" class="shows-page-link red-roll block" rel="bookmark" title="Stolen Records on Twitter">More Videos</a>
+				<a href="<?php echo home_url( 'videosphotos' ); ?>" class="shows-page-link red-roll block" rel="bookmark">More Videos</a>
 			</li>
 		<?php endif;
 		echo '</ul></aside><!--#videos-->';
@@ -1813,15 +1813,15 @@ function sr_get_images( $args = array() ) {
 			<article class="<?php echo $wrapper_class ?>">
 			<?php endif; ?>
 			<?php if($link == 'self'):?>
-			<a href="<?php echo $img_url; ?>" class="<?php echo $a_class; ?>" title="<?php echo $img_title; ?>" class="<?php echo $a_class; ?>" <?php if(!$a_rel == ''){echo 'rel="'. $a_rel .'"';}?>>
+			<a href="<?php echo $img_url; ?>" class="<?php echo $a_class; ?>" class="<?php echo $a_class; ?>" <?php if(!$a_rel == ''){echo 'rel="'. $a_rel .'"';}?>>
 			<?php elseif($link == 'parent'):?>
-			<a href="<?php the_permalink(); ?>" class="fancy-roll" title="<?php printf( esc_attr__( 'Permalink to %s', 'themename' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark">
+			<a href="<?php the_permalink(); ?>" class="fancy-roll" rel="bookmark">
 			<?php endif; ?>
 			<?php if(!$lazy): ?>
-					<img class="<?php echo $img_class;?>" src="<?php echo $img_src[0]; ?>" alt="<?php echo $img_alt; ?>" title="<?php echo $img_title; ?>" />
+					<img class="<?php echo $img_class;?>" src="<?php echo $img_src[0]; ?>" alt="<?php echo $img_alt; ?>" />
 			<?php else: ?>
 				<div class="lazy-wrapper">
-					<img class="<?php echo $img_class;?>" src="<?php echo get_template_directory_uri(); ?>/images/dark-grey.png" data-original="<?php echo $img_src[0]; ?>" width="<?php echo $img_src[1]; ?>" height="<?php echo $img_src[2]; ?>" alt="<?php echo $img_alt; ?>" title="<?php echo $img_title; ?>" />
+					<img class="<?php echo $img_class;?>" src="<?php echo get_template_directory_uri(); ?>/images/dark-grey.png" data-original="<?php echo $img_src[0]; ?>" width="<?php echo $img_src[1]; ?>" height="<?php echo $img_src[2]; ?>" alt="<?php echo $img_alt; ?>" />
 				</div>
 			<?php endif; ?>
 			<?php if($link == 'self'):?>
@@ -1977,7 +1977,7 @@ function sr_global_nav()
 					
 					if ( $art_nav_query->have_posts() ) : while ( $art_nav_query->have_posts() ) : 
 					$art_nav_query->the_post(); ?>
-						<li><a href="<?php the_permalink(); ?>" class="art-nav-link" title="<?php echo get_the_title() . ' profile'; ?>" rel="address:<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
+						<li><a href="<?php the_permalink(); ?>" class="art-nav-link" rel="address:<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
 					<?php 
 					endwhile;
 					endif;?>
@@ -1990,13 +1990,13 @@ function sr_global_nav()
 					if ( $art_nav_query->have_posts() ) : ?>
 						<lh class="past-artist-header">past artists</lh>
 					<?php while ( $art_nav_query->have_posts() ) : $art_nav_query->the_post(); ?>
-						<li><a href="<?php the_permalink(); ?>" class="art-nav-link" title="<?php echo get_the_title() . ' profile'; ?>" rel="address:<?php the_permalink(); ?>"><?php the_title(); ?></a></li> 
+						<li><a href="<?php the_permalink(); ?>" class="art-nav-link" rel="address:<?php the_permalink(); ?>"><?php the_title(); ?></a></li> 
 					<?php endwhile;endif; wp_reset_query(); ?>
 				</ul>
 			</li>
 			<li><a href="<?php echo get_post_type_archive_link( 'release' ); ?>" rel="address:/<?php echo get_post_type_archive_link( 'release' ); ?>">Releases</a></li>
 			<li><a href="<?php echo get_post_type_archive_link( 'show' ); ?>" rel="address:<?php echo get_post_type_archive_link( 'show' ); ?>">Shows</a></li>
-			<li><a href="http://stolen.greedbag.com/" title="Go to the Shop" target="_blank">Shop</a></li>
+			<li><a href="http://stolen.greedbag.com/" target="_blank">Shop</a></li>
 			<?php
 				$args = array('meta_key' => '_sr_page', 'meta_value' => 'exclude');
 				$exclude_pages = get_pages($args);
@@ -2008,7 +2008,7 @@ function sr_global_nav()
 				$page_menu = get_pages($args);
 				foreach ($page_menu as $page)
 				{ ?>
-					<li><a href="<?php echo $page->guid; ?>" title="Go to the <?php echo $page->post_title ?> Page" rel="address:<?php echo $page->guid; ?>"> 
+					<li><a href="<?php echo $page->guid; ?>" rel="address:<?php echo $page->guid; ?>"> 
 					<?php echo $page->post_title; ?></a></li>
 				<?php }
 			?>
@@ -2110,7 +2110,7 @@ function get_twitter_link($echo = 'true'){
 	if($echo == 'false'){
 		return $twitter_link;
 	}else{ ?>
-	<a href="<?php echo $twitter_link ?>" title="Follow stolen on 	">Follow us on twitter</a>
+	<a href="<?php echo $twitter_link ?>">Follow us on twitter</a>
 	<?php }
 }
 
@@ -2140,7 +2140,7 @@ endif;
     </li>
     <?php endforeach; ?>
     <li class="">
-    	<a href="https://twitter.com/stolenrecs" class="twitter-link red-roll block" rel="bookmark" title="Stolen Records on Twitter">Follow @stolenrecs on Twitter</a>
+    	<a href="https://twitter.com/stolenrecs" class="twitter-link red-roll block" rel="bookmark" >Follow @stolenrecs on Twitter</a>
     </li>
 </ul>
 	</div>
@@ -2193,7 +2193,7 @@ function my_widget_tag_cloud_args( $args ) {
 // Content close
 
 function sr_content_close($link, $title){ ?>
-	<a href="<?php echo $link; ?>" title="All <?php echo $title; ?>" class="content-close" rel="index"><span class="text">All <?php echo $title; ?></span><span class="close-icon"></span></a>
+	<a href="<?php echo $link; ?>" class="content-close" rel="index"><span class="text">All <?php echo $title; ?></span><span class="close-icon"></span></a>
 <?php }
 
 // String to CSS class name

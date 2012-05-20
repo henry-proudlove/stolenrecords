@@ -88,7 +88,7 @@ if($the_query->have_posts() ):?>
 						<header class="entry-header">
 							<h1 class="entry-title medium-h">
 							<?php if($show_meta['buy_tix']): ?>
-								<a href="<?php echo $show_meta['buy_tix']; ?>" title="Buy Tickets" rel="bookmark">
+								<a href="<?php echo $show_meta['buy_tix']; ?>" rel="bookmark">
 								<?php the_title(); ?></a>
 							<?php else: ?>
 								<?php the_title(); ?>
@@ -112,17 +112,17 @@ if($the_query->have_posts() ):?>
 									<?php echo $show_meta['time']; ?>
 								</time>
 								<?php if($show_meta['venue_link'] && $show_meta['venue']):?>
-									<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" title="More info" rel="bookmark"><?php echo $show_meta['venue']; ?></a></span>
+									<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" rel="bookmark"><?php echo $show_meta['venue']; ?></a></span>
 								<?php elseif($show_meta['venue']): ?>
 									<span class="venue"><?php echo $show_meta['venue']; ?></span>
 								<?php elseif($show_meta['venue_link']):?>
-									<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" title="More info" rel="bookmark"></span>
+									<span class="venue"><a href="<?php echo $show_meta['venue_link']; ?>" rel="bookmark"></span>
 									<?php echo $show_meta['venue_link']; ?></a>
 								<?php endif; ?>
 						</div>
 						
 						<?php if($show_meta['buy_tix']): ?>
-							<a class="button button-large buy-tickets" href="<?php echo $show_meta['buy_tix']; ?>" title="Buy Tickets" rel="bookmark">Buy Tickets</a>
+							<a class="button button-large buy-tickets" href="<?php echo $show_meta['buy_tix']; ?>" rel="bookmark">Buy Tickets</a>
 						<?php endif; ?>
 							
 					<?php endif; //END post type switcher ?>

@@ -3406,7 +3406,7 @@ function setupGallery(videos) {
 		$('#latest-videos ul').append(html);
 	}
 
-	link = '<li><a href="http://vimeo.com/user3362379" class="block red-roll" title="Stolen Recordings on Vimeo" rel="bookmark">Stolen Records on Vimeo</a></li>';
+	link = '<li><a href="http://vimeo.com/user3362379" class="block red-roll" rel="bookmark">Stolen Records on Vimeo</a></li>';
 	$('#latest-videos ul').append(link).find('.lightbox').colorbox({
 		iframe:true,
 		width:"80%",
