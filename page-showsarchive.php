@@ -36,6 +36,7 @@ get_header(); ?>
 			$args = array(
 				'posts_per_page' => '-1' ,
 				'post_type' => 'show' ,
+				'post_status'=>'publish',
 				'orderby' => 'meta_value',
 				'meta_key' => '_sr_show-date' ,
 				'meta_query' => $meta_query_str
@@ -49,7 +50,7 @@ get_header(); ?>
 					$show_meta = sr_shows_meta($post->ID);
 					$thumb_id = get_post_thumbnail_id();
 					$thumb_src = wp_get_attachment_image_src( $thumb_id, large);?>
-					<a href="<?php echo $thumb_src[0]; ?>" class="fancy-roll fourcol lightbox fancybox.image" title="Click to zoom" rel="bookmark">
+					<a href="<?php echo $thumb_src[0]; ?>" class="fancy-roll fourcol lightbox photo" title="Click to zoom" rel="bookmark">
 						<?php sr_post_thumbnail('sr-show-fourcol' , false, 'null'); ?>
 						<div class="info">
 							<div class="wrap">
@@ -88,7 +89,17 @@ get_header(); ?>
 					</a><!--.fancy-roll--> <?php
 					endif;	
 				endwhile;
-			endif; ?>
+			else: ?>
+				<article id="no-posts" <?php post_class(); ?> role="article">
+				<header class="entry-header">
+					<h1 class="entry-title medium-h">Sorry, no shows!</h1>
+				</header><!-- .entry-header -->
+				
+				<div class="entry-summary">
+					<p>Past Stolen Shows will be added to this page as they slip into the past. There aren't any to show yet though</p>
+				</div><!-- .entry-summary -->
+			</article><!-- #post-<?php the_ID(); ?> -->
+		<?php endif; ?>
 	</div><!--#content-->
 
 <?php get_footer(); ?>
