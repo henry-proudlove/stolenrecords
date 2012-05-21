@@ -2023,7 +2023,7 @@ function sr_global_nav()
 Add pages on theme activation
 */
 
-if (isset($_GET['activated']) && is_admin()){
+/*if (isset($_GET['activated']) && is_admin()){
 	
 	$sr_pages = array(
 				array(
@@ -2091,7 +2091,7 @@ if (isset($_GET['activated']) && is_admin()){
 			update_option( 'page_for_posts', $new_page_id );
 		}
 	}
-}
+}*/
 
 /* END Add pages on theme activation
 ---------------------------------------------------*/
