@@ -10,11 +10,11 @@ get_header(); ?>
 	<?php $showsarchive = get_page_by_title( 'Stolen Shows Archive' ); ?>
 	<header class="results-header"><h1 class="results-title"><a href="<?php echo get_page_link($showsarchive->ID); ?>" rel="bookmark">Stolen Shows Archive</a></h1></header>
 	<?php
-		$current_datetime = date('Y-m-d H:i');
+		$current_datetime = (string) date('U');
 		$meta_query_str = array(
 			'relation' => 'AND', 
 			array(
-				'key' => '_sr_show-date', 
+				'key' => '_sr_show_stamp', 
 				'compare' => '>=' ,
 				'value' => $current_datetime
 			) ,
@@ -26,8 +26,8 @@ get_header(); ?>
 		$args = array(
 			'posts_per_page' => '-1' ,
 			'post_type' => 'show' ,
-			'orderby' => 'meta_value',
-			'meta_key' => '_sr_show-date' ,
+			'orderby' => 'meta_value_num',
+			'meta_key' => '_sr_show_stamp' ,
 			'order' => 'ASC' , 
 			'meta_query' => $meta_query_str
 		);
@@ -48,7 +48,7 @@ get_header(); ?>
 		<?php
 		$meta_query_str = array(
 			array(
-				'key' => '_sr_show-date', 
+				'key' => '_sr_show_stamp', 
 				'compare' => '>=' ,
 				'value' => $current_datetime
 			)

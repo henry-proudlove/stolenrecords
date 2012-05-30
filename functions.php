@@ -607,6 +607,7 @@ $show_mb = new WPAlchemy_MetaBox(array
 	'priority' => 'high',
 	'mode' => WPALCHEMY_MODE_EXTRACT,
 	'prefix' => '_sr_',
+	'save_action' => 'show_date_stamp',
 	'template' => get_stylesheet_directory() . '/library/metaboxes/shows-meta.php'
 ));
 
@@ -619,6 +620,7 @@ $release_mb = new WPAlchemy_MetaBox(array
 	'priority' => 'high',
 	'mode' => WPALCHEMY_MODE_EXTRACT,
 	'prefix' => '_sr_',
+	'save_action' => 'release_date_stamp',
 	'template' => get_stylesheet_directory() . '/library/metaboxes/release-meta.php'
 ));
 
@@ -708,6 +710,20 @@ function load_date_time_picker(){
 	
 }
 add_action('admin_enqueue_scripts', 'load_date_time_picker');
+
+// Converting show date to unix timestamp
+
+function show_date_stamp($meta, $post_id){
+	$show_date = $meta['show-date'];
+	$date = DateTime::createFromFormat('Y-m-d H:i', $show_date);
+	add_post_meta($post_id, '_sr_show_stamp', $date->format('U'), TRUE);
+}
+
+function release_date_stamp($meta, $post_id){
+	$show_date = $meta['release-date'];
+	$date = DateTime::createFromFormat('Y-m-d', $show_date);
+	add_post_meta($post_id, '_sr_release_stamp', $date->format('U'), TRUE);
+}
 
 //END metaboxes
 
