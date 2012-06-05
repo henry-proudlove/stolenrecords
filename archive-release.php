@@ -8,7 +8,7 @@ get_header(); ?>
 	<div id="isotope-wrap">
 	<?php /* Start the Loop */
 	
-	$args = array('post_type' => 'release' , 'orderby' => 'meta_value_num', 'meta_key' => '_sr_release_stamp' , 'posts_per_page' => '-1');
+	$args = array('post_type' => 'release' , 'orderby' => 'meta_value_num', 'meta_key' => '_sr_release-stamp' , 'posts_per_page' => '-1');
 	
 	//Array of artists
 	$artists = array();

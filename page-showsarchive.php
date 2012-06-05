@@ -18,30 +18,30 @@ get_header(); ?>
 		</header>
 		
 		<?php /* Shows loop */
+		$current_datetime = (string) date('U');
 		
-			$current_datetime = date('Y-m-d H:i');
-			
-			$meta_query_str = array(
-				'relation' => 'AND', 
-				array(
-					'key' => '_sr_show-date', 
-					'compare' => '<' ,
-					'value' => $current_datetime
-				) ,
-				array(
-					'key' => '_sr_stolen-show'
+		$args = array(
+			'posts_per_page' => '-1',
+			'post_type' => 'show' ,
+			'orderby' => 'meta_value_num',
+			'meta_key' => '_sr_show-stamp' ,
+			'order' => 'DESC' ,
+			'meta_query' => array(
+					'relation' => 'AND',
+					array(
+						'key' => '_sr_show-stamp',
+						'value' => $current_datetime,
+						'type' => 'numeric',
+						'compare' => '<='
+						
+					),
+					array(
+						'key' => '_sr_stolen-show',
+						'value' => 'stolen-show',
+						'compare' => '='
+					),
 				)
 			);
-			
-			$args = array(
-				'posts_per_page' => '-1' ,
-				'post_type' => 'show' ,
-				'post_status'=>'publish',
-				'orderby' => 'meta_value',
-				'meta_key' => '_sr_show-date' ,
-				'meta_query' => $meta_query_str
-			);
-			
 			$the_query = new WP_query($args);
 		
 			if ( $the_query->have_posts() ) : ?>

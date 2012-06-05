@@ -607,7 +607,7 @@ $show_mb = new WPAlchemy_MetaBox(array
 	'priority' => 'high',
 	'mode' => WPALCHEMY_MODE_EXTRACT,
 	'prefix' => '_sr_',
-	'save_action' => 'show_date_stamp',
+	'save_filter' => 'show_date_stamp',
 	'template' => get_stylesheet_directory() . '/library/metaboxes/shows-meta.php'
 ));
 
@@ -620,7 +620,7 @@ $release_mb = new WPAlchemy_MetaBox(array
 	'priority' => 'high',
 	'mode' => WPALCHEMY_MODE_EXTRACT,
 	'prefix' => '_sr_',
-	'save_action' => 'release_date_stamp',
+	'save_filter' => 'release_date_stamp',
 	'template' => get_stylesheet_directory() . '/library/metaboxes/release-meta.php'
 ));
 
@@ -714,15 +714,25 @@ add_action('admin_enqueue_scripts', 'load_date_time_picker');
 // Converting show date to unix timestamp
 
 function show_date_stamp($meta, $post_id){
-	$show_date = $meta['show-date'];
-	$date = DateTime::createFromFormat('Y-m-d H:i', $show_date);
-	add_post_meta($post_id, '_sr_show_stamp', $date->format('U'), TRUE);
+	if(isset($meta['show-date'])){
+		$date = $meta['show-date'];
+		$date = DateTime::createFromFormat('Y-m-d H:i', $date);
+		$meta['show-stamp'] = (string) $date->format('U');
+		return $meta;
+	}else{
+		return $meta;
+	}
 }
 
 function release_date_stamp($meta, $post_id){
-	$show_date = $meta['release-date'];
-	$date = DateTime::createFromFormat('Y-m-d', $show_date);
-	add_post_meta($post_id, '_sr_release_stamp', $date->format('U'), TRUE);
+	if(isset($meta['release-date'])){
+		$date = $meta['release-date'];
+		$date = DateTime::createFromFormat('Y-m-d', $date);
+		$meta['release-stamp'] = (string) $date->format('U');
+		return $meta;
+	}else{
+		return $meta;
+	}
 }
 
 //END metaboxes
@@ -758,12 +768,6 @@ function sr_relart_loop_markup(&$artists = array()){
 				array_push($artists, $artist);	
 			}
 		}
-		//$sr_post_class = $artists;
-		/*$meta_blob = get_post_meta( $rel_id , '_sr_release-date', true);
-		$meta_blob = date_create($meta_blob);
-		$meta_blob = date_format($meta_blob, 'Y');
-		$meta_blob = '<span class="artist-status">'. $meta_blob . '</span>';*/
-		//$meta_blob = sr_get_rels_artist($post->ID);
 	}
 	$sr_post_class .= ' fourcol fancy-roll';
 	?>
@@ -774,7 +778,7 @@ function sr_relart_loop_markup(&$artists = array()){
 			<div class="wrap">
 				<header class="entry-header">
 					<h1 class="entry-title small-h"><?php the_title();?></h1>
-					<?php if('artist' == get_post_type()){ echo $meta_blob; }else{sr_get_rels_artist($post->ID , false);} ?>
+					<?php if('artist' == get_post_type()){ echo $meta_blob; }else{sr_get_rels_artist($post->ID , false);}?>
 				</header><!-- .entry-header -->
 				<div class="entry-summary">
 					<?php
