@@ -607,7 +607,7 @@ $show_mb = new WPAlchemy_MetaBox(array
 	'priority' => 'high',
 	'mode' => WPALCHEMY_MODE_EXTRACT,
 	'prefix' => '_sr_',
-	'save_filter' => 'show_date_stamp',
+	'save_action' => 'show_date_stamp',
 	'template' => get_stylesheet_directory() . '/library/metaboxes/shows-meta.php'
 ));
 
@@ -620,7 +620,7 @@ $release_mb = new WPAlchemy_MetaBox(array
 	'priority' => 'high',
 	'mode' => WPALCHEMY_MODE_EXTRACT,
 	'prefix' => '_sr_',
-	'save_filter' => 'release_date_stamp',
+	'save_action' => 'release_date_stamp',
 	'template' => get_stylesheet_directory() . '/library/metaboxes/release-meta.php'
 ));
 
@@ -631,7 +631,6 @@ $video_mb = new WPAlchemy_MetaBox(array
 	'types' => array('release' , 'artist'),
 	'context' => 'side',
 	'priority' => 'low',
-	'save_action' => 'video_save_action',
 	'template' => get_stylesheet_directory() . '/library/metaboxes/videos-meta.php'
 ));
 
@@ -717,7 +716,8 @@ function show_date_stamp($meta, $post_id){
 	if(isset($meta['show-date'])){
 		$date = $meta['show-date'];
 		$date = DateTime::createFromFormat('Y-m-d H:i', $date);
-		$meta['show-stamp'] = (string) $date->format('U');
+		$show_stamp = (string) $date->format('U');
+		add_post_meta($post_id, '_sr_show-stamp' , $show_stamp, TRUE);
 		return $meta;
 	}else{
 		return $meta;
@@ -728,7 +728,8 @@ function release_date_stamp($meta, $post_id){
 	if(isset($meta['release-date'])){
 		$date = $meta['release-date'];
 		$date = DateTime::createFromFormat('Y-m-d', $date);
-		$meta['release-stamp'] = (string) $date->format('U');
+		$release_stamp = (string) $date->format('U');
+		add_post_meta($post_id, '_sr_release-stamp' , $release_stamp, TRUE);
 		return $meta;
 	}else{
 		return $meta;
