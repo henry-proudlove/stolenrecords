@@ -1832,11 +1832,11 @@ function sr_get_images( $args = array() ) {
 				</div>
 				</a>
 			<?php elseif($link == 'parent'): ?>
-				<div class="info">
+				<!--<div class="info">
 					<div class="wrap">
 						<span class="click-prompt read"><?php echo get_the_title(); ?></span>
 					</div>
-				</div>
+				</div>-->
 				</a>
 			<?php endif; ?>
 			<?php if($wrapper == true):?>

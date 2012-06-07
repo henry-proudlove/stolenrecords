@@ -1282,6 +1282,22 @@ img[src$=".png"]{
 	background: transparent;
 }
 
+.post-thumb{
+	transition: 0.3s;
+	-moz-transition: 0.3s; /* Firefox 4 */
+	-webkit-transition: 0.3s; /* Safari and Chrome */
+	-o-transition: 0.3s; /* Opera */
+}
+
+
+.post-thumb:hover{
+	opacity: 0.5;
+}
+
+.post-thumb:hover{
+	opacity: 0.5;
+}
+
 
 /*
  *
