@@ -158,7 +158,7 @@ if($the_query->have_posts() ):?>
 					<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> role="article">		
 						
 						<div class="twocol">
-							<?php sr_post_thumbnail('sr-twocol' , false, 'null');
+							<?php sr_post_thumbnail('sr-twocol' , false, 'parent');
 							array_push($dont_copy, $post->ID); ?>
 						</div>
 						<div class="sixcol">

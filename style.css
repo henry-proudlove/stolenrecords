@@ -4,7 +4,7 @@ Theme URI: http://www.henryproudlove.com
 Author: Henry Proudlove
 Author URI: http://www.henryproudlove.com
 Description: Custom theme for Stolen Records http://www.stolenrecordings.co.uk/
-Version: 0.0.4
+Version: 0.0.5
 */
 
 /* html5doctor.com Reset Stylesheet \\v1.6.1 \\ Last Updated: 2010-09-17 \\ http://richclarkdesign.com \\ @rich_clark */
@@ -1280,6 +1280,22 @@ img{
 
 img[src$=".png"]{
 	background: transparent;
+}
+
+.post-thumb{
+	transition: 0.3s;
+	-moz-transition: 0.3s; /* Firefox 4 */
+	-webkit-transition: 0.3s; /* Safari and Chrome */
+	-o-transition: 0.3s; /* Opera */
+}
+
+
+.post-thumb:hover{
+	opacity: 0.5;
+}
+
+.post-thumb:hover{
+	opacity: 0.5;
 }
 
 
