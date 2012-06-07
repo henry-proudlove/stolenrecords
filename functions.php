@@ -715,9 +715,11 @@ add_action('admin_enqueue_scripts', 'load_date_time_picker');
 function show_date_stamp($meta, $post_id){
 	if(isset($meta['show-date'])){
 		$date = $meta['show-date'];
-		$date = DateTime::createFromFormat('Y-m-d H:i', $date);
-		$show_stamp = (string) $date->format('U');
-		add_post_meta($post_id, '_sr_show-stamp' , $show_stamp, TRUE);
+		//$date = DateTime::createFromFormat('Y-m-d H:i', $date);
+		$date = strtotime($date);
+		//$show_stamp = (string) $date->format('U');
+		$meta['show-stamp'] = $date;
+		//var_dump($meta);
 		return $meta;
 	}else{
 		return $meta;
@@ -727,9 +729,11 @@ function show_date_stamp($meta, $post_id){
 function release_date_stamp($meta, $post_id){
 	if(isset($meta['release-date'])){
 		$date = $meta['release-date'];
-		$date = DateTime::createFromFormat('Y-m-d', $date);
-		$release_stamp = (string) $date->format('U');
-		add_post_meta($post_id, '_sr_release-stamp' , $release_stamp, TRUE);
+		//$date = DateTime::createFromFormat('Y-m-d', $date);
+		//$release_stamp = (string) $date->format('U');
+		$date = strtotime($date);
+		$meta['release-stamp'] = $date;
+		//var_dump($meta);
 		return $meta;
 	}else{
 		return $meta;
